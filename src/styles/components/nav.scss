@@ -1,0 +1,82 @@
+@import '../variables.scss';
+
+.nav {
+  background-color: transparent;
+  height: 70px;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+
+  &.active {
+    background-color: $ronchi;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    height: 70px;
+    box-shadow: inset 0px 0px 40px #4a3605;
+
+    img {
+      width: 90px;
+    }
+
+    a {
+      color: $woodland;
+
+      &:hover {
+        color: #2e2e2e;
+      }
+    }
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+  }
+
+  &__item {
+    padding: 5px 15px;
+
+    @for $i from 1 through  2 {
+      &:nth-of-type(#{$i}) {
+        margin-right: 30px;
+      }
+    }
+
+    @for $i from 4 through  5 {
+      &:nth-of-type(#{$i}) {
+        margin-left: 30px;
+      }
+    }
+
+    a {
+      color: whitesmoke;
+      font-size: 1.4em;
+      transition: color .3s;
+
+      &:hover {
+        color: $mainColor;
+      }
+    }
+  }
+
+  &__logo{
+    padding: 0;
+    font-size: 3em;
+    width: 200px;
+    text-align: center;
+    justify-content: space-
+    
+    a {
+      color: white;
+    }
+
+    img {
+      width: 120px;
+      margin-top: 71px;
+    }
+  }
+}
