@@ -9,23 +9,23 @@
   width: 100%;
   z-index: 999;
 
-  &.active {
-    background-color: $ronchi;
+  &.active, &.sticky {
+    background-color: black;
     position: fixed;
     width: 100%;
     top: 0;
     height: 70px;
-    box-shadow: inset 0px 0px 40px #4a3605;
+    box-shadow: inset 0px 0px 40px #585858;
 
     img {
       width: 90px;
     }
 
     a {
-      color: $woodland;
+      color: whitesmoke;
 
       &:hover {
-        color: #2e2e2e;
+        color: #c0c0c0;
       }
     }
   }

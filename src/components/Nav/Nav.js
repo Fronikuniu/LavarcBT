@@ -1,29 +1,30 @@
 import NavItem from './NavItem';
 import NavLogo from './NavLogo';
 import '../../styles/components/nav.scss';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router';
 
 function Nav() {
+  const location = useLocation();
+  const navi = useRef();
+
   const stickyNav = () => {
-    let navi = document.querySelector('nav');
     if (window.scrollY >= 70) {
-      navi.classList.add('active');
-      navi.animate([{ opacity: 0 }, { opacity: 1 }]);
+      navi.current.classList.add('active');
     } else {
-      navi.classList.remove('active');
+      navi.current.classList.remove('active');
     }
   };
 
   useEffect(() => {
     window.addEventListener('scroll', stickyNav);
-
     return () => {
       window.removeEventListener('scroll', stickyNav);
     };
-  });
+  }, [location]);
 
   return (
-    <nav className="nav">
+    <nav className={location.pathname !== '/' ? 'nav sticky' : 'nav'} ref={navi}>
       <div className="container">
         <NavItem>About</NavItem>
         <NavItem>Gallery</NavItem>
