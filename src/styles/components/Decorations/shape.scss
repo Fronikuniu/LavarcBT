@@ -1,0 +1,23 @@
+@import '../../Variables/variables.scss';
+
+.custom-shape-divider-top-1631523149 {
+  position: absolute;
+  top: -150px;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.custom-shape-divider-top-1631523149 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 50px;
+}
+
+.custom-shape-divider-top-1631523149 .shape-fill {
+  fill: $cherokee;
+  stroke: $hawaiianTan;
+  stroke-opacity: 0.3;
+}

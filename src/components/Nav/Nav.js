@@ -1,6 +1,6 @@
 import NavItem from './NavItem';
 import NavLogo from './NavLogo';
-import '../../styles/components/nav.scss';
+import '../../styles/components/Nav/nav.css';
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router';
 

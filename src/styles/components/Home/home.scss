@@ -1,10 +1,10 @@
-@import '../variables.scss';
-@import '../keyframes.scss';
+@import '../../Variables/variables.scss';
+@import '../../Variables/keyframes.scss';
 
 .landingPage {
   height: 100vh;
   width: 100vw;
-  background: linear-gradient(90deg, rgba(20, 20, 20, 0.4) 0%, rgba(20, 20, 20, 0.4) 100%), url('../../images/landingPageBG.png');
+  background: linear-gradient(90deg, rgba(20, 20, 20, 0.4) 0%, rgba(20, 20, 20, 0.4) 100%), url('../../../images/landingPageBG.png');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -21,7 +21,7 @@
     font-size: 4em;
     letter-spacing: 5px;
     font-weight: 800;
-    line-height: .9;
+    line-height: 0.9;
     margin: 0 0 2rem 0;
     text-shadow: 4px 4px $woodland;
 
@@ -36,7 +36,7 @@
     margin: 0;
     text-shadow: 3px 2px $woodland;
 
-    animation: opacity .9s ease .5s alternate 1 backwards running;
+    animation: opacity 0.9s ease 0.5s alternate 1 backwards running;
   }
 
   &__scroll-down {

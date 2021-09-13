@@ -1,9 +1,11 @@
-import '../../styles/components/about.scss';
+import '../../styles/components/About/about.css';
 import dragon from '../../images/dragon.png';
+import Shape from '../Decorations/Shape';
 
 function About() {
   return (
     <div className="about__container">
+      <Shape />
       <div className="container">
         <h1 className="header">About</h1>
         <h2 className="header">Lavarc</h2>

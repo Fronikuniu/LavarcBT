@@ -1,0 +1,88 @@
+.nav {
+  background-color: transparent;
+  height: 70px;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+.nav.active, .nav.sticky {
+  background-color: black;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  height: 70px;
+  -webkit-box-shadow: inset 0px 0px 40px #585858;
+          box-shadow: inset 0px 0px 40px #585858;
+}
+
+.nav.active img, .nav.sticky img {
+  width: 90px;
+}
+
+.nav.active a, .nav.sticky a {
+  color: whitesmoke;
+}
+
+.nav.active a:hover, .nav.sticky a:hover {
+  color: #c0c0c0;
+}
+
+.nav .container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 70px;
+}
+
+.nav__item {
+  padding: 5px 15px;
+}
+
+.nav__item:nth-of-type(1) {
+  margin-right: 30px;
+}
+
+.nav__item:nth-of-type(2) {
+  margin-right: 30px;
+}
+
+.nav__item:nth-of-type(4) {
+  margin-left: 30px;
+}
+
+.nav__item:nth-of-type(5) {
+  margin-left: 30px;
+}
+
+.nav__item a {
+  color: whitesmoke;
+  font-size: 1.4em;
+  -webkit-transition: color 0.3s;
+  transition: color 0.3s;
+}
+
+.nav__item a:hover {
+  color: #fada5e;
+}
+
+.nav__logo {
+  padding: 0;
+  font-size: 3em;
+  width: 200px;
+  text-align: center;
+}
+
+.nav__logo img {
+  width: 120px;
+  margin-top: 71px;
+}
+/*# sourceMappingURL=nav.css.map */

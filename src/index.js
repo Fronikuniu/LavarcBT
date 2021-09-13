@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/style.scss';
+import './styles/style.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'material-icons/iconfont/material-icons.css';

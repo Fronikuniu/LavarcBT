@@ -1,12 +1,14 @@
-@import '../variables.scss';
+@import '../../Variables/variables.scss';
 
 .about__container {
+  position: relative;
   .container {
     position: relative;
   }
 }
 
-h1.header, h2.header {
+h1.header,
+h2.header {
   position: absolute;
   left: 0px;
   top: -160px;
@@ -14,7 +16,7 @@ h1.header, h2.header {
   color: $woodland;
   letter-spacing: 10px;
   font-weight: 900;
-  opacity: .6;
+  opacity: 0.6;
 }
 
 h2.header {
