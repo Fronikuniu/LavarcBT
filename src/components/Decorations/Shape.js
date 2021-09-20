@@ -1,4 +1,4 @@
-import '../../styles/components/Decorations/shape.css';
+// import '../../styles/components/Decorations/shape.css';
 
 export default function Shape() {
   return (

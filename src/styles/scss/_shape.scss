@@ -1,4 +1,4 @@
-@import '../../Variables/variables.scss';
+@use 'colors';
 
 .custom-shape-divider-top-1631523149 {
   position: absolute;
@@ -17,7 +17,7 @@
 }
 
 .custom-shape-divider-top-1631523149 .shape-fill {
-  fill: $cherokee;
-  stroke: $hawaiianTan;
+  fill: colors.$cherokee;
+  stroke: colors.$hawaiianTan;
   stroke-opacity: 0.3;
 }

@@ -1,4 +1,4 @@
-import '../../styles/components/About/about.css';
+// import '../../styles/components/About/about.css';
 import dragon from '../../images/dragon.png';
 import Shape from '../Decorations/Shape';
 

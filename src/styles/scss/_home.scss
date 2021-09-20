@@ -1,10 +1,10 @@
-@import '../../Variables/variables.scss';
-@import '../../Variables/keyframes.scss';
+@use 'colors';
+@use 'keyframes';
 
 .landingPage {
   height: 100vh;
   width: 100vw;
-  background: linear-gradient(90deg, rgba(20, 20, 20, 0.4) 0%, rgba(20, 20, 20, 0.4) 100%), url('../../../images/landingPageBG.png');
+  background: linear-gradient(90deg, rgba(20, 20, 20, 0.4) 0%, rgba(20, 20, 20, 0.4) 100%), url('../../images/landingPageBG.png');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -23,18 +23,18 @@
     font-weight: 800;
     line-height: 0.9;
     margin: 0 0 2rem 0;
-    text-shadow: 4px 4px $woodland;
+    text-shadow: 4px 4px colors.$woodland;
 
     animation: opacity 1s ease 0s alternate 1 backwards running;
   }
 
   p {
-    color: $mainColor;
+    color: colors.$mainColor;
     font-size: 2em;
     font-weight: 800;
     letter-spacing: 5px;
     margin: 0;
-    text-shadow: 3px 2px $woodland;
+    text-shadow: 3px 2px colors.$woodland;
 
     animation: opacity 0.9s ease 0.5s alternate 1 backwards running;
   }
@@ -43,7 +43,7 @@
     position: absolute;
     height: 70px;
     width: 26px;
-    border: 2px solid $mainColor;
+    border: 2px solid colors.$mainColor;
     border-radius: 20px;
     bottom: 50px;
     left: 50%;
@@ -56,7 +56,7 @@
       height: 20px;
       border: 1px solid whitesmoke;
       border-radius: 20px;
-      background-color: $mainColor;
+      background-color: colors.$mainColor;
       left: 50%;
       transform: translateX(-50%);
       top: 2px;

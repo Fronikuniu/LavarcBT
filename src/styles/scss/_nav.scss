@@ -1,4 +1,4 @@
-@import '../../Variables/variables.scss';
+@use 'colors';
 
 .nav {
   background-color: transparent;
@@ -59,7 +59,7 @@
       transition: color 0.3s;
 
       &:hover {
-        color: $mainColor;
+        color: colors.$mainColor;
       }
     }
   }
@@ -69,7 +69,6 @@
     font-size: 3em;
     width: 200px;
     text-align: center;
-    // justify-content:
 
     img {
       width: 120px;
