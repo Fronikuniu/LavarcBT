@@ -11,19 +11,20 @@
 
   &.active,
   &.sticky {
-    background-color: black;
+    background-image: linear-gradient(299deg, colors.$vulcanTone, colors.$vulcan);
+    color: colors.$dandelion;
     position: fixed;
     width: 100%;
     top: 0;
     height: 70px;
-    box-shadow: inset 0px 0px 40px #585858;
+    box-shadow: inset 0px -2px 0px #767676;
 
     img {
       width: 90px;
     }
 
     a {
-      color: whitesmoke;
+      color: colors.$dandelion;
 
       &:hover {
         color: #c0c0c0;
