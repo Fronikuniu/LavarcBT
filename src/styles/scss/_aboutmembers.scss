@@ -1,0 +1,49 @@
+.about__members {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .arrow {
+    position: absolute;
+    cursor: pointer;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 4em;
+    user-select: none;
+
+    &.arrowPrev {
+      left: 100px;
+    }
+
+    &.arrowNext {
+      right: 100px;
+    }
+  }
+
+  .member {
+    img {
+      width: 300px;
+    }
+
+    &.prev {
+      order: 1;
+    }
+
+    &.current {
+      order: 2;
+
+      img {
+        width: 600px;
+      }
+    }
+
+    &.next {
+      order: 3;
+    }
+  }
+
+  .member-about {
+    max-width: 600px;
+  }
+}

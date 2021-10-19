@@ -3,6 +3,7 @@ import About from './components/About/About';
 import AboutMembers from './components/About/AboutMembers';
 import Home from './components/Home/Home';
 import Nav from './components/Nav/Nav';
+import Members from './components/About/Members';
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
         </Route>
         <Route path="/About">
           <About />
-          <AboutMembers />
+          <AboutMembers members={Members} />
         </Route>
       </Switch>
     </Router>
