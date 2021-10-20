@@ -22,7 +22,8 @@ const Members = [
   {
     name: 'Fronikuniu',
     memberSrc: 'http://localhost:3000/members/Fronikuniu.png',
-    about: '5Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum excepturi sint rem distinctio maxime aliquid in recusandae nostrum facilis tenetur.',
+    about:
+      '5 Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum excepturi sint rem distinctio maxime aliquid in recusandae nostrum facilis tenetur. Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum excepturi sint rem distinctio maxime aliquid in recusandae nostrum facilis tenetur.',
   },
 ];
 export default Members;

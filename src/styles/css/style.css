@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
 @keyframes opacity {
   from {
     opacity: 0;
@@ -171,23 +172,6 @@
   padding: 130px 0;
   background-color: #e7e7e7;
 }
-.about h1.header,
-.about h2.header {
-  font-size: 6em;
-  letter-spacing: 10px;
-  font-weight: 900;
-}
-.about h1.header {
-  -webkit-text-stroke: 5px #8a877d;
-  color: transparent;
-  line-height: 45%;
-}
-.about h2.header {
-  font-size: 4em;
-  color: #d7bd68;
-  line-height: 50%;
-  padding-left: 15px;
-}
 .about__info {
   display: flex;
 }
@@ -208,41 +192,82 @@
 }
 
 .about__members {
+  background-image: url(../../images/layered-waves-haikei.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-top: 20px;
+}
+.about__members .container h2 {
+  line-height: 80%;
+}
+.about__members .container h3 {
+  line-height: 0%;
+}
+.about__members .about__members__slider {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 50rem;
 }
-.about__members .arrow {
+.about__members .about__members__slider .arrow {
   position: absolute;
   cursor: pointer;
   top: 50%;
   transform: translateY(-50%);
   font-size: 4em;
   user-select: none;
+  z-index: 10;
 }
-.about__members .arrow.arrowPrev {
-  left: 100px;
+.about__members .about__members__slider .arrow.arrowPrev {
+  left: 10%;
 }
-.about__members .arrow.arrowNext {
-  right: 100px;
+.about__members .about__members__slider .arrow.arrowNext {
+  right: 10%;
 }
-.about__members .member img {
+.about__members .about__members__slider .member {
+  transform: scale(0.6);
+  transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  opacity: 0.6;
+  text-align: center;
+}
+.about__members .about__members__slider .member .member__name {
+  font-family: "Permanent Marker", cursive;
+  font-size: 2em;
+}
+.about__members .about__members__slider .member img {
   width: 300px;
 }
-.about__members .member.prev {
+.about__members .about__members__slider .member.prev {
   order: 1;
 }
-.about__members .member.current {
+.about__members .about__members__slider .member.current {
   order: 2;
+  transform: scale(1.2);
+  opacity: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min-content;
+  position: relative;
 }
-.about__members .member.current img {
-  width: 600px;
+.about__members .about__members__slider .member.current .member__name {
+  animation: opacity 0.5s ease 0.4s alternate 1 backwards running;
 }
-.about__members .member.next {
+.about__members .about__members__slider .member.current .member__about {
+  min-height: 100px;
+  width: 300%;
+  position: absolute;
+  bottom: -100px;
+  animation: opacity 0.5s ease 0.9s alternate 1 backwards running;
+}
+.about__members .about__members__slider .member.next {
   order: 3;
 }
-.about__members .member-about {
+.about__members .about__members__slider .member.prev, .about__members .about__members__slider .member.next {
+  cursor: pointer;
+}
+.about__members .about__members__slider .member-about {
   max-width: 600px;
 }
 
@@ -283,6 +308,24 @@ p {
   width: 98%;
   margin: 0 auto;
   padding: 0;
+}
+
+.headerTextStroke {
+  -webkit-text-stroke: 5px #8a877d;
+  color: transparent;
+  line-height: 30%;
+  font-size: 6em;
+  letter-spacing: 10px;
+  font-weight: 900;
+}
+
+.headerwTextStroke {
+  font-size: 4em;
+  color: #d7bd68;
+  line-height: 50%;
+  padding-left: 15px;
+  letter-spacing: 10px;
+  font-weight: 900;
 }
 
 @media (min-width: 768px) {

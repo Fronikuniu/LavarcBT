@@ -1,49 +1,99 @@
+@use 'keyframes';
+
 .about__members {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-image: url(../../images/layered-waves-haikei.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-top: 20px;
 
-  .arrow {
-    position: absolute;
-    cursor: pointer;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 4em;
-    user-select: none;
-
-    &.arrowPrev {
-      left: 100px;
+  .container {
+    h2 {
+      line-height: 80%;
     }
 
-    &.arrowNext {
-      right: 100px;
+    h3 {
+      line-height: 0%;
     }
   }
+  .about__members__slider {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50rem;
 
-  .member {
-    img {
-      width: 300px;
-    }
+    .arrow {
+      position: absolute;
+      cursor: pointer;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 4em;
+      user-select: none;
+      z-index: 10;
 
-    &.prev {
-      order: 1;
-    }
+      &.arrowPrev {
+        left: 10%;
+      }
 
-    &.current {
-      order: 2;
-
-      img {
-        width: 600px;
+      &.arrowNext {
+        right: 10%;
       }
     }
 
-    &.next {
-      order: 3;
-    }
-  }
+    .member {
+      transform: scale(0.6);
+      transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+      opacity: 0.6;
+      text-align: center;
 
-  .member-about {
-    max-width: 600px;
+      .member__name {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 2em;
+      }
+
+      img {
+        width: 300px;
+      }
+
+      &.prev {
+        order: 1;
+      }
+
+      &.current {
+        order: 2;
+        transform: scale(1.2);
+        opacity: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: min-content;
+        position: relative;
+
+        .member__name {
+          animation: opacity 0.5s ease 0.4s alternate 1 backwards running;
+        }
+
+        .member__about {
+          min-height: 100px;
+          width: 300%;
+          position: absolute;
+          bottom: -100px;
+          animation: opacity 0.5s ease 0.9s alternate 1 backwards running;
+        }
+      }
+
+      &.next {
+        order: 3;
+      }
+
+      &.prev,
+      &.next {
+        cursor: pointer;
+      }
+    }
+
+    .member-about {
+      max-width: 600px;
+    }
   }
 }

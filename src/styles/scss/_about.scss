@@ -3,26 +3,6 @@
   padding: 130px 0;
   background-color: #e7e7e7;
 
-  h1.header,
-  h2.header {
-    font-size: 6em;
-    letter-spacing: 10px;
-    font-weight: 900;
-  }
-
-  h1.header {
-    -webkit-text-stroke: 5px colors.$friarGrey;
-    color: transparent;
-    line-height: 45%;
-  }
-
-  h2.header {
-    font-size: 4em;
-    color: colors.$tacha;
-    line-height: 50%;
-    padding-left: 15px;
-  }
-
   &__info {
     display: flex;
 

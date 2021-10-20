@@ -4,8 +4,8 @@ function About() {
   return (
     <section className="about">
       <div className="container">
-        <h1 className="header">About</h1>
-        <h2 className="header">Lavarc</h2>
+        <h1 className="headerTextStroke">About</h1>
+        <h2 className="headerwTextStroke">Lavarc</h2>
 
         <div className="about__info">
           <div className="about__info-text">
