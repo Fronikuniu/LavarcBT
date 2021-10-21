@@ -1,4 +1,5 @@
 @use 'keyframes';
+@use 'colors';
 
 .about__members {
   background-image: url(../../images/layered-waves-haikei.svg);
@@ -15,31 +16,7 @@
       line-height: 0%;
     }
   }
-  .about__members__slider {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 50rem;
-
-    .arrow {
-      position: absolute;
-      cursor: pointer;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 4em;
-      user-select: none;
-      z-index: 10;
-
-      &.arrowPrev {
-        left: 10%;
-      }
-
-      &.arrowNext {
-        right: 10%;
-      }
-    }
-
+  .slider {
     .member {
       transform: scale(0.6);
       transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -49,6 +26,7 @@
       .member__name {
         font-family: 'Permanent Marker', cursive;
         font-size: 2em;
+        color: colors.$maroon;
       }
 
       img {

@@ -1,0 +1,33 @@
+@use 'colors';
+
+.slider {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50rem;
+
+  .arrow {
+    position: absolute;
+    cursor: pointer;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 4em;
+    user-select: none;
+    z-index: 10;
+    color: colors.$dandelion;
+    transition: font-size 0.3s;
+
+    &.arrowPrev {
+      left: 10%;
+    }
+
+    &.arrowNext {
+      right: 10%;
+    }
+
+    &:hover {
+      font-size: 5em;
+    }
+  }
+}

@@ -10,8 +10,8 @@ const Members = [
     about: '2Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum excepturi sint rem distinctio maxime aliquid in recusandae nostrum facilis tenetur.',
   },
   {
-    name: '_MICHAEL1_',
-    memberSrc: 'http://localhost:3000/members/_MICHAEL1_.png',
+    name: 'DristPl',
+    memberSrc: 'http://localhost:3000/members/DristPl.png',
     about: '3Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum excepturi sint rem distinctio maxime aliquid in recusandae nostrum facilis tenetur.',
   },
   {

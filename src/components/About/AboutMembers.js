@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 
 const AboutMembers = ({ members }) => {
@@ -25,15 +26,13 @@ const AboutMembers = ({ members }) => {
     };
   });
 
-  console.log(current);
-
   return (
     <section className="about__members">
       <div className="container">
         <h2 className="headerTextStroke">Our</h2>
         <h3 className="headerwTextStroke">Team</h3>
       </div>
-      <div className="about__members__slider">
+      <div className="slider">
         <IoIosArrowDropleft onClick={prevMember} className="arrow arrowPrev" />
         <IoIosArrowDropright onClick={nextMember} className="arrow arrowNext" />
 
@@ -84,5 +83,7 @@ const AboutMembers = ({ members }) => {
     </section>
   );
 };
+
+AboutMembers.propTypes = { members: PropTypes.array.isRequired };
 
 export default AboutMembers;

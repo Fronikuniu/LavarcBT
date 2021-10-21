@@ -1,3 +1,17 @@
+@keyframes pulsing {
+  0% {
+    transform: scale(1);
+  }
+
+  20% {
+    transform: scale(1.01);
+  }
+
+  40% {
+    transform: scale(1);
+  }
+}
+
 @keyframes opacity {
   from {
     opacity: 0;
