@@ -20,7 +20,7 @@ const AboutMembers = ({ members }) => {
   useEffect(() => {
     let t = setTimeout(() => {
       setCurrent(next);
-    }, 5000);
+    }, 10000);
     return () => {
       clearTimeout(t);
     };

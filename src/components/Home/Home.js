@@ -1,5 +1,3 @@
-// import '../../styles/components/Home/home.css';
-
 function Home() {
   return (
     <section className="landingPage">

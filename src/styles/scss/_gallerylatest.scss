@@ -10,7 +10,7 @@
   .slider {
     margin-top: 60px;
     width: 100%;
-    background-color: black;
+    background-color: colors.$vulcan;
 
     img {
       height: 700px;
@@ -35,6 +35,11 @@
 
         a {
           color: white;
+          transition: color 0.3s;
+
+          &:hover {
+            color: colors.$mainColor;
+          }
         }
 
         &:first-of-type {

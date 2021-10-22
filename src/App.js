@@ -6,6 +6,9 @@ import Nav from './components/Nav/Nav';
 import Members from './components/About/Members';
 import GallerySlider from './components/Gallery/GallerySlider';
 import { Images } from './components/Gallery/Images';
+import Gallery from './components/Gallery/Gallery';
+import GallerySingle from './components/Gallery/GallerySingle';
+import SingleMember from './components/About/SingleMember';
 
 function App() {
   return (
@@ -21,6 +24,15 @@ function App() {
         <Route path="/About">
           <About />
           <AboutMembers members={Members} />
+        </Route>
+        <Route exact path="/Gallery">
+          <Gallery images={Images} />
+        </Route>
+        <Route path="/Gallery/:id">
+          <GallerySingle images={Images} />
+        </Route>
+        <Route path="/Builder/:name">
+          <SingleMember images={Images} members={Members} />
         </Route>
       </Switch>
     </Router>

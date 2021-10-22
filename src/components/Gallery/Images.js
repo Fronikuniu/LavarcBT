@@ -1,7 +1,7 @@
 export const Images = [
   {
     id: '1',
-    imageSrc: 'https://i.imgur.com/Y4lPNVB.png',
+    imageSrc: 'https://imgur.com/Y4lPNVB.png',
     builder: 'rockyFeller',
     desc: 'Minecraft SF 399 Fremont',
     imgurAlbum: 'https://imgur.com/gallery/sFNwNOQ',
@@ -177,14 +177,14 @@ export const Images = [
 
   {
     id: '26',
-    imageSrc: 'https://i.imgur.com/4UWXHCC.png',
+    imageSrc: 'https://imgur.com/4UWXHCC.png',
     builder: 'Fronikuniu',
     desc: 'Minecraft Red Dragon',
     imgurAlbum: 'https://imgur.com/gallery/9Ih6eoy',
   },
   {
     id: '27',
-    imageSrc: 'https://i.imgur.com/sPua23R.png',
+    imageSrc: 'https://imgur.com/sPua23R.png',
     builder: 'drummaks',
     desc: 'Minecraft Small Japanese House',
     imgurAlbum: 'https://imgur.com/gallery/vnzMo9y',

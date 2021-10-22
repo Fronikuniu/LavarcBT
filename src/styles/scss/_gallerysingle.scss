@@ -1,0 +1,65 @@
+@use 'colors';
+@use 'keyframes';
+
+.gallery__single {
+  padding-top: 150px;
+
+  .headerwTextStroke {
+    line-height: 100%;
+  }
+
+  &__content {
+    display: flex;
+    margin-top: 50px;
+
+    &-img {
+      width: 60%;
+
+      img {
+        width: 100%;
+        height: 600px;
+        object-fit: cover;
+      }
+    }
+
+    &-text {
+      width: 40%;
+      padding: 40px 20px 40px 30px;
+
+      p {
+        span,
+        a {
+          display: block;
+          color: colors.$tacha;
+          width: max-content;
+          font-family: 'Permanent Marker', cursive;
+        }
+
+        a {
+          transition: transform 0.5s, color 0.5s;
+
+          &:hover {
+            transform: scale(1.05);
+            color: colors.$mainColor;
+          }
+        }
+
+        &:first-of-type {
+          font-size: 2em;
+          margin-bottom: 2rem;
+        }
+
+        &:nth-of-type(2) {
+          font-size: 1.6em;
+          margin-bottom: 4rem;
+        }
+
+        &:last-of-type {
+          font-size: 1.3em;
+          animation: pulsing 1s ease 0s alternate infinite backwards running;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
