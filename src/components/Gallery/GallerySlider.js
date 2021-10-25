@@ -37,6 +37,19 @@ const GallerySlider = ({ images }) => {
         <IoIosArrowDropleft onClick={prevSlide} className="arrow arrowPrev" />
         <IoIosArrowDropright onClick={nextSlide} className="arrow arrowNext" />
 
+        <div className="film-frame">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+
         {images.map((img, index) => {
           return (
             <div key={img.id} className={current === index ? 'slide active' : 'slide'}>
@@ -54,6 +67,19 @@ const GallerySlider = ({ images }) => {
             </div>
           );
         })}
+
+        <div className="film-frame">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       </div>
       <div className="container show-more">
         <Link to="Gallery">Show more!</Link>
