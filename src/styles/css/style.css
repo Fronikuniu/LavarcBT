@@ -540,6 +540,64 @@
   animation-delay: -0.5s;
 }
 
+.footer {
+  background-image: url("../../images/lavarcfooter.png"), linear-gradient(270deg, #27292c, #36383c);
+  background-repeat: no-repeat;
+  background-position: 85% -500%;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px 100px;
+  margin-top: 100px;
+  box-shadow: inset 0px 3px 0px #767676;
+}
+.footer > p {
+  color: white;
+}
+.footer__links {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: auto;
+  gap: 20px;
+}
+.footer__links h3 {
+  color: #d7bd68;
+  margin-bottom: 15px;
+  font-size: 1.4em;
+}
+.footer__links a {
+  color: white;
+  width: max-content;
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+.footer__links a:hover {
+  color: #d7bd68;
+  text-decoration: none;
+}
+.footer__links .menu {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.footer__links .socials__icon {
+  font-size: 2em;
+  color: white;
+  cursor: pointer;
+  transition: color 0.3s;
+  margin-right: 10px;
+}
+.footer__links .socials__icon.ig:hover {
+  color: #e9be03;
+}
+.footer__links .socials__icon.yt:hover {
+  color: #e72929;
+}
+.footer__links .socials__icon.dc:hover {
+  color: #8b9dfe;
+}
+
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;

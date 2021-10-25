@@ -9,6 +9,7 @@ import { Images } from './components/Gallery/Images';
 import Gallery from './components/Gallery/Gallery';
 import GallerySingle from './components/Gallery/GallerySingle';
 import SingleMember from './components/About/SingleMember';
+import Footer from './components/Footer/Footer';
 
 function App() {
   return (
@@ -35,6 +36,8 @@ function App() {
           <SingleMember images={Images} members={Members} />
         </Route>
       </Switch>
+
+      <Footer />
     </Router>
   );
 }

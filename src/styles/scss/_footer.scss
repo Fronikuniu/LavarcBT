@@ -1,0 +1,77 @@
+@use 'colors';
+
+.footer {
+  background-image: url('../../images/lavarcfooter.png'), linear-gradient(270deg, colors.$vulcanTone, colors.$vulcan);
+  background-repeat: no-repeat;
+  background-position: 85% -500%;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px 100px;
+  margin-top: 100px;
+  box-shadow: inset 0px 3px 0px #767676;
+
+  > p {
+    color: white;
+  }
+
+  &__links {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 20px;
+
+    h3 {
+      color: colors.$tacha;
+      margin-bottom: 15px;
+      font-size: 1.4em;
+    }
+
+    a {
+      color: white;
+      width: max-content;
+      text-decoration: underline;
+      transition: color 0.3s;
+
+      &:hover {
+        color: colors.$tacha;
+        text-decoration: none;
+      }
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .socials {
+      &__icon {
+        font-size: 2em;
+        color: white;
+        cursor: pointer;
+        transition: color 0.3s;
+        margin-right: 10px;
+
+        &.ig {
+          &:hover {
+            color: rgb(233, 190, 3);
+          }
+        }
+
+        &.yt {
+          &:hover {
+            color: rgb(231, 41, 41);
+          }
+        }
+
+        &.dc {
+          &:hover {
+            color: rgb(139, 157, 254);
+          }
+        }
+      }
+    }
+  }
+}
