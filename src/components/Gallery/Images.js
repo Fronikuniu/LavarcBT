@@ -1,4 +1,4 @@
-export const Images = [
+const Images = [
   {
     id: '1',
     imageSrc: 'https://imgur.com/Y4lPNVB.png',
@@ -190,3 +190,5 @@ export const Images = [
     imgurAlbum: 'https://imgur.com/gallery/vnzMo9y',
   },
 ];
+
+export default Images;

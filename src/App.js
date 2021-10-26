@@ -5,11 +5,13 @@ import Home from './components/Home/Home';
 import Nav from './components/Nav/Nav';
 import Members from './components/About/Members';
 import GallerySlider from './components/Gallery/GallerySlider';
-import { Images } from './components/Gallery/Images';
+import Images from './components/Gallery/Images';
 import Gallery from './components/Gallery/Gallery';
 import GallerySingle from './components/Gallery/GallerySingle';
 import SingleMember from './components/About/SingleMember';
 import Footer from './components/Footer/Footer';
+import Register from './components/Auth/Register';
+import Login from './components/Auth/Login';
 
 function App() {
   return (
@@ -21,6 +23,10 @@ function App() {
           <Home />
           <About />
           <GallerySlider images={Images.slice(-7)} />
+        </Route>
+        <Route exact path="/Register">
+          <Register />
+          <Login />
         </Route>
         <Route path="/About">
           <About />
