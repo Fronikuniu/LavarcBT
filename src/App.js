@@ -12,6 +12,7 @@ import SingleMember from './components/About/SingleMember';
 import Footer from './components/Footer/Footer';
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
+import Auth from './components/Auth/Auth';
 
 function App() {
   return (
@@ -25,8 +26,7 @@ function App() {
           <GallerySlider images={Images.slice(-7)} />
         </Route>
         <Route exact path="/Register">
-          <Register />
-          <Login />
+          <Auth />
         </Route>
         <Route path="/About">
           <About />
