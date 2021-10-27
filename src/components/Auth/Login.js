@@ -1,36 +1,59 @@
-import { signOut } from '@firebase/auth';
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { auth } from '../configuration/firebase';
+import { Link } from 'react-router-dom';
+import AuthImages from '../helpers/AuthImages';
 
-const Login = () => {
-  const [loginData, setLoginData] = useState([]);
-
+const Login = (props) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => setLoginData(data);
-  console.log(loginData);
-
-  const logout = async () => {
-    await signOut(auth);
-  };
+  const onSubmit = (data) => props.setLoginData(data);
 
   console.log(errors);
 
   return (
-    <div className="login">
-      <h2>login</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input type="text" placeholder="Email" autoComplete="email" {...register('Email', { required: true, pattern: /^\S+@\S+$/i })} />
-        <input type="password" placeholder="Password" autoComplete="current-password" {...register('Password', { required: true, min: 8 })} />
+    <div className="container">
+      <div className="login">
+        <AuthImages />
 
-        <input type="submit" />
-      </form>
-      <button onClick={logout}></button>
+        <div className="auth__form">
+          <div className="auth__form-login">
+            <h1>Login with Email</h1>
+            <p>Welcome again! We hope you will stay with us for longer!</p>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <input
+                type="email"
+                className={errors.Email?.type === ('required' || 'pattern') ? 'input-error' : ''}
+                placeholder={errors.Email?.type === 'required' ? 'Email is required!' : 'Email'}
+                autoComplete="email"
+                {...register('Email', { required: true, pattern: /^\S+@\S+$/i })}
+              />
+
+              <input
+                type="password"
+                className={errors.Password?.type === ('required' || 'minLength') ? 'input-error' : ''}
+                placeholder={errors.Password?.type === 'required' ? 'Password is required!' : 'Password'}
+                autoComplete="current-password"
+                {...register('Password', { required: true, minLength: 6 })}
+              />
+
+              <p>
+                Have you forgotten your password? <Link to="">Click!</Link>
+              </p>
+
+              <input type="submit" onClick={props.loginUser} value="Sign up!" />
+            </form>
+
+            <p>
+              Don't have an account? <Link to="/Auth/Register">Sign up.</Link>
+            </p>
+          </div>
+        </div>
+      </div>
+      <button onClick={props.logout}>Logout</button>
     </div>
   );
 };

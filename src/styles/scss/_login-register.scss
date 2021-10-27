@@ -1,4 +1,108 @@
+@use 'colors';
+
+.auth {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 70px;
+
+  .select-registration-method {
+    display: flex;
+
+    .methods {
+      width: 50%;
+
+      .select__method {
+        width: 350px;
+        margin: 0 auto;
+
+        &-h1 {
+          margin-bottom: 1rem;
+
+          span {
+            color: colors.$dandelion;
+            font-size: 1.3em;
+            font-family: 'Permanent Marker', cursive;
+          }
+        }
+
+        p {
+          font-size: 0.9em;
+          margin-bottom: 1.5rem;
+
+          a {
+            color: colors.$tacha;
+            font-weight: 600;
+            text-decoration: underline;
+
+            &:hover {
+              text-decoration: none;
+            }
+          }
+        }
+
+        &-buttons {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+
+          a {
+            line-height: 110%;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
+
 .register,
 .login {
-  margin-top: 150px;
+  min-height: calc(100vh - 70px);
+  margin-top: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .auth__form {
+    width: 50%;
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+
+      p {
+        margin-bottom: 0;
+      }
+    }
+
+    &-register,
+    &-login {
+      width: 350px;
+      margin: 0 auto;
+
+      h1 {
+        margin-bottom: 1rem;
+      }
+
+      p {
+        font-size: 0.9em;
+        margin-bottom: 1.5rem;
+
+        a {
+          color: colors.$tacha;
+          font-weight: 600;
+          text-decoration: underline;
+
+          &:hover {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
 }
