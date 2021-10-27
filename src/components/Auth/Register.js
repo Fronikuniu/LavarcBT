@@ -10,9 +10,7 @@ const Register = (props) => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    props.setRegisterNewUserData(data);
-  };
+  const onSubmit = (data) => props.setRegisterNewUserData(data);
 
   return (
     <div className="container">
@@ -26,10 +24,10 @@ const Register = (props) => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <input
                 type="text"
-                className={errors.Login?.type === 'required' ? 'input-error' : ''}
-                placeholder={errors.Login?.type === 'required' ? 'Login is required!' : 'Login'}
+                className={errors.Name?.type === 'required' ? 'input-error' : ''}
+                placeholder={errors.Name?.type === 'required' ? 'Name is required!' : 'Name'}
                 autoComplete="name"
-                {...register('Login', { required: true })}
+                {...register('Name', { required: true })}
               />
 
               <input
@@ -58,10 +56,12 @@ const Register = (props) => {
             <p>
               Already a member? <Link to="/Auth/Login">Log in.</Link>
             </p>
+
+            {props.loggedUser?.email}
+            <button onClick={props.logout}>Logout</button>
           </div>
         </div>
       </div>
-      {props.loggedUser?.email}
     </div>
   );
 };

@@ -12,8 +12,6 @@ const Login = (props) => {
 
   const onSubmit = (data) => props.setLoginData(data);
 
-  console.log(errors);
-
   return (
     <div className="container">
       <div className="login">
@@ -50,10 +48,12 @@ const Login = (props) => {
             <p>
               Don't have an account? <Link to="/Auth/Register">Sign up.</Link>
             </p>
+
+            {props.loggedUser?.email}
+            <button onClick={props.logout}>Logout</button>
           </div>
         </div>
       </div>
-      <button onClick={props.logout}>Logout</button>
     </div>
   );
 };

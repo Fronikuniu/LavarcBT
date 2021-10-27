@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from '@firebase/auth';
 import React, { useState } from 'react';
 import { auth } from './components/configuration/firebase';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import About from './components/About/About';
 import AboutMembers from './components/About/AboutMembers';
 import Home from './components/Home/Home';
@@ -74,10 +74,10 @@ function App() {
           <Auth />
         </Route>
         <Route path="/Auth/Login">
-          <Login setLoginData={setLoginData} loginUser={loginUser} logout={logout} />
+          <Login setLoginData={setLoginData} loginUser={loginUser} logout={logout} loggedUser={loggedUser} />
         </Route>
         <Route path="/Auth/Register">
-          <Register setRegisterNewUserData={setRegisterNewUserData} registerNewUser={registerNewUser} loggedUser={loggedUser} />
+          <Register setRegisterNewUserData={setRegisterNewUserData} registerNewUser={registerNewUser} loggedUser={loggedUser} logout={logout} />
         </Route>
 
         <Route path="/About">
