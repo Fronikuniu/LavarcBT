@@ -77,6 +77,11 @@
 
       p {
         margin-bottom: 0;
+
+        &.par-error {
+          color: tomato;
+          font-weight: 600;
+        }
       }
     }
 

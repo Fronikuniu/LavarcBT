@@ -23,6 +23,7 @@ const Footer = () => {
           <Link to="/Gallery">Gallery</Link>
           <Link to="/Shop">Shop</Link>
           <Link to="/Contact">Contact</Link>
+          <Link to="/Auth">Auth</Link>
         </div>
 
         <div className="socials">

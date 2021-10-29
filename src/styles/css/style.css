@@ -671,6 +671,11 @@
 .login .auth__form form p {
   margin-bottom: 0;
 }
+.register .auth__form form p.par-error,
+.login .auth__form form p.par-error {
+  color: tomato;
+  font-weight: 600;
+}
 .register .auth__form-register, .register .auth__form-login,
 .login .auth__form-register,
 .login .auth__form-login {
@@ -724,6 +729,10 @@
   right: 0;
   bottom: -121px;
   z-index: -1;
+}
+
+.chat {
+  margin-top: 150px;
 }
 
 body {
@@ -842,6 +851,7 @@ input[type=submit]:hover {
 }
 input.input-error {
   border-color: tomato;
+  color: tomato;
 }
 input.input-error::placeholder {
   color: tomato;

@@ -24,15 +24,16 @@ const Register = (props) => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <input
                 type="text"
-                className={errors.Name?.type === 'required' ? 'input-error' : ''}
+                className={errors.Name?.type === 'required' || errors.Name?.type === 'minLength' ? 'input-error' : ''}
                 placeholder={errors.Name?.type === 'required' ? 'Name is required!' : 'Name'}
                 autoComplete="name"
-                {...register('Name', { required: true })}
+                value={register.Name}
+                {...register('Name', { required: true, minLength: 6 })}
               />
 
               <input
-                type="email"
-                className={errors.Email?.type === ('required' || 'pattern') ? 'input-error' : ''}
+                type="text"
+                className={errors.Email?.type === 'required' || errors.Email?.type === 'pattern' ? 'input-error' : ''}
                 placeholder={errors.Email?.type === 'required' ? 'Email is required!' : 'Email adress'}
                 autoComplete="email"
                 {...register('Email', { required: true, pattern: /^\S+@\S+$/i })}
@@ -40,11 +41,13 @@ const Register = (props) => {
 
               <input
                 type="password"
-                className={errors.Password?.type === ('required' || 'minLength') ? 'input-error' : ''}
+                className={errors.Password?.type === 'required' || errors.Password?.type === 'minLength' ? 'input-error' : ''}
                 placeholder={errors.Password?.type === 'required' ? 'Password is required!' : 'Password'}
                 autoComplete="new-password"
                 {...register('Password', { required: true, minLength: 6 })}
               />
+
+              {props.registerError ? <p className="par-error">{props.registerError}</p> : ''}
 
               <p className="disclaimer">
                 By creating an account, you agree to Lavarc <Link to="/Privacy-policy">Privacy Policy</Link> and <Link to="Terms-of-Use">Terms of Use</Link>.

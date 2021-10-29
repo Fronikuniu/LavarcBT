@@ -23,8 +23,8 @@ const Login = (props) => {
             <p>Welcome again! We hope you will stay with us for longer!</p>
             <form onSubmit={handleSubmit(onSubmit)}>
               <input
-                type="email"
-                className={errors.Email?.type === ('required' || 'pattern') ? 'input-error' : ''}
+                type="text"
+                className={errors.Email?.type === 'required' || errors.Email?.type === 'pattern' ? 'input-error' : ''}
                 placeholder={errors.Email?.type === 'required' ? 'Email is required!' : 'Email'}
                 autoComplete="email"
                 {...register('Email', { required: true, pattern: /^\S+@\S+$/i })}
@@ -32,11 +32,13 @@ const Login = (props) => {
 
               <input
                 type="password"
-                className={errors.Password?.type === ('required' || 'minLength') ? 'input-error' : ''}
+                className={errors.Password?.type === 'required' || errors.Password?.type === 'minLength' ? 'input-error' : ''}
                 placeholder={errors.Password?.type === 'required' ? 'Password is required!' : 'Password'}
                 autoComplete="current-password"
                 {...register('Password', { required: true, minLength: 6 })}
               />
+
+              {props.loginError ? <p className="par-error">{props.loginError}</p> : ''}
 
               <p>
                 Have you forgotten your password? <Link to="">Click!</Link>
