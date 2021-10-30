@@ -1,0 +1,58 @@
+.settings {
+  margin-top: 150px;
+
+  h1 {
+    margin-bottom: 3rem;
+  }
+
+  &__informations {
+    display: flex;
+
+    &__image {
+      width: 20%;
+      height: max-content;
+
+      > div {
+        width: 80%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+
+        img {
+          width: 100%;
+          aspect-ratio: 1/1;
+          object-fit: cover;
+          border-radius: 50%;
+          transition: all 0.3s ease-in-out;
+        }
+
+        label {
+          position: absolute;
+          opacity: 0;
+          font-size: 3em;
+          transition: opacity 0.3s ease-in-out;
+          cursor: pointer;
+        }
+
+        &:hover {
+          img {
+            opacity: 0.4;
+          }
+
+          label {
+            opacity: 1;
+          }
+        }
+
+        input {
+          display: none;
+        }
+      }
+    }
+
+    &__info {
+      width: 80%;
+    }
+  }
+}

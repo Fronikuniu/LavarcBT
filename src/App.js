@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from '@firebase/auth';
 import React, { useState } from 'react';
 import { auth, db } from './components/configuration/firebase';
@@ -18,7 +19,9 @@ import Auth from './components/Auth/Auth';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Chat from './components/Contact/Chat';
-import { doc, setDoc, Timestamp } from '@firebase/firestore';
+import { doc, setDoc, Timestamp, updateDoc } from '@firebase/firestore';
+import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth';
+import Settings from './components/User/Settings';
 
 function App() {
   const [registerNewUserData, setRegisterNewUserData] = useState([]);
@@ -26,6 +29,7 @@ function App() {
   const [loggedUser, setLoggedUser] = useState({});
   const [loginError, setLoginError] = useState('');
   const [registerError, setRegisterError] = useState('');
+
   const history = useHistory();
 
   onAuthStateChanged(auth, (currentUser) => {
@@ -34,7 +38,7 @@ function App() {
 
   // Register
   const registerNewUser = async () => {
-    await createUserWithEmailAndPassword(auth, registerNewUserData.Email, registerNewUserData.Password, registerNewUserData.Login)
+    await createUserWithEmailAndPassword(auth, registerNewUserData.Email, registerNewUserData.Password)
       .then((userCredential) => {
         const user = userCredential.user;
 
@@ -46,15 +50,13 @@ function App() {
         const pushUserToFirestore = async () => {
           await setDoc(doc(db, 'users', user.uid), {
             uid: user.uid,
-            name: user.displayName,
+            name: registerNewUserData.Name,
             email: user.email,
             createdAt: Timestamp.fromDate(new Date()),
             isOnline: true,
           });
         };
         pushUserToFirestore();
-
-        history.replace('/');
         console.log(user);
       })
       .catch((error) => {
@@ -83,14 +85,75 @@ function App() {
       });
   };
 
+  const logInWithGoogle = () => {
+    const providerGoogle = new GoogleAuthProvider();
+
+    signInWithPopup(auth, providerGoogle)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        const user = result.user;
+
+        const pushUserToFirestore = async () => {
+          await setDoc(doc(db, 'users', user.uid), {
+            uid: user.uid,
+            name: user.displayName,
+            email: user.email,
+            createdAt: Timestamp.fromDate(new Date()),
+            isOnline: true,
+          });
+        };
+        pushUserToFirestore();
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.log(errorCode, errorMessage, email, credential);
+      });
+  };
+
+  const logInWithFacebook = () => {
+    const providerFacebook = new FacebookAuthProvider();
+
+    signInWithPopup(auth, providerFacebook)
+      .then((result) => {
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        const user = result.user;
+
+        const pushUserToFirestore = async () => {
+          await setDoc(doc(db, 'users', user.uid), {
+            uid: user.uid,
+            name: user.displayName,
+            email: user.email,
+            createdAt: Timestamp.fromDate(new Date()),
+            isOnline: true,
+          });
+        };
+        pushUserToFirestore();
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.email;
+        const credential = FacebookAuthProvider.credentialFromError(error);
+        console.log(errorCode, errorMessage, email, credential);
+      });
+  };
+
   // Logout
   const logout = async () => {
+    await updateDoc(doc(db, 'users', loggedUser.uid), {
+      isOnline: false,
+    });
     await signOut(auth);
   };
 
   return (
     <Router>
-      <Nav />
+      <Nav loggedUser={loggedUser} />
 
       <Switch>
         <Route exact path="/">
@@ -100,11 +163,20 @@ function App() {
         </Route>
 
         <Route exact path="/Auth">
-          <Auth />
+          <Auth logInWithGoogle={logInWithGoogle} logInWithFacebook={logInWithFacebook} />
         </Route>
         <Route path="/Auth/Login">
           {/* Add redirect to '/' when user logged */}
-          <Login setLoginData={setLoginData} loginUser={loginUser} logout={logout} loggedUser={loggedUser} loginError={loginError} />
+          {/* Need to fix overwrite data when pushing google user to firestore */}
+          <Login
+            setLoginData={setLoginData}
+            loginUser={loginUser}
+            logInWithGoogle={logInWithGoogle}
+            logInWithFacebook={logInWithFacebook}
+            logout={logout}
+            loggedUser={loggedUser}
+            loginError={loginError}
+          />
         </Route>
         <Route path="/Auth/Register">
           {/* Add redirect to '/' when user create account */}
@@ -130,6 +202,10 @@ function App() {
         <Route exact path="/Contact"></Route>
         <Route path="/Contact/Email"></Route>
         <Route path="/Contact/Chat">{loggedUser ? <Chat /> : <Redirect to="/Auth/Login" />}</Route>
+
+        <Route path="/Settings">
+          <Settings loggedUser={loggedUser} />
+        </Route>
       </Switch>
 
       <Footer />

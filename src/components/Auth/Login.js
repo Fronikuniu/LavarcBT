@@ -2,6 +2,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import AuthImages from '../helpers/AuthImages';
+import { BsFacebook } from 'react-icons/bs';
+import { FcGoogle } from 'react-icons/fc';
 
 const Login = (props) => {
   const {
@@ -19,8 +21,16 @@ const Login = (props) => {
 
         <div className="auth__form">
           <div className="auth__form-login">
-            <h1>Login with Email</h1>
+            <h1>Login</h1>
             <p>Welcome again! We hope you will stay with us for longer!</p>
+
+            <div className="auth__form-login__socials">
+              <BsFacebook onClick={props.logInWithFacebook} />
+              <FcGoogle onClick={props.logInWithGoogle} />
+            </div>
+
+            <div className="loginOr"></div>
+
             <form onSubmit={handleSubmit(onSubmit)}>
               <input
                 type="text"

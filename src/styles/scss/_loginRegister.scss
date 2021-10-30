@@ -90,8 +90,51 @@
       width: 350px;
       margin: 0 auto;
 
+      &__socials {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 50px;
+        font-size: 2.2em;
+
+        svg {
+          cursor: pointer;
+          padding: 5px;
+          border-radius: 10px;
+          box-shadow: 0px 0px 7px -3px colors.$vulcan;
+          transition: box-shadow 0.2s;
+
+          &:first-of-type {
+            color: #097eeb;
+          }
+
+          &:hover {
+            box-shadow: 0px 0px 0px 0px colors.$vulcan, inset 0px 0px 7px -3px colors.$vulcan;
+          }
+        }
+      }
+
       h1 {
         margin-bottom: 1rem;
+      }
+
+      .loginOr {
+        height: 2px;
+        border-bottom: 2px solid colors.$vulcan;
+        margin: 30px 0;
+        position: relative;
+
+        &::after {
+          content: 'OR';
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 1.5em;
+          background-color: white;
+          padding: 5px 10px;
+          color: colors.$vulcan;
+        }
       }
 
       p {

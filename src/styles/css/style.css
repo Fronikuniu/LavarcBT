@@ -101,6 +101,30 @@
 .nav.active a:hover, .nav.sticky a:hover {
   color: #c0c0c0;
 }
+.nav .user {
+  position: absolute;
+  right: 10%;
+}
+.nav .user__avatar {
+  position: relative;
+  width: max-content;
+}
+.nav .user__avatar img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+.nav .user__avatar--arrow {
+  position: absolute;
+  font-size: 1.3em;
+  border-radius: 50%;
+  background-color: white;
+  bottom: 3px;
+  right: -1px;
+  color: #36383c;
+}
 .nav .container {
   display: flex;
   justify-content: center;
@@ -682,10 +706,59 @@
   width: 350px;
   margin: 0 auto;
 }
+.register .auth__form-register__socials, .register .auth__form-login__socials,
+.login .auth__form-register__socials,
+.login .auth__form-login__socials {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  font-size: 2.2em;
+}
+.register .auth__form-register__socials svg, .register .auth__form-login__socials svg,
+.login .auth__form-register__socials svg,
+.login .auth__form-login__socials svg {
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 7px -3px #36383c;
+  transition: box-shadow 0.2s;
+}
+.register .auth__form-register__socials svg:first-of-type, .register .auth__form-login__socials svg:first-of-type,
+.login .auth__form-register__socials svg:first-of-type,
+.login .auth__form-login__socials svg:first-of-type {
+  color: #097eeb;
+}
+.register .auth__form-register__socials svg:hover, .register .auth__form-login__socials svg:hover,
+.login .auth__form-register__socials svg:hover,
+.login .auth__form-login__socials svg:hover {
+  box-shadow: 0px 0px 0px 0px #36383c, inset 0px 0px 7px -3px #36383c;
+}
 .register .auth__form-register h1, .register .auth__form-login h1,
 .login .auth__form-register h1,
 .login .auth__form-login h1 {
   margin-bottom: 1rem;
+}
+.register .auth__form-register .loginOr, .register .auth__form-login .loginOr,
+.login .auth__form-register .loginOr,
+.login .auth__form-login .loginOr {
+  height: 2px;
+  border-bottom: 2px solid #36383c;
+  margin: 30px 0;
+  position: relative;
+}
+.register .auth__form-register .loginOr::after, .register .auth__form-login .loginOr::after,
+.login .auth__form-register .loginOr::after,
+.login .auth__form-login .loginOr::after {
+  content: "OR";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5em;
+  background-color: white;
+  padding: 5px 10px;
+  color: #36383c;
 }
 .register .auth__form-register p, .register .auth__form-login p,
 .login .auth__form-register p,
@@ -733,6 +806,53 @@
 
 .chat {
   margin-top: 150px;
+}
+
+.settings {
+  margin-top: 150px;
+}
+.settings h1 {
+  margin-bottom: 3rem;
+}
+.settings__informations {
+  display: flex;
+}
+.settings__informations__image {
+  width: 20%;
+  height: max-content;
+}
+.settings__informations__image > div {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+.settings__informations__image > div img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: all 0.3s ease-in-out;
+}
+.settings__informations__image > div label {
+  position: absolute;
+  opacity: 0;
+  font-size: 3em;
+  transition: opacity 0.3s ease-in-out;
+  cursor: pointer;
+}
+.settings__informations__image > div:hover img {
+  opacity: 0.4;
+}
+.settings__informations__image > div:hover label {
+  opacity: 1;
+}
+.settings__informations__image > div input {
+  display: none;
+}
+.settings__informations__info {
+  width: 80%;
 }
 
 body {
