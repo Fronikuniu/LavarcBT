@@ -18,10 +18,11 @@ import Footer from './components/Footer/Footer';
 import Auth from './components/Auth/Auth';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
-import Chat from './components/Contact/Chat';
+import Chat from './components/User/Chat';
 import { doc, setDoc, Timestamp, updateDoc } from '@firebase/firestore';
 import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth';
 import Settings from './components/User/Settings';
+import UsersList from './components/User/UsersList';
 
 function App() {
   const [registerNewUserData, setRegisterNewUserData] = useState([]);
@@ -199,7 +200,9 @@ function App() {
           <SingleMember images={Images} members={Members} />
         </Route>
 
-        <Route exact path="/Contact"></Route>
+        <Route exact path="/Contact">
+          <UsersList />
+        </Route>
         <Route path="/Contact/Email"></Route>
         <Route path="/Contact/Chat">{loggedUser ? <Chat /> : <Redirect to="/Auth/Login" />}</Route>
 

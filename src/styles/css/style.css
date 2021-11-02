@@ -804,10 +804,6 @@
   z-index: -1;
 }
 
-.chat {
-  margin-top: 150px;
-}
-
 .settings {
   margin-top: 150px;
 }
@@ -853,6 +849,113 @@
 }
 .settings__informations__info {
   width: 80%;
+}
+
+.messages {
+  display: flex;
+  min-height: calc(100vh - 70px);
+  margin-top: 70px;
+}
+
+.users-container {
+  display: flex;
+  align-items: center;
+  width: 20%;
+}
+.users-container .users-list {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  border-right: 1px solid #36383c;
+  height: 95%;
+  gap: 20px;
+}
+.users-container .users-list__user {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.users-container .users-list__user--img {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.users-container .users-list__user--img img {
+  width: 35px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.users-container .users-list__user--img .check-online {
+  width: 7px;
+  aspect-ratio: 1/1;
+  position: absolute;
+  border-radius: 50%;
+  background-color: #ff2c2c;
+  z-index: 2;
+  bottom: 0;
+  right: 3px;
+  border: 1px solid #36383c;
+}
+.users-container .users-list__user--img .check-online.online {
+  background-color: #1ee31e;
+}
+.users-container .users-list__user p {
+  padding-left: 10px;
+}
+
+.chat-container {
+  width: 80%;
+  padding: 3rem 2rem;
+  position: relative;
+}
+.chat-container .chat-first > p,
+.chat-container .chat-selected > p {
+  text-align: center;
+  font-size: 2em;
+  border-bottom: 1px solid #36383c;
+}
+.chat-container .chat-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  position: absolute;
+  bottom: 1.5rem;
+  width: 100%;
+  left: 0;
+}
+.chat-container .chat-form label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.chat-container .chat-form label svg {
+  font-size: 1.8em;
+}
+.chat-container .chat-form label svg.send {
+  font-size: 1.5em;
+}
+.chat-container .chat-form .message {
+  width: 80%;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.chat-container .chat-form .message label {
+  position: absolute;
+  right: 15px;
+  z-index: 10;
+}
+.chat-container .chat-form input[type=text] {
+  width: 100%;
+}
+.chat-container .chat-form input[type=file],
+.chat-container .chat-form input[type=submit] {
+  display: none;
 }
 
 body {
