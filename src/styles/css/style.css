@@ -851,7 +851,7 @@
   width: 80%;
 }
 
-.messages {
+.chat {
   display: flex;
   min-height: calc(100vh - 70px);
   margin-top: 70px;
@@ -910,23 +910,59 @@
 .chat-container {
   width: 80%;
   padding: 3rem 2rem;
-  position: relative;
 }
 .chat-container .chat-first > p,
 .chat-container .chat-selected > p {
   text-align: center;
   font-size: 2em;
   border-bottom: 1px solid #36383c;
+  height: 50px;
+}
+.chat-container .messages {
+  height: calc(100vh - 261px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 1rem;
+}
+.chat-container .messages .message {
+  margin-bottom: 1rem;
+  width: 100%;
+  display: flex;
+}
+.chat-container .messages .message > div {
+  max-width: 60%;
+}
+.chat-container .messages .message p {
+  padding: 1rem;
+  border-radius: 5px;
+}
+.chat-container .messages .message img {
+  max-width: 100%;
+  padding: 0.2rem 0 0 0;
+  border-radius: 5px;
+}
+.chat-container .messages .message.sender {
+  justify-content: flex-end;
+  text-align: right;
+}
+.chat-container .messages .message.sender p {
+  background-color: #d7bd68;
+}
+.chat-container .messages .message.receiver {
+  justify-content: flex-start;
+  text-align: left;
+}
+.chat-container .messages .message.receiver p {
+  background-color: #9d9478;
+  color: white;
 }
 .chat-container .chat-form {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 30px;
-  position: absolute;
-  bottom: 1.5rem;
   width: 100%;
-  left: 0;
+  height: 45px;
 }
 .chat-container .chat-form label {
   display: flex;
@@ -939,13 +975,13 @@
 .chat-container .chat-form label svg.send {
   font-size: 1.5em;
 }
-.chat-container .chat-form .message {
+.chat-container .chat-form .chat-form-message {
   width: 80%;
   position: relative;
   display: flex;
   align-items: center;
 }
-.chat-container .chat-form .message label {
+.chat-container .chat-form .chat-form-message label {
   position: absolute;
   right: 15px;
   z-index: 10;

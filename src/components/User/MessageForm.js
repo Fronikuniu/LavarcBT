@@ -10,7 +10,7 @@ const MessageForm = ({ handleSubmit, messageText, setMessageText, setMessageImag
       </label>
       <input type="file" name="img" id="img" accept="image/*" onChange={(e) => setMessageImage(e.target.files[0])} />
 
-      <div className="message">
+      <div className="chat-form-message">
         <input type="text" placeholder="Message..." value={messageText} onChange={(e) => setMessageText(e.target.value)} />
 
         <label htmlFor="enter-message">

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from '@firebase/auth';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { auth, db } from './components/configuration/firebase';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
@@ -33,9 +33,11 @@ function App() {
 
   const history = useHistory();
 
-  onAuthStateChanged(auth, (currentUser) => {
-    setLoggedUser(currentUser);
-  });
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      setLoggedUser(currentUser);
+    });
+  }, []);
 
   // Register
   const registerNewUser = async () => {
@@ -201,7 +203,7 @@ function App() {
         </Route>
 
         <Route exact path="/Contact">
-          <UsersList />
+          <UsersList loggedUser={loggedUser} />
         </Route>
         <Route path="/Contact/Email"></Route>
         <Route path="/Contact/Chat">{loggedUser ? <Chat /> : <Redirect to="/Auth/Login" />}</Route>

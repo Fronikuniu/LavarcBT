@@ -4,10 +4,11 @@ import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
 import React, { useEffect, useState } from 'react';
 import { auth, db, storage } from '../configuration/firebase';
 import Chat from './Chat';
+import Message from './Message';
 import MessageForm from './MessageForm';
 import User from './User';
 
-const UsersList = () => {
+const UsersList = ({ loggedUser }) => {
   const [usersList, setUsersList] = useState([]);
   const [usersChat, setUsersChat] = useState('');
   const [messageText, setMessageText] = useState('');
@@ -16,7 +17,7 @@ const UsersList = () => {
   const [sender, setSender] = useState('');
 
   useEffect(() => {
-    // need fix sender
+    // need fix sender when is first render we can see logged user
     if (auth.currentUser) {
       setSender(auth.currentUser.uid);
     }
@@ -39,7 +40,9 @@ const UsersList = () => {
 
     const receiver = user.uid;
     const id = sender > receiver ? `${sender + receiver}` : `${receiver + sender}`;
+
     console.log(sender, receiver);
+
     const messagesRef = collection(db, 'messages', id, 'chat');
     const q = query(messagesRef, orderBy('createdAt', 'asc'));
 
@@ -81,7 +84,7 @@ const UsersList = () => {
 
   return (
     <div className="container">
-      <section className="messages">
+      <section className="chat">
         <div className="users-container">
           <div className="users-list">
             {usersList.map((user) => {
@@ -96,6 +99,15 @@ const UsersList = () => {
               <div className="chat-selected">
                 <p>{usersChat.name}</p>
               </div>
+
+              <div className="messages">
+                {allMessages.length
+                  ? allMessages.map((message, i) => {
+                      return <Message key={i} message={message} loggedUser={loggedUser} />;
+                    })
+                  : null}
+              </div>
+
               <MessageForm messageText={messageText} setMessageText={setMessageText} handleSubmit={handleSubmit} setMessageImage={setMessageImage} />
             </>
           ) : (
