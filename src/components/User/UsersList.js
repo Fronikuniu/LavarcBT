@@ -3,7 +3,6 @@ import { addDoc, collection, onSnapshot, orderBy, query, Timestamp, where } from
 import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
 import React, { useEffect, useState } from 'react';
 import { auth, db, storage } from '../configuration/firebase';
-import Chat from './Chat';
 import Message from './Message';
 import MessageForm from './MessageForm';
 import User from './User';
@@ -21,8 +20,9 @@ const UsersList = ({ loggedUser }) => {
     if (auth.currentUser) {
       setSender(auth.currentUser.uid);
     }
+    const usersRef = collection(db, 'users');
 
-    const q = query(collection(db, 'users'), where('uid', 'not-in', [sender]));
+    const q = query(usersRef, where('uid', 'not-in', [sender]));
 
     const unsub = onSnapshot(q, (querySnapshot) => {
       let users = [];
@@ -79,6 +79,7 @@ const UsersList = ({ loggedUser }) => {
       createdAt: Timestamp.fromDate(new Date()),
       media: url || '',
     });
+
     setMessageText('');
   };
 
