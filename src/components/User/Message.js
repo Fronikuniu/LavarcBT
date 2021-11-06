@@ -11,7 +11,7 @@ const Message = ({ message, loggedUser }) => {
   return (
     <div className={`message ${message.from === loggedUser.uid ? 'sender' : 'receiver'}`} ref={scrollRef}>
       <div>
-        <p>{message.messageText}</p>
+        {message.messageText !== '' ? <p>{message.messageText}</p> : null}
         {message.media ? <img src={message.media} alt={message.text} /> : null}
         <small>
           <Moment fromNow>{message.createdAt.toDate()}</Moment>

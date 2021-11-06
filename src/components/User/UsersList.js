@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { addDoc, collection, onSnapshot, orderBy, query, Timestamp, where } from '@firebase/firestore';
+import { addDoc, collection, doc, getDoc, onSnapshot, orderBy, query, setDoc, Timestamp, updateDoc, where } from '@firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
 import React, { useEffect, useState } from 'react';
 import { auth, db, storage } from '../configuration/firebase';
@@ -16,7 +16,7 @@ const UsersList = ({ loggedUser }) => {
   const [sender, setSender] = useState('');
 
   useEffect(() => {
-    // need fix sender when is first render we can see logged user
+    // need fix sender, when is first render we can see logged user in the users list
     if (auth.currentUser) {
       setSender(auth.currentUser.uid);
     }
@@ -35,7 +35,7 @@ const UsersList = ({ loggedUser }) => {
     return () => unsub();
   }, [auth.currentUser]);
 
-  const selectUser = (user) => {
+  const selectUser = async (user) => {
     setUsersChat(user);
 
     const receiver = user.uid;
@@ -53,8 +53,12 @@ const UsersList = ({ loggedUser }) => {
       });
 
       setAllMessages(messages);
-      console.log(allMessages);
     });
+
+    const docSnapshot = await getDoc(doc(db, 'lastMessage', id));
+    if (docSnapshot.data() && docSnapshot.data().from !== sender) {
+      await updateDoc(doc(db, 'lastMessage', id), { unread: false });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -80,6 +84,15 @@ const UsersList = ({ loggedUser }) => {
       media: url || '',
     });
 
+    await setDoc(doc(db, 'lastMessage', id), {
+      messageText,
+      from: sender,
+      to: receiver,
+      createdAt: Timestamp.fromDate(new Date()),
+      media: url || '',
+      unread: true,
+    });
+
     setMessageText('');
   };
 
@@ -89,7 +102,7 @@ const UsersList = ({ loggedUser }) => {
         <div className="users-container">
           <div className="users-list">
             {usersList.map((user) => {
-              return <User user={user} selectUser={selectUser} key={user.uid} />;
+              return <User user={user} selectUser={selectUser} key={user.uid} sender={sender} usersChat={usersChat} />;
             })}
           </div>
         </div>
