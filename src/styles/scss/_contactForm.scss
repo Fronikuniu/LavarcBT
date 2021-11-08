@@ -1,0 +1,27 @@
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 80%;
+
+  > div {
+    display: flex;
+    gap: 30px;
+
+    &:first-of-type {
+      input {
+        width: 50%;
+      }
+    }
+
+    > div {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  textarea {
+    width: calc(100% - 44px);
+    font-size: 1.5em;
+  }
+}

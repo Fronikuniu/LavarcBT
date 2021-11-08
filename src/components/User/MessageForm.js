@@ -11,7 +11,7 @@ const MessageForm = ({ handleSubmit, messageText, setMessageText, setMessageImag
       <input type="file" name="img" id="img" accept="image/*" onChange={(e) => setMessageImage(e.target.files[0])} />
 
       <div className="chat-form-message">
-        <input type="text" placeholder="Message..." value={messageText} onChange={(e) => setMessageText(e.target.value)} />
+        <textarea rows="1" placeholder="Message..." value={messageText} onChange={(e) => setMessageText(e.target.value)}></textarea>
 
         <label htmlFor="enter-message">
           <IoSend className="send" />

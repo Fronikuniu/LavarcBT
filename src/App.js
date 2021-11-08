@@ -3,7 +3,6 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndP
 import React, { useEffect, useState } from 'react';
 import { auth, db } from './components/configuration/firebase';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
 import About from './components/About/About';
 import AboutMembers from './components/About/AboutMembers';
 import Home from './components/Home/Home';
@@ -19,23 +18,30 @@ import Auth from './components/Auth/Auth';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Chat from './components/User/Chat';
-import { doc, setDoc, Timestamp, updateDoc } from '@firebase/firestore';
+import { doc, getDoc, setDoc, Timestamp, updateDoc } from '@firebase/firestore';
 import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth';
 import Settings from './components/User/Settings';
-import UsersList from './components/User/UsersList';
 
 function App() {
   const [registerNewUserData, setRegisterNewUserData] = useState([]);
-  const [loginData, setLoginData] = useState([]);
-  const [loggedUser, setLoggedUser] = useState({});
-  const [loginError, setLoginError] = useState('');
   const [registerError, setRegisterError] = useState('');
+  const [loginData, setLoginData] = useState([]);
+  const [loginError, setLoginError] = useState('');
 
-  const history = useHistory();
+  const [loggedUser, setLoggedUser] = useState({});
+  const [loggedUserData, setLoggedUserData] = useState({});
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setLoggedUser(currentUser);
+
+      let uid = currentUser.uid;
+
+      getDoc(doc(db, 'users', uid)).then((docSnap) => {
+        if (docSnap.exists) {
+          setLoggedUserData(docSnap.data());
+        }
+      });
     });
   }, []);
 
@@ -60,7 +66,6 @@ function App() {
           });
         };
         pushUserToFirestore();
-        console.log(user);
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -76,7 +81,7 @@ function App() {
         const user = userCredential.user;
         console.log(user);
 
-        history.replace('/');
+        updateDoc(doc(db, 'users', user.uid), { isOnline: true });
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -202,15 +207,11 @@ function App() {
           <SingleMember images={Images} members={Members} />
         </Route>
 
-        <Route exact path="/Contact">
-          <UsersList loggedUser={loggedUser} />
-        </Route>
+        <Route exact path="/Contact"></Route>
         <Route path="/Contact/Email"></Route>
-        <Route path="/Contact/Chat">{loggedUser ? <Chat /> : <Redirect to="/Auth/Login" />}</Route>
+        <Route path="/Contact/Chat">{loggedUser ? <Chat loggedUser={loggedUser} loggedUserData={loggedUserData} /> : <Redirect to="/Auth" />}</Route>
 
-        <Route path="/Settings">
-          <Settings loggedUser={loggedUser} />
-        </Route>
+        <Route path="/Settings">{loggedUser ? <Settings loggedUser={loggedUser} /> : <Redirect to="/Auth" />}</Route>
       </Switch>
 
       <Footer />

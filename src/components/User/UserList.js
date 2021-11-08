@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import userPlaceholder from '../../images/placeholder-user.jpg';
 import { db } from '../configuration/firebase';
 
-const User = ({ sender, user, selectUser, usersChat }) => {
+const UserList = ({ sender, user, selectUser, usersChat }) => {
   const receiver = user?.uid;
   const [data, setData] = useState('');
 
@@ -17,8 +17,6 @@ const User = ({ sender, user, selectUser, usersChat }) => {
 
     return () => unsub();
   }, []);
-
-  console.log(data);
 
   return (
     <div className={`users-list__user ${usersChat.name === user.name && 'selected'}`} onClick={() => selectUser(user)}>
@@ -45,4 +43,4 @@ const User = ({ sender, user, selectUser, usersChat }) => {
   );
 };
 
-export default User;
+export default UserList;
