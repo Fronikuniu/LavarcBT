@@ -118,25 +118,6 @@
         margin-bottom: 1rem;
       }
 
-      .loginOr {
-        height: 2px;
-        border-bottom: 2px solid colors.$vulcan;
-        margin: 30px 0;
-        position: relative;
-
-        &::after {
-          content: 'OR';
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-          font-size: 1.5em;
-          background-color: white;
-          padding: 5px 10px;
-          color: colors.$vulcan;
-        }
-      }
-
       p {
         font-size: 0.9em;
         margin-bottom: 1.5rem;

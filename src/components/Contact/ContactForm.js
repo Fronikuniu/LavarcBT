@@ -67,7 +67,6 @@ const ContactForm = () => {
       ></textarea>
 
       <input type="submit" value="Send" />
-      {}
     </form>
   );
 };

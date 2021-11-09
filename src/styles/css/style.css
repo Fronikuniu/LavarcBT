@@ -604,25 +604,25 @@
   color: #d7bd68;
   text-decoration: none;
 }
-.footer__links .menu {
+.footer__links .footer__menu {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
-.footer__links .socials__icon {
+.footer__links .footer__socials__icon {
   font-size: 2em;
   color: white;
   cursor: pointer;
   transition: color 0.3s;
   margin-right: 10px;
 }
-.footer__links .socials__icon.ig:hover {
+.footer__links .footer__socials__icon.ig:hover {
   color: #e9be03;
 }
-.footer__links .socials__icon.yt:hover {
+.footer__links .footer__socials__icon.yt:hover {
   color: #e72929;
 }
-.footer__links .socials__icon.dc:hover {
+.footer__links .footer__socials__icon.dc:hover {
   color: #8b9dfe;
 }
 
@@ -740,27 +740,6 @@
 .login .auth__form-register h1,
 .login .auth__form-login h1 {
   margin-bottom: 1rem;
-}
-.register .auth__form-register .loginOr, .register .auth__form-login .loginOr,
-.login .auth__form-register .loginOr,
-.login .auth__form-login .loginOr {
-  height: 2px;
-  border-bottom: 2px solid #36383c;
-  margin: 30px 0;
-  position: relative;
-}
-.register .auth__form-register .loginOr::after, .register .auth__form-login .loginOr::after,
-.login .auth__form-register .loginOr::after,
-.login .auth__form-login .loginOr::after {
-  content: "OR";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 1.5em;
-  background-color: white;
-  padding: 5px 10px;
-  color: #36383c;
 }
 .register .auth__form-register p, .register .auth__form-login p,
 .login .auth__form-register p,
@@ -1056,6 +1035,56 @@
   font-size: 1.5em;
 }
 
+.contact {
+  background-image: url("../../images/circle-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.contact .container {
+  min-height: calc(100vh - 70px);
+  margin-top: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.contact .container h2 {
+  font-family: "Permanent Marker", cursive;
+  font-size: 2em;
+}
+.contact .container .vertical-or {
+  height: calc(90vh - 70px);
+}
+.contact .container .contact__contact-form {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 40px;
+}
+.contact .container .contact__contact-form .contact-form {
+  margin: 0;
+  width: 70%;
+}
+.contact .container .contact__contact-form .contact-form input[type=text],
+.contact .container .contact__contact-form .contact-form input[type=email],
+.contact .container .contact__contact-form .contact-form textarea {
+  background-color: white;
+}
+.contact .container .contact__chat {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 40px;
+}
+.contact .container .contact__chat p {
+  width: 70%;
+  text-align: center;
+  font-size: 1.3em;
+}
+
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
@@ -1195,6 +1224,30 @@ textarea.input-error {
 }
 textarea.input-error::placeholder {
   color: tomato;
+}
+
+.vertical-or,
+.horizontal-or {
+  border-right: 2px solid #36383c;
+  margin: 30px 0;
+  position: relative;
+}
+.vertical-or::after,
+.horizontal-or::after {
+  font-family: "Permanent Marker", cursive;
+  content: "OR";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5em;
+  background-color: white;
+  padding: 5px 10px;
+  color: #36383c;
+}
+
+.horizontal-or {
+  border-bottom: 2px solid #36383c;
 }
 
 @media (min-width: 768px) {

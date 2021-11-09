@@ -21,6 +21,7 @@ import Chat from './components/User/Chat';
 import { doc, getDoc, setDoc, Timestamp, updateDoc } from '@firebase/firestore';
 import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth';
 import Settings from './components/User/Settings';
+import Contact from './components/Contact/Contact';
 
 function App() {
   const [registerNewUserData, setRegisterNewUserData] = useState([]);
@@ -207,8 +208,9 @@ function App() {
           <SingleMember images={Images} members={Members} />
         </Route>
 
-        <Route exact path="/Contact"></Route>
-        <Route path="/Contact/Email"></Route>
+        <Route exact path="/Contact">
+          <Contact />
+        </Route>
         <Route path="/Contact/Chat">{loggedUser ? <Chat loggedUser={loggedUser} loggedUserData={loggedUserData} /> : <Redirect to="/Auth" />}</Route>
 
         <Route path="/Settings">{loggedUser ? <Settings loggedUser={loggedUser} /> : <Redirect to="/Auth" />}</Route>

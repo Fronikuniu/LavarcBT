@@ -41,13 +41,13 @@
       }
     }
 
-    .menu {
+    .footer__menu {
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
 
-    .socials {
+    .footer__socials {
       &__icon {
         font-size: 2em;
         color: white;

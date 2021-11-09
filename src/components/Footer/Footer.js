@@ -9,13 +9,13 @@ const Footer = () => {
   return (
     <section className="footer">
       <div className="footer__links">
-        <div className="contact">
+        <div className="footer__contact">
           <h3>Contact</h3>
 
           <ContactForm />
         </div>
 
-        <div className="menu">
+        <div className="footer__menu">
           <h3>Menu</h3>
 
           <Link to="/">Home</Link>
@@ -26,12 +26,12 @@ const Footer = () => {
           <Link to="/Auth">Auth</Link>
         </div>
 
-        <div className="socials">
+        <div className="footer__socials">
           <h3>Socials</h3>
 
-          <AiFillInstagram onClick={() => window.open('https://www.instagram.com/')} className="socials__icon ig" />
-          <AiFillYoutube onClick={() => window.open('https://www.youtube.com/')} className="socials__icon yt" />
-          <SiDiscord onClick={() => window.open('https://www.discord.com/')} className="socials__icon dc" />
+          <AiFillInstagram onClick={() => window.open('https://www.instagram.com/')} className="footer__socials__icon ig" />
+          <AiFillYoutube onClick={() => window.open('https://www.youtube.com/')} className="footer__socials__icon yt" />
+          <SiDiscord onClick={() => window.open('https://www.discord.com/')} className="footer__socials__icon dc" />
         </div>
       </div>
 

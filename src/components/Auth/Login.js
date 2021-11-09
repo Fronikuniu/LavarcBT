@@ -29,7 +29,7 @@ const Login = (props) => {
               <FcGoogle onClick={props.logInWithGoogle} />
             </div>
 
-            <div className="loginOr"></div>
+            <div className="horizontal-or"></div>
 
             <form onSubmit={handleSubmit(onSubmit)}>
               <input
