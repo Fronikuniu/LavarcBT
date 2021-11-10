@@ -13,6 +13,7 @@
     background-color: colors.$vulcan;
     display: flex;
     flex-direction: column;
+    min-height: max-content;
 
     img {
       height: 700px;

@@ -1,0 +1,47 @@
+@use 'colors';
+
+.recommendations {
+  margin-top: 150px;
+
+  .slider {
+    margin-top: 80px;
+    min-height: max-content;
+    width: 100%;
+
+    &__item {
+      transform: scale(0.9);
+      transition: transform 0.5s;
+
+      &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+
+        &--from {
+          font-size: 1.3em;
+
+          span {
+            font-size: 0.9em;
+          }
+        }
+
+        .stars {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 1.5em;
+          color: colors.$goldenPoppy;
+        }
+      }
+
+      &.active {
+        width: 60%;
+        background-color: #e7e7e7;
+        padding: 20px;
+        border-radius: 20px;
+        transform: scale(1);
+      }
+    }
+  }
+}

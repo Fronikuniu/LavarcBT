@@ -430,6 +430,7 @@
   background-color: #36383c;
   display: flex;
   flex-direction: column;
+  min-height: max-content;
 }
 .gallery-latest .slider img {
   height: 700px;
@@ -570,7 +571,7 @@
 .footer {
   background-image: url("../../images/lavarcfooter.png"), linear-gradient(270deg, #27292c, #36383c);
   background-repeat: no-repeat;
-  background-position: 85% -500%;
+  background-position: 85% 500%;
   min-height: 300px;
   display: flex;
   flex-direction: column;
@@ -1083,6 +1084,45 @@
   width: 70%;
   text-align: center;
   font-size: 1.3em;
+}
+
+.recommendations {
+  margin-top: 150px;
+}
+.recommendations .slider {
+  margin-top: 80px;
+  min-height: max-content;
+  width: 100%;
+}
+.recommendations .slider__item {
+  transform: scale(0.9);
+  transition: transform 0.5s;
+}
+.recommendations .slider__item__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.recommendations .slider__item__header--from {
+  font-size: 1.3em;
+}
+.recommendations .slider__item__header--from span {
+  font-size: 0.9em;
+}
+.recommendations .slider__item__header .stars {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5em;
+  color: #fec303;
+}
+.recommendations .slider__item.active {
+  width: 60%;
+  background-color: #e7e7e7;
+  padding: 20px;
+  border-radius: 20px;
+  transform: scale(1);
 }
 
 body {

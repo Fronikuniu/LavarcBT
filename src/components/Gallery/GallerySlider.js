@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { Link } from 'react-router-dom';
-import FilmFrame from '../helpers/FilmFrame';
 
 const GallerySlider = ({ images }) => {
   const [current, setCurrent] = useState(0);
@@ -38,7 +37,6 @@ const GallerySlider = ({ images }) => {
         <IoIosArrowDropleft onClick={prevSlide} className="arrow arrowPrev" />
         <IoIosArrowDropright onClick={nextSlide} className="arrow arrowNext" />
 
-        <FilmFrame />
         {images.map((img, index) => {
           return (
             <div key={img.id} className={current === index ? 'slide active' : 'slide'}>
@@ -47,7 +45,7 @@ const GallerySlider = ({ images }) => {
                   <p>
                     <Link to={`Gallery/${img.id}`}>{img.desc}</Link>
                   </p>
-                  <img src={img.imageSrc} alt={`Slider ${img.id} item`} className={current === index ? 'current' : ''} key={img.id} />
+                  <img src={img.imageSrc} alt={`Slider ${img.id} item`} className={current === index ? 'current' : ''} />
                   <p>
                     <Link to={`Builder/${img.builder}`}>{img.builder}</Link>
                   </p>
@@ -56,7 +54,6 @@ const GallerySlider = ({ images }) => {
             </div>
           );
         })}
-        <FilmFrame />
       </div>
       <div className="container show-more">
         <Link to="Gallery">Show more!</Link>

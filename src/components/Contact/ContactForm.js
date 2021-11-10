@@ -71,6 +71,4 @@ const ContactForm = () => {
   );
 };
 
-// className = 'input-error';
-
 export default ContactForm;

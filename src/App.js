@@ -22,6 +22,8 @@ import { doc, getDoc, setDoc, Timestamp, updateDoc } from '@firebase/firestore';
 import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth';
 import Settings from './components/User/Settings';
 import Contact from './components/Contact/Contact';
+import Recommendations from './components/Recommendations/Recommendations';
+import Opinions from './components/Recommendations/Opinions';
 
 function App() {
   const [registerNewUserData, setRegisterNewUserData] = useState([]);
@@ -169,6 +171,7 @@ function App() {
           <Home />
           <About />
           <GallerySlider images={Images.slice(-7)} />
+          <Recommendations opinions={Opinions} />
         </Route>
 
         <Route exact path="/Auth">
