@@ -10,7 +10,7 @@ const ShopHome = () => {
         <Link to="/shop" className="btn">
           SHOP
         </Link>
-      </section>{' '}
+      </section>
     </div>
   );
 };
