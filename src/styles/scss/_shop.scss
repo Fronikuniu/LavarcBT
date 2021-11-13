@@ -1,0 +1,23 @@
+@use 'colors';
+
+.shop__info {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: linear-gradient(to bottom, #36383cb9, #36383cb9), url('../../images/shopbg.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 300px;
+  margin: 100px 0;
+
+  p {
+    width: max-content;
+    font-family: 'Permanent Marker', cursive;
+    color: colors.$dandelion;
+    font-size: 2em;
+  }
+
+  a {
+    height: max-content;
+  }
+}

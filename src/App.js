@@ -24,6 +24,7 @@ import Settings from './components/User/Settings';
 import Contact from './components/Contact/Contact';
 import Recommendations from './components/Recommendations/Recommendations';
 import Opinions from './components/Recommendations/Opinions';
+import ShopHome from './components/Shop/ShopHome';
 
 function App() {
   const [registerNewUserData, setRegisterNewUserData] = useState([]);
@@ -37,16 +38,19 @@ function App() {
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setLoggedUser(currentUser);
+    });
 
-      let uid = currentUser.uid;
+    if (auth.currentUser) {
+      let uid = auth.currentUser.uid;
 
       getDoc(doc(db, 'users', uid)).then((docSnap) => {
         if (docSnap.exists) {
           setLoggedUserData(docSnap.data());
         }
       });
-    });
-  }, []);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.currentUser]);
 
   // Register
   const registerNewUser = async () => {
@@ -211,6 +215,8 @@ function App() {
           <SingleMember images={Images} members={Members} />
         </Route>
 
+        <Route path="/shop"></Route>
+
         <Route exact path="/Contact">
           <Contact />
         </Route>
@@ -219,8 +225,12 @@ function App() {
         <Route path="/Settings">{loggedUser ? <Settings loggedUser={loggedUser} /> : <Redirect to="/Auth" />}</Route>
       </Switch>
 
+      <ShopHome />
       <Footer />
     </Router>
+
+    // TO DO
+    // - Form for opionions
   );
 }
 

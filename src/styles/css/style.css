@@ -271,6 +271,7 @@
   width: 30%;
 }
 .about__info-img .dragon {
+  width: 100%;
   transform: rotate(10deg);
 }
 
@@ -384,6 +385,7 @@
 
 .gallery {
   padding-top: 150px;
+  margin-bottom: 150px;
 }
 .gallery__content-images {
   display: grid;
@@ -577,7 +579,6 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 40px 100px;
-  margin-top: 100px;
   box-shadow: inset 0px 3px 0px #767676;
 }
 .footer > p {
@@ -1123,6 +1124,26 @@
   padding: 20px;
   border-radius: 20px;
   transform: scale(1);
+}
+
+.shop__info {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: linear-gradient(to bottom, #36383cb9, #36383cb9), url("../../images/shopbg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 300px;
+  margin: 100px 0;
+}
+.shop__info p {
+  width: max-content;
+  font-family: "Permanent Marker", cursive;
+  color: #fed85d;
+  font-size: 2em;
+}
+.shop__info a {
+  height: max-content;
 }
 
 body {

@@ -18,19 +18,17 @@ const Recommendations = ({ opinions }) => {
   };
 
   const displayStars = (stars) => {
-    const starFill = <AiFillStar />;
-    const starOutline = <AiOutlineStar />;
     const starContainer = [];
 
     for (let i = 1; i <= stars; i++) {
-      starContainer.push(starFill);
+      starContainer.push(<AiFillStar key={i} />);
     }
 
     if (starContainer.length < 5) {
       const countOutlineStars = 5 - starContainer.length;
 
       for (let i = 1; i <= countOutlineStars; i++) {
-        starContainer.push(starOutline);
+        starContainer.push(<AiOutlineStar key={i * 6} />);
       }
     }
 
