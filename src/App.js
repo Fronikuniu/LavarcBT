@@ -178,10 +178,10 @@ function App() {
           <Recommendations opinions={Opinions} />
         </Route>
 
-        <Route exact path="/Auth">
+        <Route exact path="/auth">
           <Auth logInWithGoogle={logInWithGoogle} logInWithFacebook={logInWithFacebook} />
         </Route>
-        <Route path="/Auth/Login">
+        <Route path="/auth/login">
           {/* Add redirect to '/' when user logged */}
           {/* Need to fix overwrite data when pushing google user to firestore */}
           <Login
@@ -194,35 +194,35 @@ function App() {
             loginError={loginError}
           />
         </Route>
-        <Route path="/Auth/Register">
+        <Route path="/auth/register">
           {/* Add redirect to '/' when user create account */}
           <Register setRegisterNewUserData={setRegisterNewUserData} registerNewUser={registerNewUser} loggedUser={loggedUser} logout={logout} registerError={registerError} />
         </Route>
 
-        <Route path="/About">
+        <Route path="/about">
           <About />
           <AboutMembers members={Members} />
         </Route>
 
-        <Route exact path="/Gallery">
+        <Route exact path="/gallery">
           <Gallery images={Images} />
         </Route>
-        <Route path="/Gallery/:id">
+        <Route path="/gallery/:id">
           <GallerySingle images={Images} />
         </Route>
 
-        <Route path="/Builder/:name">
+        <Route path="/builder/:name">
           <SingleMember images={Images} members={Members} />
         </Route>
 
         <Route path="/shop"></Route>
 
-        <Route exact path="/Contact">
+        <Route exact path="/contact">
           <Contact />
         </Route>
-        <Route path="/Contact/Chat">{loggedUser ? <Chat loggedUser={loggedUser} loggedUserData={loggedUserData} /> : <Redirect to="/Auth" />}</Route>
+        <Route path="/contact/chat">{loggedUser ? <Chat loggedUser={loggedUser} loggedUserData={loggedUserData} /> : <Redirect to="/auth" />}</Route>
 
-        <Route path="/Settings">{loggedUser ? <Settings loggedUser={loggedUser} /> : <Redirect to="/Auth" />}</Route>
+        <Route path="/settings">{loggedUser ? <Settings loggedUser={loggedUser} /> : <Redirect to="/auth" />}</Route>
       </Switch>
 
       <ShopHome />

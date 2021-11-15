@@ -43,11 +43,11 @@ const GallerySlider = ({ images }) => {
               {current === index && (
                 <>
                   <p>
-                    <Link to={`Gallery/${img.id}`}>{img.desc}</Link>
+                    <Link to={`gallery/${img.id}`}>{img.desc}</Link>
                   </p>
                   <img src={img.imageSrc} alt={`Slider ${img.id} item`} className={current === index ? 'current' : ''} />
                   <p>
-                    <Link to={`Builder/${img.builder}`}>{img.builder}</Link>
+                    <Link to={`builder/${img.builder}`}>{img.builder}</Link>
                   </p>
                 </>
               )}
@@ -56,7 +56,7 @@ const GallerySlider = ({ images }) => {
         })}
       </div>
       <div className="container show-more">
-        <Link to="Gallery">Show more!</Link>
+        <Link to="gallery">Show more!</Link>
       </div>
     </section>
   );

@@ -44,7 +44,7 @@ const SingleMember = ({ images, members }) => {
           <div className="single__member__projects-images">
             {memberImages.map((img) => {
               return (
-                <Link to={`/Gallery/${img.id}`} key={img.id}>
+                <Link to={`/gallery/${img.id}`} key={img.id}>
                   <img src={img.imageSrc} alt="" />
                 </Link>
               );

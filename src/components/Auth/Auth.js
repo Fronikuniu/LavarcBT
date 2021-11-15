@@ -1,11 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AuthImages from '../helpers/AuthImages';
 
 const Auth = (props) => {
-  const history = useHistory();
-
   return (
     <div className="auth">
       <div className="container">
@@ -26,13 +24,13 @@ const Auth = (props) => {
                 <button className="btn" onClick={props.logInWithFacebook}>
                   Sign up with Facebook
                 </button>
-                <Link to="/Auth/Register" className="btn primary">
+                <Link to="/auth/register" className="btn primary">
                   Sign up with Email
                 </Link>
               </div>
 
               <p className="select__method-p2">
-                Already a member? <Link to="/Auth/Login">Log in.</Link>
+                Already a member? <Link to="/auth/login">Log in.</Link>
               </p>
             </div>
           </div>

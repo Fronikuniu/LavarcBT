@@ -26,7 +26,7 @@ const GallerySingle = ({ images }) => {
               What's built: <span>{image.desc}</span>
             </p>
             <p>
-              This beautiful building was built by: <Link to={`/Builder/${image.builder}`}>{image.builder}</Link>
+              This beautiful building was built by: <Link to={`/builder/${image.builder}`}>{image.builder}</Link>
             </p>
             <p onClick={() => window.open(image.imgurAlbum)}>Want to see more of this building? Click!</p>
           </div>

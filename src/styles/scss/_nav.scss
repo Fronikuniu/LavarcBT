@@ -85,6 +85,7 @@
       color: whitesmoke;
       font-size: 1.4em;
       transition: color 0.3s;
+      text-transform: capitalize;
 
       &:hover {
         color: colors.$mainColor;

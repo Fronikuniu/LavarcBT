@@ -41,24 +41,24 @@ function Nav({ loggedUser }) {
   return (
     <nav className={location.pathname !== '/' ? 'nav sticky' : 'nav'} ref={navi}>
       <div className="container">
-        <NavItem>About</NavItem>
-        <NavItem>Gallery</NavItem>
+        <NavItem>about</NavItem>
+        <NavItem>gallery</NavItem>
         <NavLogo></NavLogo>
-        <NavItem>Shop</NavItem>
-        <NavItem>Contact</NavItem>
+        <NavItem>shop</NavItem>
+        <NavItem>contact</NavItem>
 
         <div className="user">
           {loggedUser ? (
             <div className="user__avatar">
-              <Link to="/Settings">
+              <Link to="/settings">
                 <img src={user?.avatar ? user.avatar : loggedUser.photoURL} alt="" />
                 <IoCaretDownCircleOutline className="user__avatar--arrow" />
               </Link>
             </div>
           ) : (
             <div>
-              <Link to="/Auth/Login">SignIn</Link>
-              <Link to="/Auth/Register">SignUp</Link>
+              <Link to="/auth/login">SignIn</Link>
+              <Link to="/auth/register">SignUp</Link>
             </div>
           )}
         </div>

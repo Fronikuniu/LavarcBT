@@ -58,7 +58,7 @@ const Login = (props) => {
             </form>
 
             <p>
-              Don't have an account? <Link to="/Auth/Register">Sign up.</Link>
+              Don't have an account? <Link to="/auth/register">Sign up.</Link>
             </p>
 
             {props.loggedUser?.email}

@@ -50,14 +50,14 @@ const Register = (props) => {
               {props.registerError ? <p className="par-error">{props.registerError}</p> : ''}
 
               <p className="disclaimer">
-                By creating an account, you agree to Lavarc <Link to="/Privacy-policy">Privacy Policy</Link> and <Link to="Terms-of-Use">Terms of Use</Link>.
+                By creating an account, you agree to Lavarc <Link to="/privacy-policy">Privacy Policy</Link> and <Link to="terms-of-Use">Terms of Use</Link>.
               </p>
 
               <input type="submit" onClick={props.registerNewUser} value="Sign up!" />
             </form>
 
             <p>
-              Already a member? <Link to="/Auth/Login">Log in.</Link>
+              Already a member? <Link to="/auth/login">Log in.</Link>
             </p>
 
             {props.loggedUser?.email}

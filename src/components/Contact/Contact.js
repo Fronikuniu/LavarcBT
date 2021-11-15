@@ -16,7 +16,7 @@ const Contact = () => {
         <div className="contact__chat">
           <h2>Write to us via our chat app</h2>
           <p>Hi! If u have an account u can also write with us on our chat app.</p>
-          <Link to="/Contact/Chat" className="btn ">
+          <Link to="/contact/chat" className="btn ">
             Move to chat!
           </Link>
         </div>

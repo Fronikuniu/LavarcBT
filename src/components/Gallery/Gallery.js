@@ -30,15 +30,15 @@ const Gallery = ({ images }) => {
             {images.map((img, index) => {
               return (
                 <div className="gallery__content-images__about" onLoad={imageLoaded} key={index}>
-                  <Link to={`/Gallery/${img.id}`}>
+                  <Link to={`/gallery/${img.id}`}>
                     <img src={img.imageSrc} alt="" />
                   </Link>
                   <div className="gallery__content-images__about-desc">
                     <p>
-                      <Link to={`/Gallery/${img.id}`}>{img.desc}</Link>
+                      <Link to={`/gallery/${img.id}`}>{img.desc}</Link>
                     </p>
                     <p>
-                      Builder: <Link to={`/Builder/${img.builder}`}>{img.builder}</Link>
+                      Builder: <Link to={`/builder/${img.builder}`}>{img.builder}</Link>
                     </p>
                   </div>
                 </div>

@@ -19,19 +19,19 @@ const Footer = () => {
           <h3>Menu</h3>
 
           <Link to="/">Home</Link>
-          <Link to="/About">About</Link>
-          <Link to="/Gallery">Gallery</Link>
-          <Link to="/Shop">Shop</Link>
-          <Link to="/Contact">Contact</Link>
-          <Link to="/Auth">Auth</Link>
+          <Link to="/about">About</Link>
+          <Link to="/gallery">Gallery</Link>
+          <Link to="/shop">Shop</Link>
+          <Link to="/contact">Contact</Link>
+          <Link to="/auth">Auth</Link>
         </div>
 
         <div className="footer__socials">
           <h3>Socials</h3>
 
           <AiFillInstagram onClick={() => window.open('https://www.instagram.com/')} className="footer__socials__icon ig" />
-          <AiFillYoutube onClick={() => window.open('https://www.youtube.com/')} className="footer__socials__icon yt" />
-          <SiDiscord onClick={() => window.open('https://www.discord.com/')} className="footer__socials__icon dc" />
+          <AiFillYoutube onClick={() => window.open('https://www.youtube.com/channel/UCt-UC9cGvjLL9CmpVRnbrbg')} className="footer__socials__icon yt" />
+          <SiDiscord onClick={() => window.open('https://discord.gg/VUMkwAXud8')} className="footer__socials__icon dc" />
         </div>
       </div>
 
