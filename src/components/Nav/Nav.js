@@ -5,6 +5,7 @@ import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { IoCaretDownCircleOutline } from 'react-icons/io5';
+import { HiMenuAlt3 } from 'react-icons/hi';
 import { db, auth } from '../configuration/firebase';
 import { getDoc, doc } from 'firebase/firestore';
 
@@ -41,7 +42,7 @@ function Nav({ loggedUser }) {
   return (
     <nav className={location.pathname !== '/' ? 'nav sticky' : 'nav'} ref={navi}>
       <div className="container">
-        <NavItem>about</NavItem>
+        <NavItem className="test">about</NavItem>
         <NavItem>gallery</NavItem>
         <NavLogo></NavLogo>
         <NavItem>shop</NavItem>
@@ -57,10 +58,13 @@ function Nav({ loggedUser }) {
             </div>
           ) : (
             <div>
-              <Link to="/auth/login">SignIn</Link>
-              <Link to="/auth/register">SignUp</Link>
+              <Link to="/auth">SignIn</Link>
             </div>
           )}
+        </div>
+
+        <div className="rwd-menu">
+          <HiMenuAlt3 />
         </div>
       </div>
     </nav>

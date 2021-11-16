@@ -15,8 +15,6 @@ const GallerySingle = ({ images }) => {
   return (
     <section className="gallery__single">
       <div className="container">
-        <h3 className="headerwTextStroke">{image.desc}</h3>
-
         <div className="gallery__single__content">
           <div className="gallery__single__content-img">
             <img src={image.imageSrc} alt="" />

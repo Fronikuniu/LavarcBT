@@ -5,14 +5,16 @@ import AuthImages from '../helpers/AuthImages';
 import { BsFacebook } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 
-const Login = (props) => {
+const Login = ({ setLoginData, logInWithFacebook, logInWithGoogle, loginError, loginUser, loggedUser, logout }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => props.setLoginData(data);
+  const onSubmit = (data) => setLoginData(data);
+
+  console.log(loginError);
 
   return (
     <div className="container">
@@ -25,8 +27,8 @@ const Login = (props) => {
             <p>Welcome again! We hope you will stay with us for longer!</p>
 
             <div className="auth__form-login__socials">
-              <BsFacebook onClick={props.logInWithFacebook} />
-              <FcGoogle onClick={props.logInWithGoogle} />
+              <BsFacebook onClick={logInWithFacebook} />
+              <FcGoogle onClick={logInWithGoogle} />
             </div>
 
             <div className="horizontal-or"></div>
@@ -48,21 +50,21 @@ const Login = (props) => {
                 {...register('Password', { required: true, minLength: 6 })}
               />
 
-              {props.loginError ? <p className="par-error">{props.loginError}</p> : ''}
+              {loginError ? <p className="par-error">{loginError}</p> : ''}
 
               <p>
                 Have you forgotten your password? <Link to="">Click!</Link>
               </p>
 
-              <input type="submit" onClick={props.loginUser} value="Sign up!" />
+              <input type="submit" onClick={loginUser} value="Sign up!" />
             </form>
 
             <p>
               Don't have an account? <Link to="/auth/register">Sign up.</Link>
             </p>
 
-            {props.loggedUser?.email}
-            <button onClick={props.logout}>Logout</button>
+            {loggedUser?.email}
+            <button onClick={logout}>Logout</button>
           </div>
         </div>
       </div>

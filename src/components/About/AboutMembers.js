@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
+import { Link } from 'react-router-dom';
 
 const AboutMembers = ({ members }) => {
   const [current, setCurrent] = useState(0);
@@ -47,7 +48,9 @@ const AboutMembers = ({ members }) => {
               >
                 {prev === index && (
                   <>
-                    <p className="member__name">{member.name}</p>
+                    <p className="member__name">
+                      <Link to={`/builder/${member.name}`}>{member.name}</Link>
+                    </p>
                     <img src={member.memberSrc} alt="" />
                   </>
                 )}
@@ -56,7 +59,9 @@ const AboutMembers = ({ members }) => {
               <div className={current === index ? 'member current' : 'member'}>
                 {current === index && (
                   <>
-                    <p className="member__name">{member.name}</p>
+                    <p className="member__name">
+                      <Link to={`/builder/${member.name}`}>{member.name}</Link>
+                    </p>
                     <img src={member.memberSrc} alt="" />
                     <p className="member__about">{member.about}</p>
                   </>
@@ -71,7 +76,9 @@ const AboutMembers = ({ members }) => {
               >
                 {next === index && (
                   <>
-                    <p className="member__name">{member.name}</p>
+                    <p className="member__name">
+                      <Link to={`/builder/${member.name}`}>{member.name}</Link>
+                    </p>
                     <img src={member.memberSrc} alt="" />
                   </>
                 )}

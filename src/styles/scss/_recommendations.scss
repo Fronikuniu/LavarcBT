@@ -1,4 +1,5 @@
 @use 'colors';
+@use 'mixins';
 
 .recommendations {
   margin-top: 150px;
@@ -15,11 +16,21 @@
       &__header {
         display: flex;
         align-items: center;
+        flex-direction: column-reverse;
         justify-content: space-between;
         margin-bottom: 10px;
 
+        @include mixins.breakpoint(tablet) {
+          flex-direction: row;
+        }
+
         &--from {
-          font-size: 1.3em;
+          font-weight: 500;
+          font-size: 1.2em;
+
+          @include mixins.breakpoint(tablet) {
+            font-size: 1.3em;
+          }
 
           span {
             font-size: 0.9em;
@@ -32,6 +43,11 @@
           gap: 10px;
           font-size: 1.5em;
           color: colors.$goldenPoppy;
+          margin-bottom: 1rem;
+
+          @include mixins.breakpoint(tablet) {
+            margin-bottom: 0;
+          }
         }
       }
 

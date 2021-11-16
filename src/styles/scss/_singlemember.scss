@@ -1,21 +1,95 @@
+@use 'mixins';
+
 .single__member {
   padding-top: 150px;
 
   &__info {
     display: flex;
+    flex-direction: column-reverse;
+
+    @include mixins.breakpoint(tablet) {
+      flex-direction: row;
+    }
 
     &-img {
-      width: 50%;
       display: flex;
       justify-content: center;
+
+      @include mixins.breakpoint(tablet) {
+        width: 50%;
+      }
+
+      img {
+        width: 100%;
+
+        @include mixins.breakpoint(mobileL) {
+          width: 60%;
+        }
+
+        @include mixins.breakpoint(tablet) {
+          width: 100%;
+        }
+      }
     }
 
     &-text {
-      width: 50%;
-      padding: 70px 100px 0 0;
+      @include mixins.breakpoint(tablet) {
+        width: 50%;
+        padding: 70px 100px 0 0;
+      }
+
+      @include mixins.breakpoint(laptop) {
+        width: 50%;
+        padding: 120px 100px 0 0;
+      }
+
+      h2 {
+        font-size: 2.5em;
+
+        @include mixins.breakpoint(mobileL) {
+          font-size: 3em;
+        }
+
+        @include mixins.customBreakpoint(600px) {
+          font-size: 3.5em;
+        }
+
+        @include mixins.breakpoint(laptop) {
+          font-size: 4em;
+        }
+
+        @include mixins.breakpoint(desktop) {
+          font-size: 5em;
+        }
+
+        @include mixins.breakpoint(desktopL) {
+          font-size: 6.5em;
+        }
+      }
 
       h3 {
+        font-size: 2.2em;
         margin-bottom: 50px;
+
+        @include mixins.breakpoint(mobileL) {
+          font-size: 2.7em;
+        }
+
+        @include mixins.customBreakpoint(600px) {
+          font-size: 3em;
+        }
+
+        @include mixins.breakpoint(laptop) {
+          font-size: 3.3em;
+        }
+
+        @include mixins.breakpoint(desktop) {
+          font-size: 4em;
+        }
+
+        @include mixins.breakpoint(desktopL) {
+          font-size: 4.5em;
+        }
       }
 
       p {
@@ -39,12 +113,26 @@
 
   &__projects {
     margin-top: 4rem;
+
     &-images {
       padding-top: 50px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 100%;
       grid-template-rows: auto;
+      justify-content: center;
       gap: 30px;
+
+      @include mixins.breakpoint(mobileL) {
+        grid-template-columns: 70%;
+      }
+
+      @include mixins.breakpoint(tablet) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @include mixins.breakpoint(laptop) {
+        grid-template-columns: repeat(3, 1fr);
+      }
 
       img {
         width: 100%;

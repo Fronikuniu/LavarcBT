@@ -83,6 +83,7 @@ function App() {
 
   // Login
   const loginUser = async () => {
+    setLoginError('');
     await signInWithEmailAndPassword(auth, loginData.Email, loginData.Password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -94,9 +95,15 @@ function App() {
         const errorCode = error.code;
 
         console.log(errorCode);
-        setLoginError(errorCode === 'auth/missing-email' ? '' : 'Missing email.');
-        setLoginError(errorCode === 'auth/wrong-password' ? 'The password provided is not valid.' : '');
-        setLoginError(errorCode === 'auth/user-not-found' ? 'The member with the given email does not exist.' : '');
+        setLoginError(
+          errorCode === 'auth/missing-email'
+            ? ''
+            : 'Missing email.' || errorCode === 'auth/wrong-password'
+            ? 'The password provided is not valid.'
+            : '' || errorCode === 'auth/user-not-found'
+            ? 'The member with the given email does not exist.'
+            : ''
+        );
       });
   };
 

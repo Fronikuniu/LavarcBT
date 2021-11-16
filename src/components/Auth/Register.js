@@ -3,14 +3,14 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import AuthImages from '../helpers/AuthImages';
 
-const Register = (props) => {
+const Register = ({ setRegisterNewUserData, registerError, registerNewUser, logout, loggedUser }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => props.setRegisterNewUserData(data);
+  const onSubmit = (data) => setRegisterNewUserData(data);
 
   return (
     <div className="container">
@@ -34,7 +34,7 @@ const Register = (props) => {
               <input
                 type="text"
                 className={errors.Email?.type === 'required' || errors.Email?.type === 'pattern' ? 'input-error' : ''}
-                placeholder={errors.Email?.type === 'required' ? 'Email is required!' : 'Email adress'}
+                placeholder={errors.Email?.type === 'required' ? 'Email is required!' : 'Email'}
                 autoComplete="email"
                 {...register('Email', { required: true, pattern: /^\S+@\S+$/i })}
               />
@@ -47,21 +47,21 @@ const Register = (props) => {
                 {...register('Password', { required: true, minLength: 6 })}
               />
 
-              {props.registerError ? <p className="par-error">{props.registerError}</p> : ''}
+              {registerError ? <p className="par-error">{registerError}</p> : ''}
 
               <p className="disclaimer">
                 By creating an account, you agree to Lavarc <Link to="/privacy-policy">Privacy Policy</Link> and <Link to="terms-of-Use">Terms of Use</Link>.
               </p>
 
-              <input type="submit" onClick={props.registerNewUser} value="Sign up!" />
+              <input type="submit" onClick={registerNewUser} value="Sign up!" />
             </form>
 
             <p>
               Already a member? <Link to="/auth/login">Log in.</Link>
             </p>
 
-            {props.loggedUser?.email}
-            <button onClick={props.logout}>Logout</button>
+            {loggedUser?.email}
+            <button onClick={logout}>Logout</button>
           </div>
         </div>
       </div>

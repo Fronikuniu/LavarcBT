@@ -1,3 +1,5 @@
+@use 'mixins';
+
 .contact {
   background-image: url('../../images/circle-bg.png');
   background-repeat: no-repeat;
@@ -9,27 +11,59 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+
+    @include mixins.breakpoint(tablet) {
+      flex-direction: row;
+    }
 
     h2 {
       font-family: 'Permanent Marker', cursive;
-      font-size: 2em;
+      font-size: 1.7em;
+      text-align: center;
+
+      @include mixins.breakpoint(tablet) {
+        width: 70%;
+        font-size: 2em;
+      }
+    }
+
+    .horizontal-or {
+      width: 100%;
+
+      @include mixins.breakpoint(tablet) {
+        display: none;
+      }
     }
 
     .vertical-or {
+      display: none;
       height: calc(90vh - 70px);
+
+      @include mixins.breakpoint(tablet) {
+        display: block;
+      }
     }
 
     .contact__contact-form {
-      width: 50%;
+      margin: 50px 0;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
       gap: 40px;
 
+      @include mixins.breakpoint(tablet) {
+        margin: 0;
+        width: 50%;
+      }
+
       .contact-form {
         margin: 0;
-        width: 70%;
+
+        @include mixins.breakpoint(tablet) {
+          width: 70%;
+        }
 
         input[type='text'],
         input[type='email'],
@@ -40,7 +74,7 @@
     }
 
     .contact__chat {
-      width: 50%;
+      margin-top: 50px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -48,9 +82,21 @@
       gap: 40px;
 
       p {
-        width: 70%;
         text-align: center;
         font-size: 1.3em;
+
+        @include mixins.breakpoint(mobileL) {
+          width: 80%;
+        }
+      }
+
+      @include mixins.breakpoint(tablet) {
+        margin: 0;
+        width: 50%;
+
+        p {
+          width: 70%;
+        }
       }
     }
   }

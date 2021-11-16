@@ -5,11 +5,13 @@ const ShopHome = () => {
   return (
     <div className="container">
       <section className="shop__info">
-        <p>See our offers in the store or compose your order</p>
+        <p className="shop__info--p">See our offers in the store or compose your order</p>
 
-        <Link to="/shop" className="btn">
-          SHOP
-        </Link>
+        <div className="shop__info--a">
+          <Link to="/shop" className="btn">
+            SHOP
+          </Link>
+        </div>
       </section>
     </div>
   );

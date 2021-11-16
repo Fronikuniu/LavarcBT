@@ -1,5 +1,6 @@
 @use 'keyframes';
 @use 'colors';
+@use 'mixins';
 
 .about__members {
   background-image: url(../../images/layered-waves-haikei.svg);
@@ -26,11 +27,18 @@
       .member__name {
         font-family: 'Permanent Marker', cursive;
         font-size: 2em;
-        color: colors.$maroon;
+
+        a {
+          color: colors.$maroon;
+        }
       }
 
       img {
-        width: 300px;
+        width: 250px;
+
+        @include mixins.breakpoint(laptop) {
+          width: 300px;
+        }
       }
 
       &.prev {
@@ -45,18 +53,28 @@
         flex-direction: column;
         align-items: center;
         width: min-content;
-        position: relative;
 
         .member__name {
           animation: opacity 0.5s ease 0.4s alternate 1 backwards running;
+          animation: pulsing 1s ease 0s alternate infinite backwards running;
         }
 
         .member__about {
           min-height: 100px;
-          width: 300%;
-          position: absolute;
-          bottom: -100px;
+          width: 100%;
           animation: opacity 0.5s ease 0.9s alternate 1 backwards running;
+
+          @include mixins.breakpoint(mobileL) {
+            width: 150%;
+          }
+
+          @include mixins.breakpoint(tablet) {
+            width: 250%;
+          }
+
+          @include mixins.breakpoint(laptop) {
+            width: 280%;
+          }
         }
       }
 

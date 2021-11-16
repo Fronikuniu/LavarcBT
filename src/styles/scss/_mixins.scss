@@ -1,0 +1,33 @@
+@mixin breakpoint($device) {
+  @if $device == mobileM {
+    @media (min-width: 375px) {
+      @content;
+    }
+  } @else if $device == mobileL {
+    @media (min-width: 425px) {
+      @content;
+    }
+  } @else if $device == tablet {
+    @media (min-width: 768px) {
+      @content;
+    }
+  } @else if $device == laptop {
+    @media (min-width: 1024px) {
+      @content;
+    }
+  } @else if $device == desktop {
+    @media (min-width: 1440px) {
+      @content;
+    }
+  } @else if $device == desktopL {
+    @media (min-width: 1660px) {
+      @content;
+    }
+  }
+}
+
+@mixin customBreakpoint($width) {
+  @media (min-width: $width) {
+    @content;
+  }
+}

@@ -1,4 +1,5 @@
 @use 'colors';
+@use 'mixins';
 
 .slider {
   position: relative;
@@ -12,22 +13,46 @@
     cursor: pointer;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 4em;
+    font-size: 3em;
     user-select: none;
     z-index: 10;
     color: colors.$dandelion;
     transition: font-size 0.3s;
 
+    @include mixins.breakpoint(tablet) {
+      font-size: 4em;
+    }
+
     &.arrowPrev {
-      left: 10%;
+      left: 2%;
+
+      @include mixins.breakpoint(tablet) {
+        left: 5%;
+      }
+
+      @include mixins.breakpoint(laptop) {
+        left: 10%;
+      }
     }
 
     &.arrowNext {
-      right: 10%;
+      right: 2%;
+
+      @include mixins.breakpoint(tablet) {
+        right: 5%;
+      }
+
+      @include mixins.breakpoint(laptop) {
+        right: 10%;
+      }
     }
 
     &:hover {
-      font-size: 5em;
+      font-size: 3.5em;
+
+      @include mixins.breakpoint(tablet) {
+        font-size: 5em;
+      }
     }
   }
 }

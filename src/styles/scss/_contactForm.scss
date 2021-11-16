@@ -1,8 +1,9 @@
+@use 'mixins';
+
 .contact-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 80%;
 
   > div {
     display: flex;
@@ -12,11 +13,6 @@
       input {
         width: 50%;
       }
-    }
-
-    > div {
-      display: flex;
-      flex-direction: column;
     }
   }
 

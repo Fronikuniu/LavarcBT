@@ -18,12 +18,24 @@ const Footer = () => {
         <div className="footer__menu">
           <h3>Menu</h3>
 
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-          <Link to="/gallery">Gallery</Link>
-          <Link to="/shop">Shop</Link>
-          <Link to="/contact">Contact</Link>
-          <Link to="/auth">Auth</Link>
+          <p>
+            <Link to="/">Home</Link>
+          </p>
+          <p>
+            <Link to="/about">About</Link>
+          </p>
+          <p>
+            <Link to="/gallery">Gallery</Link>
+          </p>
+          <p>
+            <Link to="/shop">Shop</Link>
+          </p>
+          <p>
+            <Link to="/contact">Contact</Link>
+          </p>
+          <p>
+            <Link to="/auth">Auth</Link>
+          </p>
         </div>
 
         <div className="footer__socials">
@@ -35,7 +47,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <p>
+      <p className="footer-c">
         <FaRegCopyright /> 2021 Lavarc. All rights reserved.
       </p>
     </section>

@@ -1,23 +1,39 @@
 @use 'colors';
+@use 'mixins';
 
 .shop__info {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  flex-direction: column;
   background: linear-gradient(to bottom, #36383cb9, #36383cb9), url('../../images/shopbg.png');
   background-repeat: no-repeat;
   background-size: cover;
   min-height: 300px;
   margin: 100px 0;
+  padding: 0 1rem;
 
-  p {
-    width: max-content;
-    font-family: 'Permanent Marker', cursive;
-    color: colors.$dandelion;
-    font-size: 2em;
+  @include mixins.breakpoint(tablet) {
+    flex-direction: row;
   }
 
-  a {
-    height: max-content;
+  &--p {
+    font-family: 'Permanent Marker', cursive;
+    color: colors.$dandelion;
+    font-size: 1.5em;
+    text-align: center;
+
+    @include mixins.breakpoint(tablet) {
+      width: 70%;
+      font-size: 2em;
+    }
+  }
+
+  &--a {
+    text-align: center;
+
+    @include mixins.breakpoint(tablet) {
+      width: 30%;
+    }
   }
 }

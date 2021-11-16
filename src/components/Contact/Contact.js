@@ -12,6 +12,7 @@ const Contact = () => {
         </div>
 
         <div className="vertical-or"></div>
+        <div className="horizontal-or"></div>
 
         <div className="contact__chat">
           <h2>Write to us via our chat app</h2>

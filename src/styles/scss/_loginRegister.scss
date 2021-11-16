@@ -1,21 +1,39 @@
 @use 'colors';
+@use 'mixins';
 
 .auth {
   min-height: calc(100vh - 70px);
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 70px;
+  margin-top: 100px;
+
+  @include mixins.breakpoint(laptop) {
+    margin-top: 70px;
+  }
 
   .select-registration-method {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column-reverse;
+
+    @include mixins.breakpoint(laptop) {
+      flex-direction: row;
+    }
 
     .methods {
-      width: 50%;
+      @include mixins.breakpoint(laptop) {
+        width: 50%;
+      }
 
       .select__method {
-        width: 350px;
+        width: calc(300px - 4%);
         margin: 0 auto;
+
+        @include mixins.breakpoint(laptop) {
+          width: 350px;
+        }
 
         &-h1 {
           margin-bottom: 1rem;
@@ -61,13 +79,21 @@
 .register,
 .login {
   min-height: calc(100vh - 70px);
-  margin-top: 70px;
+  margin-top: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column-reverse;
+
+  @include mixins.breakpoint(laptop) {
+    margin-top: 70px;
+    flex-direction: row;
+  }
 
   .auth__form {
-    width: 50%;
+    @include mixins.breakpoint(laptop) {
+      width: 50%;
+    }
 
     form {
       display: flex;
@@ -87,8 +113,12 @@
 
     &-register,
     &-login {
-      width: 350px;
+      width: calc(300px - 4%);
       margin: 0 auto;
+
+      @include mixins.breakpoint(laptop) {
+        width: 350px;
+      }
 
       &__socials {
         display: flex;
