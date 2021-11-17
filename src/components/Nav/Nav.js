@@ -9,16 +9,25 @@ import { HiMenuAlt3 } from 'react-icons/hi';
 import { db, auth } from '../configuration/firebase';
 import { getDoc, doc } from 'firebase/firestore';
 
-function Nav({ loggedUser }) {
+function Nav({ loggedUser, logout }) {
   const location = useLocation();
   const navi = useRef();
   const [user, setUser] = useState('');
+
+  const [openUserProfile, setOpenUserProfile] = useState(false);
+  const dropdown = useRef();
 
   const stickyNav = () => {
     if (window.scrollY >= 70) {
       navi.current.classList.add('active');
     } else {
       navi.current.classList.remove('active');
+    }
+  };
+
+  const changeOpen = (event) => {
+    if (dropdown.current && !dropdown.current.contains(event.target)) {
+      setOpenUserProfile(false);
     }
   };
 
@@ -34,33 +43,57 @@ function Nav({ loggedUser }) {
     }
 
     window.addEventListener('scroll', stickyNav);
+    window.addEventListener('mousedown', changeOpen);
     return () => {
       window.removeEventListener('scroll', stickyNav);
+      window.removeEventListener('mousedown', changeOpen);
     };
   }, [location, user]);
 
   return (
     <nav className={location.pathname !== '/' ? 'nav sticky' : 'nav'} ref={navi}>
       <div className="container">
-        <NavItem className="test">about</NavItem>
-        <NavItem>gallery</NavItem>
-        <NavLogo></NavLogo>
-        <NavItem>shop</NavItem>
-        <NavItem>contact</NavItem>
+        <div className="nav__links">
+          <NavItem>about</NavItem>
+          <NavItem>gallery</NavItem>
+          <NavLogo></NavLogo>
+          <NavItem>shop</NavItem>
+          <NavItem>contact</NavItem>
+        </div>
 
-        <div className="user">
+        <div className={`user ${openUserProfile ? 'open' : ''}`} ref={dropdown}>
           {loggedUser ? (
-            <div className="user__avatar">
-              <Link to="/settings">
-                <img src={user?.avatar ? user.avatar : loggedUser.photoURL} alt="" />
-                <IoCaretDownCircleOutline className="user__avatar--arrow" />
-              </Link>
+            <div
+              className="user__avatar"
+              onClick={() => {
+                setOpenUserProfile(!openUserProfile);
+              }}
+            >
+              <img src={user?.avatar ? user.avatar : loggedUser.photoURL} alt="" />
+              <IoCaretDownCircleOutline className="user__avatar--arrow" />
             </div>
           ) : (
             <div>
               <Link to="/auth">SignIn</Link>
             </div>
           )}
+          <div className="user-dropdown">
+            <p>
+              <Link to="/settings">Profile</Link>
+            </p>
+
+            <hr />
+
+            <button
+              className="btn"
+              onClick={() => {
+                logout();
+                setOpenUserProfile(false);
+              }}
+            >
+              Logout
+            </button>
+          </div>
         </div>
 
         <div className="rwd-menu">

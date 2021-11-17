@@ -29,12 +29,12 @@ const UserList = ({ sender, user, selectUser, usersChat }) => {
 
         {data && data?.media ? (
           <p className={`truncate ${data?.from !== sender && data?.unread && 'new-message'}`}>
-            <strong>{data.from === sender ? 'You: ' : null}</strong>
+            <strong>{data.from === sender ? 'You: ' : ''}</strong>
             Sent the picture
           </p>
         ) : (
           <p className={`truncate ${data?.from !== sender && data?.unread && 'new-message'}`}>
-            <strong>{data?.from === sender ? 'You: ' : null}</strong>
+            <strong>{data?.from === sender ? 'You: ' : ''}</strong>
             {data?.messageText}
           </p>
         )}

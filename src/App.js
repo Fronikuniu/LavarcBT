@@ -175,7 +175,7 @@ function App() {
 
   return (
     <Router>
-      <Nav loggedUser={loggedUser} />
+      <Nav loggedUser={loggedUser} logout={logout} />
 
       <Switch>
         <Route exact path="/">

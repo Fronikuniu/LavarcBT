@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { addDoc, collection, doc, getDoc, onSnapshot, orderBy, query, setDoc, Timestamp, updateDoc, where } from '@firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { auth, db, storage } from '../configuration/firebase';
 import Message from './Message';
 import MessageForm from './MessageForm';
@@ -16,9 +16,19 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
   const [allMessages, setAllMessages] = useState([]);
   const [sender, setSender] = useState('');
 
+  const [open, setOpen] = useState(false);
+
   const adminList = usersList.filter((user) => {
     return user.isAdmin;
   });
+
+  const userList = useRef();
+
+  const changeOpen = (event) => {
+    if (userList.current && !userList.current.contains(event.target)) {
+      setOpen(false);
+    }
+  };
 
   useEffect(() => {
     // need fix sender, when is first render we can see logged user in the users list
@@ -37,7 +47,11 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
       setUsersList(users);
     });
 
-    return () => unsub();
+    window.addEventListener('mousedown', changeOpen);
+    return () => {
+      unsub();
+      window.removeEventListener('mousedown', changeOpen);
+    };
   }, [auth.currentUser]);
 
   const selectUser = async (user) => {
@@ -102,8 +116,8 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
   return (
     <div className="container">
       <section className="chat">
-        <div className="users-container">
-          <div className="users-list">
+        <div className={`users-container ${open ? 'open' : ''}`}>
+          <div className="users-list" ref={userList}>
             {loggedUserData.isAdmin
               ? usersList.map((user) => {
                   return <UserList user={user} selectUser={selectUser} key={user.uid} sender={sender} usersChat={usersChat} />;
@@ -113,7 +127,7 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
                 })}
           </div>
 
-          <ImUsers className="users-list-btn" />
+          <ImUsers className="users-list-btn" onClick={() => setOpen(!open)} />
         </div>
 
         <div className="chat-container">
@@ -136,6 +150,18 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
           ) : (
             <div className="chat-first">
               <p>Select user to start conversation</p>
+
+              <div className="chat-first-legend">
+                <p>Welcome in our chat app</p>
+
+                <p>
+                  If you have any questions about your order, please contact <span>rockyFeller</span>
+                </p>
+
+                <p>
+                  If you have any other questions you can write to our admins. <br /> You can find the list of administrators on the left side.
+                </p>
+              </div>
             </div>
           )}
         </div>

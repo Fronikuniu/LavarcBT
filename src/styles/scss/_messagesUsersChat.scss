@@ -16,20 +16,26 @@
   height: calc(100vh - 70px);
   left: 0;
   background-color: white;
-  transform: translateX(-230px);
+  transform: translateX(-231px);
+  transition: transform 1s, box-shadow 1s;
   z-index: 1;
 
   @include mixins.breakpoint(laptop) {
     position: unset;
-    width: 25%;
+    width: 20%;
     transform: unset;
+  }
+
+  &.open {
+    transform: translateX(0);
+    box-shadow: 0 0 15px 2px colors.$vulcan;
   }
 
   .users-list-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    right: -38.2px;
+    right: -39.2px;
     font-size: 1.7em;
     padding: 10px 5px;
     border-radius: 0% 100% 100% 0% / 0% 50% 50% 100%;
@@ -140,7 +146,7 @@
 
   @include mixins.breakpoint(laptop) {
     margin-top: 0;
-    width: 75%;
+    width: 80%;
     padding: 3rem 2rem;
   }
 
@@ -148,10 +154,11 @@
   .chat-selected {
     > p {
       text-align: center;
-      font-size: 1em;
+      font-size: 1.2em;
       border-bottom: 1px solid colors.$vulcan;
       max-height: 50px;
       padding: 5px 0;
+      font-weight: 600;
 
       @include mixins.customBreakpoint(500px) {
         font-size: 1.5em;
@@ -163,8 +170,40 @@
     }
   }
 
+  .chat-first {
+    &-legend {
+      padding: 1rem;
+
+      p {
+        text-align: center;
+
+        span {
+          color: colors.$fuelYellow;
+          font-weight: 500;
+          font-family: 'Permanent Marker', cursive;
+        }
+
+        &:first-of-type {
+          margin-top: 2rem;
+          font-size: 1.3em;
+          font-weight: 500;
+        }
+
+        &:nth-of-type(2) {
+          margin-top: 2rem;
+          font-size: 1.1em;
+        }
+
+        &:last-of-type {
+          margin-top: 2rem;
+          font-size: 1.1em;
+        }
+      }
+    }
+  }
+
   .messages {
-    height: calc(100vh - 261px);
+    height: calc(100vh - 191px - 2rem);
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0.5rem 1rem 0 0;
@@ -172,6 +211,10 @@
 
     @include mixins.customBreakpoint(500px) {
       font-size: 1em;
+    }
+
+    @include mixins.breakpoint(laptop) {
+      height: calc(100vh - 261px);
     }
 
     .message {
