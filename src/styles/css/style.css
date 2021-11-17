@@ -1384,7 +1384,37 @@
 .users-container {
   display: flex;
   align-items: center;
-  width: 20%;
+  width: 230px;
+  position: fixed;
+  height: calc(100vh - 70px);
+  left: 0;
+  background-color: white;
+  transform: translateX(-230px);
+  z-index: 1;
+}
+@media (min-width: 1024px) {
+  .users-container {
+    position: unset;
+    width: 25%;
+    transform: unset;
+  }
+}
+.users-container .users-list-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -38.2px;
+  font-size: 1.7em;
+  padding: 10px 5px;
+  border-radius: 0% 100% 100% 0%/0% 50% 50% 100%;
+  background-color: #fed85d;
+  border: 1px solid #36383c;
+  cursor: pointer;
+}
+@media (min-width: 1024px) {
+  .users-container .users-list-btn {
+    display: none;
+  }
 }
 .users-container .users-list {
   display: flex;
@@ -1436,6 +1466,11 @@
 .users-container .users-list__user--info {
   width: calc(100% - 35px);
 }
+@media (min-width: 1024px) {
+  .users-container .users-list__user--info {
+    font-size: 1em;
+  }
+}
 .users-container .users-list__user--info .truncate {
   font-size: 0.8em;
   white-space: nowrap;
@@ -1443,6 +1478,9 @@
   text-overflow: ellipsis;
   width: 90%;
   color: #36383c;
+}
+.users-container .users-list__user--info .truncate.name {
+  font-size: 1em;
 }
 .users-container .users-list__user--info .truncate.new-message {
   font-weight: 600;
@@ -1458,21 +1496,47 @@
 }
 
 .chat-container {
-  width: 80%;
-  padding: 3rem 2rem;
+  margin-top: 30px;
+  width: 100%;
+}
+@media (min-width: 1024px) {
+  .chat-container {
+    margin-top: 0;
+    width: 75%;
+    padding: 3rem 2rem;
+  }
 }
 .chat-container .chat-first > p,
 .chat-container .chat-selected > p {
   text-align: center;
-  font-size: 2em;
+  font-size: 1em;
   border-bottom: 1px solid #36383c;
-  height: 50px;
+  max-height: 50px;
+  padding: 5px 0;
+}
+@media (min-width: 500px) {
+  .chat-container .chat-first > p,
+.chat-container .chat-selected > p {
+    font-size: 1.5em;
+  }
+}
+@media (min-width: 1024px) {
+  .chat-container .chat-first > p,
+.chat-container .chat-selected > p {
+    font-size: 2em;
+  }
 }
 .chat-container .messages {
   height: calc(100vh - 261px);
   overflow-y: auto;
   overflow-x: hidden;
   padding: 0.5rem 1rem 0 0;
+  font-size: 0.8em;
+}
+@media (min-width: 500px) {
+  .chat-container .messages {
+    font-size: 1em;
+  }
 }
 .chat-container .messages .message {
   margin-bottom: 1rem;
@@ -1529,10 +1593,22 @@
   cursor: pointer;
 }
 .chat-container .chat-form label svg {
-  font-size: 1.8em;
+  font-size: 1.5em;
 }
 .chat-container .chat-form label svg.send {
-  font-size: 1.5em;
+  font-size: 1.2em;
+}
+@media (min-width: 500px) {
+  .chat-container .chat-form label svg {
+    font-size: 1.8em;
+  }
+  .chat-container .chat-form label svg.send {
+    font-size: 1.5em;
+    transition: color 0.2s;
+  }
+  .chat-container .chat-form label svg.send:hover {
+    color: #e8b12d;
+  }
 }
 .chat-container .chat-form .chat-form-message {
   width: 80%;
@@ -1550,6 +1626,7 @@
   padding: 10px 50px 10px 20px;
   font-size: 1.5em;
   height: auto;
+  color: #36383c;
 }
 .chat-container .chat-form input[type=file],
 .chat-container .chat-form input[type=submit] {

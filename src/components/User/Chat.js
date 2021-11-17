@@ -6,6 +6,7 @@ import { auth, db, storage } from '../configuration/firebase';
 import Message from './Message';
 import MessageForm from './MessageForm';
 import UserList from './UserList';
+import { ImUsers } from 'react-icons/im';
 
 const UsersList = ({ loggedUser, loggedUserData }) => {
   const [usersList, setUsersList] = useState([]);
@@ -111,6 +112,8 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
                   return <UserList user={user} selectUser={selectUser} key={user.uid} sender={sender} usersChat={usersChat} />;
                 })}
           </div>
+
+          <ImUsers className="users-list-btn" />
         </div>
 
         <div className="chat-container">

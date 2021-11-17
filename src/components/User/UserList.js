@@ -25,7 +25,7 @@ const UserList = ({ sender, user, selectUser, usersChat }) => {
         <div className={user.isOnline ? 'check-online online' : 'check-online'}></div>
       </div>
       <div className="users-list__user--info">
-        <p>{user.name}</p>
+        <p className="truncate name">{user.name}</p>
 
         {data && data?.media ? (
           <p className={`truncate ${data?.from !== sender && data?.unread && 'new-message'}`}>
