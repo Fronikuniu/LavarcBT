@@ -51,3 +51,9 @@
     top: 46px;
   }
 }
+
+@keyframes fadein {
+  100% {
+    transform: translateX(0%);
+  }
+}

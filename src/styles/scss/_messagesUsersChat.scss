@@ -50,13 +50,13 @@
 
   .users-list {
     display: flex;
-    justify-content: center;
     align-items: flex-start;
     flex-direction: column;
     width: 100%;
     border-right: 1px solid colors.$vulcan;
     height: 95%;
     gap: 10px;
+    overflow: auto;
 
     &__user {
       display: flex;

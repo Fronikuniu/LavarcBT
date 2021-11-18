@@ -31,3 +31,9 @@
     @content;
   }
 }
+
+@mixin horizontalBreakpoint($min, $max) {
+  @media screen and (orientation: landscape) and (min-device-height: $min) and (max-device-height: $max) {
+    @content;
+  }
+}

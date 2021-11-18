@@ -1,5 +1,6 @@
 @use 'colors';
 @use 'mixins';
+@use 'keyframes';
 
 .nav {
   background-color: transparent;
@@ -111,19 +112,6 @@
     }
   }
 
-  .rwd-menu {
-    display: flex;
-    align-items: center;
-    font-size: 3em;
-    height: max-content;
-    cursor: pointer;
-    color: white;
-
-    @include mixins.breakpoint(tablet) {
-      display: none;
-    }
-  }
-
   .user {
     font-family: 'Permanent Marker', cursive;
     display: none;
@@ -201,6 +189,199 @@
     &.open {
       .user-dropdown {
         clip-path: inset(0 0 0 0);
+      }
+    }
+  }
+
+  .rwd-button {
+    display: flex;
+    align-items: center;
+    font-size: 3em;
+    height: max-content;
+    cursor: pointer;
+    color: white;
+
+    @include mixins.breakpoint(tablet) {
+      display: none;
+    }
+  }
+
+  .rwd-menu {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%);
+    transition: transform 1s;
+    font-family: 'Permanent Marker', cursive;
+
+    a {
+      color: white;
+      transition: color 0.3s;
+
+      &:hover {
+        color: colors.$dandelion;
+      }
+    }
+
+    .animation {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: 100%;
+      grid-template-rows: repeat(8, 1fr);
+
+      div {
+        transform: translateX(-100%);
+
+        &:nth-of-type(2n) {
+          background-color: colors.$vulcan;
+        }
+
+        &:nth-of-type(2n -1) {
+          background-color: colors.$vulcanTone;
+        }
+      }
+    }
+
+    .logo,
+    .menu,
+    .rwd-auth {
+      position: absolute;
+      z-index: 10;
+      transform: translateX(-100%);
+      width: 100%;
+    }
+
+    @include mixins.horizontalBreakpoint(0px, 577px) {
+      .menu,
+      .rwd-auth {
+        width: 50%;
+      }
+
+      .menu {
+        left: 0;
+      }
+
+      .rwd-auth {
+        right: 0;
+        transform: translateX(-200%);
+      }
+    }
+
+    .logo {
+      .img {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 70px;
+        width: calc(100% - 70px);
+        padding-left: 50px;
+
+        img {
+          width: 120px;
+          margin-top: 71px;
+        }
+      }
+
+      .close {
+        font-size: 3.7em;
+        cursor: pointer;
+        color: white;
+      }
+    }
+
+    .menu {
+      top: 150px;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      font-size: 2em;
+
+      @include mixins.horizontalBreakpoint(0px, 577px) {
+        top: unset;
+        bottom: 20px;
+      }
+    }
+
+    .rwd-auth {
+      bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+
+      button {
+        font-size: 0.5em;
+      }
+
+      hr {
+        width: 70%;
+        height: 5px;
+      }
+
+      img {
+        width: 70px;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+      }
+    }
+
+    &.open {
+      &.rwd-menu {
+        transform: translateX(0%);
+
+        .animation {
+          div {
+            animation-name: fadein;
+            animation-duration: 0.4s;
+            animation-fill-mode: forwards;
+
+            &:nth-of-type(2) {
+              animation-delay: 0.2s;
+            }
+            &:nth-of-type(3) {
+              animation-delay: 0.4s;
+            }
+            &:nth-of-type(4) {
+              animation-delay: 0.6s;
+            }
+            &:nth-of-type(5) {
+              animation-delay: 0.8s;
+            }
+            &:nth-of-type(6) {
+              animation-delay: 1s;
+            }
+            &:nth-of-type(7) {
+              animation-delay: 1.2s;
+            }
+            &:nth-of-type(8) {
+              animation-delay: 1.4s;
+            }
+          }
+        }
+
+        .logo,
+        .menu,
+        .rwd-auth {
+          animation-name: fadein;
+          animation-duration: 0.6s;
+          animation-fill-mode: forwards;
+        }
+
+        .logo {
+          animation-delay: 1.6s;
+        }
+
+        .menu {
+          animation-delay: 1.8s;
+        }
+
+        .rwd-auth {
+          animation-delay: 2s;
+        }
       }
     }
   }
