@@ -62,9 +62,6 @@ const Login = ({ setLoginData, logInWithFacebook, logInWithGoogle, loginError, l
             <p>
               Don't have an account? <Link to="/auth/register">Sign up.</Link>
             </p>
-
-            {loggedUser?.email}
-            <button onClick={logout}>Logout</button>
           </div>
         </div>
       </div>

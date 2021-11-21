@@ -71,7 +71,7 @@ p {
 }
 
 .headerwTextStroke {
-  color: colors.$tacha;
+  color: #978242;
   line-height: 65%;
   padding-left: 15px;
   font-size: 2.5em;
@@ -150,7 +150,7 @@ input {
   }
 
   &[type='submit'] {
-    color: white;
+    color: colors.$vulcan;
     background-color: colors.$dandelion;
     cursor: pointer;
     font-weight: 600;

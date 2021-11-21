@@ -25,6 +25,8 @@ import Contact from './components/Contact/Contact';
 import Recommendations from './components/Recommendations/Recommendations';
 import Opinions from './components/Recommendations/Opinions';
 import ShopHome from './components/Shop/ShopHome';
+import Shop from './components/Shop/Shop';
+import ShopList from './components/Shop/ShopList';
 
 function App() {
   const [registerNewUserData, setRegisterNewUserData] = useState([]);
@@ -222,7 +224,11 @@ function App() {
           <SingleMember images={Images} members={Members} />
         </Route>
 
-        <Route path="/shop"></Route>
+        <Route exact path="/shop">
+          <Shop shopList={ShopList} />
+        </Route>
+
+        <Route path="/shop/:title"></Route>
 
         <Route exact path="/contact">
           <Contact />

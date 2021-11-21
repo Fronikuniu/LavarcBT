@@ -59,9 +59,6 @@ const Register = ({ setRegisterNewUserData, registerError, registerNewUser, logo
             <p>
               Already a member? <Link to="/auth/login">Log in.</Link>
             </p>
-
-            {loggedUser?.email}
-            <button onClick={logout}>Logout</button>
           </div>
         </div>
       </div>

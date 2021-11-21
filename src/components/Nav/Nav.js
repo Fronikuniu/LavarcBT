@@ -109,7 +109,7 @@ function Nav({ loggedUser, logout }) {
           <div className="logo">
             <div className="container">
               <div className="img">
-                <Link to="/" onClick={() => setOpenMenu(false)}>
+                <Link to="/" onClick={() => setOpenMenu(false)} aria-label="home">
                   <img src={logo} alt="" />
                 </Link>
               </div>

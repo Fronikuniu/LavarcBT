@@ -4,7 +4,7 @@ import logo from '../../images/lavarcawatar.png';
 function NavLogo() {
   return (
     <div className="nav__item nav__logo">
-      <Link to="/">
+      <Link to="/" aria-label="home">
         <img src={logo} alt="" />
       </Link>
     </div>

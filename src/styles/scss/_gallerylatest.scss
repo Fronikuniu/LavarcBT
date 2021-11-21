@@ -36,12 +36,12 @@
 
     .slide {
       opacity: 0.6;
-      transform: scale(1.05);
+      transform: scale(0.95);
       transition: transform 0.4s;
       position: relative;
 
       p {
-        width: 100%;
+        width: 99%;
         font-family: 'Permanent Marker', cursive;
         font-size: 1.8em;
         text-align: center;

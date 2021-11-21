@@ -301,12 +301,12 @@
 
       @include mixins.horizontalBreakpoint(0px, 577px) {
         top: unset;
-        bottom: 20px;
+        bottom: 50px;
       }
     }
 
     .rwd-auth {
-      bottom: 20px;
+      bottom: 50px;
       display: flex;
       flex-direction: column;
       align-items: center;

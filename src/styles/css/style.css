@@ -385,11 +385,11 @@
 @media screen and (orientation: landscape) and (min-device-height: 0px) and (max-device-height: 577px) {
   .nav .rwd-menu .menu {
     top: unset;
-    bottom: 20px;
+    bottom: 50px;
   }
 }
 .nav .rwd-menu .rwd-auth {
-  bottom: 20px;
+  bottom: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -942,12 +942,12 @@
 }
 .gallery-latest .slider .slide {
   opacity: 0.6;
-  transform: scale(1.05);
+  transform: scale(0.95);
   transition: transform 0.4s;
   position: relative;
 }
 .gallery-latest .slider .slide p {
-  width: 100%;
+  width: 99%;
   font-family: "Permanent Marker", cursive;
   font-size: 1.8em;
   text-align: center;
@@ -1164,11 +1164,26 @@
   margin-bottom: 15px;
   font-size: 1.4em;
 }
+.footer__links p {
+  margin-bottom: 12px;
+}
+@media (min-width: 768px) {
+  .footer__links p {
+    margin-bottom: 5px;
+  }
+}
 .footer__links a {
   color: white;
   width: max-content;
   text-decoration: underline;
   transition: color 0.3s;
+  font-size: 1.2em;
+  padding: 10.5px 5px;
+}
+@media (min-width: 768px) {
+  .footer__links a {
+    padding: 0;
+  }
 }
 .footer__links a:hover {
   color: #d7bd68;
@@ -2024,6 +2039,81 @@
   transform: scale(1);
 }
 
+.shop {
+  margin-top: 150px;
+}
+.shop .slider {
+  display: flex;
+  min-height: unset;
+  perspective: 50em;
+  margin-top: 70px;
+}
+.shop .slider img {
+  opacity: 0.8;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+.shop .slider > div {
+  background-color: #36383c;
+}
+.shop .slider .prev,
+.shop .slider .next {
+  width: 400px;
+  height: 230px;
+  box-shadow: 0px 45px 44px -43px #36383c;
+}
+.shop .slider .prev {
+  order: 1;
+  transform: rotateY(-20deg);
+}
+.shop .slider .current {
+  order: 2;
+  box-shadow: 0px 52px 44px -43px #36383c;
+  width: 600px;
+  height: 312px;
+}
+.shop .slider .current img {
+  opacity: 1;
+}
+.shop .slider .current p {
+  margin-top: 10px;
+  text-align: center;
+}
+.shop .slider .current p.title {
+  font-size: 1.3em;
+}
+.shop .slider .current p a {
+  color: #36383c;
+  font-weight: 500;
+}
+.shop .slider .current p:hover ~ .details {
+  clip-path: inset(100% 0 0 0);
+}
+.shop .slider .current .details {
+  clip-path: inset(100% 0 0 0);
+  position: absolute;
+  bottom: 0;
+  width: 600px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: clip-path 0.4s;
+  background-color: rgba(255, 255, 255, 0.6);
+  color: #36383c;
+  font-size: 1.2em;
+  font-weight: 500;
+  cursor: pointer;
+}
+.shop .slider .current:hover .details {
+  clip-path: inset(0 0 0 0);
+}
+.shop .slider .next {
+  order: 3;
+  transform: rotateY(20deg);
+}
+
 .shop__info {
   display: flex;
   align-items: center;
@@ -2111,7 +2201,7 @@ p {
 }
 
 .headerwTextStroke {
-  color: #d7bd68;
+  color: #978242;
   line-height: 65%;
   padding-left: 15px;
   font-size: 2.5em;
@@ -2185,7 +2275,7 @@ input:target {
   border-color: #d7bd68;
 }
 input[type=submit] {
-  color: white;
+  color: #36383c;
   background-color: #fed85d;
   cursor: pointer;
   font-weight: 600;

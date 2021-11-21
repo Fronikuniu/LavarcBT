@@ -49,11 +49,25 @@
       font-size: 1.4em;
     }
 
+    p {
+      margin-bottom: 12px;
+
+      @include mixins.breakpoint(tablet) {
+        margin-bottom: 5px;
+      }
+    }
+
     a {
       color: white;
       width: max-content;
       text-decoration: underline;
       transition: color 0.3s;
+      font-size: 1.2em;
+      padding: 10.5px 5px;
+
+      @include mixins.breakpoint(tablet) {
+        padding: 0;
+      }
 
       &:hover {
         color: colors.$tacha;
