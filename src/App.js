@@ -225,7 +225,7 @@ function App() {
         </Route>
 
         <Route exact path="/shop">
-          <Shop shopList={ShopList} />
+          <Shop shopList={ShopList} bestsellers={ShopList.slice(0, 8)} />
         </Route>
 
         <Route path="/shop/:title"></Route>

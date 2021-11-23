@@ -5,6 +5,7 @@ const ShopList = [
     title: 'Minecraft SF 399 Fremont',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    sale: 0.5,
   },
   {
     id: 2,
@@ -40,6 +41,7 @@ const ShopList = [
     title: 'Minecraft Modern Villa',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    sale: 0.5,
   },
   {
     id: 7,
@@ -68,6 +70,7 @@ const ShopList = [
     title: 'Minecraft San Francisco',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    sale: 0.5,
   },
   {
     id: 11,
@@ -96,6 +99,7 @@ const ShopList = [
     title: 'Minecraft The Gates of Nether',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    sale: 0.5,
   },
   {
     id: 15,
@@ -117,6 +121,7 @@ const ShopList = [
     title: 'Minecraft Japanese Temple',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    sale: 0.5,
   },
   {
     id: 18,
@@ -138,6 +143,7 @@ const ShopList = [
     title: 'Minecraft Bali Aquapark',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    sale: 0.5,
   },
   {
     id: 21,
@@ -159,6 +165,7 @@ const ShopList = [
     title: 'Minecraft Angler Bedwars Map',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    sale: 0.5,
   },
 
   {

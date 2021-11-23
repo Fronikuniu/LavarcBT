@@ -4,92 +4,149 @@
 .shop {
   margin-top: 150px;
 
-  .slider {
-    display: flex;
-    min-height: unset;
-    perspective: 50em;
-    margin-top: 70px;
+  .shop-latest {
+    margin-bottom: 150px;
 
-    img {
-      opacity: 0.8;
-      object-fit: cover;
-      width: 100%;
-      height: 100%;
-    }
-
-    > div {
-      background-color: colors.$vulcan;
-    }
-
-    .prev,
-    .next {
-      width: 400px;
-      height: 230px;
-      box-shadow: 0px 45px 44px -43px rgba(54, 56, 60, 1);
-    }
-
-    .prev {
-      order: 1;
-      transform: rotateY(-20deg);
-    }
-
-    .current {
-      order: 2;
-      box-shadow: 0px 52px 44px -43px rgba(54, 56, 60, 1);
-      width: 600px;
-      height: 312px;
+    .slider {
+      display: flex;
+      min-height: unset;
+      perspective: 50em;
+      margin-top: 70px;
 
       img {
-        opacity: 1;
+        opacity: 0.8;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
       }
 
-      p {
-        margin-top: 10px;
-        text-align: center;
+      > div {
+        background-color: colors.$vulcan;
+      }
 
-        &.title {
-          font-size: 1.3em;
+      .prev,
+      .next {
+        width: 400px;
+        height: 230px;
+        box-shadow: 0px 45px 44px -43px rgba(54, 56, 60, 1);
+      }
+
+      .prev {
+        order: 1;
+        transform: rotateY(-20deg);
+      }
+
+      .current {
+        order: 2;
+        box-shadow: 0px 52px 44px -43px rgba(54, 56, 60, 1);
+        width: 600px;
+        height: 312px;
+
+        img {
+          opacity: 1;
         }
 
-        a {
+        p {
+          margin-top: 10px;
+          text-align: center;
+
+          &.title {
+            font-size: 1.3em;
+          }
+
+          a {
+            color: colors.$vulcan;
+            font-weight: 500;
+          }
+
+          &:hover {
+            ~ .details {
+              clip-path: inset(100% 0 0 0);
+            }
+          }
+        }
+
+        .details {
+          clip-path: inset(100% 0 0 0);
+          position: absolute;
+          bottom: 0;
+          width: 600px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: clip-path 0.4s;
+          background-color: rgba(255, 255, 255, 0.6);
           color: colors.$vulcan;
+          font-size: 1.2em;
           font-weight: 500;
+          cursor: pointer;
         }
 
         &:hover {
-          ~ .details {
-            clip-path: inset(100% 0 0 0);
+          .details {
+            clip-path: inset(0 0 0 0);
           }
+        }
+
+        .price {
+          color: colors.$fuelYellow;
+          font-size: 1.2em;
         }
       }
 
-      .details {
-        clip-path: inset(100% 0 0 0);
-        position: absolute;
-        bottom: 0;
-        width: 600px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: clip-path 0.4s;
-        background-color: rgba(255, 255, 255, 0.6);
-        color: colors.$vulcan;
-        font-size: 1.2em;
-        font-weight: 500;
-        cursor: pointer;
+      .next {
+        order: 3;
+        transform: rotateY(20deg);
+      }
+    }
+  }
+
+  .bestsellers {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    gap: 25px;
+    margin-top: 50px;
+
+    .item {
+      img {
+        width: 100%;
+        object-fit: cover;
+        filter: contrast(130%);
       }
 
-      &:hover {
-        .details {
-          clip-path: inset(0 0 0 0);
+      p {
+        text-align: center;
+        color: colors.$vulcan;
+        font-size: 1.1em;
+      }
+
+      .cost {
+        color: colors.$fuelYellow;
+        font-size: 1.1em;
+
+        .price {
+          margin-right: 10px;
+          text-decoration: line-through;
+          font-size: 1em;
+        }
+
+        .sale {
+          font-size: 1.05em;
         }
       }
     }
+  }
 
-    .next {
-      order: 3;
-      transform: rotateY(20deg);
+  .personal-order {
+    margin-top: 100px;
+
+    p {
+      font-size: 2em;
+      font-family: 'Permanent Marker', cursive;
+      text-align: center;
+      color: #978242;
     }
   }
 }

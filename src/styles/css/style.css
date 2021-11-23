@@ -2042,55 +2042,58 @@
 .shop {
   margin-top: 150px;
 }
-.shop .slider {
+.shop .shop-latest {
+  margin-bottom: 150px;
+}
+.shop .shop-latest .slider {
   display: flex;
   min-height: unset;
   perspective: 50em;
   margin-top: 70px;
 }
-.shop .slider img {
+.shop .shop-latest .slider img {
   opacity: 0.8;
   object-fit: cover;
   width: 100%;
   height: 100%;
 }
-.shop .slider > div {
+.shop .shop-latest .slider > div {
   background-color: #36383c;
 }
-.shop .slider .prev,
-.shop .slider .next {
+.shop .shop-latest .slider .prev,
+.shop .shop-latest .slider .next {
   width: 400px;
   height: 230px;
   box-shadow: 0px 45px 44px -43px #36383c;
 }
-.shop .slider .prev {
+.shop .shop-latest .slider .prev {
   order: 1;
   transform: rotateY(-20deg);
 }
-.shop .slider .current {
+.shop .shop-latest .slider .current {
   order: 2;
   box-shadow: 0px 52px 44px -43px #36383c;
   width: 600px;
   height: 312px;
 }
-.shop .slider .current img {
+.shop .shop-latest .slider .current img {
   opacity: 1;
 }
-.shop .slider .current p {
+.shop .shop-latest .slider .current p {
   margin-top: 10px;
   text-align: center;
 }
-.shop .slider .current p.title {
+.shop .shop-latest .slider .current p.title {
   font-size: 1.3em;
 }
-.shop .slider .current p a {
+.shop .shop-latest .slider .current p a {
   color: #36383c;
   font-weight: 500;
 }
-.shop .slider .current p:hover ~ .details {
+.shop .shop-latest .slider .current p:hover ~ .details {
   clip-path: inset(100% 0 0 0);
 }
-.shop .slider .current .details {
+.shop .shop-latest .slider .current .details {
   clip-path: inset(100% 0 0 0);
   position: absolute;
   bottom: 0;
@@ -2106,12 +2109,54 @@
   font-weight: 500;
   cursor: pointer;
 }
-.shop .slider .current:hover .details {
+.shop .shop-latest .slider .current:hover .details {
   clip-path: inset(0 0 0 0);
 }
-.shop .slider .next {
+.shop .shop-latest .slider .current .price {
+  color: #e8b12d;
+  font-size: 1.2em;
+}
+.shop .shop-latest .slider .next {
   order: 3;
   transform: rotateY(20deg);
+}
+.shop .bestsellers {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  gap: 25px;
+  margin-top: 50px;
+}
+.shop .bestsellers .item img {
+  width: 100%;
+  object-fit: cover;
+  filter: contrast(130%);
+}
+.shop .bestsellers .item p {
+  text-align: center;
+  color: #36383c;
+  font-size: 1.1em;
+}
+.shop .bestsellers .item .cost {
+  color: #e8b12d;
+  font-size: 1.1em;
+}
+.shop .bestsellers .item .cost .price {
+  margin-right: 10px;
+  text-decoration: line-through;
+  font-size: 1em;
+}
+.shop .bestsellers .item .cost .sale {
+  font-size: 1.05em;
+}
+.shop .personal-order {
+  margin-top: 100px;
+}
+.shop .personal-order p {
+  font-size: 2em;
+  font-family: "Permanent Marker", cursive;
+  text-align: center;
+  color: #978242;
 }
 
 .shop__info {
