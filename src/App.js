@@ -2,7 +2,7 @@
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from '@firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { auth, db } from './components/configuration/firebase';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import About from './components/About/About';
 import AboutMembers from './components/About/AboutMembers';
 import Home from './components/Home/Home';
@@ -27,6 +27,7 @@ import Opinions from './components/Recommendations/Opinions';
 import ShopHome from './components/Shop/ShopHome';
 import Shop from './components/Shop/Shop';
 import ShopList from './components/Shop/ShopList';
+import ScrollToTop from './components/helpers/ScrollToTop';
 
 function App() {
   const [registerNewUserData, setRegisterNewUserData] = useState([]);
@@ -177,6 +178,7 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <Nav loggedUser={loggedUser} logout={logout} />
 
       <Switch>
@@ -224,6 +226,7 @@ function App() {
           <SingleMember images={Images} members={Members} />
         </Route>
 
+        {}
         <Route exact path="/shop">
           <Shop shopList={ShopList} bestsellers={ShopList.slice(0, 8)} />
         </Route>
