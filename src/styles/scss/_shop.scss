@@ -141,12 +141,38 @@
 
   .personal-order {
     margin-top: 100px;
+    display: grid;
+    place-items: center;
 
-    p {
+    > p {
       font-size: 2em;
       font-family: 'Permanent Marker', cursive;
       text-align: center;
       color: #978242;
+    }
+
+    &__form {
+      width: calc(100% - 4%);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 50px;
+
+      @include mixins.breakpoint(mobileL) {
+        width: 350px;
+      }
+
+      textarea {
+        font-size: 1.4em;
+        font-weight: 500;
+        height: 200px;
+      }
+
+      > div {
+        input {
+          width: 100%;
+        }
+      }
     }
   }
 }

@@ -1,7 +1,6 @@
 @use 'colors';
 @use 'keyframes';
 @use 'mixins';
-
 @use 'slider';
 @use 'nav';
 @use 'home';
@@ -31,6 +30,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   scroll-behavior: smooth;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
 }
 
 code {
@@ -179,6 +184,7 @@ textarea {
   border: 2px solid colors.$dandelion;
   background-color: transparent;
   color: colors.$darkKhaki;
+  font-size: 1.1em;
   border-radius: 10px;
   resize: none;
   padding: 10px 20px;
@@ -200,6 +206,30 @@ textarea {
     border-color: colors.$fuelYellow;
     outline: none;
   }
+}
+
+select {
+  border: 2px solid colors.$dandelion;
+  background-color: transparent;
+  color: colors.$darkKhaki;
+  font-size: 1.05em;
+  border-radius: 10px;
+  padding: 10px 20px;
+
+  &:focus-visible {
+    border-color: colors.$fuelYellow;
+    outline: none;
+  }
+
+  &.input-error {
+    border-color: tomato;
+    color: tomato;
+  }
+}
+
+.p-error {
+  color: tomato;
+  font-size: 0.9em;
 }
 
 .vertical-or,

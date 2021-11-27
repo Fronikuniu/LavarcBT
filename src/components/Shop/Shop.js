@@ -1,5 +1,6 @@
 import React from 'react';
 import Bestsellers from './Bestsellers';
+import OrderForm from './OrderForm';
 import ShopSlider from './ShopSlider';
 
 const Shop = ({ shopList, bestsellers }) => {
@@ -21,6 +22,8 @@ const Shop = ({ shopList, bestsellers }) => {
 
         <div className="personal-order">
           <p>If our offer does not include what you are looking for, write to us and place your personal order.</p>
+
+          <OrderForm />
         </div>
       </div>
     </section>

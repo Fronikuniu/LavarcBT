@@ -2151,12 +2151,34 @@
 }
 .shop .personal-order {
   margin-top: 100px;
+  display: grid;
+  place-items: center;
 }
-.shop .personal-order p {
+.shop .personal-order > p {
   font-size: 2em;
   font-family: "Permanent Marker", cursive;
   text-align: center;
   color: #978242;
+}
+.shop .personal-order__form {
+  width: 96%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 50px;
+}
+@media (min-width: 425px) {
+  .shop .personal-order__form {
+    width: 350px;
+  }
+}
+.shop .personal-order__form textarea {
+  font-size: 1.4em;
+  font-weight: 500;
+  height: 200px;
+}
+.shop .personal-order__form > div input {
+  width: 100%;
 }
 
 .shop__info {
@@ -2204,6 +2226,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   scroll-behavior: smooth;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
 }
 
 code {
@@ -2344,6 +2372,7 @@ textarea {
   border: 2px solid #fed85d;
   background-color: transparent;
   color: #c4af6d;
+  font-size: 1.1em;
   border-radius: 10px;
   resize: none;
   padding: 10px 20px;
@@ -2361,6 +2390,28 @@ textarea.input-error::placeholder {
 textarea:focus-visible {
   border-color: #e8b12d;
   outline: none;
+}
+
+select {
+  border: 2px solid #fed85d;
+  background-color: transparent;
+  color: #c4af6d;
+  font-size: 1.05em;
+  border-radius: 10px;
+  padding: 10px 20px;
+}
+select:focus-visible {
+  border-color: #e8b12d;
+  outline: none;
+}
+select.input-error {
+  border-color: tomato;
+  color: tomato;
+}
+
+.p-error {
+  color: tomato;
+  font-size: 0.9em;
 }
 
 .vertical-or,
