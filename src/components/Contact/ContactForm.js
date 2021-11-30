@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import emailjs from 'emailjs-com';
 
 const ContactForm = () => {
@@ -13,28 +13,35 @@ const ContactForm = () => {
 
   const validateForm = (e) => {
     e.preventDefault();
-    name === '' && setNameError(true);
-    email === '' && setEmailError(true);
-    message === '' && setMessageError(true);
+    name === '' ? setNameError(true) : setNameError(false);
+    email === '' ? setEmailError(true) : setEmailError(false);
+    message === '' ? setMessageError(true) : setMessageError(false);
 
-    if (nameError === false || emailError === false || messageError === false) {
-      emailjs.sendForm('service_hsa5tp9', 'template_hyxnazh', form.current, 'user_o1who1aHqJAC5aJn58p2I').then(
-        (result) => {
-          console.log(result.text);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
+    if (!nameError || !emailError || !messageError) {
+      // emailjs.sendForm('service_hsa5tp9', 'template_hyxnazh', form.current, 'user_o1who1aHqJAC5aJn58p2I').then(
+      //   (result) => {
+      //     console.log(result.text);
+      //   },
+      //   (error) => {
+      //     console.log(error.text);
+      //   }
+      // );
 
-      setNameError(false);
-      setEmailError(false);
-      setMessageError(false);
+      console.log('Wysłano email.');
+
       setName('');
       setEmail('');
       setMessage('');
+    } else {
+      console.log('Błąd przy wysyłaniu.');
     }
   };
+
+  useEffect(() => {
+    name === '' ? setNameError(true) : setNameError(false);
+    email === '' ? setEmailError(true) : setEmailError(false);
+    message === '' ? setMessageError(true) : setMessageError(false);
+  }, [email, message, name]);
 
   return (
     <form ref={form} onSubmit={validateForm} className="contact-form">

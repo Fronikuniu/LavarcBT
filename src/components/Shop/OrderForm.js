@@ -24,19 +24,6 @@ const OrderForm = () => {
 
   const form = useRef();
 
-  const sendEmail = (e) => {
-    e.preventDefault();
-
-    emailjs.sendForm('service_hsa5tp9', 'template_0zu8z0s', form.current, 'user_o1who1aHqJAC5aJn58p2I').then(
-      (result) => {
-        console.log(result.text);
-      },
-      (error) => {
-        console.log(error.text);
-      }
-    );
-  };
-
   const validateForm = (e) => {
     e.preventDefault();
 
@@ -61,10 +48,33 @@ const OrderForm = () => {
     message === '' ? setMessageError('Order description is required!') : setMessageError('');
     budget === '' ? setBudgetError('Budget is required!') : setBudgetError('');
     deadline === '' ? setDeadlineError('Select deadline date!') : setDeadlineError('');
+
+    if (emailError === '' || discordError === '' || timezoneError === '' || packagError === '' || messageError === '' || budgetError === '' || deadlineError === '') {
+      // emailjs.sendForm('service_hsa5tp9', 'template_0zu8z0s', form.current, 'user_o1who1aHqJAC5aJn58p2I').then(
+      //   (result) => {
+      //     console.log(result.text);
+      //   },
+      //   (error) => {
+      //     console.log(error.text);
+      //   }
+      // );
+
+      console.log('Wysłano email.');
+
+      setEmail('');
+      setDiscord('');
+      setTimezone('');
+      setPackage('');
+      setMessage('');
+      setBudget('');
+      setDeadline('');
+    } else {
+      console.log('Błąd przy wysyłaniu.');
+    }
   };
 
-  console.log(email, discord, timezone, packag, message, budget, deadline);
-  console.log(emailError, discordError, timezoneError, packagError, messageError, budgetError, deadlineError);
+  console.log('Data:' + email, discord, timezone, packag, message, budget, deadline);
+  console.log('Error:' + emailError, discordError, timezoneError, packagError, messageError, budgetError, deadlineError);
 
   return (
     <form ref={form} onSubmit={validateForm} className="personal-order__form">
@@ -86,7 +96,9 @@ const OrderForm = () => {
       </div>
 
       <select className={timezoneError ? 'input-error' : ''} name="timezone" value={timezone} onChange={(e) => setTimezone(e.target.value)}>
-        <option value="default">Select timezone:</option>
+        <option value="default" hidden>
+          Select timezone:
+        </option>
         {Timezones.map((timezone) => {
           return (
             <option key={timezone.label} value={timezone.label}>
@@ -97,13 +109,21 @@ const OrderForm = () => {
       </select>
 
       <select className={packagError ? 'input-error' : ''} name="package" value={packag} onChange={(e) => setPackage(e.target.value)}>
-        <option value="default">Select package:</option>
+        <option value="default" hidden>
+          Select package:
+        </option>
         <option value="basic">Basic</option>
         <option value="standard">Standard</option>
         <option value="premium">Premium</option>
       </select>
 
-      <textarea className={messageError ? 'input-error' : ''} name="message" placeholder={messageError ? messageError : 'Message'} value={message} onChange={(e) => setMessage(e.target.value)} />
+      <textarea
+        className={messageError ? 'input-error' : ''}
+        name="message"
+        placeholder={messageError ? messageError : 'Order description'}
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
 
       <input type="number" className={budgetError ? 'input-error' : ''} name="budget" placeholder={budgetError ? budgetError : 'Budget'} value={budget} onChange={(e) => setBudget(e.target.value)} />
 

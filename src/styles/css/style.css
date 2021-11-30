@@ -1878,7 +1878,6 @@
   width: 50%;
 }
 .contact-form textarea {
-  width: calc(100% - 44px);
   font-size: 1.5em;
 }
 
@@ -2150,7 +2149,7 @@
   font-size: 1.05em;
 }
 .shop .personal-order {
-  margin-top: 100px;
+  margin: 100px 0;
   display: grid;
   place-items: center;
 }
