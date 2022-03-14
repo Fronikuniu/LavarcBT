@@ -4,7 +4,7 @@ Portfolio website for Minecraft Build Team - Lavarc. Uses firebase auth, storage
 
 ## Demo: 
 
-[https://lavarc.netlify.app/]
+https://lavarc.netlify.app/
 
 ## Used technologies:
 
