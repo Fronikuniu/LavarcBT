@@ -31,8 +31,8 @@ const ShopSlider = ({ shopList }) => {
 
   return (
     <div className="slider">
-      <IoIosArrowDropleft onClick={prevSlide} className="arrow arrowPrev" />
-      <IoIosArrowDropright onClick={nextSlide} className="arrow arrowNext" />
+      <IoIosArrowDropleft onClick={prevSlide} className="arrow arrowPrev" role="button" />
+      <IoIosArrowDropright onClick={nextSlide} className="arrow arrowNext" role="button" />
 
       {shopList.map((item, index) => {
         const titleUrl = item.title.replace(regex, subst);

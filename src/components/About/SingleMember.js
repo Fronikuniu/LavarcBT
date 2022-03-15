@@ -13,8 +13,7 @@ const SingleMember = ({ images, members }) => {
   useEffect(() => {
     setMember(members.find((member) => member.name === name));
     setMemberImages(images.filter((image) => image.builder === name));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [member, name]);
+  }, [images, member, members, name]);
 
   return (
     <section className="single__member">

@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import AuthImages from '../helpers/AuthImages';
 
-const Auth = (props) => {
+const Auth = ({ logInWithGoogle, logInWithFacebook }) => {
   return (
     <div className="auth">
       <div className="container">
@@ -18,10 +18,10 @@ const Auth = (props) => {
               <p className="select__method-p1">Create an account, it's free! Thanks to it you will be able to communicate with our community.</p>
 
               <div className="select__method-buttons">
-                <button className="btn" onClick={props.logInWithGoogle}>
+                <button className="btn" onClick={logInWithGoogle}>
                   Sign up with Google
                 </button>
-                <button className="btn" onClick={props.logInWithFacebook}>
+                <button className="btn" onClick={logInWithFacebook}>
                   Sign up with Facebook
                 </button>
                 <Link to="/auth/register" className="btn primary">

@@ -5,16 +5,14 @@ import AuthImages from '../helpers/AuthImages';
 import { BsFacebook } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 
-const Login = ({ setLoginData, logInWithFacebook, logInWithGoogle, loginError, loginUser, loggedUser, logout }) => {
+const Login = ({ logInWithFacebook, logInWithGoogle, loginError, loginUser }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => setLoginData(data);
-
-  console.log(loginError);
+  const onSubmit = (data) => loginUser(data);
 
   return (
     <div className="container">
@@ -27,8 +25,8 @@ const Login = ({ setLoginData, logInWithFacebook, logInWithGoogle, loginError, l
             <p>Welcome again! We hope you will stay with us for longer!</p>
 
             <div className="auth__form-login__socials">
-              <BsFacebook onClick={logInWithFacebook} />
-              <FcGoogle onClick={logInWithGoogle} />
+              <BsFacebook onClick={logInWithFacebook} role="button" />
+              <FcGoogle onClick={logInWithGoogle} role="button" />
             </div>
 
             <div className="horizontal-or"></div>
@@ -56,7 +54,7 @@ const Login = ({ setLoginData, logInWithFacebook, logInWithGoogle, loginError, l
                 Have you forgotten your password? <Link to="">Click!</Link>
               </p>
 
-              <input type="submit" onClick={loginUser} value="Sign up!" />
+              <input type="submit" value="Sign up!" />
             </form>
 
             <p>

@@ -1,6 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import emailjs from 'emailjs-com';
 import Timezones from './Timezones';
+import { EmailJsConf } from '../configuration/emailjs';
+import { toast } from 'react-toastify';
 
 const OrderForm = () => {
   const [email, setEmail] = useState('');
@@ -18,6 +20,8 @@ const OrderForm = () => {
   const [messageError, setMessageError] = useState('');
   const [budgetError, setBudgetError] = useState('');
   const [deadlineError, setDeadlineError] = useState('');
+
+  const [clicked, setClicked] = useState(false);
 
   const regexDiscord = /^((.+?)#\d{4})/gm;
   const regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -43,38 +47,38 @@ const OrderForm = () => {
       setDiscordError('');
     }
 
-    timezone === '' || timezone === 'default' ? setTimezoneError('Select timezone!') : setTimezoneError('');
-    packag === '' || packag === 'default' ? setPackageError('Select package!') : setPackageError('');
-    message === '' ? setMessageError('Order description is required!') : setMessageError('');
-    budget === '' ? setBudgetError('Budget is required!') : setBudgetError('');
-    deadline === '' ? setDeadlineError('Select deadline date!') : setDeadlineError('');
+    setTimezoneError(timezone === '' || timezone === 'default' ? 'Select timezone!' : '');
+    setPackageError(packag === '' || packag === 'default' ? 'Select package!' : '');
+    setMessageError(message === '' ? 'Order description is required!' : '');
+    setBudgetError(budget === '' ? 'Budget is required!' : '');
+    setDeadlineError(deadline === '' ? 'Select deadline date!' : '');
 
-    if (emailError === '' || discordError === '' || timezoneError === '' || packagError === '' || messageError === '' || budgetError === '' || deadlineError === '') {
-      // emailjs.sendForm('service_hsa5tp9', 'template_0zu8z0s', form.current, 'user_o1who1aHqJAC5aJn58p2I').then(
-      //   (result) => {
-      //     console.log(result.text);
-      //   },
-      //   (error) => {
-      //     console.log(error.text);
-      //   }
-      // );
-
-      console.log('Wysłano email.');
-
-      setEmail('');
-      setDiscord('');
-      setTimezone('');
-      setPackage('');
-      setMessage('');
-      setBudget('');
-      setDeadline('');
-    } else {
-      console.log('Błąd przy wysyłaniu.');
-    }
+    setClicked(true);
   };
 
-  console.log('Data:' + email, discord, timezone, packag, message, budget, deadline);
-  console.log('Error:' + emailError, discordError, timezoneError, packagError, messageError, budgetError, deadlineError);
+  useEffect(() => {
+    if (clicked) {
+      if (!emailError && !discordError && !timezoneError && !packagError && !messageError && !budgetError && !deadlineError) {
+        emailjs.sendForm(EmailJsConf.serviceId, EmailJsConf.orderTemplate, form.current, EmailJsConf.userId).then(
+          (result) => {},
+          (error) => {}
+        );
+
+        setEmail('');
+        setDiscord('');
+        setTimezone('');
+        setPackage('');
+        setMessage('');
+        setBudget('');
+        setDeadline('');
+
+        toast.success('Wysłano email.');
+      } else {
+        toast.error('Błąd przy wysyłaniu.');
+      }
+    }
+    return () => setClicked(false);
+  }, [clicked, emailError, discordError, timezoneError, packagError, messageError, budgetError, deadlineError]);
 
   return (
     <form ref={form} onSubmit={validateForm} className="personal-order__form">
@@ -129,7 +133,7 @@ const OrderForm = () => {
 
       <div>
         <input type="date" className={deadlineError ? 'input-error' : ''} name="deadline" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
-        {deadlineError ? <p className="p-error">{deadlineError}</p> : null}
+        {deadlineError && <p className="p-error">{deadlineError}</p>}
       </div>
 
       <input type="submit" value="Send" />

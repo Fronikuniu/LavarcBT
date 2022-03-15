@@ -18,9 +18,7 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
 
   const [open, setOpen] = useState(false);
 
-  const adminList = usersList.filter((user) => {
-    return user.isAdmin;
-  });
+  const adminList = usersList.filter((user) => user.isAdmin);
 
   const userList = useRef();
 
@@ -40,7 +38,7 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
     const q = query(usersRef, where('uid', 'not-in', [sender]));
 
     const unsub = onSnapshot(q, (querySnapshot) => {
-      let users = [];
+      const users = [];
       querySnapshot.forEach((doc) => {
         users.push(doc.data());
       });
@@ -64,7 +62,7 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
     const q = query(messagesRef, orderBy('createdAt', 'asc'));
 
     onSnapshot(q, (querySnapshot) => {
-      let messages = [];
+      const messages = [];
       querySnapshot.forEach((doc) => {
         messages.push(doc.data());
       });
@@ -127,7 +125,7 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
                 })}
           </div>
 
-          <ImUsers className="users-list-btn" onClick={() => setOpen(!open)} />
+          <ImUsers className="users-list-btn" onClick={() => setOpen(!open)} role="button" />
         </div>
 
         <div className="chat-container">

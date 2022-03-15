@@ -34,8 +34,8 @@ const GallerySlider = ({ images }) => {
         <h3 className="headerwTextStroke">Projects</h3>
       </div>
       <div className="slider">
-        <IoIosArrowDropleft onClick={prevSlide} className="arrow arrowPrev" />
-        <IoIosArrowDropright onClick={nextSlide} className="arrow arrowNext" />
+        <IoIosArrowDropleft onClick={prevSlide} className="arrow arrowPrev" role="button" />
+        <IoIosArrowDropright onClick={nextSlide} className="arrow arrowNext" role="button" />
 
         {images.map((img, index) => {
           return (

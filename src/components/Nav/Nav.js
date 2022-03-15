@@ -101,6 +101,7 @@ function Nav({ loggedUser, logout }) {
           onClick={() => {
             setOpenMenu(true);
           }}
+          role="button"
         >
           <HiMenuAlt3 />
         </div>
@@ -119,6 +120,7 @@ function Nav({ loggedUser, logout }) {
                 onClick={() => {
                   setOpenMenu(false);
                 }}
+                role="button"
               />
             </div>
           </div>

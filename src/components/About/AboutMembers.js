@@ -34,8 +34,8 @@ const AboutMembers = ({ members }) => {
         <h3 className="headerwTextStroke">Team</h3>
       </div>
       <div className="slider">
-        <IoIosArrowDropleft onClick={prevMember} className="arrow arrowPrev" />
-        <IoIosArrowDropright onClick={nextMember} className="arrow arrowNext" />
+        <IoIosArrowDropleft onClick={prevMember} className="arrow arrowPrev" role="button" />
+        <IoIosArrowDropright onClick={nextMember} className="arrow arrowNext" role="button" />
 
         {members.map((member, index) => {
           return (
@@ -45,6 +45,7 @@ const AboutMembers = ({ members }) => {
                 onClick={() => {
                   setCurrent(index);
                 }}
+                role="button"
               >
                 {prev === index && (
                   <>
@@ -73,6 +74,7 @@ const AboutMembers = ({ members }) => {
                 onClick={() => {
                   setCurrent(index);
                 }}
+                role="button"
               >
                 {next === index && (
                   <>

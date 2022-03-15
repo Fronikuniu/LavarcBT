@@ -9,7 +9,7 @@ const GallerySingle = ({ images }) => {
   const { id } = useParams();
 
   useEffect(() => {
-    setImage(images.find((img) => img.id === id));
+    setImage(images.find((img) => img.id === Number(id)));
   }, [images, id]);
 
   return (
@@ -17,16 +17,16 @@ const GallerySingle = ({ images }) => {
       <div className="container">
         <div className="gallery__single__content">
           <div className="gallery__single__content-img">
-            <img src={image.imageSrc} alt="" />
+            <img src={image?.imageSrc} alt="" />
           </div>
           <div className="gallery__single__content-text">
             <p>
-              What's built: <span>{image.desc}</span>
+              What's built: <span>{image?.desc}</span>
             </p>
             <p>
-              This beautiful building was built by: <Link to={`/builder/${image.builder}`}>{image.builder}</Link>
+              This beautiful building was built by: <Link to={`/builder/${image?.builder}`}>{image?.builder}</Link>
             </p>
-            <p onClick={() => window.open(image.imgurAlbum)}>Want to see more of this building? Click!</p>
+            <p onClick={() => window.open(image?.imgurAlbum)}>Want to see more of this building? Click!</p>
           </div>
         </div>
       </div>

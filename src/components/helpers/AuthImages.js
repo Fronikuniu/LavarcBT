@@ -6,9 +6,9 @@ import authImage3 from '../../images/AuthImage3.png';
 const AuthImages = () => {
   return (
     <div className="images-container">
-      <img src={authImage} alt="" />
-      <img src={authImage2} alt="" />
-      <img src={authImage3} alt="" />
+      <img src={authImage} alt="beach" />
+      <img src={authImage2} alt="dragon" />
+      <img src={authImage3} alt="houses" />
     </div>
   );
 };

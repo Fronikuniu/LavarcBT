@@ -36,11 +36,11 @@ const Recommendations = ({ opinions }) => {
   };
 
   useEffect(() => {
-    let t = setTimeout(() => {
+    let recommendationTimeout = setTimeout(() => {
       setCurrent(next);
     }, 10000);
     return () => {
-      clearTimeout(t);
+      clearTimeout(recommendationTimeout);
     };
   });
 
@@ -51,8 +51,8 @@ const Recommendations = ({ opinions }) => {
         <h3 className="headerwTextStroke">About us</h3>
 
         <div className="slider">
-          <IoIosArrowDropleft onClick={prevSlide} className="arrow arrowPrev" />
-          <IoIosArrowDropright onClick={nextSlide} className="arrow arrowNext" />
+          <IoIosArrowDropleft onClick={prevSlide} className="arrow arrowPrev" role="button" />
+          <IoIosArrowDropright onClick={nextSlide} className="arrow arrowNext" role="button" />
 
           {opinions.map((opinion, index) => {
             return (

@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import emailjs from 'emailjs-com';
+import { EmailJsConf } from '../configuration/emailjs';
+import { toast } from 'react-toastify';
 
 const ContactForm = () => {
   const [name, setName] = useState('');
@@ -8,40 +10,38 @@ const ContactForm = () => {
   const [nameError, setNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [messageError, setMessageError] = useState(false);
+  const [clicked, setClicked] = useState(false);
 
   const form = useRef();
 
   const validateForm = (e) => {
     e.preventDefault();
-    name === '' ? setNameError(true) : setNameError(false);
-    email === '' ? setEmailError(true) : setEmailError(false);
-    message === '' ? setMessageError(true) : setMessageError(false);
+    setNameError(name === '' ? true : false);
+    setEmailError(email === '' ? true : false);
+    setMessageError(message === '' ? true : false);
 
-    if (!nameError || !emailError || !messageError) {
-      // emailjs.sendForm('service_hsa5tp9', 'template_hyxnazh', form.current, 'user_o1who1aHqJAC5aJn58p2I').then(
-      //   (result) => {
-      //     console.log(result.text);
-      //   },
-      //   (error) => {
-      //     console.log(error.text);
-      //   }
-      // );
-
-      console.log('Wysłano email.');
-
-      setName('');
-      setEmail('');
-      setMessage('');
-    } else {
-      console.log('Błąd przy wysyłaniu.');
-    }
+    setClicked(true);
   };
 
   useEffect(() => {
-    name === '' ? setNameError(true) : setNameError(false);
-    email === '' ? setEmailError(true) : setEmailError(false);
-    message === '' ? setMessageError(true) : setMessageError(false);
-  }, [email, message, name]);
+    if (clicked) {
+      if (!nameError && !emailError && !messageError) {
+        emailjs.sendForm(EmailJsConf.serviceId, EmailJsConf.contactTemplate, form.current, EmailJsConf.userId).then(
+          (result) => {},
+          (error) => {}
+        );
+
+        setName('');
+        setEmail('');
+        setMessage('');
+
+        toast.success('Wiadomość wysłana!');
+      } else {
+        toast.error('Błąd przy wysyłaniu wiadomości!');
+      }
+    }
+    return () => setClicked(false);
+  }, [clicked, email, emailError, message, messageError, name, nameError]);
 
   return (
     <form ref={form} onSubmit={validateForm} className="contact-form">

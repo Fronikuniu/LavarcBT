@@ -1,6 +1,6 @@
 import dragon from '../../images/dragon.png';
 
-function About() {
+const About = () => {
   return (
     <section className="about">
       <div className="container">
@@ -25,6 +25,6 @@ function About() {
       </div>
     </section>
   );
-}
+};
 
 export default About;

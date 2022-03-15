@@ -19,7 +19,7 @@ const UserList = ({ sender, user, selectUser, usersChat }) => {
   }, []);
 
   return (
-    <div className={`users-list__user ${usersChat.name === user.name && 'selected'}`} onClick={() => selectUser(user)}>
+    <div className={`users-list__user ${usersChat.name === user.name ? 'selected' : ''}`} onClick={() => selectUser(user)} role="button">
       <div className="users-list__user--img">
         <img src={user.avatar || userPlaceholder} alt="" />
         <div className={user.isOnline ? 'check-online online' : 'check-online'}></div>

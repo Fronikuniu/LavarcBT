@@ -4,12 +4,11 @@ import { AiFillCamera } from 'react-icons/ai';
 import { storage, db, auth } from '../configuration/firebase';
 import { getDoc, doc, updateDoc } from 'firebase/firestore';
 import { updateProfile } from '@firebase/auth';
+import { toast } from 'react-toastify';
 
 const Settings = ({ loggedUser }) => {
   const [image, setImage] = useState('');
   const [user, setUser] = useState('');
-
-  console.log(loggedUser);
 
   useEffect(() => {
     if (auth.currentUser) {
@@ -42,10 +41,10 @@ const Settings = ({ loggedUser }) => {
           updateProfile(loggedUser, {
             photoURL: url,
           });
-
           setImage('');
+          toast.success('Ustawiono nowy avatar!');
         } catch (err) {
-          console.log(err.message);
+          toast.error('Błąd przy wyborze avatara!');
         }
       };
       uploadImage();
@@ -61,7 +60,7 @@ const Settings = ({ loggedUser }) => {
           <div className="settings__informations__image">
             <div>
               <img src={user?.avatar ? user.avatar : loggedUser.photoURL} alt="" />
-              <label htmlFor="file">
+              <label htmlFor="file" role="button">
                 <AiFillCamera />
               </label>
               <input

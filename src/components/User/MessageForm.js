@@ -6,7 +6,7 @@ const MessageForm = ({ handleSubmit, messageText, setMessageText, setMessageImag
   return (
     <form className="chat-form" onSubmit={handleSubmit}>
       <label htmlFor="img">
-        <BiImageAdd />
+        <BiImageAdd role="button" />
       </label>
       <input type="file" name="img" id="img" accept="image/*" onChange={(e) => setMessageImage(e.target.files[0])} />
 
@@ -14,7 +14,7 @@ const MessageForm = ({ handleSubmit, messageText, setMessageText, setMessageImag
         <textarea rows="1" placeholder="Message..." value={messageText} onChange={(e) => setMessageText(e.target.value)}></textarea>
 
         <label htmlFor="enter-message">
-          <IoSend className="send" />
+          <IoSend className="send" role="button" />
         </label>
         <input type="submit" id="enter-message" />
       </div>
