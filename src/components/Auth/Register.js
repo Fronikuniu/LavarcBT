@@ -2,15 +2,16 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import AuthImages from '../helpers/AuthImages';
+import PropTypes from 'prop-types';
 
-const Register = ({ setRegisterNewUserData, registerError, registerNewUser, logout, loggedUser }) => {
+const Register = ({ registerError, registerNewUser }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => setRegisterNewUserData(data);
+  const onSubmit = (data) => registerNewUser(data);
 
   return (
     <div className="container">
@@ -53,7 +54,7 @@ const Register = ({ setRegisterNewUserData, registerError, registerNewUser, logo
                 By creating an account, you agree to Lavarc <Link to="/privacy-policy">Privacy Policy</Link> and <Link to="terms-of-Use">Terms of Use</Link>.
               </p>
 
-              <input type="submit" onClick={registerNewUser} value="Sign up!" />
+              <input type="submit" value="Sign up!" />
             </form>
 
             <p>
@@ -64,6 +65,11 @@ const Register = ({ setRegisterNewUserData, registerError, registerNewUser, logo
       </div>
     </div>
   );
+};
+
+Register.propTypes = {
+  registerError: PropTypes.string,
+  registerNewUser: PropTypes.func.isRequired,
 };
 
 export default Register;

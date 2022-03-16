@@ -10,9 +10,7 @@ const Gallery = ({ images }) => {
 
   const imageLoaded = () => {
     counter.current += 1;
-    if (counter.current >= images.length) {
-      setLoading(false);
-    }
+    if (counter.current >= images.length) setLoading(false);
   };
 
   return (

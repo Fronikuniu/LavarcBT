@@ -41,9 +41,9 @@ const Footer = () => {
         <div className="footer__socials">
           <h3>Socials</h3>
 
-          <AiFillInstagram onClick={() => window.open('https://www.instagram.com/')} className="footer__socials__icon ig" />
-          <AiFillYoutube onClick={() => window.open('https://www.youtube.com/channel/UCt-UC9cGvjLL9CmpVRnbrbg')} className="footer__socials__icon yt" />
-          <SiDiscord onClick={() => window.open('https://discord.gg/VUMkwAXud8')} className="footer__socials__icon dc" />
+          <AiFillInstagram onClick={() => window.open('https://www.instagram.com/')} className="footer__socials__icon ig" role="button" />
+          <AiFillYoutube onClick={() => window.open('https://www.youtube.com/channel/UCt-UC9cGvjLL9CmpVRnbrbg')} className="footer__socials__icon yt" role="button" />
+          <SiDiscord onClick={() => window.open('https://discord.gg/VUMkwAXud8')} className="footer__socials__icon dc" role="button" />
         </div>
       </div>
 

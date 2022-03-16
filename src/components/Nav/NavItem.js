@@ -1,11 +1,14 @@
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-function NavItem(props) {
+const NavItem = ({ children }) => {
   return (
     <div className="nav__links__item">
-      <Link to={`/${props.children}`}>{props.children}</Link>
+      <Link to={`/${children}`}>{children}</Link>
     </div>
   );
-}
+};
+
+NavItem.propTypes = { children: PropTypes.string.isRequired };
 
 export default NavItem;

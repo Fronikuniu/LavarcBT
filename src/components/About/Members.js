@@ -15,13 +15,13 @@ const Members = [
     name: 'DristPl',
     memberSrc: 'https://lavarc.netlify.app/members/DristPl.png',
     about: '3Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum excepturi sint rem distinctio maxime aliquid in recusandae nostrum facilis tenetur.',
-    discord: 'Jacek Cieslak#5554',
+    discord: 'DristPl#5554',
   },
   {
     name: 'Mich4ll_',
     memberSrc: 'https://lavarc.netlify.app/members/Mich4ll_.png',
     about: '4Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum excepturi sint rem distinctio maxime aliquid in recusandae nostrum facilis tenetur.',
-    discord: 'Michall#9999',
+    discord: 'michal#1337',
   },
   {
     name: 'Fronikuniu',

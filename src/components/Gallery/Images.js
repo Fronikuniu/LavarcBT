@@ -160,16 +160,15 @@ const Images = [
     desc: 'Minecraft Angler Bedwars Map',
     imgurAlbum: 'https://imgur.com/gallery/mQsYYQ3',
   },
-
   {
-    id: 26,
+    id: 24,
     imageSrc: 'https://imgur.com/4UWXHCC.png',
     builder: 'Fronikuniu',
     desc: 'Minecraft Red Dragon',
     imgurAlbum: 'https://imgur.com/gallery/9Ih6eoy',
   },
   {
-    id: 27,
+    id: 25,
     imageSrc: 'https://imgur.com/sPua23R.png',
     builder: 'drummaks',
     desc: 'Minecraft Small Japanese House',

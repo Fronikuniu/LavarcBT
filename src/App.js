@@ -28,48 +28,44 @@ import ShopHome from './components/Shop/ShopHome';
 import Shop from './components/Shop/Shop';
 import ShopList from './components/Shop/ShopList';
 import ScrollToTop from './components/helpers/ScrollToTop';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function App() {
-  const [registerNewUserData, setRegisterNewUserData] = useState([]);
+const App = () => {
   const [registerError, setRegisterError] = useState('');
-  const [loginData, setLoginData] = useState([]);
   const [loginError, setLoginError] = useState('');
 
   const [loggedUser, setLoggedUser] = useState({});
   const [loggedUserData, setLoggedUserData] = useState({});
 
   useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
-      setLoggedUser(currentUser);
-    });
+    onAuthStateChanged(auth, (currentUser) => setLoggedUser(currentUser));
 
     if (auth.currentUser) {
       let uid = auth.currentUser.uid;
 
       getDoc(doc(db, 'users', uid)).then((docSnap) => {
-        if (docSnap.exists) {
-          setLoggedUserData(docSnap.data());
-        }
+        if (docSnap.exists) setLoggedUserData(docSnap.data());
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth.currentUser]);
 
   // Register
-  const registerNewUser = async () => {
-    await createUserWithEmailAndPassword(auth, registerNewUserData.Email, registerNewUserData.Password)
+  const registerNewUser = async (data) => {
+    await createUserWithEmailAndPassword(auth, data.Email, data.Password)
       .then((userCredential) => {
         const user = userCredential.user;
 
         updateProfile(user, {
-          displayName: registerNewUserData.Name,
+          displayName: data.Name,
           photoURL: 'https://remaxgem.com/wp-content/themes/tolips/images/placehoder-user.jpg',
         });
 
         const pushUserToFirestore = async () => {
           await setDoc(doc(db, 'users', user.uid), {
             uid: user.uid,
-            name: registerNewUserData.Name,
+            name: data.Name,
             email: user.email,
             createdAt: Timestamp.fromDate(new Date()),
             isOnline: true,
@@ -85,28 +81,19 @@ function App() {
   };
 
   // Login
-  const loginUser = async () => {
-    setLoginError('');
-    await signInWithEmailAndPassword(auth, loginData.Email, loginData.Password)
+  const loginUser = async (data) => {
+    await signInWithEmailAndPassword(auth, data.Email, data.Password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
 
         updateDoc(doc(db, 'users', user.uid), { isOnline: true });
       })
       .catch((error) => {
         const errorCode = error.code;
 
-        console.log(errorCode);
-        setLoginError(
-          errorCode === 'auth/missing-email'
-            ? ''
-            : 'Missing email.' || errorCode === 'auth/wrong-password'
-            ? 'The password provided is not valid.'
-            : '' || errorCode === 'auth/user-not-found'
-            ? 'The member with the given email does not exist.'
-            : ''
-        );
+        if (errorCode === 'auth/missing-email') setLoginError('Missing email.');
+        else if (errorCode === 'auth/wrong-password') setLoginError('The password provided is not valid.');
+        else if (errorCode === 'auth/user-not-found') setLoginError('The member with the given email does not exist.');
       });
   };
 
@@ -135,7 +122,6 @@ function App() {
         const errorMessage = error.message;
         const email = error.email;
         const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log(errorCode, errorMessage, email, credential);
       });
   };
 
@@ -164,7 +150,6 @@ function App() {
         const errorMessage = error.message;
         const email = error.email;
         const credential = FacebookAuthProvider.credentialFromError(error);
-        console.log(errorCode, errorMessage, email, credential);
       });
   };
 
@@ -193,22 +178,10 @@ function App() {
           <Auth logInWithGoogle={logInWithGoogle} logInWithFacebook={logInWithFacebook} />
         </Route>
         <Route path="/auth/login">
-          {/* Add redirect to '/' when user logged */}
           {/* Need to fix overwrite data when pushing google user to firestore */}
-          <Login
-            setLoginData={setLoginData}
-            loginUser={loginUser}
-            logInWithGoogle={logInWithGoogle}
-            logInWithFacebook={logInWithFacebook}
-            logout={logout}
-            loggedUser={loggedUser}
-            loginError={loginError}
-          />
+          {loggedUser ? <Redirect to="/" /> : <Login loginUser={loginUser} logInWithGoogle={logInWithGoogle} logInWithFacebook={logInWithFacebook} loginError={loginError} />}
         </Route>
-        <Route path="/auth/register">
-          {/* Add redirect to '/' when user create account */}
-          <Register setRegisterNewUserData={setRegisterNewUserData} registerNewUser={registerNewUser} loggedUser={loggedUser} logout={logout} registerError={registerError} />
-        </Route>
+        <Route path="/auth/register">{loggedUser ? <Redirect to="/" /> : <Register registerNewUser={registerNewUser} registerError={registerError} />}</Route>
 
         <Route path="/about">
           <About />
@@ -243,11 +216,12 @@ function App() {
 
       <ShopHome />
       <Footer />
+      <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
     </Router>
 
     // TO DO
     // - Form for opionions
   );
-}
+};
 
 export default App;

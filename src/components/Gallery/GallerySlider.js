@@ -10,21 +10,12 @@ const GallerySlider = ({ images }) => {
   const prev = current === 0 ? length - 1 : current - 1;
   const next = current === length - 1 ? 0 : current + 1;
 
-  const prevSlide = () => {
-    setCurrent(prev);
-  };
-
-  const nextSlide = () => {
-    setCurrent(next);
-  };
+  const prevSlide = () => setCurrent(prev);
+  const nextSlide = () => setCurrent(next);
 
   useEffect(() => {
-    let t = setTimeout(() => {
-      setCurrent(next);
-    }, 10000);
-    return () => {
-      clearTimeout(t);
-    };
+    let galleryTimeout = setTimeout(() => setCurrent(next), 10000);
+    return () => clearTimeout(galleryTimeout);
   });
 
   return (
@@ -34,8 +25,8 @@ const GallerySlider = ({ images }) => {
         <h3 className="headerwTextStroke">Projects</h3>
       </div>
       <div className="slider">
-        <IoIosArrowDropleft onClick={prevSlide} className="arrow arrowPrev" />
-        <IoIosArrowDropright onClick={nextSlide} className="arrow arrowNext" />
+        <IoIosArrowDropleft onClick={prevSlide} className="arrow arrowPrev" role="button" />
+        <IoIosArrowDropright onClick={nextSlide} className="arrow arrowNext" role="button" />
 
         {images.map((img, index) => {
           return (

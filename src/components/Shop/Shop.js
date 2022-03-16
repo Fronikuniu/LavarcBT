@@ -2,6 +2,7 @@ import React from 'react';
 import Bestsellers from './Bestsellers';
 import OrderForm from './OrderForm';
 import ShopSlider from './ShopSlider';
+import PropTypes from 'prop-types';
 
 const Shop = ({ shopList, bestsellers }) => {
   return (
@@ -28,6 +29,11 @@ const Shop = ({ shopList, bestsellers }) => {
       </div>
     </section>
   );
+};
+
+Shop.propTypes = {
+  shopList: PropTypes.array.isRequired,
+  bestsellers: PropTypes.array.isRequired,
 };
 
 export default Shop;

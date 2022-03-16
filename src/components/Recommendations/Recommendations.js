@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+import PropTypes from 'prop-types';
 
 const Recommendations = ({ opinions }) => {
   const [current, setCurrent] = useState(0);
@@ -9,14 +10,8 @@ const Recommendations = ({ opinions }) => {
   const prev = current === 0 ? length - 1 : current - 1;
   const next = current === length - 1 ? 0 : current + 1;
 
-  const prevSlide = () => {
-    setCurrent(prev);
-  };
-
-  const nextSlide = () => {
-    setCurrent(next);
-  };
-
+  const prevSlide = () => setCurrent(prev);
+  const nextSlide = () => setCurrent(next);
   const displayStars = (stars) => {
     const starContainer = [];
 
@@ -36,12 +31,8 @@ const Recommendations = ({ opinions }) => {
   };
 
   useEffect(() => {
-    let t = setTimeout(() => {
-      setCurrent(next);
-    }, 10000);
-    return () => {
-      clearTimeout(t);
-    };
+    let recommendationTimeout = setTimeout(() => setCurrent(next), 10000);
+    return () => clearTimeout(recommendationTimeout);
   });
 
   return (
@@ -51,8 +42,8 @@ const Recommendations = ({ opinions }) => {
         <h3 className="headerwTextStroke">About us</h3>
 
         <div className="slider">
-          <IoIosArrowDropleft onClick={prevSlide} className="arrow arrowPrev" />
-          <IoIosArrowDropright onClick={nextSlide} className="arrow arrowNext" />
+          <IoIosArrowDropleft onClick={prevSlide} className="arrow arrowPrev" role="button" />
+          <IoIosArrowDropright onClick={nextSlide} className="arrow arrowNext" role="button" />
 
           {opinions.map((opinion, index) => {
             return (
@@ -77,5 +68,7 @@ const Recommendations = ({ opinions }) => {
     </section>
   );
 };
+
+Recommendations.propTypes = { opinions: PropTypes.array.isRequired };
 
 export default Recommendations;

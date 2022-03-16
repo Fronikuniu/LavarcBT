@@ -4,21 +4,19 @@ import { AiFillCamera } from 'react-icons/ai';
 import { storage, db, auth } from '../configuration/firebase';
 import { getDoc, doc, updateDoc } from 'firebase/firestore';
 import { updateProfile } from '@firebase/auth';
+import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
 
 const Settings = ({ loggedUser }) => {
   const [image, setImage] = useState('');
   const [user, setUser] = useState('');
-
-  console.log(loggedUser);
 
   useEffect(() => {
     if (auth.currentUser) {
       let uid = auth.currentUser.uid;
 
       getDoc(doc(db, 'users', uid)).then((docSnap) => {
-        if (docSnap.exists) {
-          setUser(docSnap.data());
-        }
+        if (docSnap.exists) setUser(docSnap.data());
       });
     }
 
@@ -27,9 +25,7 @@ const Settings = ({ loggedUser }) => {
         const imgRef = ref(storage, `avatars/${new Date().getTime()} - ${image.name}`);
 
         try {
-          if (user.avatarPath) {
-            await deleteObject(ref(storage, user.avatarPath));
-          }
+          if (user.avatarPath) await deleteObject(ref(storage, user.avatarPath));
 
           const snapshot = await uploadBytes(imgRef, image);
           const url = await getDownloadURL(ref(storage, snapshot.ref.fullPath));
@@ -42,10 +38,10 @@ const Settings = ({ loggedUser }) => {
           updateProfile(loggedUser, {
             photoURL: url,
           });
-
           setImage('');
+          toast.success('Ustawiono nowy avatar!');
         } catch (err) {
-          console.log(err.message);
+          toast.error('Błąd przy wyborze avatara!');
         }
       };
       uploadImage();
@@ -61,18 +57,10 @@ const Settings = ({ loggedUser }) => {
           <div className="settings__informations__image">
             <div>
               <img src={user?.avatar ? user.avatar : loggedUser.photoURL} alt="" />
-              <label htmlFor="file">
+              <label htmlFor="file" role="button">
                 <AiFillCamera />
               </label>
-              <input
-                type="file"
-                name="file"
-                id="file"
-                accept="image/*"
-                onChange={(e) => {
-                  setImage(e.target.files[0]);
-                }}
-              />
+              <input type="file" name="file" id="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
             </div>
           </div>
 
@@ -86,5 +74,7 @@ const Settings = ({ loggedUser }) => {
     </section>
   ) : null;
 };
+
+Settings.propTypes = { loggedUser: PropTypes.object.isRequired };
 
 export default Settings;

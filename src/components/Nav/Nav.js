@@ -11,7 +11,7 @@ import { db, auth } from '../configuration/firebase';
 import { getDoc, doc } from 'firebase/firestore';
 import logo from '../../images/lavarcawatar.png';
 
-function Nav({ loggedUser, logout }) {
+const Nav = ({ loggedUser, logout }) => {
   const location = useLocation();
   const navi = useRef();
   const [user, setUser] = useState('');
@@ -21,17 +21,12 @@ function Nav({ loggedUser, logout }) {
   const dropdown = useRef();
 
   const stickyNav = () => {
-    if (window.scrollY >= 70) {
-      navi.current.classList.add('active');
-    } else {
-      navi.current.classList.remove('active');
-    }
+    if (window.scrollY >= 70) navi.current.classList.add('active');
+    else navi.current.classList.remove('active');
   };
 
   const changeOpen = (event) => {
-    if (dropdown.current && !dropdown.current.contains(event.target)) {
-      setOpenUserProfile(false);
-    }
+    if (dropdown.current && !dropdown.current.contains(event.target)) setOpenUserProfile(false);
   };
 
   useEffect(() => {
@@ -39,9 +34,7 @@ function Nav({ loggedUser, logout }) {
       let uid = auth.currentUser.uid;
 
       getDoc(doc(db, 'users', uid)).then((docSnap) => {
-        if (docSnap.exists) {
-          setUser(docSnap.data());
-        }
+        if (docSnap.exists) setUser(docSnap.data());
       });
     }
 
@@ -96,12 +89,7 @@ function Nav({ loggedUser, logout }) {
           </div>
         </div>
 
-        <div
-          className="rwd-button"
-          onClick={() => {
-            setOpenMenu(true);
-          }}
-        >
+        <div className="rwd-button" onClick={() => setOpenMenu(true)} role="button">
           <HiMenuAlt3 />
         </div>
 
@@ -114,12 +102,7 @@ function Nav({ loggedUser, logout }) {
                 </Link>
               </div>
 
-              <MdOutlineClose
-                className="close"
-                onClick={() => {
-                  setOpenMenu(false);
-                }}
-              />
+              <MdOutlineClose className="close" onClick={() => setOpenMenu(false)} role="button" />
             </div>
           </div>
 
@@ -185,10 +168,11 @@ function Nav({ loggedUser, logout }) {
       </div>
     </nav>
   );
-}
+};
 
 Nav.propTypes = {
   loggedUser: PropTypes.object,
+  logout: PropTypes.func.isRequired,
 };
 
 export default Nav;

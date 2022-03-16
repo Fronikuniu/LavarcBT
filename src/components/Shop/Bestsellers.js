@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Bestsellers = ({ bestsellers }) => {
   return bestsellers.map((bestseller) => {
@@ -20,5 +21,7 @@ const Bestsellers = ({ bestsellers }) => {
     );
   });
 };
+
+Bestsellers.propTypes = { bestsellers: PropTypes.array.isRequired };
 
 export default Bestsellers;

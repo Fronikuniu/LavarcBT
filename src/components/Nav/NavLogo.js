@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import logo from '../../images/lavarcawatar.png';
 
-function NavLogo() {
+const NavLogo = () => {
   return (
     <div className="nav__item nav__logo">
       <Link to="/" aria-label="home">
@@ -9,6 +9,6 @@ function NavLogo() {
       </Link>
     </div>
   );
-}
+};
 
 export default NavLogo;
