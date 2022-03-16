@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import AuthImages from '../helpers/AuthImages';
+import PropTypes from 'prop-types';
 
 const Auth = ({ logInWithGoogle, logInWithFacebook }) => {
   return (
@@ -38,6 +39,11 @@ const Auth = ({ logInWithGoogle, logInWithFacebook }) => {
       </div>
     </div>
   );
+};
+
+Auth.propTypes = {
+  logInWithGoogle: PropTypes.func.isRequired,
+  logInWithFacebook: PropTypes.func.isRequired,
 };
 
 export default Auth;

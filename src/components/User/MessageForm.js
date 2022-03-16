@@ -1,6 +1,7 @@
 import React from 'react';
 import { IoSend } from 'react-icons/io5';
 import { BiImageAdd } from 'react-icons/bi';
+import PropTypes from 'prop-types';
 
 const MessageForm = ({ handleSubmit, messageText, setMessageText, setMessageImage }) => {
   return (
@@ -20,6 +21,13 @@ const MessageForm = ({ handleSubmit, messageText, setMessageText, setMessageImag
       </div>
     </form>
   );
+};
+
+MessageForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  messageText: PropTypes.string.isRequired,
+  setMessageText: PropTypes.func.isRequired,
+  setMessageImage: PropTypes.func.isRequired,
 };
 
 export default MessageForm;

@@ -10,21 +10,12 @@ const AboutMembers = ({ members }) => {
   const prev = current === 0 ? length - 1 : current - 1;
   const next = current === length - 1 ? 0 : current + 1;
 
-  const nextMember = () => {
-    setCurrent(next);
-  };
-
-  const prevMember = () => {
-    setCurrent(prev);
-  };
+  const nextMember = () => setCurrent(next);
+  const prevMember = () => setCurrent(prev);
 
   useEffect(() => {
-    let t = setTimeout(() => {
-      setCurrent(next);
-    }, 10000);
-    return () => {
-      clearTimeout(t);
-    };
+    let membersTimeout = setTimeout(() => setCurrent(next), 10000);
+    return () => clearTimeout(membersTimeout);
   });
 
   return (
@@ -40,13 +31,7 @@ const AboutMembers = ({ members }) => {
         {members.map((member, index) => {
           return (
             <React.Fragment key={index}>
-              <div
-                className={prev === index ? 'member prev' : 'member'}
-                onClick={() => {
-                  setCurrent(index);
-                }}
-                role="button"
-              >
+              <div className={prev === index ? 'member prev' : 'member'} onClick={() => setCurrent(index)} role="button">
                 {prev === index && (
                   <>
                     <p className="member__name">
@@ -69,13 +54,7 @@ const AboutMembers = ({ members }) => {
                 )}
               </div>
 
-              <div
-                className={next === index ? 'member next' : 'member'}
-                onClick={() => {
-                  setCurrent(index);
-                }}
-                role="button"
-              >
+              <div className={next === index ? 'member next' : 'member'} onClick={() => setCurrent(index)} role="button">
                 {next === index && (
                   <>
                     <p className="member__name">

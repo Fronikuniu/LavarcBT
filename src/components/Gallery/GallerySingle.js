@@ -8,9 +8,7 @@ const GallerySingle = ({ images }) => {
   const [image, setImage] = useState([]);
   const { id } = useParams();
 
-  useEffect(() => {
-    setImage(images.find((img) => img.id === Number(id)));
-  }, [images, id]);
+  useEffect(() => setImage(images.find((img) => img.id === Number(id))), [images, id]);
 
   return (
     <section className="gallery__single">

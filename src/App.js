@@ -31,7 +31,7 @@ import ScrollToTop from './components/helpers/ScrollToTop';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function App() {
+const App = () => {
   const [registerError, setRegisterError] = useState('');
   const [loginError, setLoginError] = useState('');
 
@@ -39,17 +39,13 @@ function App() {
   const [loggedUserData, setLoggedUserData] = useState({});
 
   useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
-      setLoggedUser(currentUser);
-    });
+    onAuthStateChanged(auth, (currentUser) => setLoggedUser(currentUser));
 
     if (auth.currentUser) {
       let uid = auth.currentUser.uid;
 
       getDoc(doc(db, 'users', uid)).then((docSnap) => {
-        if (docSnap.exists) {
-          setLoggedUserData(docSnap.data());
-        }
+        if (docSnap.exists) setLoggedUserData(docSnap.data());
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -226,6 +222,6 @@ function App() {
     // TO DO
     // - Form for opionions
   );
-}
+};
 
 export default App;

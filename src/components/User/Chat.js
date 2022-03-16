@@ -7,6 +7,7 @@ import Message from './Message';
 import MessageForm from './MessageForm';
 import UserList from './UserList';
 import { ImUsers } from 'react-icons/im';
+import PropTypes from 'prop-types';
 
 const UsersList = ({ loggedUser, loggedUserData }) => {
   const [usersList, setUsersList] = useState([]);
@@ -23,16 +24,13 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
   const userList = useRef();
 
   const changeOpen = (event) => {
-    if (userList.current && !userList.current.contains(event.target)) {
-      setOpen(false);
-    }
+    if (userList.current && !userList.current.contains(event.target)) setOpen(false);
   };
 
   useEffect(() => {
     // need fix sender, when is first render we can see logged user in the users list
-    if (auth.currentUser) {
-      setSender(auth.currentUser.uid);
-    }
+    if (auth.currentUser) setSender(auth.currentUser.uid);
+
     const usersRef = collection(db, 'users');
 
     const q = query(usersRef, where('uid', 'not-in', [sender]));
@@ -63,17 +61,13 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
 
     onSnapshot(q, (querySnapshot) => {
       const messages = [];
-      querySnapshot.forEach((doc) => {
-        messages.push(doc.data());
-      });
+      querySnapshot.forEach((doc) => messages.push(doc.data()));
 
       setAllMessages(messages);
     });
 
     const docSnapshot = await getDoc(doc(db, 'lastMessage', id));
-    if (docSnapshot.data() && docSnapshot.data().from !== sender) {
-      await updateDoc(doc(db, 'lastMessage', id), { unread: false });
-    }
+    if (docSnapshot.data() && docSnapshot.data().from !== sender) await updateDoc(doc(db, 'lastMessage', id), { unread: false });
   };
 
   const handleSubmit = async (e) => {
@@ -117,12 +111,8 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
         <div className={`users-container ${open ? 'open' : ''}`}>
           <div className="users-list" ref={userList}>
             {loggedUserData.isAdmin
-              ? usersList.map((user) => {
-                  return <UserList user={user} selectUser={selectUser} key={user.uid} sender={sender} usersChat={usersChat} />;
-                })
-              : adminList.map((user) => {
-                  return <UserList user={user} selectUser={selectUser} key={user.uid} sender={sender} usersChat={usersChat} />;
-                })}
+              ? usersList.map((user) => <UserList user={user} selectUser={selectUser} key={user.uid} sender={sender} usersChat={usersChat} />)
+              : adminList.map((user) => <UserList user={user} selectUser={selectUser} key={user.uid} sender={sender} usersChat={usersChat} />)}
           </div>
 
           <ImUsers className="users-list-btn" onClick={() => setOpen(!open)} role="button" />
@@ -166,6 +156,11 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
       </section>
     </div>
   );
+};
+
+UsersList.propTypes = {
+  loggedUser: PropTypes.object.isRequired,
+  loggedUserData: PropTypes.object.isRequired,
 };
 
 export default UsersList;

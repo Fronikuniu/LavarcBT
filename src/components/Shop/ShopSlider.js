@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const ShopSlider = ({ shopList }) => {
   const [current, setCurrent] = useState(0);
@@ -12,21 +13,12 @@ const ShopSlider = ({ shopList }) => {
   const prev = current === 0 ? length - 1 : current - 1;
   const next = current === length - 1 ? 0 : current + 1;
 
-  const prevSlide = () => {
-    setCurrent(prev);
-  };
-
-  const nextSlide = () => {
-    setCurrent(next);
-  };
+  const prevSlide = () => setCurrent(prev);
+  const nextSlide = () => setCurrent(next);
 
   useEffect(() => {
-    let t = setTimeout(() => {
-      setCurrent(next);
-    }, 10000);
-    return () => {
-      clearTimeout(t);
-    };
+    let shopTimeout = setTimeout(() => setCurrent(next), 10000);
+    return () => clearTimeout(shopTimeout);
   });
 
   return (
@@ -77,5 +69,7 @@ const ShopSlider = ({ shopList }) => {
     </div>
   );
 };
+
+ShopSlider.propTypes = { shopList: PropTypes.array.isRequired };
 
 export default ShopSlider;

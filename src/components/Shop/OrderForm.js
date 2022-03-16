@@ -31,21 +31,13 @@ const OrderForm = () => {
   const validateForm = (e) => {
     e.preventDefault();
 
-    if (email === '') {
-      setEmailError('Email is required!');
-    } else if (regexEmail.exec(email) === null) {
-      setEmailError('Enter correct address email!');
-    } else {
-      setEmailError('');
-    }
+    if (email === '') setEmailError('Email is required!');
+    else if (regexEmail.exec(email) === null) setEmailError('Enter correct address email!');
+    else setEmailError('');
 
-    if (discord === '') {
-      setDiscordError('Discord is required!');
-    } else if (regexDiscord.exec(discord) === null) {
-      setDiscordError('Enter correct discord tag!');
-    } else {
-      setDiscordError('');
-    }
+    if (discord === '') setDiscordError('Discord is required!');
+    else if (regexDiscord.exec(discord) === null) setDiscordError('Enter correct discord tag!');
+    else setDiscordError('');
 
     setTimezoneError(timezone === '' || timezone === 'default' ? 'Select timezone!' : '');
     setPackageError(packag === '' || packag === 'default' ? 'Select package!' : '');
@@ -73,9 +65,7 @@ const OrderForm = () => {
         setDeadline('');
 
         toast.success('Wysłano email.');
-      } else {
-        toast.error('Błąd przy wysyłaniu.');
-      }
+      } else toast.error('Błąd przy wysyłaniu.');
     }
     return () => setClicked(false);
   }, [clicked, emailError, discordError, timezoneError, packagError, messageError, budgetError, deadlineError]);

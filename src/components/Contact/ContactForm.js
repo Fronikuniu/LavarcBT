@@ -36,9 +36,7 @@ const ContactForm = () => {
         setMessage('');
 
         toast.success('Wiadomość wysłana!');
-      } else {
-        toast.error('Błąd przy wysyłaniu wiadomości!');
-      }
+      } else toast.error('Błąd przy wysyłaniu wiadomości!');
     }
     return () => setClicked(false);
   }, [clicked, email, emailError, message, messageError, name, nameError]);

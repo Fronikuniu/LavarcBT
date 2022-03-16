@@ -1,4 +1,4 @@
-function Home() {
+const Home = () => {
   return (
     <section className="landingPage">
       <div className="container">
@@ -14,6 +14,6 @@ function Home() {
       </div>
     </section>
   );
-}
+};
 
 export default Home;

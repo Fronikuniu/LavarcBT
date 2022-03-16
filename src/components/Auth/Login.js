@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import AuthImages from '../helpers/AuthImages';
 import { BsFacebook } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
+import PropTypes from 'prop-types';
 
 const Login = ({ logInWithFacebook, logInWithGoogle, loginError, loginUser }) => {
   const {
@@ -65,6 +66,13 @@ const Login = ({ logInWithFacebook, logInWithGoogle, loginError, loginUser }) =>
       </div>
     </div>
   );
+};
+
+Login.propTypes = {
+  logInWithFacebook: PropTypes.func.isRequired,
+  logInWithGoogle: PropTypes.func.isRequired,
+  loginError: PropTypes.string,
+  loginUser: PropTypes.func.isRequired,
 };
 
 export default Login;

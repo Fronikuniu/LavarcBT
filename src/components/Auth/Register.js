@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import AuthImages from '../helpers/AuthImages';
+import PropTypes from 'prop-types';
 
 const Register = ({ registerError, registerNewUser }) => {
   const {
@@ -64,6 +65,11 @@ const Register = ({ registerError, registerNewUser }) => {
       </div>
     </div>
   );
+};
+
+Register.propTypes = {
+  registerError: PropTypes.string,
+  registerNewUser: PropTypes.func.isRequired,
 };
 
 export default Register;
