@@ -21,7 +21,8 @@ const Register = ({ registerError, registerNewUser }) => {
         <div className="auth__form">
           <div className="auth__form-register">
             <h1>Register with Email</h1>
-            <p>Create an account, it's free! Thanks to it you will be able to communicate with our community.</p>
+						
+            <p>{'Create an account, it\'s free! Thanks to it you will be able to communicate with our community.'}</p>
             <form onSubmit={handleSubmit(onSubmit)}>
               <input
                 type="text"

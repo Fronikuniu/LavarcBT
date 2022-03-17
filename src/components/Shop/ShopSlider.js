@@ -8,7 +8,7 @@ const ShopSlider = ({ shopList }) => {
   const length = shopList.length;
 
   const regex = / /gm;
-  const subst = `_`;
+  const subst = '_';
 
   const prev = current === 0 ? length - 1 : current - 1;
   const next = current === length - 1 ? 0 : current + 1;

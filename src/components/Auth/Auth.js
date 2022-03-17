@@ -15,8 +15,8 @@ const Auth = ({ logInWithGoogle, logInWithFacebook }) => {
               <h1 className="select__method-h1">
                 <span>Lavarc</span> invites You to join our ranks!
               </h1>
-
-              <p className="select__method-p1">Create an account, it's free! Thanks to it you will be able to communicate with our community.</p>
+							
+              <p className="select__method-p1">{'Create an account, it\'s free! Thanks to it you will be able to communicate with our community.'}</p>
 
               <div className="select__method-buttons">
                 <button className="btn" onClick={logInWithGoogle}>

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { addDoc, collection, doc, getDoc, onSnapshot, orderBy, query, setDoc, Timestamp, updateDoc, where } from '@firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
 import React, { useEffect, useRef, useState } from 'react';
@@ -128,8 +127,8 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
               <div className="messages">
                 {allMessages.length
                   ? allMessages.map((message, i) => {
-                      return <Message key={i} message={message} loggedUser={loggedUser} />;
-                    })
+                    return <Message key={i} message={message} loggedUser={loggedUser} />;
+                  })
                   : null}
               </div>
 

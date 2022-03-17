@@ -48,7 +48,6 @@ const App = () => {
         if (docSnap.exists) setLoggedUserData(docSnap.data());
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth.currentUser]);
 
   // Register
@@ -199,7 +198,6 @@ const App = () => {
           <SingleMember images={Images} members={Members} />
         </Route>
 
-        {}
         <Route exact path="/shop">
           <Shop shopList={ShopList} bestsellers={ShopList.slice(0, 8)} />
         </Route>
@@ -219,8 +217,8 @@ const App = () => {
       <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
     </Router>
 
-    // TO DO
-    // - Form for opionions
+  // TO DO
+  // - Form for opionions
   );
 };
 

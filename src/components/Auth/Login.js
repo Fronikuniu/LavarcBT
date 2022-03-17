@@ -59,7 +59,7 @@ const Login = ({ logInWithFacebook, logInWithGoogle, loginError, loginUser }) =>
             </form>
 
             <p>
-              Don't have an account? <Link to="/auth/register">Sign up.</Link>
+              {' Don\'t have an account?'} <Link to="/auth/register">Sign up.</Link>
             </p>
           </div>
         </div>

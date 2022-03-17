@@ -19,7 +19,8 @@ const GallerySingle = ({ images }) => {
           </div>
           <div className="gallery__single__content-text">
             <p>
-              What's built: <span>{image?.desc}</span>
+							
+              {'What\'s built:'} <span>{image?.desc}</span>
             </p>
             <p>
               This beautiful building was built by: <Link to={`/builder/${image?.builder}`}>{image?.builder}</Link>
