@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ContactForm from './ContactForm';
 
-const Contact = () => {
+function Contact() {
   return (
     <div className="contact">
       <div className="container">
@@ -11,8 +11,8 @@ const Contact = () => {
           <ContactForm />
         </div>
 
-        <div className="vertical-or"></div>
-        <div className="horizontal-or"></div>
+        <div className="vertical-or" />
+        <div className="horizontal-or" />
 
         <div className="contact__chat">
           <h2>Write to us via our chat app</h2>
@@ -24,6 +24,6 @@ const Contact = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Contact;

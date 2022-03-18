@@ -1,12 +1,12 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import AuthImages from '../helpers/AuthImages';
 import { BsFacebook } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import PropTypes from 'prop-types';
+import AuthImages from '../helpers/AuthImages';
 
-const Login = ({ logInWithFacebook, logInWithGoogle, loginError, loginUser }) => {
+function Login({ logInWithFacebook, logInWithGoogle, loginError, loginUser }) {
   const {
     register,
     handleSubmit,
@@ -30,12 +30,16 @@ const Login = ({ logInWithFacebook, logInWithGoogle, loginError, loginUser }) =>
               <FcGoogle onClick={logInWithGoogle} role="button" />
             </div>
 
-            <div className="horizontal-or"></div>
+            <div className="horizontal-or" />
 
             <form onSubmit={handleSubmit(onSubmit)}>
               <input
                 type="text"
-                className={errors.Email?.type === 'required' || errors.Email?.type === 'pattern' ? 'input-error' : ''}
+                className={
+                  errors.Email?.type === 'required' || errors.Email?.type === 'pattern'
+                    ? 'input-error'
+                    : ''
+                }
                 placeholder={errors.Email?.type === 'required' ? 'Email is required!' : 'Email'}
                 autoComplete="email"
                 {...register('Email', { required: true, pattern: /^\S+@\S+$/i })}
@@ -43,8 +47,14 @@ const Login = ({ logInWithFacebook, logInWithGoogle, loginError, loginUser }) =>
 
               <input
                 type="password"
-                className={errors.Password?.type === 'required' || errors.Password?.type === 'minLength' ? 'input-error' : ''}
-                placeholder={errors.Password?.type === 'required' ? 'Password is required!' : 'Password'}
+                className={
+                  errors.Password?.type === 'required' || errors.Password?.type === 'minLength'
+                    ? 'input-error'
+                    : ''
+                }
+                placeholder={
+                  errors.Password?.type === 'required' ? 'Password is required!' : 'Password'
+                }
                 autoComplete="current-password"
                 {...register('Password', { required: true, minLength: 6 })}
               />
@@ -52,21 +62,21 @@ const Login = ({ logInWithFacebook, logInWithGoogle, loginError, loginUser }) =>
               {loginError ? <p className="par-error">{loginError}</p> : ''}
 
               <p>
-                Have you forgotten your password? <Link to="">Click!</Link>
+                Have you forgotten your password? <Link to="/reset-password">Click!</Link>
               </p>
 
               <input type="submit" value="Sign up!" />
             </form>
 
             <p>
-              {' Don\'t have an account?'} <Link to="/auth/register">Sign up.</Link>
+              {" Don't have an account?"} <Link to="/auth/register">Sign up.</Link>
             </p>
           </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 Login.propTypes = {
   logInWithFacebook: PropTypes.func.isRequired,

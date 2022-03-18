@@ -5,11 +5,14 @@ import { toast } from 'react-toastify';
 import { uid } from 'uid';
 import drummaks from '../../images/char.png';
 import { db } from '../configuration/firebase';
-import { useRouter } from '../helpers/useRouter';
+import useRouter from '../helpers/useRouter';
 
-const RecommendationForm = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = data => addOpinion(data);
+function RecommendationForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const router = useRouter();
 
   const addOpinion = async (data) => {
@@ -20,12 +23,14 @@ const RecommendationForm = () => {
       isAccepted: false,
       opinion: data.Opinion,
       rate: Number(data.Rate),
-      created: Timestamp.fromDate(new Date())
+      created: Timestamp.fromDate(new Date()),
     });
     router.push('/');
     toast.success('Wysłano opinie, zaczekaj na potwierdzenie!');
   };
-  
+
+  const onSubmit = (data) => addOpinion(data);
+
   return (
     <div className="recommendation">
       <div className="container">
@@ -38,7 +43,9 @@ const RecommendationForm = () => {
               <input
                 type="text"
                 className={errors.Username?.type === 'required' ? 'input-error' : ''}
-                placeholder={errors.Username?.type === 'required' ? 'Username is required!' : 'Username'}
+                placeholder={
+                  errors.Username?.type === 'required' ? 'Username is required!' : 'Username'
+                }
                 name="name"
                 id="name"
                 {...register('Username', { required: true, maxLength: 20 })}
@@ -46,7 +53,9 @@ const RecommendationForm = () => {
               <input
                 type="text"
                 className={errors.Community?.type === 'required' ? 'input-error' : ''}
-                placeholder={errors.Community?.type === 'required' ? 'Community is required!' : 'Community'}
+                placeholder={
+                  errors.Community?.type === 'required' ? 'Community is required!' : 'Community'
+                }
                 name="community"
                 id="community"
                 {...register('Community', { required: true, maxLength: 20 })}
@@ -54,7 +63,9 @@ const RecommendationForm = () => {
               <textarea
                 type="text"
                 className={errors.Opinion?.type === 'required' ? 'input-error' : ''}
-                placeholder={errors.Opinion?.type === 'required' ? 'Opinion is required!' : 'Opinion'}
+                placeholder={
+                  errors.Opinion?.type === 'required' ? 'Opinion is required!' : 'Opinion'
+                }
                 name="opinion"
                 id="opinion"
                 {...register('Opinion', { required: true, maxLength: 300 })}
@@ -81,6 +92,6 @@ const RecommendationForm = () => {
       </div>
     </div>
   );
-};
+}
 
 export default RecommendationForm;

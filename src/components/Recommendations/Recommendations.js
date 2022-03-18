@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
-import { collection,  getDocs, limit, orderBy, query, where } from 'firebase/firestore';
+import { collection, getDocs, limit, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../configuration/firebase';
 
-const Recommendations = () => {
+function Recommendations() {
   const [current, setCurrent] = useState(0);
   const [allOpinions, setAllOpinions] = useState([]);
   const length = allOpinions?.length;
@@ -39,7 +39,12 @@ const Recommendations = () => {
   });
 
   useEffect(async () => {
-    const q = query(collection(db, 'opinions'), where('isAccepted', '==', true), orderBy('created'), limit(5));
+    const q = query(
+      collection(db, 'opinions'),
+      where('isAccepted', '==', true),
+      orderBy('created'),
+      limit(5)
+    );
     const querySnapshot = await getDocs(q);
 
     const opinions = [];
@@ -49,18 +54,19 @@ const Recommendations = () => {
     setAllOpinions(opinions);
   }, []);
 
-  return !allOpinions ? null :(
+  return !allOpinions ? null : (
     <section className="recommendations">
       <div className="container">
         <h2 className="headerTextStroke">Opinions</h2>
         <h3 className="headerwTextStroke">About us</h3>
 
         <div className="slider">
-          {allOpinions?.length >= 2 &&
-            (<>
+          {allOpinions?.length >= 2 && (
+            <>
               <IoIosArrowDropleft onClick={prevSlide} className="arrow arrowPrev" role="button" />
               <IoIosArrowDropright onClick={nextSlide} className="arrow arrowNext" role="button" />
-            </>)}
+            </>
+          )}
 
           {allOpinions?.map((opinion, index) => {
             return (
@@ -84,6 +90,6 @@ const Recommendations = () => {
       </div>
     </section>
   );
-};
+}
 
 export default Recommendations;

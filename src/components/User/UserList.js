@@ -1,25 +1,31 @@
 import { doc, onSnapshot } from '@firebase/firestore';
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import userPlaceholder from '../../images/placeholder-user.jpg';
 import { db } from '../configuration/firebase';
-import PropTypes from 'prop-types';
 
-const UserList = ({ sender, user, selectUser, usersChat }) => {
+function UserList({ sender, user, selectUser, usersChat }) {
   const receiver = user?.uid;
   const [data, setData] = useState('');
 
   useEffect(() => {
     const id = sender > receiver ? `${sender + receiver}` : `${receiver + sender}`;
-    let unsub = onSnapshot(doc(db, 'lastMessage', id), (doc) => setData(doc.data()));
+    const unsub = onSnapshot(doc(db, 'lastMessage', id), (res) => setData(res.data()));
 
     return () => unsub();
   }, []);
 
   return (
-    <div className={`users-list__user ${usersChat.name === user.name ? 'selected' : ''}`} onClick={() => selectUser(user)} role="button">
+    <div
+      className={`users-list__user ${usersChat.name === user.name ? 'selected' : ''}`}
+      onClick={() => selectUser(user)}
+      onKeyDown={() => selectUser(user)}
+      role="button"
+      tabIndex="0"
+    >
       <div className="users-list__user--img">
         <img src={user.avatar || userPlaceholder} alt="" />
-        <div className={user.isOnline ? 'check-online online' : 'check-online'}></div>
+        <div className={user.isOnline ? 'check-online online' : 'check-online'} />
       </div>
       <div className="users-list__user--info">
         <p className="truncate name">{user.name}</p>
@@ -38,7 +44,7 @@ const UserList = ({ sender, user, selectUser, usersChat }) => {
       </div>
     </div>
   );
-};
+}
 
 UserList.propTypes = {
   sender: PropTypes.string.isRequired,

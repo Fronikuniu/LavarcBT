@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import emailjs from 'emailjs-com';
-import { EmailJsConf } from '../configuration/emailjs';
 import { toast } from 'react-toastify';
+import EmailJsConf from '../configuration/emailjs';
 
-const ContactForm = () => {
+function ContactForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -16,9 +16,9 @@ const ContactForm = () => {
 
   const validateForm = (e) => {
     e.preventDefault();
-    setNameError(name === '' ? true : false);
-    setEmailError(email === '' ? true : false);
-    setMessageError(message === '' ? true : false);
+    setNameError(name === '');
+    setEmailError(email === '');
+    setMessageError(message === '');
 
     setClicked(true);
   };
@@ -26,10 +26,17 @@ const ContactForm = () => {
   useEffect(() => {
     if (clicked) {
       if (!nameError && !emailError && !messageError) {
-        emailjs.sendForm(EmailJsConf.serviceId, EmailJsConf.contactTemplate, form.current, EmailJsConf.userId).then(
-          (result) => {},
-          (error) => {}
-        );
+        emailjs
+          .sendForm(
+            EmailJsConf.serviceId,
+            EmailJsConf.contactTemplate,
+            form.current,
+            EmailJsConf.userId
+          )
+          .then(
+            (result) => {},
+            (error) => {}
+          );
 
         setName('');
         setEmail('');
@@ -69,11 +76,11 @@ const ContactForm = () => {
         className={messageError ? 'input-error' : ''}
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-      ></textarea>
+      />
 
       <input type="submit" value="Send" />
     </form>
   );
-};
+}
 
 export default ContactForm;

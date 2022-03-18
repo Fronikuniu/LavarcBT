@@ -1,10 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Bestsellers from './Bestsellers';
 import OrderForm from './OrderForm';
 import ShopSlider from './ShopSlider';
-import PropTypes from 'prop-types';
 
-const Shop = ({ shopList, bestsellers }) => {
+function Shop({ shopList, bestsellers }) {
   return (
     <section className="shop">
       <div className="container">
@@ -22,14 +22,17 @@ const Shop = ({ shopList, bestsellers }) => {
         </div>
 
         <div className="personal-order">
-          <p>If our offer does not include what you are looking for, write to us and place your personal order.</p>
+          <p>
+            If our offer does not include what you are looking for, write to us and place your
+            personal order.
+          </p>
 
           <OrderForm />
         </div>
       </div>
     </section>
   );
-};
+}
 
 Shop.propTypes = {
   shopList: PropTypes.array.isRequired,

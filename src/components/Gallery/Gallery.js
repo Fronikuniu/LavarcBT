@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useState, useRef } from 'react';
-import Loader from '../Loader/Loader';
 import { Link } from 'react-router-dom';
+import Loader from '../Loader/Loader';
 
-const Gallery = ({ images }) => {
+function Gallery({ images }) {
   const [loading, setLoading] = useState(true);
   const counter = useRef(0);
 
@@ -25,9 +24,9 @@ const Gallery = ({ images }) => {
           </div>
 
           <div className="gallery__content-images" style={{ display: loading ? 'none' : 'grid' }}>
-            {images.map((img, index) => {
+            {images.map((img) => {
               return (
-                <div className="gallery__content-images__about" onLoad={imageLoaded} key={index}>
+                <div className="gallery__content-images__about" onLoad={imageLoaded} key={img.id}>
                   <Link to={`/gallery/${img.id}`}>
                     <img src={img.imageSrc} alt="" />
                   </Link>
@@ -47,7 +46,7 @@ const Gallery = ({ images }) => {
       </div>
     </section>
   );
-};
+}
 
 Gallery.propTypes = {
   images: PropTypes.array.isRequired,

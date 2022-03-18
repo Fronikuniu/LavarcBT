@@ -1,5 +1,3 @@
-import NavItem from './NavItem';
-import NavLogo from './NavLogo';
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
@@ -7,11 +5,13 @@ import { Link } from 'react-router-dom';
 import { IoCaretDownCircleOutline } from 'react-icons/io5';
 import { MdOutlineClose } from 'react-icons/md';
 import { HiMenuAlt3 } from 'react-icons/hi';
-import { db, auth } from '../configuration/firebase';
 import { getDoc, doc } from 'firebase/firestore';
+import { db, auth } from '../configuration/firebase';
+import NavLogo from './NavLogo';
+import NavItem from './NavItem';
 import logo from '../../images/lavarcawatar.png';
 
-const Nav = ({ loggedUser, logout }) => {
+function Nav({ loggedUser, logout }) {
   const location = useLocation();
   const navi = useRef();
   const [user, setUser] = useState('');
@@ -52,13 +52,21 @@ const Nav = ({ loggedUser, logout }) => {
         <div className="nav__links">
           <NavItem>about</NavItem>
           <NavItem>gallery</NavItem>
-          <NavLogo></NavLogo>
+          <NavLogo />
           <NavItem>shop</NavItem>
           <NavItem>contact</NavItem>
         </div>
         <div className={`user ${openUserProfile ? 'open' : ''}`} ref={dropdown}>
           {loggedUser ? (
-            <div className="user__avatar" onClick={() => setOpenUserProfile(!openUserProfile)}>
+            <div
+              tabIndex="0"
+              role="button"
+              className="user__avatar"
+              onClick={() => {
+                setOpenUserProfile(!openUserProfile);
+              }}
+              onKeyDown={() => setOpenUserProfile(!openUserProfile)}
+            >
               <img src={user?.avatar ? user.avatar : loggedUser.photoURL} alt="" />
               <IoCaretDownCircleOutline className="user__avatar--arrow" />
             </div>
@@ -78,6 +86,7 @@ const Nav = ({ loggedUser, logout }) => {
             <hr />
 
             <button
+              type="button"
               className="btn"
               onClick={() => {
                 logout();
@@ -89,7 +98,13 @@ const Nav = ({ loggedUser, logout }) => {
           </div>
         </div>
 
-        <div className="rwd-button" onClick={() => setOpenMenu(true)} role="button">
+        <div
+          tabIndex="0"
+          className="rwd-button"
+          onClick={() => setOpenMenu(true)}
+          role="button"
+          onKeyDown={() => setOpenMenu(true)}
+        >
           <HiMenuAlt3 />
         </div>
 
@@ -107,14 +122,14 @@ const Nav = ({ loggedUser, logout }) => {
           </div>
 
           <div className="animation">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            <div />
+            <div />
+            <div />
+            <div />
+            <div />
+            <div />
+            <div />
+            <div />
           </div>
 
           <div className="menu">
@@ -149,6 +164,7 @@ const Nav = ({ loggedUser, logout }) => {
                 </Link>
                 <hr />
                 <button
+                  type="button"
                   className="btn"
                   onClick={() => {
                     logout();
@@ -168,7 +184,7 @@ const Nav = ({ loggedUser, logout }) => {
       </div>
     </nav>
   );
-};
+}
 
 Nav.propTypes = {
   loggedUser: PropTypes.object,

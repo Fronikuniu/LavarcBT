@@ -1,19 +1,19 @@
 import { deleteObject, getDownloadURL, ref, uploadBytes } from '@firebase/storage';
 import React, { useState, useEffect } from 'react';
 import { AiFillCamera } from 'react-icons/ai';
-import { storage, db, auth } from '../configuration/firebase';
 import { getDoc, doc, updateDoc } from 'firebase/firestore';
 import { updateProfile } from '@firebase/auth';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
+import { storage, db, auth } from '../configuration/firebase';
 
-const Settings = ({ loggedUser }) => {
+function Settings({ loggedUser }) {
   const [image, setImage] = useState('');
   const [user, setUser] = useState('');
 
   useEffect(() => {
     if (auth.currentUser) {
-      let uid = auth.currentUser.uid;
+      const { uid } = auth.currentUser;
 
       getDoc(doc(db, 'users', uid)).then((docSnap) => {
         if (docSnap.exists) setUser(docSnap.data());
@@ -57,10 +57,16 @@ const Settings = ({ loggedUser }) => {
           <div className="settings__informations__image">
             <div>
               <img src={user?.avatar ? user.avatar : loggedUser.photoURL} alt="" />
-              <label htmlFor="file" role="button">
+              <label htmlFor="file">
                 <AiFillCamera />
+                <input
+                  type="file"
+                  name="file"
+                  id="file"
+                  accept="image/*"
+                  onChange={(e) => setImage(e.target.files[0])}
+                />{' '}
               </label>
-              <input type="file" name="file" id="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
             </div>
           </div>
 
@@ -73,7 +79,7 @@ const Settings = ({ loggedUser }) => {
       </div>
     </section>
   ) : null;
-};
+}
 
 Settings.propTypes = { loggedUser: PropTypes.object.isRequired };
 

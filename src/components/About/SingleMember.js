@@ -1,17 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 import discord from '../../images/discord.png';
 
-const SingleMember = ({ images, members }) => {
+function SingleMember({ images, members }) {
   const [member, setMember] = useState([]);
   const [memberImages, setMemberImages] = useState([]);
   const { name } = useParams();
 
   useEffect(() => {
-    setMember(members.find((member) => member.name === name));
+    setMember(members.find((singleMember) => singleMember.name === name));
     setMemberImages(images.filter((image) => image.builder === name));
   }, [images, member, members, name]);
 
@@ -53,7 +52,7 @@ const SingleMember = ({ images, members }) => {
       </div>
     </section>
   );
-};
+}
 
 SingleMember.propTypes = {
   images: PropTypes.array.isRequired,

@@ -6,12 +6,18 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "airbnb",
+        "plugin:prettier/recommended"
     ],
     "settings": {
         "react": {
             "version": "detect"
         }
+    },
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
     },
     "parserOptions": {
         "ecmaFeatures": {
@@ -21,39 +27,45 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "prettier"
     ],
     "rules": {
+        "prettier/prettier": "error",
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [
+                    ".js",
+                    ".jsx"
+                ]
+            }
+        ],
+        "react/state-in-constructor": "off",
         "react/react-in-jsx-scope": "off",
-        "no-multiple-empty-lines": [
+        "import/no-extraneous-dependencies": 0,
+        "import/prefer-default-export": 1,
+        "react/require-default-props": 0,
+        "jsx-a11y/anchor-is-valid": 1,
+        "react/jsx-props-no-spreading": 0,
+        "react/no-unescaped-entities": 0,
+        "jsx-a11y/no-static-element-interactions": [
             "error",
             {
-                "max": 1
+                "handlers": [
+                    "onClick",
+                    "onMouseDown",
+                    "onMouseUp",
+                    "onKeyPress",
+                    "onKeyDown",
+                    "onKeyUp"
+                ]
             }
         ],
-        "no-unused-vars": "off",
-        "eol-last": [
-            "error",
-            "always"
-        ],
-        "indent": [
-            "error",
-            2
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single",
-            {
-                "allowTemplateLiterals": true
-            }
-        ],
-        "semi": [
-            "error",
-            "always"
-        ]
+        "no-unused-vars": 1,
+        "no-plusplus": 0,
+        "react/forbid-prop-types": 0,
+        "prefer-destructuring": 0,
+        "prefer-const": 0
     }
 }
