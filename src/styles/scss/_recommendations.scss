@@ -61,3 +61,36 @@
     }
   }
 }
+
+// Recommendation form
+
+.recommendation {
+  margin-top: 150px;
+  align-items: center;
+
+  &-content {
+    display: flex;
+    margin-top: 70px;
+  }
+
+  &__form {
+    width: 50%;
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 275px;
+      margin: 0 auto;
+
+      textarea {
+        height: 220px;
+        font-size: 1.4em;
+      }
+    }
+  }
+
+  &__image {
+    width: 50%;
+  }
+}

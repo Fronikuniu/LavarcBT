@@ -1605,9 +1605,9 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  right: -39.2px;
+  right: -27.2px;
   font-size: 1.7em;
-  padding: 10px 5px;
+  padding: 2px 0px;
   border-radius: 0% 100% 100% 0%/0% 50% 50% 100%;
   background-color: #fed85d;
   border: 1px solid #36383c;
@@ -2038,6 +2038,32 @@
   transform: scale(1);
 }
 
+.recommendation {
+  margin-top: 150px;
+  align-items: center;
+}
+.recommendation-content {
+  display: flex;
+  margin-top: 70px;
+}
+.recommendation__form {
+  width: 50%;
+}
+.recommendation__form form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 275px;
+  margin: 0 auto;
+}
+.recommendation__form form textarea {
+  height: 220px;
+  font-size: 1.4em;
+}
+.recommendation__image {
+  width: 50%;
+}
+
 .shop {
   margin-top: 150px;
 }
@@ -2216,6 +2242,10 @@
   .shop__info--a {
     width: 30%;
   }
+}
+
+iframe {
+  pointer-events: none;
 }
 
 body {

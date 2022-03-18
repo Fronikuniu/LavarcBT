@@ -11,6 +11,7 @@
     "material-icons": "^1.2.1",
     "moment": "^2.29.1",
     "netlify-cli": "^9.13.2",
+    "query-string": "^7.1.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.17.5",
@@ -20,6 +21,7 @@
     "react-router-dom": "^5.3.0",
     "react-scripts": "^5.0.0",
     "react-toastify": "^8.2.0",
+    "uid": "^2.0.0",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

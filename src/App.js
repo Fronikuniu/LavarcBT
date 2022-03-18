@@ -23,13 +23,13 @@ import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from 'fireb
 import Settings from './components/User/Settings';
 import Contact from './components/Contact/Contact';
 import Recommendations from './components/Recommendations/Recommendations';
-import Opinions from './components/Recommendations/Opinions';
 import ShopHome from './components/Shop/ShopHome';
 import Shop from './components/Shop/Shop';
 import ShopList from './components/Shop/ShopList';
 import ScrollToTop from './components/helpers/ScrollToTop';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import RecommendationForm from './components/Recommendations/RecommendationForm';
 
 const App = () => {
   const [registerError, setRegisterError] = useState('');
@@ -170,7 +170,7 @@ const App = () => {
           <Home />
           <About />
           <GallerySlider images={Images.slice(-7)} />
-          <Recommendations opinions={Opinions} />
+          <Recommendations />
         </Route>
 
         <Route exact path="/auth">
@@ -201,7 +201,6 @@ const App = () => {
         <Route exact path="/shop">
           <Shop shopList={ShopList} bestsellers={ShopList.slice(0, 8)} />
         </Route>
-
         <Route path="/shop/:title"></Route>
 
         <Route exact path="/contact">
@@ -210,6 +209,10 @@ const App = () => {
         <Route path="/contact/chat">{loggedUser ? <Chat loggedUser={loggedUser} loggedUserData={loggedUserData} /> : <Redirect to="/auth" />}</Route>
 
         <Route path="/settings">{loggedUser ? <Settings loggedUser={loggedUser} /> : <Redirect to="/auth" />}</Route>
+
+        <Route exact path="/recommendation">
+          <RecommendationForm />
+        </Route>
       </Switch>
 
       <ShopHome />
