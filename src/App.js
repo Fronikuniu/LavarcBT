@@ -268,9 +268,6 @@ function App() {
         pauseOnHover
       />
     </Router>
-
-    // TO DO
-    // - Form for opionions
   );
 }
 

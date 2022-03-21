@@ -87,16 +87,25 @@
         margin: 0;
         width: 80%;
       }
+
+      .btn-edit {
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 1.1em;
+      }
     }
   }
 
   // Opinions admin
 
   details {
+    margin-bottom: 60px;
     summary {
       font-size: 1.5em;
       user-select: none;
       margin-bottom: 20px;
+      cursor: pointer;
     }
 
     .opinion {
@@ -145,6 +154,19 @@
           color: tomato;
         }
       }
+    }
+  }
+
+  .editProfile-form {
+    width: 275px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+
+    label {
+      display: flex;
+      flex-direction: column;
     }
   }
 }

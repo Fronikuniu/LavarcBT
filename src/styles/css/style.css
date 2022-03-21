@@ -1572,10 +1572,20 @@
     width: 80%;
   }
 }
+.settings__informations__info .btn-edit {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.1em;
+}
+.settings details {
+  margin-bottom: 60px;
+}
 .settings details summary {
   font-size: 1.5em;
   user-select: none;
   margin-bottom: 20px;
+  cursor: pointer;
 }
 .settings details .opinion {
   display: flex;
@@ -1622,6 +1632,17 @@
 }
 .settings details .opinion__text .decline {
   color: tomato;
+}
+.settings .editProfile-form {
+  width: 275px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+.settings .editProfile-form label {
+  display: flex;
+  flex-direction: column;
 }
 
 .chat {

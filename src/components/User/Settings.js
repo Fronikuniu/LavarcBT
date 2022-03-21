@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 import { storage, db, auth } from '../configuration/firebase';
 import OpinionsAdmin from './OpinionsAdmin';
+import EditProfile from './EditProfile';
 
 function Settings({ loggedUser, loggedUserData }) {
   const [image, setImage] = useState('');
@@ -77,6 +78,8 @@ function Settings({ loggedUser, loggedUserData }) {
             <p>Status: {user?.isOnline ? 'online' : 'offline'}</p>
           </div>
         </div>
+
+        <EditProfile loggedUser={loggedUser} />
 
         {loggedUserData.isAdmin && <OpinionsAdmin />}
       </div>
