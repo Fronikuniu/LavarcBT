@@ -6,8 +6,9 @@ import { updateProfile } from '@firebase/auth';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 import { storage, db, auth } from '../configuration/firebase';
+import OpinionsAdmin from './OpinionsAdmin';
 
-function Settings({ loggedUser }) {
+function Settings({ loggedUser, loggedUserData }) {
   const [image, setImage] = useState('');
   const [user, setUser] = useState('');
 
@@ -65,7 +66,7 @@ function Settings({ loggedUser }) {
                   id="file"
                   accept="image/*"
                   onChange={(e) => setImage(e.target.files[0])}
-                />{' '}
+                />
               </label>
             </div>
           </div>
@@ -76,11 +77,16 @@ function Settings({ loggedUser }) {
             <p>Status: {user?.isOnline ? 'online' : 'offline'}</p>
           </div>
         </div>
+
+        {loggedUserData.isAdmin && <OpinionsAdmin />}
       </div>
     </section>
   ) : null;
 }
 
-Settings.propTypes = { loggedUser: PropTypes.object.isRequired };
+Settings.propTypes = {
+  loggedUser: PropTypes.object.isRequired,
+  loggedUserData: PropTypes.object.isRequired,
+};
 
 export default Settings;

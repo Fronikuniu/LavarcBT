@@ -54,7 +54,7 @@ function Recommendations() {
     setAllOpinions(opinions);
   }, []);
 
-  return !allOpinions ? null : (
+  return allOpinions.length === 0 ? null : (
     <section className="recommendations">
       <div className="container">
         <h2 className="headerTextStroke">Opinions</h2>

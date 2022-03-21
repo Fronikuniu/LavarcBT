@@ -156,7 +156,13 @@ function UsersList({ loggedUser, loggedUserData }) {
               <div className="messages">
                 {allMessages.length
                   ? allMessages.map((message) => {
-                      return <Message key={message} message={message} loggedUser={loggedUser} />;
+                      return (
+                        <Message
+                          key={`${message.createdAt}${message.messageText}`}
+                          message={message}
+                          loggedUser={loggedUser}
+                        />
+                      );
                     })
                   : null}
               </div>

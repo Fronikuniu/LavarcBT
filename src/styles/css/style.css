@@ -1502,6 +1502,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 50px;
 }
 @media (min-width: 425px) {
   .settings__informations {
@@ -1570,6 +1571,57 @@
     margin: 0;
     width: 80%;
   }
+}
+.settings details summary {
+  font-size: 1.5em;
+  user-select: none;
+  margin-bottom: 20px;
+}
+.settings details .opinion {
+  display: flex;
+  border: 1px solid gray;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 25px;
+}
+.settings details .opinion__text {
+  width: 100%;
+}
+.settings details .opinion__text-header {
+  font-size: 1.3em;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.settings details .opinion__text-company {
+  font-size: 0.8em;
+}
+.settings details .opinion__text-accept {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.settings details .opinion__text-accept-accepted {
+  display: flex;
+}
+.settings details .opinion__text-isShow {
+  font-size: 2em;
+}
+.settings details .opinion__text .btn-opinion {
+  border: none;
+  background: none;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+.settings details .opinion__text .btn-opinion.decline {
+  font-size: 1.4em;
+}
+.settings details .opinion__text .accept {
+  color: green;
+}
+.settings details .opinion__text .decline {
+  color: tomato;
 }
 
 .chat {

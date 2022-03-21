@@ -34,8 +34,8 @@ function RecommendationForm() {
   return (
     <div className="recommendation">
       <div className="container">
-        <h2 className="headerTextStroke">Opinions</h2>
-        <h3 className="headerwTextStroke">About us</h3>
+        <h2 className="headerTextStroke">Leave</h2>
+        <h3 className="headerwTextStroke">Feedback</h3>
 
         <div className="recommendation-content">
           <div className="recommendation__form">

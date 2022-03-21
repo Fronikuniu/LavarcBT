@@ -242,7 +242,11 @@ function App() {
         </Route>
 
         <Route path="/settings">
-          {loggedUser ? <Settings loggedUser={loggedUser} /> : <Redirect to="/auth" />}
+          {loggedUser ? (
+            <Settings loggedUser={loggedUser} loggedUserData={loggedUserData} />
+          ) : (
+            <Redirect to="/auth" />
+          )}
         </Route>
 
         <Route exact path="/recommendation">
