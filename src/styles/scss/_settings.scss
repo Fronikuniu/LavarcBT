@@ -100,12 +100,12 @@
   // Opinions admin
 
   details {
-    margin-bottom: 60px;
     summary {
       font-size: 1.5em;
       user-select: none;
       margin-bottom: 20px;
       cursor: pointer;
+      padding: 15px;
     }
 
     .opinion {
@@ -163,10 +163,65 @@
     flex-direction: column;
     gap: 15px;
     margin-bottom: 25px;
+  }
 
-    label {
+  .summary-danger {
+    background-color: tomato;
+    color: white;
+  }
+  .dangerzone {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+label {
+  display: flex;
+  flex-direction: column;
+}
+
+.react-confirm-alert-body {
+  h1 {
+    margin-bottom: 15px;
+  }
+}
+.react-confirm-alert-button-group {
+  button {
+    &:first-of-type {
+      background-color: tomato;
+    }
+  }
+}
+
+.modal-form {
+  height: 100%;
+  .content {
+    position: absolute;
+    width: 300px;
+    height: 390px;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 20px;
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    form {
       display: flex;
       flex-direction: column;
+      width: 256px;
+      margin: 0 auto;
+      gap: 20px;
+    }
+    .p-error {
+      margin-top: 3px;
     }
   }
 }

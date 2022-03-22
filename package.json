@@ -14,9 +14,11 @@
     "netlify-cli": "^9.13.2",
     "query-string": "^7.1.1",
     "react": "^17.0.2",
+    "react-confirm-alert": "^2.8.0",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.17.5",
     "react-icons": "^4.3.1",
+    "react-modal": "^3.14.4",
     "react-moment": "^1.1.1",
     "react-router": "^5.2.1",
     "react-router-dom": "^5.3.0",
@@ -32,7 +34,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.js",
-    "lint-fix": "eslint src/**/*.js --fix"
+    "lint-fix": "eslint src/**/*.js --fix",
+    "sass-watch": "cd src/styles & sass --watch scss:css"
   },
   "browserslist": {
     "production": [

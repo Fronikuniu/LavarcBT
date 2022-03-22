@@ -136,6 +136,16 @@ p {
     }
   }
 
+  &.danger {
+    color: tomato;
+    border-color: tomato;
+
+    &:hover {
+      color: white;
+      background-color: tomato;
+    }
+  }
+
   &.disabled {
     pointer-events: none;
   }

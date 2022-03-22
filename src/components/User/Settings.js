@@ -8,12 +8,14 @@ import PropTypes from 'prop-types';
 import { storage, db, auth } from '../configuration/firebase';
 import OpinionsAdmin from './OpinionsAdmin';
 import EditProfile from './EditProfile';
+import OpinionsDangerZone from './OpinionsDangerZone';
 
 function Settings({ loggedUser, loggedUserData }) {
   const [image, setImage] = useState('');
   const [user, setUser] = useState('');
 
   useEffect(() => {
+    // trzeba poprawic aktualizowanie się danych
     if (auth.currentUser) {
       const { uid } = auth.currentUser;
 
@@ -82,6 +84,8 @@ function Settings({ loggedUser, loggedUserData }) {
         <EditProfile loggedUser={loggedUser} />
 
         {loggedUserData.isAdmin && <OpinionsAdmin />}
+
+        <OpinionsDangerZone loggedUser={loggedUser} />
       </div>
     </section>
   ) : null;

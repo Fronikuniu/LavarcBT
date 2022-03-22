@@ -1,14 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
-import { updateProfile, updateEmail, updatePassword } from '@firebase/auth';
+import {
+  updateProfile,
+  updateEmail,
+  updatePassword,
+  signInWithEmailAndPassword,
+} from '@firebase/auth';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { auth, db } from '../configuration/firebase';
+import LoginModal from './LoginModal';
 
 function EditProfile({ loggedUser }) {
+  const [data, setData] = useState({ Email: '', Password: '' });
+  const [error, setError] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [passwordModalOpen, setPasswordModalOpen] = useState(false);
+  const [clicked, setClicked] = useState(false);
+
+  useEffect(async () => {
+    if (clicked && !error) {
+      setClicked(false);
+      await signInWithEmailAndPassword(auth, data.Email, data.Password)
+        .then((userCredential) => {
+          const { user } = userCredential;
+          updatePassword(user, newPassword).then(() => toast.success('Password updated'));
+          setPasswordModalOpen(false);
+          setData({ Email: '', Password: '' });
+        })
+        .catch((err) => {
+          const errorCode = err.code;
+          if (errorCode === 'auth/missing-email') setError('Missing email.');
+          else if (errorCode === 'auth/wrong-password')
+            setError('The password provided is not valid.');
+          else if (errorCode === 'auth/user-not-found')
+            setError('The member with the given email does not exist.');
+        });
+    }
+  }, [clicked, data, error]);
+
   const formSchema = Yup.object().shape({
     Password: Yup.string()
       .required('Password is required')
@@ -31,32 +64,38 @@ function EditProfile({ loggedUser }) {
     formState: { errors: errors2 },
   } = useForm(validationOpt);
 
-  const onSubmitBasic = async (data) => {
-    if (data.Username) {
+  const onSubmitBasic = async (basic) => {
+    if (basic.Username) {
       await updateDoc(doc(db, 'users', auth.currentUser.uid), {
-        name: data.Username,
+        name: basic.Username,
       });
       updateProfile(loggedUser, {
-        displayName: data.Username,
+        displayName: basic.Username,
       });
     }
-    if (data.Email) {
+    if (basic.Email) {
       await updateDoc(doc(db, 'users', auth.currentUser.uid), {
-        email: data.Email,
+        email: basic.Email,
       });
-      updateEmail(auth.currentUser, data.Email);
+      updateEmail(auth.currentUser, basic.Email);
     }
-    if (data.Status)
+    if (basic.Status)
       await updateDoc(doc(db, 'users', auth.currentUser.uid), {
-        isOnline: data.Status,
+        isOnline: basic.Status,
       });
     toast.success('Successfully updated basic data.');
   };
 
-  const onSubmitPassword = (data) => {
-    // Need to fix
-    updatePassword(auth.currentUser, data.Password);
-    toast.success('Successfully updated password.');
+  const onSubmitPassword = (password) => {
+    setNewPassword(password.Password);
+    updatePassword(auth.currentUser, password.Password)
+      .then(() => toast.success('Password updated'))
+      .catch(() => setPasswordModalOpen(true));
+  };
+  const reauntheticateChangePassword = (e) => {
+    setClicked(true);
+    e.preventDefault();
+    setError(!data.Email || !data.Password ? 'All fields are required' : false);
   };
 
   return (
@@ -72,7 +111,6 @@ function EditProfile({ loggedUser }) {
             placeholder="Username"
             {...register('Username', { maxLength: 30 })}
           />
-          {errors.Username?.message}
         </label>
         <label htmlFor="Email">
           Email
@@ -83,7 +121,6 @@ function EditProfile({ loggedUser }) {
             placeholder="Email"
             {...register('Email', { pattern: /^\S+@\S+$/i })}
           />
-          {errors.Email?.message}
         </label>
         <label htmlFor="Status">
           Status
@@ -126,6 +163,14 @@ function EditProfile({ loggedUser }) {
 
         <input type="submit" />
       </form>
+      <LoginModal
+        data={data}
+        error={error}
+        isOpen={passwordModalOpen}
+        onSubmit={reauntheticateChangePassword}
+        onChange={setData}
+        header="You need to login to change password"
+      />
     </details>
   );
 }
