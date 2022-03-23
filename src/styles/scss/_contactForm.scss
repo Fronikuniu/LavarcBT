@@ -5,15 +5,13 @@
   flex-direction: column;
   gap: 20px;
 
+  label {
+    color: whitesmoke;
+  }
+
   > div {
     display: flex;
     gap: 30px;
-
-    &:first-of-type {
-      input {
-        width: 50%;
-      }
-    }
   }
 
   textarea {

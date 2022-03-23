@@ -27,44 +27,56 @@ function Register({ registerError, registerNewUser }) {
               community.
             </p>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <input
-                type="text"
-                className={
-                  errors.Name?.type === 'required' || errors.Name?.type === 'minLength'
-                    ? 'input-error'
-                    : ''
-                }
-                placeholder={errors.Name?.type === 'required' ? 'Name is required!' : 'Name'}
-                autoComplete="name"
-                value={register.Name}
-                {...register('Name', { required: true, minLength: 6 })}
-              />
+              <label htmlFor="name">
+                Username
+                <input
+                  type="text"
+                  id="name"
+                  className={
+                    errors.Name?.type === 'required' || errors.Name?.type === 'minLength'
+                      ? 'input-error'
+                      : ''
+                  }
+                  placeholder={errors.Name?.type === 'required' ? 'Name is required!' : 'Name'}
+                  autoComplete="name"
+                  value={register.Name}
+                  {...register('Name', { required: true, minLength: 6 })}
+                />
+              </label>
 
-              <input
-                type="text"
-                className={
-                  errors.Email?.type === 'required' || errors.Email?.type === 'pattern'
-                    ? 'input-error'
-                    : ''
-                }
-                placeholder={errors.Email?.type === 'required' ? 'Email is required!' : 'Email'}
-                autoComplete="email"
-                {...register('Email', { required: true, pattern: /^\S+@\S+$/i })}
-              />
+              <label htmlFor="email">
+                Email
+                <input
+                  type="email"
+                  id="email"
+                  className={
+                    errors.Email?.type === 'required' || errors.Email?.type === 'pattern'
+                      ? 'input-error'
+                      : ''
+                  }
+                  placeholder={errors.Email?.type === 'required' ? 'Email is required!' : 'Email'}
+                  autoComplete="email"
+                  {...register('Email', { required: true, pattern: /^\S+@\S+$/i })}
+                />
+              </label>
 
-              <input
-                type="password"
-                className={
-                  errors.Password?.type === 'required' || errors.Password?.type === 'minLength'
-                    ? 'input-error'
-                    : ''
-                }
-                placeholder={
-                  errors.Password?.type === 'required' ? 'Password is required!' : 'Password'
-                }
-                autoComplete="new-password"
-                {...register('Password', { required: true, minLength: 6 })}
-              />
+              <label htmlFor="password">
+                Password
+                <input
+                  type="password"
+                  id="password"
+                  className={
+                    errors.Password?.type === 'required' || errors.Password?.type === 'minLength'
+                      ? 'input-error'
+                      : ''
+                  }
+                  placeholder={
+                    errors.Password?.type === 'required' ? 'Password is required!' : 'Password'
+                  }
+                  autoComplete="new-password"
+                  {...register('Password', { required: true, minLength: 6 })}
+                />
+              </label>
 
               {registerError ? <p className="par-error">{registerError}</p> : ''}
 

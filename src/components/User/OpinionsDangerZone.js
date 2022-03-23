@@ -12,24 +12,27 @@ function OpinionsDangerZone() {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (clicked && !error) {
-      setClicked(false);
-      await signInWithEmailAndPassword(auth, data.Email, data.Password)
-        .then((userCredential) => {
-          const { user } = userCredential;
-          deleteUser(user).then(() => toast.success('Account deleted'));
-          setDeleteModalOpen(false);
-          setData({ Email: '', Password: '' });
-        })
-        .catch((err) => {
-          const errorCode = err.code;
-          if (errorCode === 'auth/missing-email') setError('Missing email.');
-          else if (errorCode === 'auth/wrong-password')
-            setError('The password provided is not valid.');
-          else if (errorCode === 'auth/user-not-found')
-            setError('The member with the given email does not exist.');
-        });
+      const prepareToDelete = async () => {
+        setClicked(false);
+        await signInWithEmailAndPassword(auth, data.Email, data.Password)
+          .then((userCredential) => {
+            const { user } = userCredential;
+            deleteUser(user).then(() => toast.success('Account deleted'));
+            setDeleteModalOpen(false);
+            setData({ Email: '', Password: '' });
+          })
+          .catch((err) => {
+            const errorCode = err.code;
+            if (errorCode === 'auth/missing-email') setError('Missing email.');
+            else if (errorCode === 'auth/wrong-password')
+              setError('The password provided is not valid.');
+            else if (errorCode === 'auth/user-not-found')
+              setError('The member with the given email does not exist.');
+          });
+      };
+      prepareToDelete();
     }
   }, [clicked, data, error]);
 

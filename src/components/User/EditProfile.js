@@ -21,26 +21,29 @@ function EditProfile({ loggedUser }) {
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (clicked && !error) {
-      setClicked(false);
-      await signInWithEmailAndPassword(auth, data.Email, data.Password)
-        .then((userCredential) => {
-          const { user } = userCredential;
-          updatePassword(user, newPassword).then(() => toast.success('Password updated'));
-          setPasswordModalOpen(false);
-          setData({ Email: '', Password: '' });
-        })
-        .catch((err) => {
-          const errorCode = err.code;
-          if (errorCode === 'auth/missing-email') setError('Missing email.');
-          else if (errorCode === 'auth/wrong-password')
-            setError('The password provided is not valid.');
-          else if (errorCode === 'auth/user-not-found')
-            setError('The member with the given email does not exist.');
-        });
+      const prepareToChangePassword = async () => {
+        setClicked(false);
+        await signInWithEmailAndPassword(auth, data.Email, data.Password)
+          .then((userCredential) => {
+            const { user } = userCredential;
+            updatePassword(user, newPassword).then(() => toast.success('Password updated'));
+            setPasswordModalOpen(false);
+            setData({ Email: '', Password: '' });
+          })
+          .catch((err) => {
+            const errorCode = err.code;
+            if (errorCode === 'auth/missing-email') setError('Missing email.');
+            else if (errorCode === 'auth/wrong-password')
+              setError('The password provided is not valid.');
+            else if (errorCode === 'auth/user-not-found')
+              setError('The member with the given email does not exist.');
+          });
+      };
+      prepareToChangePassword();
     }
-  }, [clicked, data, error]);
+  }, [clicked, data, error, newPassword]);
 
   const formSchema = Yup.object().shape({
     Password: Yup.string()

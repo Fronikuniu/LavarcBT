@@ -51,32 +51,44 @@ function ContactForm() {
   return (
     <form ref={form} onSubmit={validateForm} className="contact-form">
       <div>
-        <input
-          type="text"
-          name="user_name"
-          placeholder={nameError ? 'All fields are required' : 'Name'}
-          className={messageError ? 'input-error' : ''}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="email"
-          name="user_email"
-          placeholder={emailError ? 'All fields are required' : 'Email'}
-          className={messageError ? 'input-error' : ''}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <label htmlFor="user_name">
+          Username
+          <input
+            type="text"
+            name="user_name"
+            id="user_name"
+            placeholder={nameError ? 'All fields are required' : 'Name'}
+            className={messageError ? 'input-error' : ''}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </label>
+        <label htmlFor="user_email">
+          Email
+          <input
+            type="email"
+            name="user_email"
+            id="user_email"
+            placeholder={emailError ? 'All fields are required' : 'Email'}
+            className={messageError ? 'input-error' : ''}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </label>
       </div>
 
-      <textarea
-        rows="4"
-        name="message"
-        placeholder={messageError ? 'All fields are required' : 'Message...'}
-        className={messageError ? 'input-error' : ''}
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
+      <label htmlFor="message">
+        Message
+        <textarea
+          rows="4"
+          name="message"
+          id="message"
+          placeholder={messageError ? 'All fields are required' : 'Message...'}
+          className={messageError ? 'input-error' : ''}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+      </label>
 
       <input type="submit" value="Send" />
     </form>
