@@ -1922,12 +1922,12 @@
   flex-direction: column;
   gap: 20px;
 }
+.contact-form label {
+  color: whitesmoke;
+}
 .contact-form > div {
   display: flex;
   gap: 30px;
-}
-.contact-form > div:first-of-type input {
-  width: 50%;
 }
 .contact-form textarea {
   font-size: 1.5em;
@@ -1986,6 +1986,9 @@
   align-items: center;
   flex-direction: column;
   gap: 40px;
+}
+.contact .container .contact__contact-form label {
+  color: black;
 }
 @media (min-width: 768px) {
   .contact .container .contact__contact-form {
@@ -2471,6 +2474,16 @@ textarea.input-error::placeholder {
 textarea:focus-visible {
   border-color: #e8b12d;
   outline: none;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+}
+label input,
+label select,
+label textarea {
+  width: 100%;
 }
 
 select {

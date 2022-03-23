@@ -98,90 +98,118 @@ function OrderForm() {
   return (
     <form ref={form} onSubmit={validateForm} className="personal-order__form">
       <div>
-        <input
-          type="text"
-          className={emailError ? 'input-error' : ''}
-          name="email"
-          placeholder={emailError || 'Email'}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <label htmlFor="email">
+          Email
+          <input
+            type="text"
+            className={emailError ? 'input-error' : ''}
+            name="email"
+            id="email"
+            placeholder={emailError || 'Email'}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </label>
         {emailError === 'Enter correct address email!' ? (
           <p className="p-error">{emailError}</p>
         ) : null}
       </div>
 
       <div>
-        <input
-          type="text"
-          className={discordError ? 'input-error' : ''}
-          name="discord"
-          placeholder={discordError || 'Discord'}
-          value={discord}
-          onChange={(e) => setDiscord(e.target.value)}
-        />
+        <label htmlFor="discord">
+          Discord
+          <input
+            type="text"
+            className={discordError ? 'input-error' : ''}
+            name="discord"
+            id="discord"
+            placeholder={discordError || 'Discord'}
+            value={discord}
+            onChange={(e) => setDiscord(e.target.value)}
+          />
+        </label>
         {discordError === 'Enter correct discord tag!' ? (
           <p className="p-error">{discordError}</p>
         ) : null}
       </div>
 
-      <select
-        className={timezoneError ? 'input-error' : ''}
-        name="timezone"
-        value={timezone}
-        onChange={(e) => setTimezone(e.target.value)}
-      >
-        <option value="default" hidden>
-          Select timezone:
-        </option>
-        {Timezones.map((tzone) => {
-          return (
-            <option key={tzone.label} value={tzone.label}>
-              {tzone.label}
-            </option>
-          );
-        })}
-      </select>
+      <label htmlFor="timezone">
+        Timezone
+        <select
+          className={timezoneError ? 'input-error' : ''}
+          name="timezone"
+          id="timezone"
+          value={timezone}
+          onChange={(e) => setTimezone(e.target.value)}
+        >
+          <option value="default" hidden>
+            Select timezone:
+          </option>
+          {Timezones.map((tzone) => {
+            return (
+              <option key={tzone.label} value={tzone.label}>
+                {tzone.label}
+              </option>
+            );
+          })}
+        </select>
+      </label>
 
-      <select
-        className={packagError ? 'input-error' : ''}
-        name="package"
-        value={packag}
-        onChange={(e) => setPackage(e.target.value)}
-      >
-        <option value="default" hidden>
-          Select package:
-        </option>
-        <option value="basic">Basic</option>
-        <option value="standard">Standard</option>
-        <option value="premium">Premium</option>
-      </select>
+      <label htmlFor="package">
+        Package
+        <select
+          className={packagError ? 'input-error' : ''}
+          name="package"
+          id="package"
+          value={packag}
+          onChange={(e) => setPackage(e.target.value)}
+        >
+          <option value="default" hidden>
+            Select package:
+          </option>
+          <option value="basic">Basic</option>
+          <option value="standard">Standard</option>
+          <option value="premium">Premium</option>
+        </select>
+      </label>
 
-      <textarea
-        className={messageError ? 'input-error' : ''}
-        name="message"
-        placeholder={messageError || 'Order description'}
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
+      <label htmlFor="message">
+        Message
+        <textarea
+          className={messageError ? 'input-error' : ''}
+          name="message"
+          id="message"
+          placeholder={messageError || 'Order description'}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+      </label>
 
-      <input
-        type="number"
-        className={budgetError ? 'input-error' : ''}
-        name="budget"
-        placeholder={budgetError || 'Budget'}
-        value={budget}
-        onChange={(e) => setBudget(e.target.value)}
-      />
+      <label htmlFor="budget">
+        Budget
+        <input
+          type="number"
+          className={budgetError ? 'input-error' : ''}
+          name="budget"
+          id="budget"
+          placeholder={budgetError || 'Budget'}
+          value={budget}
+          onChange={(e) => setBudget(e.target.value)}
+        />
+      </label>
 
       <div>
-        <input
-          type="date"
-          className={deadlineError ? 'input-error' : ''}
-          name="deadline"
-          value={deadline}
-          onChange={(e) => setDeadline(e.target.value)}
-        />
+        <label htmlFor="deadline">
+          Deadline
+          <input
+            type="date"
+            className={deadlineError ? 'input-error' : ''}
+            name="deadline"
+            id="deadline"
+            value={deadline}
+            onChange={(e) => setDeadline(e.target.value)}
+          />
+        </label>
         {deadlineError && <p className="p-error">{deadlineError}</p>}
       </div>
 

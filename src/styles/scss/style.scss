@@ -212,6 +212,17 @@ textarea {
   }
 }
 
+label {
+  display: flex;
+  flex-direction: column;
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+  }
+}
+
 select {
   border: 2px solid colors.$dandelion;
   background-color: transparent;

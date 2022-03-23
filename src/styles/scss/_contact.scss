@@ -53,6 +53,10 @@
       flex-direction: column;
       gap: 40px;
 
+      label {
+        color: black;
+      }
+
       @include mixins.breakpoint(tablet) {
         margin: 0;
         width: 50%;

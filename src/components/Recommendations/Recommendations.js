@@ -8,9 +8,32 @@ function Recommendations() {
   const [current, setCurrent] = useState(0);
   const [allOpinions, setAllOpinions] = useState([]);
   const length = allOpinions?.length;
-
   const prev = current === 0 ? length - 1 : current - 1;
   const next = current === length - 1 ? 0 : current + 1;
+
+  useEffect(() => {
+    const recommendationTimeout = setTimeout(() => setCurrent(next), 10000);
+    return () => clearTimeout(recommendationTimeout);
+  });
+
+  useEffect(() => {
+    const recommendation = async () => {
+      const q = query(
+        collection(db, 'opinions'),
+        where('isAccepted', '==', true),
+        orderBy('created'),
+        limit(5)
+      );
+      const querySnapshot = await getDocs(q);
+
+      const opinions = [];
+      querySnapshot.forEach((doc) => {
+        opinions.push(doc.data());
+      });
+      setAllOpinions(opinions);
+    };
+    recommendation();
+  }, []);
 
   const prevSlide = () => setCurrent(prev);
   const nextSlide = () => setCurrent(next);
@@ -33,28 +56,7 @@ function Recommendations() {
     return starContainer;
   };
 
-  useEffect(() => {
-    const recommendationTimeout = setTimeout(() => setCurrent(next), 10000);
-    return () => clearTimeout(recommendationTimeout);
-  });
-
-  useEffect(async () => {
-    const q = query(
-      collection(db, 'opinions'),
-      where('isAccepted', '==', true),
-      orderBy('created'),
-      limit(5)
-    );
-    const querySnapshot = await getDocs(q);
-
-    const opinions = [];
-    querySnapshot.forEach((doc) => {
-      opinions.push(doc.data());
-    });
-    setAllOpinions(opinions);
-  }, []);
-
-  return allOpinions.length === 0 ? null : (
+  return !allOpinions.length ? null : (
     <section className="recommendations">
       <div className="container">
         <h2 className="headerTextStroke">Opinions</h2>

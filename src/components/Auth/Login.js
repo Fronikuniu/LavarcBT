@@ -33,31 +33,39 @@ function Login({ logInWithFacebook, logInWithGoogle, loginError, loginUser }) {
             <div className="horizontal-or" />
 
             <form onSubmit={handleSubmit(onSubmit)}>
-              <input
-                type="text"
-                className={
-                  errors.Email?.type === 'required' || errors.Email?.type === 'pattern'
-                    ? 'input-error'
-                    : ''
-                }
-                placeholder={errors.Email?.type === 'required' ? 'Email is required!' : 'Email'}
-                autoComplete="email"
-                {...register('Email', { required: true, pattern: /^\S+@\S+$/i })}
-              />
+              <label htmlFor="login">
+                Email
+                <input
+                  type="email"
+                  id="email"
+                  className={
+                    errors.Email?.type === 'required' || errors.Email?.type === 'pattern'
+                      ? 'input-error'
+                      : ''
+                  }
+                  placeholder={errors.Email?.type === 'required' ? 'Email is required!' : 'Email'}
+                  autoComplete="email"
+                  {...register('Email', { required: true, pattern: /^\S+@\S+$/i })}
+                />
+              </label>
 
-              <input
-                type="password"
-                className={
-                  errors.Password?.type === 'required' || errors.Password?.type === 'minLength'
-                    ? 'input-error'
-                    : ''
-                }
-                placeholder={
-                  errors.Password?.type === 'required' ? 'Password is required!' : 'Password'
-                }
-                autoComplete="current-password"
-                {...register('Password', { required: true, minLength: 6 })}
-              />
+              <label htmlFor="password">
+                Password
+                <input
+                  type="password"
+                  id="password"
+                  className={
+                    errors.Password?.type === 'required' || errors.Password?.type === 'minLength'
+                      ? 'input-error'
+                      : ''
+                  }
+                  placeholder={
+                    errors.Password?.type === 'required' ? 'Password is required!' : 'Password'
+                  }
+                  autoComplete="current-password"
+                  {...register('Password', { required: true, minLength: 6 })}
+                />
+              </label>
 
               {loginError ? <p className="par-error">{loginError}</p> : ''}
 

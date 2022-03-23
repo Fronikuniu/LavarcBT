@@ -40,46 +40,54 @@ function RecommendationForm() {
         <div className="recommendation-content">
           <div className="recommendation__form">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <input
-                type="text"
-                className={errors.Username?.type === 'required' ? 'input-error' : ''}
-                placeholder={
-                  errors.Username?.type === 'required' ? 'Username is required!' : 'Username'
-                }
-                name="name"
-                id="name"
-                {...register('Username', { required: true, maxLength: 20 })}
-              />
-              <input
-                type="text"
-                className={errors.Community?.type === 'required' ? 'input-error' : ''}
-                placeholder={
-                  errors.Community?.type === 'required' ? 'Community is required!' : 'Community'
-                }
-                name="community"
-                id="community"
-                {...register('Community', { required: true, maxLength: 20 })}
-              />
-              <textarea
-                type="text"
-                className={errors.Opinion?.type === 'required' ? 'input-error' : ''}
-                placeholder={
-                  errors.Opinion?.type === 'required' ? 'Opinion is required!' : 'Opinion'
-                }
-                name="opinion"
-                id="opinion"
-                {...register('Opinion', { required: true, maxLength: 300 })}
-              />
-              <input
-                type="number"
-                className={errors.Rate?.type === 'required' ? 'input-error' : ''}
-                placeholder={errors.Rate?.type === 'required' ? 'Rate is required!' : 'Rate'}
-                name="rate"
-                id="rate"
-                min="1"
-                max="5"
-                {...register('Rate', { required: true, max: 5, min: 1 })}
-              />
+              <label htmlFor="username">
+                Username
+                <input
+                  type="text"
+                  className={errors.Username?.type === 'required' ? 'input-error' : ''}
+                  placeholder={
+                    errors.Username?.type === 'required' ? 'Username is required!' : 'Username'
+                  }
+                  id="username"
+                  {...register('Username', { required: true, maxLength: 20 })}
+                />
+              </label>
+              <label htmlFor="community">
+                Community
+                <input
+                  type="text"
+                  className={errors.Community?.type === 'required' ? 'input-error' : ''}
+                  placeholder={
+                    errors.Community?.type === 'required' ? 'Community is required!' : 'Community'
+                  }
+                  id="community"
+                  {...register('Community', { required: true, maxLength: 20 })}
+                />
+              </label>
+              <label htmlFor="opinion">
+                Opinion
+                <textarea
+                  type="text"
+                  className={errors.Opinion?.type === 'required' ? 'input-error' : ''}
+                  placeholder={
+                    errors.Opinion?.type === 'required' ? 'Opinion is required!' : 'Opinion'
+                  }
+                  id="opinion"
+                  {...register('Opinion', { required: true, maxLength: 300 })}
+                />
+              </label>
+              <label htmlFor="rate">
+                Rate
+                <input
+                  type="number"
+                  className={errors.Rate?.type === 'required' ? 'input-error' : ''}
+                  placeholder={errors.Rate?.type === 'required' ? 'Rate is required!' : 'Rate'}
+                  id="rate"
+                  min="1"
+                  max="5"
+                  {...register('Rate', { required: true, max: 5, min: 1 })}
+                />
+              </label>
 
               <input type="submit" />
             </form>

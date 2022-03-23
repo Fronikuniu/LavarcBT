@@ -35,62 +35,60 @@ function OpinionsAdmin() {
     <div className="opinions-admin">
       <details>
         <summary>Opinions Admin</summary>
-        {allOpinions.map((opinion) => {
-          return (
-            <div className="opinion" key={opinion.doc_id}>
-              <div className="opinion__text">
-                <p className="opinion__text-header">
-                  <span>
-                    {opinion.from},
-                    <span className="opinion__text-company">
-                      {` ${opinion.community} (${opinion.rate})`}
-                    </span>
+        {allOpinions.map((opinion) => (
+          <div className="opinion" key={opinion.doc_id}>
+            <div className="opinion__text">
+              <p className="opinion__text-header">
+                <span>
+                  {opinion.from},
+                  <span className="opinion__text-company">
+                    {` ${opinion.community} (${opinion.rate})`}
                   </span>
+                </span>
 
+                <button
+                  className="btn-opinion decline"
+                  title="Delete opinion"
+                  type="button"
+                  onClick={() => deleteOpinion(opinion.doc_id)}
+                >
+                  <IoClose />
+                </button>
+              </p>
+              <p className="opinion__text-opinion"> {opinion.opinion}</p>
+              <hr />
+              <div className="opinion__text-accept">
+                <div className="opinion__text-accept-accepted">
+                  Zaakceptowac?
+                  <button
+                    className="btn-opinion accept"
+                    title="Accept opinion and display on homepage"
+                    type="button"
+                    onClick={() => acceptOpinion(opinion.doc_id, true)}
+                  >
+                    <GiCheckMark />
+                  </button>
+                  /
                   <button
                     className="btn-opinion decline"
-                    title="Delete opinion"
+                    title="Decline opinion and hide on homepage"
                     type="button"
-                    onClick={() => deleteOpinion(opinion.doc_id)}
+                    onClick={() => acceptOpinion(opinion.doc_id, false)}
                   >
                     <IoClose />
                   </button>
-                </p>
-                <p className="opinion__text-opinion"> {opinion.opinion}</p>
-                <hr />
-                <div className="opinion__text-accept">
-                  <div className="opinion__text-accept-accepted">
-                    Zaakceptowac?
-                    <button
-                      className="btn-opinion accept"
-                      title="Accept opinion and display on homepage"
-                      type="button"
-                      onClick={() => acceptOpinion(opinion.doc_id, true)}
-                    >
-                      <GiCheckMark />
-                    </button>
-                    /
-                    <button
-                      className="btn-opinion decline"
-                      title="Decline opinion and hide on homepage"
-                      type="button"
-                      onClick={() => acceptOpinion(opinion.doc_id, false)}
-                    >
-                      <IoClose />
-                    </button>
-                  </div>
-                  <div className="opinion__text-isShow">
-                    {opinion.isAccepted ? (
-                      <BiShow className="accept" title="Displayed on the home page" />
-                    ) : (
-                      <BiHide className="decline" title="Not displayed on the home page" />
-                    )}
-                  </div>
+                </div>
+                <div className="opinion__text-isShow">
+                  {opinion.isAccepted ? (
+                    <BiShow className="accept" title="Displayed on the home page" />
+                  ) : (
+                    <BiHide className="decline" title="Not displayed on the home page" />
+                  )}
                 </div>
               </div>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </details>
     </div>
   );
