@@ -3,9 +3,9 @@ import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const ShopSlider = ({ shopList }) => {
+function ShopSlider({ shopList }) {
   const [current, setCurrent] = useState(0);
-  const length = shopList.length;
+  const { length } = shopList;
 
   const regex = / /gm;
   const subst = '_';
@@ -17,7 +17,7 @@ const ShopSlider = ({ shopList }) => {
   const nextSlide = () => setCurrent(next);
 
   useEffect(() => {
-    let shopTimeout = setTimeout(() => setCurrent(next), 10000);
+    const shopTimeout = setTimeout(() => setCurrent(next), 10000);
     return () => clearTimeout(shopTimeout);
   });
 
@@ -30,13 +30,9 @@ const ShopSlider = ({ shopList }) => {
         const titleUrl = item.title.replace(regex, subst);
 
         return (
-          <React.Fragment key={index}>
+          <React.Fragment key={item.id}>
             <div className={prev === index ? 'item prev' : 'item'}>
-              {prev === index && (
-                <>
-                  <img src={item.image} alt="" />
-                </>
-              )}
+              {prev === index && <img src={item.image} alt="" />}
             </div>
 
             <div className={current === index ? 'item current' : 'item'}>
@@ -57,18 +53,14 @@ const ShopSlider = ({ shopList }) => {
             </div>
 
             <div className={next === index ? 'item next' : 'item'}>
-              {next === index && (
-                <>
-                  <img src={item.image} alt="" />
-                </>
-              )}
+              {next === index && <img src={item.image} alt="" />}
             </div>
           </React.Fragment>
         );
       })}
     </div>
   );
-};
+}
 
 ShopSlider.propTypes = { shopList: PropTypes.array.isRequired };
 

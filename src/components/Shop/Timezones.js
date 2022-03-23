@@ -80,7 +80,7 @@ const Timezones = [
   { label: '(GMT+11:00) Magadan, Solomon Is., New Caledonia' },
   { label: '(GMT+12:00) Auckland, Wellington' },
   { label: '(GMT+12:00) Fiji, Kamchatka, Marshall Is.' },
-  { label: '(GMT+13:00) Nuku\'alofa' },
+  { label: "(GMT+13:00) Nuku'alofa" },
 ];
 
 export default Timezones;

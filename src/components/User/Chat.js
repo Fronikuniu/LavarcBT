@@ -1,14 +1,26 @@
-import { addDoc, collection, doc, getDoc, onSnapshot, orderBy, query, setDoc, Timestamp, updateDoc, where } from '@firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  orderBy,
+  query,
+  setDoc,
+  Timestamp,
+  updateDoc,
+  where,
+} from '@firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
 import React, { useEffect, useRef, useState } from 'react';
+import { ImUsers } from 'react-icons/im';
+import PropTypes from 'prop-types';
 import { auth, db, storage } from '../configuration/firebase';
 import Message from './Message';
 import MessageForm from './MessageForm';
 import UserList from './UserList';
-import { ImUsers } from 'react-icons/im';
-import PropTypes from 'prop-types';
 
-const UsersList = ({ loggedUser, loggedUserData }) => {
+function UsersList({ loggedUser, loggedUserData }) {
   const [usersList, setUsersList] = useState([]);
   const [usersChat, setUsersChat] = useState('');
   const [messageText, setMessageText] = useState('');
@@ -36,8 +48,8 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
 
     const unsub = onSnapshot(q, (querySnapshot) => {
       const users = [];
-      querySnapshot.forEach((doc) => {
-        users.push(doc.data());
+      querySnapshot.forEach((res) => {
+        users.push(res.data());
       });
       setUsersList(users);
     });
@@ -60,13 +72,14 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
 
     onSnapshot(q, (querySnapshot) => {
       const messages = [];
-      querySnapshot.forEach((doc) => messages.push(doc.data()));
+      querySnapshot.forEach((res) => messages.push(res.data()));
 
       setAllMessages(messages);
     });
 
     const docSnapshot = await getDoc(doc(db, 'lastMessage', id));
-    if (docSnapshot.data() && docSnapshot.data().from !== sender) await updateDoc(doc(db, 'lastMessage', id), { unread: false });
+    if (docSnapshot.data() && docSnapshot.data().from !== sender)
+      await updateDoc(doc(db, 'lastMessage', id), { unread: false });
   };
 
   const handleSubmit = async (e) => {
@@ -110,8 +123,24 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
         <div className={`users-container ${open ? 'open' : ''}`}>
           <div className="users-list" ref={userList}>
             {loggedUserData.isAdmin
-              ? usersList.map((user) => <UserList user={user} selectUser={selectUser} key={user.uid} sender={sender} usersChat={usersChat} />)
-              : adminList.map((user) => <UserList user={user} selectUser={selectUser} key={user.uid} sender={sender} usersChat={usersChat} />)}
+              ? usersList.map((user) => (
+                  <UserList
+                    user={user}
+                    selectUser={selectUser}
+                    key={user.uid}
+                    sender={sender}
+                    usersChat={usersChat}
+                  />
+                ))
+              : adminList.map((user) => (
+                  <UserList
+                    user={user}
+                    selectUser={selectUser}
+                    key={user.uid}
+                    sender={sender}
+                    usersChat={usersChat}
+                  />
+                ))}
           </div>
 
           <ImUsers className="users-list-btn" onClick={() => setOpen(!open)} role="button" />
@@ -126,13 +155,24 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
 
               <div className="messages">
                 {allMessages.length
-                  ? allMessages.map((message, i) => {
-                    return <Message key={i} message={message} loggedUser={loggedUser} />;
-                  })
+                  ? allMessages.map((message) => {
+                      return (
+                        <Message
+                          key={`${message.createdAt}${message.messageText}`}
+                          message={message}
+                          loggedUser={loggedUser}
+                        />
+                      );
+                    })
                   : null}
               </div>
 
-              <MessageForm messageText={messageText} setMessageText={setMessageText} handleSubmit={handleSubmit} setMessageImage={setMessageImage} />
+              <MessageForm
+                messageText={messageText}
+                setMessageText={setMessageText}
+                handleSubmit={handleSubmit}
+                setMessageImage={setMessageImage}
+              />
             </>
           ) : (
             <div className="chat-first">
@@ -142,11 +182,13 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
                 <p>Welcome in our chat app</p>
 
                 <p>
-                  If you have any questions about your order, please contact <span>rockyFeller</span>
+                  If you have any questions about your order, please contact{' '}
+                  <span>rockyFeller</span>
                 </p>
 
                 <p>
-                  If you have any other questions you can write to our admins. <br /> You can find the list of administrators on the left side.
+                  If you have any other questions you can write to our admins. <br /> You can find
+                  the list of administrators on the left side.
                 </p>
               </div>
             </div>
@@ -155,7 +197,7 @@ const UsersList = ({ loggedUser, loggedUserData }) => {
       </section>
     </div>
   );
-};
+}
 
 UsersList.propTypes = {
   loggedUser: PropTypes.object.isRequired,

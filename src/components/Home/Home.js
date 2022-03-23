@@ -1,4 +1,4 @@
-const Home = () => {
+function Home() {
   return (
     <section className="landingPage">
       <div className="container">
@@ -7,13 +7,13 @@ const Home = () => {
           <p>PROFESSIONAL MINECRAFT BUILD TEAM</p>
 
           <div className="landingPage__scroll-down">
-            <span></span>
-            <div></div>
+            <span />
+            <div />
           </div>
         </div>
       </div>
     </section>
   );
-};
+}
 
 export default Home;

@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import emailjs from 'emailjs-com';
-import Timezones from './Timezones';
-import { EmailJsConf } from '../configuration/emailjs';
 import { toast } from 'react-toastify';
+import Timezones from './Timezones';
+import EmailJsConf from '../configuration/emailjs';
 
-const OrderForm = () => {
+function OrderForm() {
   const [email, setEmail] = useState('');
   const [discord, setDiscord] = useState('');
   const [timezone, setTimezone] = useState('');
@@ -24,7 +24,8 @@ const OrderForm = () => {
   const [clicked, setClicked] = useState(false);
 
   const regexDiscord = /^((.+?)#\d{4})/gm;
-  const regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const regexEmail =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   const form = useRef();
 
@@ -50,11 +51,26 @@ const OrderForm = () => {
 
   useEffect(() => {
     if (clicked) {
-      if (!emailError && !discordError && !timezoneError && !packagError && !messageError && !budgetError && !deadlineError) {
-        emailjs.sendForm(EmailJsConf.serviceId, EmailJsConf.orderTemplate, form.current, EmailJsConf.userId).then(
-          (result) => {},
-          (error) => {}
-        );
+      if (
+        !emailError &&
+        !discordError &&
+        !timezoneError &&
+        !packagError &&
+        !messageError &&
+        !budgetError &&
+        !deadlineError
+      ) {
+        emailjs
+          .sendForm(
+            EmailJsConf.serviceId,
+            EmailJsConf.orderTemplate,
+            form.current,
+            EmailJsConf.userId
+          )
+          .then(
+            (result) => {},
+            (error) => {}
+          );
 
         setEmail('');
         setDiscord('');
@@ -68,67 +84,138 @@ const OrderForm = () => {
       } else toast.error('Błąd przy wysyłaniu.');
     }
     return () => setClicked(false);
-  }, [clicked, emailError, discordError, timezoneError, packagError, messageError, budgetError, deadlineError]);
+  }, [
+    clicked,
+    emailError,
+    discordError,
+    timezoneError,
+    packagError,
+    messageError,
+    budgetError,
+    deadlineError,
+  ]);
 
   return (
     <form ref={form} onSubmit={validateForm} className="personal-order__form">
       <div>
-        <input type="text" className={emailError ? 'input-error' : ''} name="email" placeholder={emailError ? emailError : 'Email'} value={email} onChange={(e) => setEmail(e.target.value)} />
-        {emailError === 'Enter correct address email!' ? <p className="p-error">{emailError}</p> : null}
+        <label htmlFor="email">
+          Email
+          <input
+            type="text"
+            className={emailError ? 'input-error' : ''}
+            name="email"
+            id="email"
+            placeholder={emailError || 'Email'}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </label>
+        {emailError === 'Enter correct address email!' ? (
+          <p className="p-error">{emailError}</p>
+        ) : null}
       </div>
 
       <div>
-        <input
-          type="text"
-          className={discordError ? 'input-error' : ''}
-          name="discord"
-          placeholder={discordError ? discordError : 'Discord'}
-          value={discord}
-          onChange={(e) => setDiscord(e.target.value)}
+        <label htmlFor="discord">
+          Discord
+          <input
+            type="text"
+            className={discordError ? 'input-error' : ''}
+            name="discord"
+            id="discord"
+            placeholder={discordError || 'Discord'}
+            value={discord}
+            onChange={(e) => setDiscord(e.target.value)}
+          />
+        </label>
+        {discordError === 'Enter correct discord tag!' ? (
+          <p className="p-error">{discordError}</p>
+        ) : null}
+      </div>
+
+      <label htmlFor="timezone">
+        Timezone
+        <select
+          className={timezoneError ? 'input-error' : ''}
+          name="timezone"
+          id="timezone"
+          value={timezone}
+          onChange={(e) => setTimezone(e.target.value)}
+        >
+          <option value="default" hidden>
+            Select timezone:
+          </option>
+          {Timezones.map((tzone) => {
+            return (
+              <option key={tzone.label} value={tzone.label}>
+                {tzone.label}
+              </option>
+            );
+          })}
+        </select>
+      </label>
+
+      <label htmlFor="package">
+        Package
+        <select
+          className={packagError ? 'input-error' : ''}
+          name="package"
+          id="package"
+          value={packag}
+          onChange={(e) => setPackage(e.target.value)}
+        >
+          <option value="default" hidden>
+            Select package:
+          </option>
+          <option value="basic">Basic</option>
+          <option value="standard">Standard</option>
+          <option value="premium">Premium</option>
+        </select>
+      </label>
+
+      <label htmlFor="message">
+        Message
+        <textarea
+          className={messageError ? 'input-error' : ''}
+          name="message"
+          id="message"
+          placeholder={messageError || 'Order description'}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
         />
-        {discordError === 'Enter correct discord tag!' ? <p className="p-error">{discordError}</p> : null}
-      </div>
+      </label>
 
-      <select className={timezoneError ? 'input-error' : ''} name="timezone" value={timezone} onChange={(e) => setTimezone(e.target.value)}>
-        <option value="default" hidden>
-          Select timezone:
-        </option>
-        {Timezones.map((timezone) => {
-          return (
-            <option key={timezone.label} value={timezone.label}>
-              {timezone.label}
-            </option>
-          );
-        })}
-      </select>
-
-      <select className={packagError ? 'input-error' : ''} name="package" value={packag} onChange={(e) => setPackage(e.target.value)}>
-        <option value="default" hidden>
-          Select package:
-        </option>
-        <option value="basic">Basic</option>
-        <option value="standard">Standard</option>
-        <option value="premium">Premium</option>
-      </select>
-
-      <textarea
-        className={messageError ? 'input-error' : ''}
-        name="message"
-        placeholder={messageError ? messageError : 'Order description'}
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
-
-      <input type="number" className={budgetError ? 'input-error' : ''} name="budget" placeholder={budgetError ? budgetError : 'Budget'} value={budget} onChange={(e) => setBudget(e.target.value)} />
+      <label htmlFor="budget">
+        Budget
+        <input
+          type="number"
+          className={budgetError ? 'input-error' : ''}
+          name="budget"
+          id="budget"
+          placeholder={budgetError || 'Budget'}
+          value={budget}
+          onChange={(e) => setBudget(e.target.value)}
+        />
+      </label>
 
       <div>
-        <input type="date" className={deadlineError ? 'input-error' : ''} name="deadline" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
+        <label htmlFor="deadline">
+          Deadline
+          <input
+            type="date"
+            className={deadlineError ? 'input-error' : ''}
+            name="deadline"
+            id="deadline"
+            value={deadline}
+            onChange={(e) => setDeadline(e.target.value)}
+          />
+        </label>
         {deadlineError && <p className="p-error">{deadlineError}</p>}
       </div>
 
       <input type="submit" value="Send" />
     </form>
   );
-};
+}
 
 export default OrderForm;

@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AuthImages from '../helpers/AuthImages';
 import PropTypes from 'prop-types';
+import AuthImages from '../helpers/AuthImages';
 
-const Auth = ({ logInWithGoogle, logInWithFacebook }) => {
+function Auth({ logInWithGoogle, logInWithFacebook }) {
   return (
     <div className="auth">
       <div className="container">
@@ -15,14 +15,17 @@ const Auth = ({ logInWithGoogle, logInWithFacebook }) => {
               <h1 className="select__method-h1">
                 <span>Lavarc</span> invites You to join our ranks!
               </h1>
-							
-              <p className="select__method-p1">{'Create an account, it\'s free! Thanks to it you will be able to communicate with our community.'}</p>
+
+              <p className="select__method-p1">
+                Create an account, it's free! Thanks to it you will be able to communicate with our
+                community.
+              </p>
 
               <div className="select__method-buttons">
-                <button className="btn" onClick={logInWithGoogle}>
+                <button type="button" className="btn" onClick={logInWithGoogle}>
                   Sign up with Google
                 </button>
-                <button className="btn" onClick={logInWithFacebook}>
+                <button type="button" className="btn" onClick={logInWithFacebook}>
                   Sign up with Facebook
                 </button>
                 <Link to="/auth/register" className="btn primary">
@@ -39,7 +42,7 @@ const Auth = ({ logInWithGoogle, logInWithFacebook }) => {
       </div>
     </div>
   );
-};
+}
 
 Auth.propTypes = {
   logInWithGoogle: PropTypes.func.isRequired,

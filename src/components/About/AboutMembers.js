@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
-const AboutMembers = ({ members }) => {
+function AboutMembers({ members }) {
   const [current, setCurrent] = useState(0);
-  const length = members.length;
+  const { length } = members;
 
   const prev = current === 0 ? length - 1 : current - 1;
   const next = current === length - 1 ? 0 : current + 1;
@@ -14,7 +14,7 @@ const AboutMembers = ({ members }) => {
   const prevMember = () => setCurrent(prev);
 
   useEffect(() => {
-    let membersTimeout = setTimeout(() => setCurrent(next), 10000);
+    const membersTimeout = setTimeout(() => setCurrent(next), 10000);
     return () => clearTimeout(membersTimeout);
   });
 
@@ -30,8 +30,14 @@ const AboutMembers = ({ members }) => {
 
         {members.map((member, index) => {
           return (
-            <React.Fragment key={index}>
-              <div className={prev === index ? 'member prev' : 'member'} onClick={() => setCurrent(index)} role="button">
+            <React.Fragment key={member.name}>
+              <div
+                className={prev === index ? 'member prev' : 'member'}
+                onClick={() => setCurrent(index)}
+                onKeyDown={() => setCurrent(index)}
+                tabIndex={0}
+                role="button"
+              >
                 {prev === index && (
                   <>
                     <p className="member__name">
@@ -54,7 +60,13 @@ const AboutMembers = ({ members }) => {
                 )}
               </div>
 
-              <div className={next === index ? 'member next' : 'member'} onClick={() => setCurrent(index)} role="button">
+              <div
+                className={next === index ? 'member next' : 'member'}
+                onClick={() => setCurrent(index)}
+                onKeyDown={() => setCurrent(index)}
+                role="button"
+                tabIndex={0}
+              >
                 {next === index && (
                   <>
                     <p className="member__name">
@@ -70,7 +82,7 @@ const AboutMembers = ({ members }) => {
       </div>
     </section>
   );
-};
+}
 
 AboutMembers.propTypes = { members: PropTypes.array.isRequired };
 

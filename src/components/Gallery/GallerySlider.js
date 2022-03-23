@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
-const GallerySlider = ({ images }) => {
+function GallerySlider({ images }) {
   const [current, setCurrent] = useState(0);
-  const length = images.length;
+  const { length } = images;
 
   const prev = current === 0 ? length - 1 : current - 1;
   const next = current === length - 1 ? 0 : current + 1;
@@ -14,7 +14,7 @@ const GallerySlider = ({ images }) => {
   const nextSlide = () => setCurrent(next);
 
   useEffect(() => {
-    let galleryTimeout = setTimeout(() => setCurrent(next), 10000);
+    const galleryTimeout = setTimeout(() => setCurrent(next), 10000);
     return () => clearTimeout(galleryTimeout);
   });
 
@@ -36,7 +36,11 @@ const GallerySlider = ({ images }) => {
                   <p>
                     <Link to={`gallery/${img.id}`}>{img.desc}</Link>
                   </p>
-                  <img src={img.imageSrc} alt={`Slider ${img.id} item`} className={current === index ? 'current' : ''} />
+                  <img
+                    src={img.imageSrc}
+                    alt={`Slider ${img.id} item`}
+                    className={current === index ? 'current' : ''}
+                  />
                   <p>
                     <Link to={`builder/${img.builder}`}>{img.builder}</Link>
                   </p>
@@ -51,7 +55,7 @@ const GallerySlider = ({ images }) => {
       </div>
     </section>
   );
-};
+}
 
 GallerySlider.propTypes = {
   images: PropTypes.array.isRequired,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-const ShopHome = () => {
+function ShopHome() {
   const location = useLocation();
 
   return location.pathname.includes('shop') ? null : (
@@ -17,6 +17,6 @@ const ShopHome = () => {
       </section>
     </div>
   );
-};
+}
 
 export default ShopHome;

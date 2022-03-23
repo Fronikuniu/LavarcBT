@@ -1502,6 +1502,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 50px;
 }
 @media (min-width: 425px) {
   .settings__informations {
@@ -1571,6 +1572,57 @@
     width: 80%;
   }
 }
+.settings details summary {
+  font-size: 1.5em;
+  user-select: none;
+  margin-bottom: 20px;
+}
+.settings details .opinion {
+  display: flex;
+  border: 1px solid gray;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 25px;
+}
+.settings details .opinion__text {
+  width: 100%;
+}
+.settings details .opinion__text-header {
+  font-size: 1.3em;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.settings details .opinion__text-company {
+  font-size: 0.8em;
+}
+.settings details .opinion__text-accept {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.settings details .opinion__text-accept-accepted {
+  display: flex;
+}
+.settings details .opinion__text-isShow {
+  font-size: 2em;
+}
+.settings details .opinion__text .btn-opinion {
+  border: none;
+  background: none;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+.settings details .opinion__text .btn-opinion.decline {
+  font-size: 1.4em;
+}
+.settings details .opinion__text .accept {
+  color: green;
+}
+.settings details .opinion__text .decline {
+  color: tomato;
+}
 
 .chat {
   display: flex;
@@ -1605,9 +1657,9 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  right: -39.2px;
+  right: -27.2px;
   font-size: 1.7em;
-  padding: 10px 5px;
+  padding: 2px 0px;
   border-radius: 0% 100% 100% 0%/0% 50% 50% 100%;
   background-color: #fed85d;
   border: 1px solid #36383c;
@@ -1870,12 +1922,12 @@
   flex-direction: column;
   gap: 20px;
 }
+.contact-form label {
+  color: whitesmoke;
+}
 .contact-form > div {
   display: flex;
   gap: 30px;
-}
-.contact-form > div:first-of-type input {
-  width: 50%;
 }
 .contact-form textarea {
   font-size: 1.5em;
@@ -1934,6 +1986,9 @@
   align-items: center;
   flex-direction: column;
   gap: 40px;
+}
+.contact .container .contact__contact-form label {
+  color: black;
 }
 @media (min-width: 768px) {
   .contact .container .contact__contact-form {
@@ -2036,6 +2091,32 @@
   padding: 20px;
   border-radius: 20px;
   transform: scale(1);
+}
+
+.recommendation {
+  margin-top: 150px;
+  align-items: center;
+}
+.recommendation-content {
+  display: flex;
+  margin-top: 70px;
+}
+.recommendation__form {
+  width: 50%;
+}
+.recommendation__form form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 275px;
+  margin: 0 auto;
+}
+.recommendation__form form textarea {
+  height: 220px;
+  font-size: 1.4em;
+}
+.recommendation__image {
+  width: 50%;
 }
 
 .shop {
@@ -2218,6 +2299,10 @@
   }
 }
 
+iframe {
+  pointer-events: none;
+}
+
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
@@ -2389,6 +2474,16 @@ textarea.input-error::placeholder {
 textarea:focus-visible {
   border-color: #e8b12d;
   outline: none;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+}
+label input,
+label select,
+label textarea {
+  width: 100%;
 }
 
 select {
