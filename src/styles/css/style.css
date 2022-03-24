@@ -1654,6 +1654,31 @@
   flex-direction: column;
   gap: 20px;
 }
+.settings .gallery-post-manage {
+  margin-bottom: 25px;
+  border: 1px solid gray;
+  padding: 15px;
+}
+.settings .gallery-post-manage .post-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 25px;
+}
+.settings .gallery-post-manage .post-top img {
+  width: 275px;
+  height: auto;
+  object-fit: contain;
+}
+.settings .gallery-post-manage .form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.settings .gallery-post-manage .form label {
+  width: 275px;
+}
 
 .react-confirm-alert-body h1 {
   margin-bottom: 15px;
@@ -2557,6 +2582,7 @@ textarea:focus-visible {
 label {
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
 }
 label input,
 label select,

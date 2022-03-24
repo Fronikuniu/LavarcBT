@@ -184,6 +184,35 @@
     flex-direction: column;
     gap: 20px;
   }
+
+  .gallery-post-manage {
+    margin-bottom: 25px;
+    border: 1px solid gray;
+    padding: 15px;
+
+    .post-top {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-bottom: 25px;
+
+      img {
+        width: 275px;
+        height: auto;
+        object-fit: contain;
+      }
+    }
+
+    .form {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 20px;
+      label {
+        width: 275px;
+      }
+    }
+  }
 }
 
 .react-confirm-alert-body {

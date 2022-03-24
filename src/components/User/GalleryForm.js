@@ -34,7 +34,7 @@ function GalleryForm() {
     });
 
     reset();
-    toast.success('Successfully added gallery image');
+    toast.success('Successfully added image to gallery');
   };
 
   return (
@@ -56,13 +56,20 @@ function GalleryForm() {
         </p>
         <label htmlFor="builder">
           Builder*
-          <input
+          <select
             type="text"
             id="builder"
             className={errors.builder ? 'input-error' : ''}
             placeholder={errors.builder ? 'Builder is required!' : 'Builder'}
             {...register('builder', { required: true })}
-          />
+          >
+            <option value="">Select builder</option>
+            <option value="rockyFeller">rockyFeller</option>
+            <option value="drummaks">drummaks</option>
+            <option value="DristPl">DristPl</option>
+            <option value="Mich4ll_">Mich4ll_</option>
+            <option value="Fronikuniu">Fronikuniu</option>
+          </select>
         </label>
         <label htmlFor="title">
           Title*

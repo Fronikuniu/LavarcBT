@@ -10,6 +10,7 @@ import OpinionsAdmin from './OpinionsAdmin';
 import EditProfile from './EditProfile';
 import OpinionsDangerZone from './OpinionsDangerZone';
 import GalleryForm from './GalleryForm';
+import GalleryAdmin from './GalleryAdmin';
 
 function Settings({ loggedUser, loggedUserData }) {
   const [image, setImage] = useState('');
@@ -88,6 +89,7 @@ function Settings({ loggedUser, loggedUserData }) {
           <>
             <OpinionsAdmin />
             <GalleryForm />
+            <GalleryAdmin />
           </>
         )}
 
