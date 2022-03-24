@@ -34,8 +34,8 @@ import ShopHome from './components/Shop/ShopHome';
 import Shop from './components/Shop/Shop';
 import ShopList from './components/Shop/ShopList';
 import ScrollToTop from './components/helpers/ScrollToTop';
-import 'react-toastify/dist/ReactToastify.css';
 import RecommendationForm from './components/Recommendations/RecommendationForm';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [registerError, setRegisterError] = useState('');

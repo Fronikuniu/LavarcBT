@@ -1631,12 +1631,19 @@
 .settings details .opinion__text .decline {
   color: tomato;
 }
-.settings .editProfile-form {
+.settings .editProfile-form,
+.settings .addImage-form {
   width: 275px;
   display: flex;
   flex-direction: column;
   gap: 15px;
   margin-bottom: 25px;
+}
+.settings .addImage-form input[type=file] {
+  font-size: 0.9em;
+}
+.settings .addImage-form textarea {
+  height: 150px;
 }
 .settings .summary-danger {
   background-color: tomato;
@@ -2555,6 +2562,10 @@ label input,
 label select,
 label textarea {
   width: 100%;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 select {

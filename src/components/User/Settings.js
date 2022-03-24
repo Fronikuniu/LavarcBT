@@ -9,6 +9,7 @@ import { storage, db, auth } from '../configuration/firebase';
 import OpinionsAdmin from './OpinionsAdmin';
 import EditProfile from './EditProfile';
 import OpinionsDangerZone from './OpinionsDangerZone';
+import GalleryForm from './GalleryForm';
 
 function Settings({ loggedUser, loggedUserData }) {
   const [image, setImage] = useState('');
@@ -83,7 +84,12 @@ function Settings({ loggedUser, loggedUserData }) {
 
         <EditProfile loggedUser={loggedUser} />
 
-        {loggedUserData.isAdmin && <OpinionsAdmin />}
+        {loggedUserData.isAdmin && (
+          <>
+            <OpinionsAdmin />
+            <GalleryForm />
+          </>
+        )}
 
         <OpinionsDangerZone loggedUser={loggedUser} />
       </div>

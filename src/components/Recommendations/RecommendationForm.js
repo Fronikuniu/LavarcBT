@@ -12,6 +12,7 @@ function RecommendationForm() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
   const router = useRouter();
 
@@ -25,6 +26,7 @@ function RecommendationForm() {
       rate: Number(data.Rate),
       created: Timestamp.fromDate(new Date()),
     });
+    reset();
     router.push('/');
     toast.success('Wysłano opinie, zaczekaj na potwierdzenie!');
   };

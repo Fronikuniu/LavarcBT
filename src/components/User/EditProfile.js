@@ -21,6 +21,30 @@ function EditProfile({ loggedUser }) {
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
 
+  const formSchema = Yup.object().shape({
+    Password: Yup.string()
+      .required('Password is required')
+      .min(8, 'Password length should be at least 8 characters'),
+    Repeat_password: Yup.string()
+      .required('Confirm Password is required')
+      .oneOf([Yup.ref('Password')], 'Passwords must and should match'),
+  });
+  const validationOpt = { resolver: yupResolver(formSchema) };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+
+  const {
+    register: register2,
+    handleSubmit: handleSubmit2,
+    formState: { errors: errors2 },
+    reset: reset2,
+  } = useForm(validationOpt);
+
   useEffect(() => {
     if (clicked && !error) {
       const prepareToChangePassword = async () => {
@@ -28,6 +52,7 @@ function EditProfile({ loggedUser }) {
         await signInWithEmailAndPassword(auth, data.Email, data.Password)
           .then((userCredential) => {
             const { user } = userCredential;
+            reset2();
             updatePassword(user, newPassword).then(() => toast.success('Password updated'));
             setPasswordModalOpen(false);
             setData({ Email: '', Password: '' });
@@ -44,28 +69,6 @@ function EditProfile({ loggedUser }) {
       prepareToChangePassword();
     }
   }, [clicked, data, error, newPassword]);
-
-  const formSchema = Yup.object().shape({
-    Password: Yup.string()
-      .required('Password is required')
-      .min(8, 'Password length should be at least 8 characters'),
-    Repeat_password: Yup.string()
-      .required('Confirm Password is required')
-      .oneOf([Yup.ref('Password')], 'Passwords must and should match'),
-  });
-  const validationOpt = { resolver: yupResolver(formSchema) };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const {
-    register: register2,
-    handleSubmit: handleSubmit2,
-    formState: { errors: errors2 },
-  } = useForm(validationOpt);
 
   const onSubmitBasic = async (basic) => {
     if (basic.Username) {
@@ -86,13 +89,17 @@ function EditProfile({ loggedUser }) {
       await updateDoc(doc(db, 'users', auth.currentUser.uid), {
         isOnline: basic.Status,
       });
+    reset();
     toast.success('Successfully updated basic data.');
   };
 
   const onSubmitPassword = (password) => {
     setNewPassword(password.Password);
     updatePassword(auth.currentUser, password.Password)
-      .then(() => toast.success('Password updated'))
+      .then(() => {
+        reset2();
+        toast.success('Password updated');
+      })
       .catch(() => setPasswordModalOpen(true));
   };
   const reauntheticateChangePassword = (e) => {

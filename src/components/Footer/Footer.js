@@ -44,17 +44,17 @@ function Footer() {
           <AiFillInstagram
             onClick={() => window.open('https://www.instagram.com/')}
             className="footer__socials__icon ig"
-            role="button"
+            role="link"
           />
           <AiFillYoutube
             onClick={() => window.open('https://www.youtube.com/channel/UCt-UC9cGvjLL9CmpVRnbrbg')}
             className="footer__socials__icon yt"
-            role="button"
+            role="link"
           />
           <SiDiscord
             onClick={() => window.open('https://discord.gg/VUMkwAXud8')}
             className="footer__socials__icon dc"
-            role="button"
+            role="link"
           />
         </div>
       </div>

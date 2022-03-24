@@ -233,6 +233,10 @@ label {
   }
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 select {
   border: 2px solid colors.$dandelion;
   background-color: transparent;

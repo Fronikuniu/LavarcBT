@@ -157,12 +157,22 @@
     }
   }
 
-  .editProfile-form {
+  .editProfile-form,
+  .addImage-form {
     width: 275px;
     display: flex;
     flex-direction: column;
     gap: 15px;
     margin-bottom: 25px;
+  }
+
+  .addImage-form {
+    input[type='file'] {
+      font-size: 0.9em;
+    }
+    textarea {
+      height: 150px;
+    }
   }
 
   .summary-danger {
