@@ -2,12 +2,27 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../configuration/firebase';
 
-function GallerySingle({ images }) {
+function GallerySingle() {
   const [image, setImage] = useState([]);
   const { id } = useParams();
 
-  useEffect(() => setImage(images.find((img) => img.id === Number(id))), [images, id]);
+  useEffect(() => {
+    const getSingleImage = async () => {
+      const q = query(collection(db, 'gallery'), where('id', '==', id));
+
+      const querySnapshot = await getDocs(q);
+
+      const img = [];
+      querySnapshot.forEach((doc) => {
+        img.push(doc.data());
+      });
+      setImage(img[0]);
+    };
+    getSingleImage();
+  }, [id]);
 
   return (
     <section className="gallery__single">
@@ -17,10 +32,11 @@ function GallerySingle({ images }) {
             <img src={image?.imageSrc} alt="" />
           </div>
           <div className="gallery__single__content-text">
-            <p>
-              What's built: <span>{image?.desc}</span>
+            <p className="title">
+              What's built: <span>{image?.title}</span>
             </p>
-            <p>
+            <p className="desc">{image?.desc}</p>
+            <p className="builder">
               This beautiful building was built by:{' '}
               <Link to={`/builder/${image?.builder}`}>{image?.builder}</Link>
             </p>
@@ -30,7 +46,7 @@ function GallerySingle({ images }) {
               onKeyDown={() => window.open(image?.imgurAlbum)}
               tabIndex="0"
             >
-              <p>Want to see more of this building? Click!</p>
+              <p className="bouncing">Want to see more of this building? Click!</p>
             </div>
           </div>
         </div>
@@ -38,9 +54,5 @@ function GallerySingle({ images }) {
     </section>
   );
 }
-
-GallerySingle.propTypes = {
-  images: PropTypes.array.isRequired,
-};
 
 export default GallerySingle;

@@ -188,6 +188,7 @@
   .gallery-post-manage {
     margin-bottom: 25px;
     border: 1px solid gray;
+    border-radius: 10px;
     padding: 15px;
 
     .post-top {
@@ -197,15 +198,31 @@
       margin-bottom: 25px;
 
       img {
-        width: 275px;
+        width: 239px;
         height: auto;
         object-fit: contain;
+      }
+    }
+
+    .post-bot {
+      .delete {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2em;
+        height: 45px;
+        aspect-ratio: 1/1;
+        border: none;
+        background-color: tomato;
+        border-radius: 10px;
+        cursor: pointer;
       }
     }
 
     .form {
       display: flex;
       flex-direction: row;
+      align-items: end;
       flex-wrap: wrap;
       gap: 20px;
       label {

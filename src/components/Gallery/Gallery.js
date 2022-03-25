@@ -1,11 +1,27 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import Loader from '../Loader/Loader';
+import { db } from '../configuration/firebase';
 
-function Gallery({ images }) {
+function Gallery() {
   const [loading, setLoading] = useState(true);
   const counter = useRef(0);
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    const getGallery = async () => {
+      const q = query(collection(db, 'gallery'), orderBy('createdAt'));
+      const querySnapshot = await getDocs(q);
+      const gallery = [];
+      querySnapshot.forEach((doc) => {
+        gallery.push(doc.data());
+      });
+      setImages(gallery);
+    };
+    getGallery();
+  }, []);
 
   const imageLoaded = () => {
     counter.current += 1;
@@ -32,7 +48,7 @@ function Gallery({ images }) {
                   </Link>
                   <div className="gallery__content-images__about-desc">
                     <p>
-                      <Link to={`/gallery/${img.id}`}>{img.desc}</Link>
+                      <Link to={`/gallery/${img.id}`}>{img.title}</Link>
                     </p>
                     <p>
                       Builder: <Link to={`/builder/${img.builder}`}>{img.builder}</Link>
@@ -47,9 +63,5 @@ function Gallery({ images }) {
     </section>
   );
 }
-
-Gallery.propTypes = {
-  images: PropTypes.array.isRequired,
-};
 
 export default Gallery;

@@ -24,6 +24,7 @@ function GalleryForm() {
     await addDoc(collection(db, 'gallery'), {
       id: uid(15),
       imageSrc: url,
+      imagePath: snapshot.ref.fullPath,
       builder,
       title,
       desc,
@@ -92,12 +93,12 @@ function GalleryForm() {
           />
         </label>
         <label htmlFor="desc">
-          Description*
+          Shop description
           <textarea
             id="desc"
             className={errors.desc ? 'input-error' : ''}
-            placeholder={errors.desc ? 'Description is required!' : 'Description'}
-            {...register('desc', { required: true })}
+            placeholder="Description"
+            {...register('desc', {})}
           />
         </label>
         <label htmlFor="price">

@@ -1035,7 +1035,7 @@
 .gallery__single__content-img img {
   width: 100%;
   max-height: 450px;
-  object-fit: cover;
+  object-fit: contain;
 }
 @media (min-width: 1024px) {
   .gallery__single__content-img {
@@ -1069,29 +1069,32 @@
   transform: scale(1.05);
   color: #fada5e;
 }
-.gallery__single__content-text p:first-of-type {
+.gallery__single__content-text p.title {
   font-size: 1.5em;
-  margin: 2rem;
-}
-.gallery__single__content-text p:nth-of-type(2) {
-  font-size: 1.3em;
   margin-bottom: 2rem;
 }
-.gallery__single__content-text p:last-of-type {
-  font-size: 1.1em;
+.gallery__single__content-text p.desc {
+  font-size: 1.2em;
+  margin-bottom: 1.5rem;
+}
+.gallery__single__content-text p.builder {
+  font-size: 1em;
+  margin-bottom: 1rem;
+}
+.gallery__single__content-text p.bouncing {
+  font-size: 1em;
   animation: pulsing 1s ease 0s alternate infinite backwards running;
   cursor: pointer;
 }
 @media (min-width: 1024px) {
-  .gallery__single__content-text p:first-of-type {
-    font-size: 2em;
+  .gallery__single__content-text p.title {
+    font-size: 1.7em;
   }
-  .gallery__single__content-text p:nth-of-type(2) {
-    font-size: 1.6em;
-    margin-bottom: 4rem;
+  .gallery__single__content-text p.desc {
+    font-size: 1.4em;
   }
-  .gallery__single__content-text p:last-of-type {
-    font-size: 1.3em;
+  .gallery__single__content-text p.builder, .gallery__single__content-text p.bouncing {
+    font-size: 1.2em;
   }
 }
 
@@ -1123,7 +1126,7 @@
 .footer {
   background-image: url("../../images/lavarcfooter.png"), linear-gradient(270deg, #27292c, #36383c);
   background-repeat: no-repeat;
-  background-position: 85% 500%;
+  background-position: 85% 200%;
   min-height: 300px;
   display: flex;
   flex-direction: column;
@@ -1657,6 +1660,7 @@
 .settings .gallery-post-manage {
   margin-bottom: 25px;
   border: 1px solid gray;
+  border-radius: 10px;
   padding: 15px;
 }
 .settings .gallery-post-manage .post-top {
@@ -1666,13 +1670,26 @@
   margin-bottom: 25px;
 }
 .settings .gallery-post-manage .post-top img {
-  width: 275px;
+  width: 239px;
   height: auto;
   object-fit: contain;
+}
+.settings .gallery-post-manage .post-bot .delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+  height: 45px;
+  aspect-ratio: 1/1;
+  border: none;
+  background-color: tomato;
+  border-radius: 10px;
+  cursor: pointer;
 }
 .settings .gallery-post-manage .form {
   display: flex;
   flex-direction: row;
+  align-items: end;
   flex-wrap: wrap;
   gap: 20px;
 }
@@ -2022,7 +2039,7 @@
 }
 .contact-form > div {
   display: flex;
-  gap: 30px;
+  gap: 10px;
 }
 .contact-form textarea {
   font-size: 1.5em;
