@@ -148,6 +148,7 @@ function EditProfile({ loggedUser }) {
       </form>
 
       <form onSubmit={handleSubmit2(onSubmitPassword)} className="editProfile-form">
+        <input hidden type="text" autoComplete="username" />
         <label htmlFor="Password">
           Password
           <input

@@ -38,8 +38,8 @@ function GalleryAdmin() {
         sale,
         price,
       });
+      toast.success('Successfully updated pricing');
     }
-    toast.success('Successfully updated pricing');
   };
 
   const deletePost = async (post) => {
@@ -51,7 +51,7 @@ function GalleryAdmin() {
   return (
     <details className="gallery-admin">
       <summary>Manage Gallery/Shop</summary>
-      {mainGallery.map((post) => (
+      {mainGallery.map((post, i) => (
         <div className="gallery-post-manage" key={post.id}>
           <div className="post-top">
             <img src={post.imageSrc} alt={post.title} />
@@ -76,13 +76,13 @@ function GalleryAdmin() {
           </div>
           <div className="post-bot">
             <form onSubmit={(e) => updateGalleryImage(e, post.doc_id)} className="form">
-              <label htmlFor="price">
+              <label htmlFor={`price${i}`}>
                 Price
-                <input type="number" defaultValue={post.price} id="price" name="price" />
+                <input type="number" defaultValue={post.price} id={`price${i}`} name="price" />
               </label>
-              <label htmlFor="sale">
+              <label htmlFor={`sale${i}`}>
                 Sale
-                <input type="number" defaultValue={post.sale} id="sale" name="sale" />
+                <input type="number" defaultValue={post.sale} id={`sale${i}`} name="sale" />
               </label>
               <label htmlFor="submit">
                 <input type="submit" value="Update" />
