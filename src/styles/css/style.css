@@ -1035,7 +1035,7 @@
 .gallery__single__content-img img {
   width: 100%;
   max-height: 450px;
-  object-fit: contain;
+  object-fit: cover;
 }
 @media (min-width: 1024px) {
   .gallery__single__content-img {
@@ -1069,32 +1069,29 @@
   transform: scale(1.05);
   color: #fada5e;
 }
-.gallery__single__content-text p.title {
+.gallery__single__content-text p:first-of-type {
   font-size: 1.5em;
+  margin: 2rem;
+}
+.gallery__single__content-text p:nth-of-type(2) {
+  font-size: 1.3em;
   margin-bottom: 2rem;
 }
-.gallery__single__content-text p.desc {
-  font-size: 1.2em;
-  margin-bottom: 1.5rem;
-}
-.gallery__single__content-text p.builder {
-  font-size: 1em;
-  margin-bottom: 1rem;
-}
-.gallery__single__content-text p.bouncing {
-  font-size: 1em;
+.gallery__single__content-text p:last-of-type {
+  font-size: 1.1em;
   animation: pulsing 1s ease 0s alternate infinite backwards running;
   cursor: pointer;
 }
 @media (min-width: 1024px) {
-  .gallery__single__content-text p.title {
-    font-size: 1.7em;
+  .gallery__single__content-text p:first-of-type {
+    font-size: 2em;
   }
-  .gallery__single__content-text p.desc {
-    font-size: 1.4em;
+  .gallery__single__content-text p:nth-of-type(2) {
+    font-size: 1.6em;
+    margin-bottom: 4rem;
   }
-  .gallery__single__content-text p.builder, .gallery__single__content-text p.bouncing {
-    font-size: 1.2em;
+  .gallery__single__content-text p:last-of-type {
+    font-size: 1.3em;
   }
 }
 
