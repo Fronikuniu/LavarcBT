@@ -34,8 +34,9 @@ import ShopHome from './components/Shop/ShopHome';
 import Shop from './components/Shop/Shop';
 import ShopList from './components/Shop/ShopList';
 import ScrollToTop from './components/helpers/ScrollToTop';
-import 'react-toastify/dist/ReactToastify.css';
 import RecommendationForm from './components/Recommendations/RecommendationForm';
+import 'react-toastify/dist/ReactToastify.css';
+import loginErrors from './components/helpers/loginErrors';
 
 function App() {
   const [registerError, setRegisterError] = useState('');
@@ -57,8 +58,8 @@ function App() {
   }, [auth.currentUser]);
 
   // Register
-  const registerNewUser = async (data) => {
-    await createUserWithEmailAndPassword(auth, data.Email, data.Password)
+  const registerNewUser = (data) => {
+    createUserWithEmailAndPassword(auth, data.Email, data.Password)
       .then((userCredential) => {
         const { user } = userCredential;
 
@@ -90,8 +91,8 @@ function App() {
   };
 
   // Login
-  const loginUser = async (data) => {
-    await signInWithEmailAndPassword(auth, data.Email, data.Password)
+  const loginUser = (data) => {
+    signInWithEmailAndPassword(auth, data.Email, data.Password)
       .then((userCredential) => {
         const { user } = userCredential;
 
@@ -99,12 +100,7 @@ function App() {
       })
       .catch((error) => {
         const errorCode = error.code;
-
-        if (errorCode === 'auth/missing-email') setLoginError('Missing email.');
-        else if (errorCode === 'auth/wrong-password')
-          setLoginError('The password provided is not valid.');
-        else if (errorCode === 'auth/user-not-found')
-          setLoginError('The member with the given email does not exist.');
+        setLoginError(loginErrors[errorCode]);
       });
   };
 
@@ -268,9 +264,6 @@ function App() {
         pauseOnHover
       />
     </Router>
-
-    // TO DO
-    // - Form for opionions
   );
 }
 

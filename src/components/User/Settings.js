@@ -7,12 +7,17 @@ import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 import { storage, db, auth } from '../configuration/firebase';
 import OpinionsAdmin from './OpinionsAdmin';
+import EditProfile from './EditProfile';
+import OpinionsDangerZone from './OpinionsDangerZone';
+import GalleryForm from './GalleryForm';
+import GalleryAdmin from './GalleryAdmin';
 
 function Settings({ loggedUser, loggedUserData }) {
   const [image, setImage] = useState('');
   const [user, setUser] = useState('');
 
   useEffect(() => {
+    // trzeba poprawic aktualizowanie się danych
     if (auth.currentUser) {
       const { uid } = auth.currentUser;
 
@@ -78,7 +83,17 @@ function Settings({ loggedUser, loggedUserData }) {
           </div>
         </div>
 
-        {loggedUserData.isAdmin && <OpinionsAdmin />}
+        <EditProfile loggedUser={loggedUser} />
+
+        {loggedUserData.isAdmin && (
+          <>
+            <OpinionsAdmin />
+            <GalleryForm />
+            <GalleryAdmin />
+          </>
+        )}
+
+        <OpinionsDangerZone loggedUser={loggedUser} />
       </div>
     </section>
   ) : null;

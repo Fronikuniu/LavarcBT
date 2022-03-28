@@ -112,6 +112,10 @@ p {
   }
 }
 
+.underline {
+  text-decoration: underline;
+}
+
 .btn {
   padding: 10px 20px;
   border: 2px solid colors.$dandelion;
@@ -133,6 +137,16 @@ p {
 
     &:hover {
       background-color: #ffe17d;
+    }
+  }
+
+  &.danger {
+    color: tomato;
+    border-color: tomato;
+
+    &:hover {
+      color: white;
+      background-color: tomato;
     }
   }
 
@@ -215,12 +229,17 @@ textarea {
 label {
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
 
   input,
   select,
   textarea {
     width: 100%;
   }
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 select {

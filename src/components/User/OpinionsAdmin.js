@@ -34,7 +34,7 @@ function OpinionsAdmin() {
   return (
     <div className="opinions-admin">
       <details>
-        <summary>Opinions Admin</summary>
+        <summary>Manage opinions</summary>
         {allOpinions.map((opinion) => (
           <div className="opinion" key={opinion.doc_id}>
             <div className="opinion__text">

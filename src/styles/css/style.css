@@ -1123,7 +1123,7 @@
 .footer {
   background-image: url("../../images/lavarcfooter.png"), linear-gradient(270deg, #27292c, #36383c);
   background-repeat: no-repeat;
-  background-position: 85% 500%;
+  background-position: 85% 200%;
   min-height: 300px;
   display: flex;
   flex-direction: column;
@@ -1572,10 +1572,18 @@
     width: 80%;
   }
 }
+.settings__informations__info .btn-edit {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.1em;
+}
 .settings details summary {
   font-size: 1.5em;
   user-select: none;
   margin-bottom: 20px;
+  cursor: pointer;
+  padding: 15px;
 }
 .settings details .opinion {
   display: flex;
@@ -1622,6 +1630,107 @@
 }
 .settings details .opinion__text .decline {
   color: tomato;
+}
+.settings .editProfile-form,
+.settings .addImage-form {
+  width: 275px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+.settings .addImage-form input[type=file] {
+  font-size: 0.9em;
+}
+.settings .addImage-form textarea {
+  height: 150px;
+}
+.settings .summary-danger {
+  background-color: tomato;
+  color: white;
+}
+.settings .dangerzone {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.settings .gallery-post-manage {
+  margin-bottom: 25px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  padding: 15px;
+}
+.settings .gallery-post-manage .post-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 25px;
+}
+.settings .gallery-post-manage .post-top img {
+  width: 239px;
+  height: auto;
+  object-fit: contain;
+}
+.settings .gallery-post-manage .post-bot .delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+  height: 45px;
+  aspect-ratio: 1/1;
+  border: none;
+  background-color: tomato;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.settings .gallery-post-manage .form {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.settings .gallery-post-manage .form label {
+  width: 275px;
+}
+
+.react-confirm-alert-body h1 {
+  margin-bottom: 15px;
+}
+
+.react-confirm-alert-button-group button:first-of-type {
+  background-color: tomato;
+}
+
+.modal-form {
+  height: 100%;
+}
+.modal-form .content {
+  position: absolute;
+  width: 300px;
+  height: 390px;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 20px;
+}
+.modal-form .content h2 {
+  margin-bottom: 20px;
+}
+.modal-form .content form {
+  display: flex;
+  flex-direction: column;
+  width: 256px;
+  margin: 0 auto;
+  gap: 20px;
+}
+.modal-form .content .p-error {
+  margin-top: 3px;
 }
 
 .chat {
@@ -1927,7 +2036,7 @@
 }
 .contact-form > div {
   display: flex;
-  gap: 30px;
+  gap: 10px;
 }
 .contact-form textarea {
   font-size: 1.5em;
@@ -2391,6 +2500,10 @@ p {
   background-color: #c0c0c0;
 }
 
+.underline {
+  text-decoration: underline;
+}
+
 .btn {
   padding: 10px 20px;
   border: 2px solid #fed85d;
@@ -2411,6 +2524,14 @@ p {
 }
 .btn.primary:hover {
   background-color: #ffe17d;
+}
+.btn.danger {
+  color: tomato;
+  border-color: tomato;
+}
+.btn.danger:hover {
+  color: white;
+  background-color: tomato;
 }
 .btn.disabled {
   pointer-events: none;
@@ -2479,11 +2600,16 @@ textarea:focus-visible {
 label {
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
 }
 label input,
 label select,
 label textarea {
   width: 100%;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 select {

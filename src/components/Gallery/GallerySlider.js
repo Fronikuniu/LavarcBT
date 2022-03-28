@@ -1,22 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { Link } from 'react-router-dom';
+import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
+import { db } from '../configuration/firebase';
 
-function GallerySlider({ images }) {
+function GallerySlider() {
   const [current, setCurrent] = useState(0);
+  const [images, setImages] = useState([]);
   const { length } = images;
-
   const prev = current === 0 ? length - 1 : current - 1;
   const next = current === length - 1 ? 0 : current + 1;
-
-  const prevSlide = () => setCurrent(prev);
-  const nextSlide = () => setCurrent(next);
 
   useEffect(() => {
     const galleryTimeout = setTimeout(() => setCurrent(next), 10000);
     return () => clearTimeout(galleryTimeout);
   });
+
+  useEffect(() => {
+    const getGallery = async () => {
+      const q = query(collection(db, 'gallery'), orderBy('createdAt'), limit(7));
+      const querySnapshot = await getDocs(q);
+      const gallery = [];
+      querySnapshot.forEach((doc) => {
+        gallery.push(doc.data());
+      });
+      setImages(gallery);
+    };
+    getGallery();
+  }, []);
+
+  const prevSlide = () => setCurrent(prev);
+  const nextSlide = () => setCurrent(next);
 
   return (
     <section className="gallery-latest">
@@ -34,7 +48,7 @@ function GallerySlider({ images }) {
               {current === index && (
                 <>
                   <p>
-                    <Link to={`gallery/${img.id}`}>{img.desc}</Link>
+                    <Link to={`gallery/${img.id}`}>{img.title}</Link>
                   </p>
                   <img
                     src={img.imageSrc}
@@ -56,9 +70,5 @@ function GallerySlider({ images }) {
     </section>
   );
 }
-
-GallerySlider.propTypes = {
-  images: PropTypes.array.isRequired,
-};
 
 export default GallerySlider;

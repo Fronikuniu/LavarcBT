@@ -13,7 +13,7 @@ function UserList({ sender, user, selectUser, usersChat }) {
     const unsub = onSnapshot(doc(db, 'lastMessage', id), (res) => setData(res.data()));
 
     return () => unsub();
-  }, []);
+  }, [receiver, sender]);
 
   return (
     <div
