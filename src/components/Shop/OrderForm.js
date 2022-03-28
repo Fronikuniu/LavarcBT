@@ -7,7 +7,6 @@ import EmailJsConf from '../configuration/emailjs';
 function OrderForm() {
   const [email, setEmail] = useState('');
   const [discord, setDiscord] = useState('');
-  const [timezone, setTimezone] = useState(moment.tz.guess());
   const [packag, setPackage] = useState('');
   const [message, setMessage] = useState('');
   const [budget, setBudget] = useState('');
@@ -66,7 +65,6 @@ function OrderForm() {
 
         setEmail('');
         setDiscord('');
-        setTimezone('');
         setPackage('');
         setMessage('');
         setBudget('');

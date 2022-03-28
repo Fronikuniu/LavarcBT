@@ -17,13 +17,13 @@ function RecommendationForm() {
   const router = useRouter();
 
   const addOpinion = async (data) => {
-    const docRef = await addDoc(collection(db, 'opinions'), {
-      community: data.Community,
-      from: data.Username,
+    await addDoc(collection(db, 'opinions'), {
+      community: data.community,
+      from: data.username,
       id: uid(),
       isAccepted: false,
-      opinion: data.Opinion,
-      rate: Number(data.Rate),
+      opinion: data.opinion,
+      rate: Number(data.rate),
       created: Timestamp.fromDate(new Date()),
     });
     reset();
@@ -43,51 +43,51 @@ function RecommendationForm() {
           <div className="recommendation__form">
             <form onSubmit={handleSubmit(onSubmit)}>
               <label htmlFor="username">
-                Username
+                username
                 <input
                   type="text"
-                  className={errors.Username?.type === 'required' ? 'input-error' : ''}
+                  className={errors.username?.type === 'required' ? 'input-error' : ''}
                   placeholder={
-                    errors.Username?.type === 'required' ? 'Username is required!' : 'Username'
+                    errors.username?.type === 'required' ? 'username is required!' : 'username'
                   }
                   id="username"
-                  {...register('Username', { required: true, maxLength: 20 })}
+                  {...register('username', { required: true, maxLength: 20 })}
                 />
               </label>
               <label htmlFor="community">
-                Community
+                community
                 <input
                   type="text"
-                  className={errors.Community?.type === 'required' ? 'input-error' : ''}
+                  className={errors.community?.type === 'required' ? 'input-error' : ''}
                   placeholder={
-                    errors.Community?.type === 'required' ? 'Community is required!' : 'Community'
+                    errors.community?.type === 'required' ? 'community is required!' : 'community'
                   }
                   id="community"
-                  {...register('Community', { required: true, maxLength: 20 })}
+                  {...register('community', { required: true, maxLength: 20 })}
                 />
               </label>
               <label htmlFor="opinion">
-                Opinion
+                opinion
                 <textarea
                   type="text"
-                  className={errors.Opinion?.type === 'required' ? 'input-error' : ''}
+                  className={errors.opinion?.type === 'required' ? 'input-error' : ''}
                   placeholder={
-                    errors.Opinion?.type === 'required' ? 'Opinion is required!' : 'Opinion'
+                    errors.opinion?.type === 'required' ? 'opinion is required!' : 'opinion'
                   }
                   id="opinion"
-                  {...register('Opinion', { required: true, maxLength: 300 })}
+                  {...register('opinion', { required: true, maxLength: 300 })}
                 />
               </label>
               <label htmlFor="rate">
-                Rate
+                rate
                 <input
                   type="number"
-                  className={errors.Rate?.type === 'required' ? 'input-error' : ''}
-                  placeholder={errors.Rate?.type === 'required' ? 'Rate is required!' : 'Rate'}
+                  className={errors.rate?.type === 'required' ? 'input-error' : ''}
+                  placeholder={errors.rate?.type === 'required' ? 'rate is required!' : 'rate'}
                   id="rate"
                   min="1"
                   max="5"
-                  {...register('Rate', { required: true, max: 5, min: 1 })}
+                  {...register('rate', { required: true, max: 5, min: 1 })}
                 />
               </label>
 

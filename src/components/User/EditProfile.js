@@ -13,21 +13,22 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { auth, db } from '../configuration/firebase';
 import LoginModal from './LoginModal';
+import loginErrors from '../helpers/loginErrors';
 
 function EditProfile({ loggedUser }) {
-  const [data, setData] = useState({ Email: '', Password: '' });
+  const [data, setData] = useState({ email: '', password: '' });
   const [error, setError] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
 
   const formSchema = Yup.object().shape({
-    Password: Yup.string()
-      .required('Password is required')
-      .min(8, 'Password length should be at least 8 characters'),
+    password: Yup.string()
+      .required('password is required')
+      .min(8, 'password length should be at least 8 characters'),
     Repeat_password: Yup.string()
-      .required('Confirm Password is required')
-      .oneOf([Yup.ref('Password')], 'Passwords must and should match'),
+      .required('Confirm password is required')
+      .oneOf([Yup.ref('password')], 'Passwords must and should match'),
   });
   const validationOpt = { resolver: yupResolver(formSchema) };
 
@@ -49,14 +50,14 @@ function EditProfile({ loggedUser }) {
     if (clicked && !error) {
       const prepareToChangePassword = () => {
         setClicked(false);
-        signInWithEmailAndPassword(auth, data.Email, data.Password)
+        signInWithEmailAndPassword(auth, data.email, data.password)
           .then((userCredential) => {
             const { user } = userCredential;
             resetPassword();
             updatePassword(user, newPassword);
             setPasswordModalOpen(false);
-            setData({ Email: '', Password: '' });
-            toast.success('Password updated');
+            setData({ email: '', password: '' });
+            toast.success('password updated');
           })
           .catch((err) => {
             const errorCode = err.code;
@@ -80,11 +81,11 @@ function EditProfile({ loggedUser }) {
         displayName: basic.Username,
       });
     }
-    if (basic.Email) {
+    if (basic.email) {
       await updateDoc(doc(db, 'users', auth.currentUser.uid), {
-        email: basic.Email,
+        email: basic.email,
       });
-      updateEmail(auth.currentUser, basic.Email);
+      updateEmail(auth.currentUser, basic.email);
     }
     if (basic.Status)
       await updateDoc(doc(db, 'users', auth.currentUser.uid), {
@@ -95,18 +96,18 @@ function EditProfile({ loggedUser }) {
   };
 
   const onSubmitPassword = (password) => {
-    setNewPassword(password.Password);
-    updatePassword(auth.currentUser, password.Password)
+    setNewPassword(password.password);
+    updatePassword(auth.currentUser, password.password)
       .then(() => {
         resetPassword();
-        toast.success('Password updated');
+        toast.success('password updated');
       })
       .catch(() => setPasswordModalOpen(true));
   };
   const reauntheticateChangePassword = (e) => {
     setClicked(true);
     e.preventDefault();
-    setError(!data.Email || !data.Password ? 'All fields are required' : false);
+    setError(!data.email || !data.password ? 'All fields are required' : false);
   };
 
   return (
@@ -123,14 +124,14 @@ function EditProfile({ loggedUser }) {
             {...register('Username', { maxLength: 30 })}
           />
         </label>
-        <label htmlFor="Email">
-          Email
+        <label htmlFor="email">
+          email
           <input
             type="text"
-            className={errors.Email ? 'input-error' : ''}
+            className={errors.email ? 'input-error' : ''}
             autoComplete="email"
-            placeholder="Email"
-            {...register('Email', { pattern: /^\S+@\S+$/i })}
+            placeholder="email"
+            {...register('email', { pattern: /^\S+@\S+$/i })}
           />
         </label>
         <label htmlFor="Status">
@@ -150,16 +151,16 @@ function EditProfile({ loggedUser }) {
 
       <form onSubmit={handleSubmitPassword(onSubmitPassword)} className="editProfile-form">
         <input hidden type="text" autoComplete="username" />
-        <label htmlFor="Password">
-          Password
+        <label htmlFor="password">
+          password
           <input
             type="password"
-            className={errorsPassword.Password ? 'input-error' : ''}
+            className={errorsPassword.password ? 'input-error' : ''}
             autoComplete="new-password"
-            placeholder="Password"
-            {...registerPassword('Password')}
+            placeholder="password"
+            {...registerPassword('password')}
           />
-          <p className="p-error">{errorsPassword.Password?.message}</p>
+          <p className="p-error">{errorsPassword.password?.message}</p>
         </label>
         <label htmlFor="Repeat_password">
           Repeat password
