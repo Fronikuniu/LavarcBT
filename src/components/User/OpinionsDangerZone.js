@@ -5,9 +5,10 @@ import { toast } from 'react-toastify';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { auth, db } from '../configuration/firebase';
 import LoginModal from './LoginModal';
+import loginErrors from '../helpers/loginErrors';
 
 function OpinionsDangerZone() {
-  const [data, setData] = useState({ Email: '', Password: '' });
+  const [data, setData] = useState({ email: '', password: '' });
   const [error, setError] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
@@ -16,20 +17,16 @@ function OpinionsDangerZone() {
     if (clicked && !error) {
       const prepareToDelete = async () => {
         setClicked(false);
-        await signInWithEmailAndPassword(auth, data.Email, data.Password)
+        await signInWithEmailAndPassword(auth, data.email, data.password)
           .then((userCredential) => {
             const { user } = userCredential;
             deleteUser(user).then(() => toast.success('Account deleted'));
             setDeleteModalOpen(false);
-            setData({ Email: '', Password: '' });
+            setData({ email: '', password: '' });
           })
           .catch((err) => {
             const errorCode = err.code;
-            if (errorCode === 'auth/missing-email') setError('Missing email.');
-            else if (errorCode === 'auth/wrong-password')
-              setError('The password provided is not valid.');
-            else if (errorCode === 'auth/user-not-found')
-              setError('The member with the given email does not exist.');
+            setError(loginErrors[errorCode]);
           });
       };
       prepareToDelete();
@@ -45,7 +42,7 @@ function OpinionsDangerZone() {
   const reauntheticateDeleteAccount = (e) => {
     setClicked(true);
     e.preventDefault();
-    setError(!data.Email || !data.Password ? 'All fields are required' : false);
+    setError(!data.email || !data.password ? 'All fields are required' : false);
   };
 
   const deleteConfirm = () => {

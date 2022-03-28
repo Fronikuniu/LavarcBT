@@ -36,6 +36,7 @@ import ShopList from './components/Shop/ShopList';
 import ScrollToTop from './components/helpers/ScrollToTop';
 import 'react-toastify/dist/ReactToastify.css';
 import RecommendationForm from './components/Recommendations/RecommendationForm';
+import loginErrors from './components/helpers/loginErrors';
 
 function App() {
   const [registerError, setRegisterError] = useState('');
@@ -99,12 +100,7 @@ function App() {
       })
       .catch((error) => {
         const errorCode = error.code;
-
-        if (errorCode === 'auth/missing-email') setLoginError('Missing email.');
-        else if (errorCode === 'auth/wrong-password')
-          setLoginError('The password provided is not valid.');
-        else if (errorCode === 'auth/user-not-found')
-          setLoginError('The member with the given email does not exist.');
+        setLoginError(loginErrors[errorCode]);
       });
   };
 
