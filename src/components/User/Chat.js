@@ -59,7 +59,7 @@ function UsersList({ loggedUser, loggedUserData }) {
       unsub();
       window.removeEventListener('mousedown', changeOpen);
     };
-  }, [auth.currentUser]);
+  }, [sender]);
 
   const selectUser = async (user) => {
     setUsersChat(user);

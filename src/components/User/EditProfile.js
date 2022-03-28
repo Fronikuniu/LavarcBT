@@ -22,26 +22,6 @@ function EditProfile({ loggedUser }) {
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
 
-  useEffect(() => {
-    if (clicked && !error) {
-      const prepareToChangePassword = async () => {
-        setClicked(false);
-        await signInWithEmailAndPassword(auth, data.email, data.password)
-          .then((userCredential) => {
-            const { user } = userCredential;
-            updatePassword(user, newPassword).then(() => toast.success('password updated'));
-            setPasswordModalOpen(false);
-            setData({ email: '', password: '' });
-          })
-          .catch((err) => {
-            const errorCode = err.code;
-            setError(loginErrors[errorCode]);
-          });
-      };
-      prepareToChangePassword();
-    }
-  }, [clicked, data, error, newPassword]);
-
   const formSchema = Yup.object().shape({
     password: Yup.string()
       .required('password is required')
@@ -56,13 +36,41 @@ function EditProfile({ loggedUser }) {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   const {
-    register: register2,
-    handleSubmit: handleSubmit2,
-    formState: { errors: errors2 },
+    register: registerPassword,
+    handleSubmit: handleSubmitPassword,
+    formState: { errors: errorsPassword },
+    reset: resetPassword,
   } = useForm(validationOpt);
+
+  useEffect(() => {
+    if (clicked && !error) {
+      const prepareToChangePassword = () => {
+        setClicked(false);
+        signInWithEmailAndPassword(auth, data.email, data.password)
+          .then((userCredential) => {
+            const { user } = userCredential;
+            resetPassword();
+            updatePassword(user, newPassword);
+            setPasswordModalOpen(false);
+            setData({ email: '', password: '' });
+            toast.success('password updated');
+          })
+          .catch((err) => {
+            const errorCode = err.code;
+            if (errorCode === 'auth/missing-email') setError('Missing email.');
+            else if (errorCode === 'auth/wrong-password')
+              setError('The password provided is not valid.');
+            else if (errorCode === 'auth/user-not-found')
+              setError('The member with the given email does not exist.');
+          });
+      };
+      prepareToChangePassword();
+    }
+  }, [clicked, data, error, newPassword, resetPassword]);
 
   const onSubmitBasic = async (basic) => {
     if (basic.Username) {
@@ -83,13 +91,17 @@ function EditProfile({ loggedUser }) {
       await updateDoc(doc(db, 'users', auth.currentUser.uid), {
         isOnline: basic.Status,
       });
+    reset();
     toast.success('Successfully updated basic data.');
   };
 
   const onSubmitPassword = (password) => {
     setNewPassword(password.password);
     updatePassword(auth.currentUser, password.password)
-      .then(() => toast.success('Password updated'))
+      .then(() => {
+        resetPassword();
+        toast.success('password updated');
+      })
       .catch(() => setPasswordModalOpen(true));
   };
   const reauntheticateChangePassword = (e) => {
@@ -137,28 +149,29 @@ function EditProfile({ loggedUser }) {
         <input type="submit" />
       </form>
 
-      <form onSubmit={handleSubmit2(onSubmitPassword)} className="editProfile-form">
+      <form onSubmit={handleSubmitPassword(onSubmitPassword)} className="editProfile-form">
+        <input hidden type="text" autoComplete="username" />
         <label htmlFor="password">
           password
           <input
             type="password"
-            className={errors2.password ? 'input-error' : ''}
+            className={errorsPassword.password ? 'input-error' : ''}
             autoComplete="new-password"
             placeholder="password"
-            {...register2('password')}
+            {...registerPassword('password')}
           />
-          <p className="p-error">{errors2.password?.message}</p>
+          <p className="p-error">{errorsPassword.password?.message}</p>
         </label>
         <label htmlFor="Repeat_password">
           Repeat password
           <input
             type="password"
-            className={errors2.Repeat_password ? 'input-error' : ''}
+            className={errorsPassword.Repeat_password ? 'input-error' : ''}
             autoComplete="new-password"
             placeholder="Repeat password"
-            {...register2('Repeat_password')}
+            {...registerPassword('Repeat_password')}
           />
-          <p className="p-error">{errors2.Repeat_password?.message}</p>
+          <p className="p-error">{errorsPassword.Repeat_password?.message}</p>
         </label>
 
         <input type="submit" />

@@ -20,7 +20,7 @@ function Register({ registerError, registerNewUser }) {
 
         <div className="auth__form">
           <div className="auth__form-register">
-            <h1>Register with Email</h1>
+            <h1>Register with email</h1>
 
             <p>
               Create an account, it's free! Thanks to it you will be able to communicate with our
@@ -33,48 +33,48 @@ function Register({ registerError, registerNewUser }) {
                   type="text"
                   id="name"
                   className={
-                    errors.Name?.type === 'required' || errors.Name?.type === 'minLength'
+                    errors.name?.type === 'required' || errors.name?.type === 'minLength'
                       ? 'input-error'
                       : ''
                   }
-                  placeholder={errors.Name?.type === 'required' ? 'Name is required!' : 'Name'}
+                  placeholder={errors.name?.type === 'required' ? 'Name is required!' : 'Name'}
                   autoComplete="name"
-                  value={register.Name}
-                  {...register('Name', { required: true, minLength: 6 })}
+                  value={register.name}
+                  {...register('name', { required: true, minLength: 6 })}
                 />
               </label>
 
               <label htmlFor="email">
-                Email
+                email
                 <input
                   type="email"
                   id="email"
                   className={
-                    errors.Email?.type === 'required' || errors.Email?.type === 'pattern'
+                    errors.email?.type === 'required' || errors.email?.type === 'pattern'
                       ? 'input-error'
                       : ''
                   }
-                  placeholder={errors.Email?.type === 'required' ? 'Email is required!' : 'Email'}
+                  placeholder={errors.email?.type === 'required' ? 'Email is required!' : 'Email'}
                   autoComplete="email"
-                  {...register('Email', { required: true, pattern: /^\S+@\S+$/i })}
+                  {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
                 />
               </label>
 
               <label htmlFor="password">
-                Password
+                password
                 <input
                   type="password"
                   id="password"
                   className={
-                    errors.Password?.type === 'required' || errors.Password?.type === 'minLength'
+                    errors.password?.type === 'required' || errors.password?.type === 'minLength'
                       ? 'input-error'
                       : ''
                   }
                   placeholder={
-                    errors.Password?.type === 'required' ? 'Password is required!' : 'Password'
+                    errors.password?.type === 'required' ? 'Password is required!' : 'Password'
                   }
                   autoComplete="new-password"
-                  {...register('Password', { required: true, minLength: 6 })}
+                  {...register('password', { required: true, minLength: 6 })}
                 />
               </label>
 

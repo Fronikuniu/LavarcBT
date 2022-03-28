@@ -26,17 +26,12 @@ function ContactForm() {
   useEffect(() => {
     if (clicked) {
       if (!nameError && !emailError && !messageError) {
-        emailjs
-          .sendForm(
-            EmailJsConf.serviceId,
-            EmailJsConf.contactTemplate,
-            form.current,
-            EmailJsConf.userId
-          )
-          .then(
-            (result) => {},
-            (error) => {}
-          );
+        emailjs.sendForm(
+          EmailJsConf.serviceId,
+          EmailJsConf.contactTemplate,
+          form.current,
+          EmailJsConf.userId
+        );
 
         setName('');
         setEmail('');

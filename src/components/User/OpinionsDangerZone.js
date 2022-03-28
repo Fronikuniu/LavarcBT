@@ -15,12 +15,12 @@ function OpinionsDangerZone() {
 
   useEffect(() => {
     if (clicked && !error) {
-      const prepareToDelete = async () => {
+      const prepareToDelete = () => {
         setClicked(false);
-        await signInWithEmailAndPassword(auth, data.email, data.password)
+        signInWithEmailAndPassword(auth, data.email, data.password)
           .then((userCredential) => {
             const { user } = userCredential;
-            deleteUser(user).then(() => toast.success('Account deleted'));
+            deleteUser(user);
             setDeleteModalOpen(false);
             setData({ email: '', password: '' });
           })
