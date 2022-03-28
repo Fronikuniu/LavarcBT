@@ -39,23 +39,24 @@ function EditProfile({ loggedUser }) {
   } = useForm();
 
   const {
-    register: register2,
-    handleSubmit: handleSubmit2,
-    formState: { errors: errors2 },
-    reset: reset2,
+    register: registerPassword,
+    handleSubmit: handleSubmitPassword,
+    formState: { errors: errorsPassword },
+    reset: resetPassword,
   } = useForm(validationOpt);
 
   useEffect(() => {
     if (clicked && !error) {
-      const prepareToChangePassword = async () => {
+      const prepareToChangePassword = () => {
         setClicked(false);
-        await signInWithEmailAndPassword(auth, data.Email, data.Password)
+        signInWithEmailAndPassword(auth, data.Email, data.Password)
           .then((userCredential) => {
             const { user } = userCredential;
-            reset2();
-            updatePassword(user, newPassword).then(() => toast.success('Password updated'));
+            resetPassword();
+            updatePassword(user, newPassword);
             setPasswordModalOpen(false);
             setData({ Email: '', Password: '' });
+            toast.success('Password updated');
           })
           .catch((err) => {
             const errorCode = err.code;
@@ -68,7 +69,7 @@ function EditProfile({ loggedUser }) {
       };
       prepareToChangePassword();
     }
-  }, [clicked, data, error, newPassword]);
+  }, [clicked, data, error, newPassword, resetPassword]);
 
   const onSubmitBasic = async (basic) => {
     if (basic.Username) {
@@ -97,7 +98,7 @@ function EditProfile({ loggedUser }) {
     setNewPassword(password.Password);
     updatePassword(auth.currentUser, password.Password)
       .then(() => {
-        reset2();
+        resetPassword();
         toast.success('Password updated');
       })
       .catch(() => setPasswordModalOpen(true));
@@ -147,29 +148,29 @@ function EditProfile({ loggedUser }) {
         <input type="submit" />
       </form>
 
-      <form onSubmit={handleSubmit2(onSubmitPassword)} className="editProfile-form">
+      <form onSubmit={handleSubmitPassword(onSubmitPassword)} className="editProfile-form">
         <input hidden type="text" autoComplete="username" />
         <label htmlFor="Password">
           Password
           <input
             type="password"
-            className={errors2.Password ? 'input-error' : ''}
+            className={errorsPassword.Password ? 'input-error' : ''}
             autoComplete="new-password"
             placeholder="Password"
-            {...register2('Password')}
+            {...registerPassword('Password')}
           />
-          <p className="p-error">{errors2.Password?.message}</p>
+          <p className="p-error">{errorsPassword.Password?.message}</p>
         </label>
         <label htmlFor="Repeat_password">
           Repeat password
           <input
             type="password"
-            className={errors2.Repeat_password ? 'input-error' : ''}
+            className={errorsPassword.Repeat_password ? 'input-error' : ''}
             autoComplete="new-password"
             placeholder="Repeat password"
-            {...register2('Repeat_password')}
+            {...registerPassword('Repeat_password')}
           />
-          <p className="p-error">{errors2.Repeat_password?.message}</p>
+          <p className="p-error">{errorsPassword.Repeat_password?.message}</p>
         </label>
 
         <input type="submit" />

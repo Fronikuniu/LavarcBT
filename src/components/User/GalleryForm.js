@@ -4,6 +4,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { uid } from 'uid';
+import Members from '../About/Members';
 import { db, storage } from '../configuration/firebase';
 
 function GalleryForm() {
@@ -49,9 +50,9 @@ function GalleryForm() {
             role="link"
             onKeyDown={() => window.open('https://imagecompressor.com/')}
             tabIndex="0"
-            className="pointer"
+            className="pointer underline"
           >
-            <u>https://imagecompressor.com/</u>
+            https://imagecompressor.com/
           </span>{' '}
           to compress the file.
         </p>
@@ -64,12 +65,12 @@ function GalleryForm() {
             placeholder={errors.builder ? 'Builder is required!' : 'Builder'}
             {...register('builder', { required: true })}
           >
-            <option value="">Select builder</option>
-            <option value="rockyFeller">rockyFeller</option>
-            <option value="drummaks">drummaks</option>
-            <option value="DristPl">DristPl</option>
-            <option value="Mich4ll_">Mich4ll_</option>
-            <option value="Fronikuniu">Fronikuniu</option>
+            <option value="" selected disabled hidden>
+              Select builder
+            </option>
+            {Members.map((member) => (
+              <option value={member.name}>{member.name}</option>
+            ))}
           </select>
         </label>
         <label htmlFor="title">

@@ -1,13 +1,13 @@
 import React, { useRef, useState, useEffect } from 'react';
 import emailjs from 'emailjs-com';
 import { toast } from 'react-toastify';
-import Timezones from './Timezones';
+import moment from 'moment-timezone';
 import EmailJsConf from '../configuration/emailjs';
 
 function OrderForm() {
   const [email, setEmail] = useState('');
   const [discord, setDiscord] = useState('');
-  const [timezone, setTimezone] = useState('');
+  const [timezone, setTimezone] = useState(moment.tz.guess());
   const [packag, setPackage] = useState('');
   const [message, setMessage] = useState('');
   const [budget, setBudget] = useState('');
@@ -15,7 +15,6 @@ function OrderForm() {
 
   const [emailError, setEmailError] = useState('');
   const [discordError, setDiscordError] = useState('');
-  const [timezoneError, setTimezoneError] = useState('');
   const [packagError, setPackageError] = useState('');
   const [messageError, setMessageError] = useState('');
   const [budgetError, setBudgetError] = useState('');
@@ -40,11 +39,10 @@ function OrderForm() {
     else if (regexDiscord.exec(discord) === null) setDiscordError('Enter correct discord tag!');
     else setDiscordError('');
 
-    setTimezoneError(timezone === '' || timezone === 'default' ? 'Select timezone!' : '');
-    setPackageError(packag === '' || packag === 'default' ? 'Select package!' : '');
-    setMessageError(message === '' ? 'Order description is required!' : '');
-    setBudgetError(budget === '' ? 'Budget is required!' : '');
-    setDeadlineError(deadline === '' ? 'Select deadline date!' : '');
+    setPackageError(!packag ? 'Select package!' : '');
+    setMessageError(!message ? 'Order description is required!' : '');
+    setBudgetError(!budget ? 'Budget is required!' : '');
+    setDeadlineError(!deadline ? 'Select deadline date!' : '');
 
     setClicked(true);
   };
@@ -54,23 +52,17 @@ function OrderForm() {
       if (
         !emailError &&
         !discordError &&
-        !timezoneError &&
         !packagError &&
         !messageError &&
         !budgetError &&
         !deadlineError
       ) {
-        emailjs
-          .sendForm(
-            EmailJsConf.serviceId,
-            EmailJsConf.orderTemplate,
-            form.current,
-            EmailJsConf.userId
-          )
-          .then(
-            (result) => {},
-            (error) => {}
-          );
+        emailjs.sendForm(
+          EmailJsConf.serviceId,
+          EmailJsConf.orderTemplate,
+          form.current,
+          EmailJsConf.userId
+        );
 
         setEmail('');
         setDiscord('');
@@ -84,16 +76,7 @@ function OrderForm() {
       } else toast.error('Błąd przy wysyłaniu.');
     }
     return () => setClicked(false);
-  }, [
-    clicked,
-    emailError,
-    discordError,
-    timezoneError,
-    packagError,
-    messageError,
-    budgetError,
-    deadlineError,
-  ]);
+  }, [clicked, emailError, discordError, packagError, messageError, budgetError, deadlineError]);
 
   return (
     <form ref={form} onSubmit={validateForm} className="personal-order__form">
@@ -133,27 +116,7 @@ function OrderForm() {
         ) : null}
       </div>
 
-      <label htmlFor="timezone">
-        Timezone
-        <select
-          className={timezoneError ? 'input-error' : ''}
-          name="timezone"
-          id="timezone"
-          value={timezone}
-          onChange={(e) => setTimezone(e.target.value)}
-        >
-          <option value="default" hidden>
-            Select timezone:
-          </option>
-          {Timezones.map((tzone) => {
-            return (
-              <option key={tzone.label} value={tzone.label}>
-                {tzone.label}
-              </option>
-            );
-          })}
-        </select>
-      </label>
+      <input type="hidden" name="timezone" id="timezone" defaultValue={moment.tz.guess()} />
 
       <label htmlFor="package">
         Package
@@ -161,10 +124,10 @@ function OrderForm() {
           className={packagError ? 'input-error' : ''}
           name="package"
           id="package"
-          value={packag}
+          defaultValue={packag}
           onChange={(e) => setPackage(e.target.value)}
         >
-          <option value="default" hidden>
+          <option value="" disabled hidden>
             Select package:
           </option>
           <option value="basic">Basic</option>

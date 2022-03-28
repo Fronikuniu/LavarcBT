@@ -44,7 +44,7 @@ function Nav({ loggedUser, logout }) {
       window.removeEventListener('scroll', stickyNav);
       window.removeEventListener('mousedown', changeOpen);
     };
-  }, [location, user]);
+  }, [location]);
 
   return (
     <nav className={location.pathname !== '/' ? 'nav sticky' : 'nav'} ref={navi}>

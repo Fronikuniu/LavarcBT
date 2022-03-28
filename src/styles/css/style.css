@@ -2503,6 +2503,10 @@ p {
   background-color: #c0c0c0;
 }
 
+.underline {
+  text-decoration: underline;
+}
+
 .btn {
   padding: 10px 20px;
   border: 2px solid #fed85d;

@@ -57,8 +57,8 @@ function App() {
   }, [auth.currentUser]);
 
   // Register
-  const registerNewUser = async (data) => {
-    await createUserWithEmailAndPassword(auth, data.Email, data.Password)
+  const registerNewUser = (data) => {
+    createUserWithEmailAndPassword(auth, data.Email, data.Password)
       .then((userCredential) => {
         const { user } = userCredential;
 
@@ -90,8 +90,8 @@ function App() {
   };
 
   // Login
-  const loginUser = async (data) => {
-    await signInWithEmailAndPassword(auth, data.Email, data.Password)
+  const loginUser = (data) => {
+    signInWithEmailAndPassword(auth, data.Email, data.Password)
       .then((userCredential) => {
         const { user } = userCredential;
 
