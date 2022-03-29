@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import emailjs from 'emailjs-com';
 import { toast } from 'react-toastify';
 import EmailJsConf from '../configuration/emailjs';
@@ -12,36 +12,40 @@ function ContactForm() {
   const [messageError, setMessageError] = useState(false);
   const [clicked, setClicked] = useState(false);
 
-  const form = useRef();
-
-  const validateForm = (e) => {
-    e.preventDefault();
-    setNameError(name === '');
-    setEmailError(email === '');
-    setMessageError(message === '');
-
-    setClicked(true);
-  };
+  const form = useRef<HTMLFormElement>('');
 
   useEffect(() => {
     if (clicked) {
       if (!nameError && !emailError && !messageError) {
-        emailjs.sendForm(
-          EmailJsConf.serviceId,
-          EmailJsConf.contactTemplate,
-          form.current,
-          EmailJsConf.userId
-        );
+        emailjs
+          .sendForm(
+            EmailJsConf.serviceId,
+            EmailJsConf.contactTemplate,
+            form.current,
+            EmailJsConf.userId
+          )
+          .then(() => {
+            toast.success('Message was sent!');
+          })
+          .catch(() => {
+            toast.error('Message was not sent!');
+          });
 
         setName('');
         setEmail('');
         setMessage('');
-
-        toast.success('Wiadomość wysłana!');
-      } else toast.error('Błąd przy wysyłaniu wiadomości!');
+      }
     }
     return () => setClicked(false);
   }, [clicked, email, emailError, message, messageError, name, nameError]);
+
+  const validateForm = (e: FormEvent) => {
+    e.preventDefault();
+    setNameError(name === '');
+    setEmailError(email === '');
+    setMessageError(message === '');
+    setClicked(true);
+  };
 
   return (
     <form ref={form} onSubmit={validateForm} className="contact-form">
@@ -75,7 +79,7 @@ function ContactForm() {
       <label htmlFor="message">
         Message
         <textarea
-          rows="4"
+          rows={4}
           name="message"
           id="message"
           placeholder={messageError ? 'All fields are required' : 'Message...'}

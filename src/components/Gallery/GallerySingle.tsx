@@ -3,22 +3,22 @@ import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../configuration/firebase';
+import { Image } from '../../types';
 
 function GallerySingle() {
-  const [image, setImage] = useState([]);
-  const { id } = useParams();
+  const [image, setImage] = useState<Image>({} as Image);
+  const { id }: { id: string } = useParams();
 
   useEffect(() => {
     const getSingleImage = async () => {
       const q = query(collection(db, 'gallery'), where('id', '==', id));
-
       const querySnapshot = await getDocs(q);
 
-      const img = [];
+      const images: Image[] = [];
       querySnapshot.forEach((doc) => {
-        img.push(doc.data());
+        images.push(doc.data() as Image);
       });
-      setImage(img[0]);
+      setImage(images[0]);
     };
     getSingleImage();
   }, [id]);
@@ -43,7 +43,7 @@ function GallerySingle() {
               role="link"
               onClick={() => window.open(image?.imgurAlbum)}
               onKeyDown={() => window.open(image?.imgurAlbum)}
-              tabIndex="0"
+              tabIndex={0}
             >
               <p className="bouncing">Want to see more of this building? Click!</p>
             </div>

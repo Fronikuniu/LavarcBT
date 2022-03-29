@@ -1,19 +1,26 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { BsFacebook } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
-import PropTypes from 'prop-types';
 import AuthImages from '../helpers/AuthImages';
+import { FormErrors, LoginData } from '../../types';
 
-function Login({ logInWithFacebook, logInWithGoogle, loginError, loginUser }) {
+interface LoginProps {
+  logInWithFacebook: () => void;
+  logInWithGoogle: () => void;
+  loginError?: string;
+  loginUser: (user: LoginData) => void;
+}
+
+function Login({ logInWithFacebook, logInWithGoogle, loginError, loginUser }: LoginProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const loginErrors: FormErrors = errors;
 
-  const onSubmit = (data) => loginUser(data);
+  const onSubmit = (data: LoginData) => loginUser(data);
 
   return (
     <div className="container">
@@ -39,11 +46,13 @@ function Login({ logInWithFacebook, logInWithGoogle, loginError, loginUser }) {
                   type="email"
                   id="email"
                   className={
-                    errors.email?.type === 'required' || errors.email?.type === 'pattern'
+                    loginErrors.email?.type === 'required' || loginErrors.email?.type === 'pattern'
                       ? 'input-error'
                       : ''
                   }
-                  placeholder={errors.email?.type === 'required' ? 'Email is required!' : 'Email'}
+                  placeholder={
+                    loginErrors.email?.type === 'required' ? 'Email is required!' : 'Email'
+                  }
                   autoComplete="email"
                   {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
                 />
@@ -55,12 +64,13 @@ function Login({ logInWithFacebook, logInWithGoogle, loginError, loginUser }) {
                   type="password"
                   id="password"
                   className={
-                    errors.password?.type === 'required' || errors.password?.type === 'minLength'
+                    loginErrors.password?.type === 'required' ||
+                    loginErrors.password?.type === 'minLength'
                       ? 'input-error'
                       : ''
                   }
                   placeholder={
-                    errors.password?.type === 'required' ? 'Password is required!' : 'Password'
+                    loginErrors.password?.type === 'required' ? 'Password is required!' : 'Password'
                   }
                   autoComplete="current-password"
                   {...register('password', { required: true, minLength: 6 })}
@@ -85,12 +95,5 @@ function Login({ logInWithFacebook, logInWithGoogle, loginError, loginUser }) {
     </div>
   );
 }
-
-Login.propTypes = {
-  logInWithFacebook: PropTypes.func.isRequired,
-  logInWithGoogle: PropTypes.func.isRequired,
-  loginError: PropTypes.string,
-  loginUser: PropTypes.func.isRequired,
-};
 
 export default Login;

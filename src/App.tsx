@@ -8,6 +8,7 @@ import {
 } from '@firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { FirebaseError } from '@firebase/util';
 import { doc, getDoc, setDoc, Timestamp, updateDoc } from '@firebase/firestore';
 import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth';
 import { ToastContainer } from 'react-toastify';
@@ -37,13 +38,16 @@ import ScrollToTop from './components/helpers/ScrollToTop';
 import RecommendationForm from './components/Recommendations/RecommendationForm';
 import 'react-toastify/dist/ReactToastify.css';
 import loginErrors from './components/helpers/loginErrors';
+import { LoginData, LoginErrors, User } from './types';
 
 function App() {
   const [registerError, setRegisterError] = useState('');
   const [loginError, setLoginError] = useState('');
 
   const [loggedUser, setLoggedUser] = useState({});
-  const [loggedUserData, setLoggedUserData] = useState({});
+  const [loggedUserData, setLoggedUserData] = useState<User | null>(null);
+
+  console.log(loggedUser);
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => setLoggedUser(currentUser));
@@ -52,35 +56,32 @@ function App() {
       const { uid } = auth.currentUser;
 
       getDoc(doc(db, 'users', uid)).then((docSnap) => {
-        if (docSnap.exists) setLoggedUserData(docSnap.data());
+        if (docSnap.exists()) setLoggedUserData(docSnap.data() as User);
       });
     }
   }, [auth.currentUser]);
 
   // Register
-  const registerNewUser = (data) => {
-    createUserWithEmailAndPassword(auth, data.Email, data.Password)
-      .then((userCredential) => {
+  const registerNewUser = (data: LoginData) => {
+    createUserWithEmailAndPassword(auth, data.email, data.password)
+      .then(async (userCredential) => {
         const { user } = userCredential;
 
-        updateProfile(user, {
-          displayName: data.Name,
+        await updateProfile(user, {
+          displayName: data.name,
           photoURL: 'https://remaxgem.com/wp-content/themes/tolips/images/placehoder-user.jpg',
         });
 
-        const pushUserToFirestore = async () => {
-          await setDoc(doc(db, 'users', user.uid), {
-            uid: user.uid,
-            name: data.Name,
-            email: user.email,
-            createdAt: Timestamp.fromDate(new Date()),
-            isOnline: true,
-          });
-        };
-        pushUserToFirestore();
+        await setDoc(doc(db, 'users', user.uid), {
+          uid: user.uid,
+          name: data.name,
+          email: user.email,
+          createdAt: Timestamp.fromDate(new Date()),
+          isOnline: true,
+        });
       })
-      .catch((error) => {
-        const errorCode = error.code;
+      .catch(({ code }: { code: string }) => {
+        const errorCode = code;
 
         setRegisterError(
           errorCode === 'auth/email-already-in-use'
@@ -91,15 +92,14 @@ function App() {
   };
 
   // Login
-  const loginUser = (data) => {
-    signInWithEmailAndPassword(auth, data.Email, data.Password)
-      .then((userCredential) => {
+  const loginUser = (data: LoginData) => {
+    signInWithEmailAndPassword(auth, data.email, data.password)
+      .then(async (userCredential) => {
         const { user } = userCredential;
-
-        updateDoc(doc(db, 'users', user.uid), { isOnline: true });
+        await updateDoc(doc(db, 'users', user.uid), { isOnline: true });
       })
-      .catch((error) => {
-        const errorCode = error.code;
+      .catch(({ code }: { code: keyof LoginErrors }) => {
+        const errorCode = code;
         setLoginError(loginErrors[errorCode]);
       });
   };
@@ -108,26 +108,22 @@ function App() {
     const providerGoogle = new GoogleAuthProvider();
 
     signInWithPopup(auth, providerGoogle)
-      .then((result) => {
+      .then(async (result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
+        const token = credential?.accessToken;
         const { user } = result;
 
-        const pushUserToFirestore = async () => {
-          await setDoc(doc(db, 'users', user.uid), {
-            uid: user.uid,
-            name: user.displayName,
-            email: user.email,
-            createdAt: Timestamp.fromDate(new Date()),
-            isOnline: true,
-          });
-        };
-        pushUserToFirestore();
+        await setDoc(doc(db, 'users', user.uid), {
+          uid: user.uid,
+          name: user.displayName,
+          email: user.email,
+          createdAt: Timestamp.fromDate(new Date()),
+          isOnline: true,
+        });
       })
-      .catch((error) => {
+      .catch((error: FirebaseError) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        const { email } = error;
         const credential = GoogleAuthProvider.credentialFromError(error);
       });
   };
@@ -136,26 +132,22 @@ function App() {
     const providerFacebook = new FacebookAuthProvider();
 
     signInWithPopup(auth, providerFacebook)
-      .then((result) => {
+      .then(async (result) => {
         const credential = FacebookAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
+        const token = credential?.accessToken;
         const { user } = result;
 
-        const pushUserToFirestore = async () => {
-          await setDoc(doc(db, 'users', user.uid), {
-            uid: user.uid,
-            name: user.displayName,
-            email: user.email,
-            createdAt: Timestamp.fromDate(new Date()),
-            isOnline: true,
-          });
-        };
-        pushUserToFirestore();
+        await setDoc(doc(db, 'users', user.uid), {
+          uid: user.uid,
+          name: user.displayName,
+          email: user.email,
+          createdAt: Timestamp.fromDate(new Date()),
+          isOnline: true,
+        });
       })
-      .catch((error) => {
+      .catch((error: FirebaseError) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        const { email } = error;
         const credential = FacebookAuthProvider.credentialFromError(error);
       });
   };

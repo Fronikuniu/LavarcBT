@@ -6,10 +6,11 @@ import { deleteDoc, doc } from 'firebase/firestore';
 import { auth, db } from '../configuration/firebase';
 import LoginModal from './LoginModal';
 import loginErrors from '../helpers/loginErrors';
+import { LoginErrors } from '../../types';
 
 function OpinionsDangerZone() {
   const [data, setData] = useState({ email: '', password: '' });
-  const [error, setError] = useState(false);
+  const [error, setError] = useState('');
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
 
@@ -18,14 +19,14 @@ function OpinionsDangerZone() {
       const prepareToDelete = () => {
         setClicked(false);
         signInWithEmailAndPassword(auth, data.email, data.password)
-          .then((userCredential) => {
+          .then(async (userCredential) => {
             const { user } = userCredential;
-            deleteUser(user);
+            await deleteUser(user);
             setDeleteModalOpen(false);
             setData({ email: '', password: '' });
           })
-          .catch((err) => {
-            const errorCode = err.code;
+          .catch(({ code }: { code: keyof LoginErrors }) => {
+            const errorCode = code;
             setError(loginErrors[errorCode]);
           });
       };
@@ -39,7 +40,7 @@ function OpinionsDangerZone() {
       .then(() => toast.success('Account deleted'))
       .catch(() => setDeleteModalOpen(true));
   };
-  const reauntheticateDeleteAccount = (e) => {
+  const reauntheticateDeleteAccount = (e: Event) => {
     setClicked(true);
     e.preventDefault();
     setError(!data.email || !data.password ? 'All fields are required' : false);

@@ -1,10 +1,12 @@
-/* eslint-disable no-unused-vars */
-import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import AuthImages from '../helpers/AuthImages';
 
-function Auth({ logInWithGoogle, logInWithFacebook }) {
+interface AuthProps {
+  logInWithGoogle: () => void;
+  logInWithFacebook: () => void;
+}
+
+function Auth({ logInWithGoogle, logInWithFacebook }: AuthProps) {
   return (
     <div className="auth">
       <div className="container">
@@ -43,10 +45,5 @@ function Auth({ logInWithGoogle, logInWithFacebook }) {
     </div>
   );
 }
-
-Auth.propTypes = {
-  logInWithGoogle: PropTypes.func.isRequired,
-  logInWithFacebook: PropTypes.func.isRequired,
-};
 
 export default Auth;

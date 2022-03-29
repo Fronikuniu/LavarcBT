@@ -3,19 +3,20 @@ import { Link } from 'react-router-dom';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import Loader from '../Loader/Loader';
 import { db } from '../configuration/firebase';
+import { Image } from '../../types';
 
 function Gallery() {
   const [loading, setLoading] = useState(true);
   const counter = useRef(0);
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<Image[]>([]);
 
   useEffect(() => {
     const getGallery = async () => {
       const q = query(collection(db, 'gallery'), orderBy('createdAt'));
       const querySnapshot = await getDocs(q);
-      const gallery = [];
+      const gallery: Image[] = [];
       querySnapshot.forEach((doc) => {
-        gallery.push(doc.data());
+        gallery.push(doc.data() as Image);
       });
       setImages(gallery);
     };

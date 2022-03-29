@@ -3,10 +3,11 @@ import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
 import { db } from '../configuration/firebase';
+import { Image } from '../../types';
 
 function GallerySlider() {
   const [current, setCurrent] = useState(0);
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<Image[]>([]);
   const { length } = images;
   const prev = current === 0 ? length - 1 : current - 1;
   const next = current === length - 1 ? 0 : current + 1;
@@ -20,9 +21,9 @@ function GallerySlider() {
     const getGallery = async () => {
       const q = query(collection(db, 'gallery'), orderBy('createdAt'), limit(7));
       const querySnapshot = await getDocs(q);
-      const gallery = [];
+      const gallery: Image[] = [];
       querySnapshot.forEach((doc) => {
-        gallery.push(doc.data());
+        gallery.push(doc.data() as Image);
       });
       setImages(gallery);
     };

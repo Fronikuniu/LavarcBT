@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { Link } from 'react-router-dom';
+import { Member } from '../../types';
 
-function AboutMembers({ members }) {
+interface AboutMembersProps {
+  members: Member[];
+}
+
+function AboutMembers({ members }: AboutMembersProps) {
   const [current, setCurrent] = useState(0);
   const { length } = members;
 
@@ -83,7 +87,5 @@ function AboutMembers({ members }) {
     </section>
   );
 }
-
-AboutMembers.propTypes = { members: PropTypes.array.isRequired };
 
 export default AboutMembers;

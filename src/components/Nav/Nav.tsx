@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { IoCaretDownCircleOutline } from 'react-icons/io5';
 import { MdOutlineClose } from 'react-icons/md';
@@ -10,39 +9,47 @@ import { db, auth } from '../configuration/firebase';
 import NavLogo from './NavLogo';
 import NavItem from './NavItem';
 import logo from '../../images/lavarcawatar.png';
+import { LoggedUser, User } from '../../types';
 
-function Nav({ loggedUser, logout }) {
+interface NavProps {
+  loggedUser: LoggedUser;
+  logout: () => void;
+}
+
+function Nav({ loggedUser, logout }: NavProps) {
   const location = useLocation();
-  const navi = useRef();
-  const [user, setUser] = useState('');
+  const navi = useRef<HTMLElement>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const [openUserProfile, setOpenUserProfile] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
-  const dropdown = useRef();
+  const dropdown = useRef<HTMLDivElement>(null);
 
   const stickyNav = () => {
-    if (window.scrollY >= 70) navi.current.classList.add('active');
-    else navi.current.classList.remove('active');
+    if (window.scrollY >= 70) navi.current?.classList.add('active');
+    else navi.current?.classList.remove('active');
   };
 
-  const changeOpen = (event) => {
+  const changeOpen = (event: MouseEvent & { target: Element }) => {
     if (dropdown.current && !dropdown.current.contains(event.target)) setOpenUserProfile(false);
   };
 
   useEffect(() => {
     if (auth.currentUser) {
-      let uid = auth.currentUser.uid;
+      const { uid } = auth.currentUser;
 
-      getDoc(doc(db, 'users', uid)).then((docSnap) => {
-        if (docSnap.exists) setUser(docSnap.data());
-      });
+      getDoc(doc(db, 'users', uid))
+        .then((docSnap) => {
+          if (docSnap.exists()) setUser(docSnap.data() as User);
+        })
+        .catch(() => {});
     }
 
     window.addEventListener('scroll', stickyNav);
-    window.addEventListener('mousedown', changeOpen);
+    window.addEventListener('mousedown', () => changeOpen);
     return () => {
       window.removeEventListener('scroll', stickyNav);
-      window.removeEventListener('mousedown', changeOpen);
+      window.removeEventListener('mousedown', () => changeOpen);
     };
   }, [location]);
 
@@ -59,7 +66,7 @@ function Nav({ loggedUser, logout }) {
         <div className={`user ${openUserProfile ? 'open' : ''}`} ref={dropdown}>
           {loggedUser ? (
             <div
-              tabIndex="0"
+              tabIndex={0}
               role="button"
               className="user__avatar"
               onClick={() => {
@@ -99,7 +106,7 @@ function Nav({ loggedUser, logout }) {
         </div>
 
         <div
-          tabIndex="0"
+          tabIndex={0}
           className="rwd-button"
           onClick={() => setOpenMenu(true)}
           role="button"
@@ -185,10 +192,5 @@ function Nav({ loggedUser, logout }) {
     </nav>
   );
 }
-
-Nav.propTypes = {
-  loggedUser: PropTypes.object,
-  logout: PropTypes.func.isRequired,
-};
 
 export default Nav;

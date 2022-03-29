@@ -1,17 +1,22 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { FormErrors, LoginData } from '../../types';
 import AuthImages from '../helpers/AuthImages';
 
-function Register({ registerError, registerNewUser }) {
+interface RegisterProps {
+  registerError: string;
+  registerNewUser: (data: LoginData) => void;
+}
+
+function Register({ registerError, registerNewUser }: RegisterProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const registerErrors: FormErrors = errors;
 
-  const onSubmit = (data) => registerNewUser(data);
+  const onSubmit = (data: LoginData) => registerNewUser(data);
 
   return (
     <div className="container">
@@ -33,11 +38,14 @@ function Register({ registerError, registerNewUser }) {
                   type="text"
                   id="name"
                   className={
-                    errors.name?.type === 'required' || errors.name?.type === 'minLength'
+                    registerErrors.name?.type === 'required' ||
+                    registerErrors.name?.type === 'minLength'
                       ? 'input-error'
                       : ''
                   }
-                  placeholder={errors.name?.type === 'required' ? 'Name is required!' : 'Name'}
+                  placeholder={
+                    registerErrors.name?.type === 'required' ? 'Name is required!' : 'Name'
+                  }
                   autoComplete="name"
                   value={register.name}
                   {...register('name', { required: true, minLength: 6 })}
@@ -50,11 +58,14 @@ function Register({ registerError, registerNewUser }) {
                   type="email"
                   id="email"
                   className={
-                    errors.email?.type === 'required' || errors.email?.type === 'pattern'
+                    registerErrors.email?.type === 'required' ||
+                    registerErrors.email?.type === 'pattern'
                       ? 'input-error'
                       : ''
                   }
-                  placeholder={errors.email?.type === 'required' ? 'Email is required!' : 'Email'}
+                  placeholder={
+                    registerErrors.email?.type === 'required' ? 'Email is required!' : 'Email'
+                  }
                   autoComplete="email"
                   {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
                 />
@@ -66,12 +77,15 @@ function Register({ registerError, registerNewUser }) {
                   type="password"
                   id="password"
                   className={
-                    errors.password?.type === 'required' || errors.password?.type === 'minLength'
+                    registerErrors.password?.type === 'required' ||
+                    registerErrors.password?.type === 'minLength'
                       ? 'input-error'
                       : ''
                   }
                   placeholder={
-                    errors.password?.type === 'required' ? 'Password is required!' : 'Password'
+                    registerErrors.password?.type === 'required'
+                      ? 'Password is required!'
+                      : 'Password'
                   }
                   autoComplete="new-password"
                   {...register('password', { required: true, minLength: 6 })}
@@ -98,10 +112,4 @@ function Register({ registerError, registerNewUser }) {
     </div>
   );
 }
-
-Register.propTypes = {
-  registerError: PropTypes.string,
-  registerNewUser: PropTypes.func.isRequired,
-};
-
 export default Register;
