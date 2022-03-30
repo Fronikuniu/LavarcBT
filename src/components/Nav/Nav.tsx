@@ -46,10 +46,12 @@ function Nav({ loggedUser, logout }: NavProps) {
     }
 
     window.addEventListener('scroll', stickyNav);
-    window.addEventListener('mousedown', () => changeOpen);
+    // @ts-ignore
+    window.addEventListener('mousedown', changeOpen);
     return () => {
       window.removeEventListener('scroll', stickyNav);
-      window.removeEventListener('mousedown', () => changeOpen);
+      // @ts-ignore
+      window.removeEventListener('mousedown', changeOpen);
     };
   }, [location]);
 

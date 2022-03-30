@@ -59,11 +59,12 @@ function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
       });
       setUsersList(users);
     });
-
-    window.addEventListener('mousedown', () => changeOpen);
+    // @ts-ignore
+    window.addEventListener('mousedown', changeOpen);
     return () => {
       unsub();
-      window.removeEventListener('mousedown', () => changeOpen);
+      // @ts-ignore
+      window.removeEventListener('mousedown', changeOpen);
     };
   }, [sender]);
 
