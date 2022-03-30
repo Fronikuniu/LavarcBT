@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, FormEvent } from 'react';
+import { useRef, useState, useEffect, FormEvent } from 'react';
 import emailjs from 'emailjs-com';
 import { toast } from 'react-toastify';
 import moment from 'moment-timezone';

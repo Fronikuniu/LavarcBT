@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { deleteUser, signInWithEmailAndPassword } from 'firebase/auth';
 import { confirmAlert } from 'react-confirm-alert';
 import { toast } from 'react-toastify';

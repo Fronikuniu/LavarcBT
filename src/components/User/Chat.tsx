@@ -12,7 +12,7 @@ import {
   where,
 } from '@firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
-import React, { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { ImUsers } from 'react-icons/im';
 import PropTypes from 'prop-types';
 import { auth, db, storage } from '../configuration/firebase';

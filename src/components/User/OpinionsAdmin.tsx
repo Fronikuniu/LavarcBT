@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import { GiCheckMark } from 'react-icons/gi';
 import { BiHide, BiShow } from 'react-icons/bi';

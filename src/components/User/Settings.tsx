@@ -1,5 +1,5 @@
 import { deleteObject, getDownloadURL, ref, uploadBytes } from '@firebase/storage';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { AiFillCamera } from 'react-icons/ai';
 import { getDoc, doc, updateDoc } from 'firebase/firestore';
 import { updateProfile } from '@firebase/auth';
