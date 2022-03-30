@@ -12,29 +12,35 @@ import {
   where,
 } from '@firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { ImUsers } from 'react-icons/im';
 import PropTypes from 'prop-types';
 import { auth, db, storage } from '../configuration/firebase';
 import Message from './Message';
 import MessageForm from './MessageForm';
 import UserList from './UserList';
+import { LoggedUser, MessageT, User } from '../../types';
 
-function UsersList({ loggedUser, loggedUserData }) {
-  const [usersList, setUsersList] = useState([]);
-  const [usersChat, setUsersChat] = useState('');
+interface UsersListProps {
+  loggedUser: LoggedUser;
+  loggedUserData: User;
+}
+
+function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
+  const [usersList, setUsersList] = useState<User[]>([]);
+  const [usersChat, setUsersChat] = useState<User>({} as User);
   const [messageText, setMessageText] = useState('');
-  const [messageImage, setMessageImage] = useState('');
-  const [allMessages, setAllMessages] = useState([]);
+  const [messageImage, setMessageImage] = useState<File | null>(null);
+  const [allMessages, setAllMessages] = useState<MessageT[]>([]);
   const [sender, setSender] = useState('');
 
   const [open, setOpen] = useState(false);
 
   const adminList = usersList.filter((user) => user.isAdmin);
 
-  const userList = useRef();
+  const userList = useRef<HTMLDivElement>(null);
 
-  const changeOpen = (event) => {
+  const changeOpen = (event: MouseEvent & { target: Element }) => {
     if (userList.current && !userList.current.contains(event.target)) setOpen(false);
   };
 
@@ -47,21 +53,21 @@ function UsersList({ loggedUser, loggedUserData }) {
     const q = query(usersRef, where('uid', 'not-in', [sender]));
 
     const unsub = onSnapshot(q, (querySnapshot) => {
-      const users = [];
+      const users: User[] = [];
       querySnapshot.forEach((res) => {
-        users.push(res.data());
+        users.push(res.data() as User);
       });
       setUsersList(users);
     });
 
-    window.addEventListener('mousedown', changeOpen);
+    window.addEventListener('mousedown', () => changeOpen);
     return () => {
       unsub();
-      window.removeEventListener('mousedown', changeOpen);
+      window.removeEventListener('mousedown', () => changeOpen);
     };
   }, [sender]);
 
-  const selectUser = async (user) => {
+  const selectUser = async (user: User) => {
     setUsersChat(user);
 
     const receiver = user.uid;
@@ -71,18 +77,18 @@ function UsersList({ loggedUser, loggedUserData }) {
     const q = query(messagesRef, orderBy('createdAt', 'asc'));
 
     onSnapshot(q, (querySnapshot) => {
-      const messages = [];
-      querySnapshot.forEach((res) => messages.push(res.data()));
+      const messages: MessageT[] = [];
+      querySnapshot.forEach((res) => messages.push(res.data() as MessageT));
 
       setAllMessages(messages);
     });
 
     const docSnapshot = await getDoc(doc(db, 'lastMessage', id));
-    if (docSnapshot.data() && docSnapshot.data().from !== sender)
+    if (docSnapshot.data() && docSnapshot.data()?.from !== sender)
       await updateDoc(doc(db, 'lastMessage', id), { unread: false });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const receiver = usersChat.uid;
 
@@ -126,7 +132,7 @@ function UsersList({ loggedUser, loggedUserData }) {
               ? usersList.map((user) => (
                   <UserList
                     user={user}
-                    selectUser={selectUser}
+                    selectUser={() => selectUser}
                     key={user.uid}
                     sender={sender}
                     usersChat={usersChat}
@@ -135,7 +141,7 @@ function UsersList({ loggedUser, loggedUserData }) {
               : adminList.map((user) => (
                   <UserList
                     user={user}
-                    selectUser={selectUser}
+                    selectUser={() => selectUser}
                     key={user.uid}
                     sender={sender}
                     usersChat={usersChat}
@@ -170,7 +176,7 @@ function UsersList({ loggedUser, loggedUserData }) {
               <MessageForm
                 messageText={messageText}
                 setMessageText={setMessageText}
-                handleSubmit={handleSubmit}
+                handleSubmit={() => handleSubmit}
                 setMessageImage={setMessageImage}
               />
             </>

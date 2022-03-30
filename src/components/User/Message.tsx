@@ -1,9 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import { useEffect, useRef } from 'react';
 import Moment from 'react-moment';
-import PropTypes from 'prop-types';
+import { LoggedUser, MessageT } from '../../types';
 
-function Message({ message, loggedUser }) {
-  const scrollRef = useRef();
+interface MessageProps {
+  message: MessageT;
+  loggedUser: LoggedUser;
+}
+
+function Message({ message, loggedUser }: MessageProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(
     () =>
@@ -18,18 +24,14 @@ function Message({ message, loggedUser }) {
     >
       <div>
         {message.messageText !== '' ? <p>{message.messageText}</p> : null}
-        {message.media ? <img src={message.media} alt={message.text} /> : null}
+        {message.media ? <img src={message.media} alt={message.messageText} /> : null}
         <small>
+          {/* @ts-ignore */}
           <Moment fromNow>{message.createdAt.toDate()}</Moment>
         </small>
       </div>
     </div>
   );
 }
-
-Message.propTypes = {
-  message: PropTypes.object.isRequired,
-  loggedUser: PropTypes.object.isRequired,
-};
 
 export default Message;

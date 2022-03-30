@@ -1,4 +1,6 @@
-const Members = [
+import { Member } from '../../types';
+
+const Members: Member[] = [
   {
     name: 'rockyFeller',
     memberSrc: 'https://lavarc.netlify.app/members/RockyFeller.png',

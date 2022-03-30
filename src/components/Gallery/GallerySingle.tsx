@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { collection, getDocs, query, where } from 'firebase/firestore';
@@ -20,7 +20,9 @@ function GallerySingle() {
       });
       setImage(images[0]);
     };
-    getSingleImage();
+    getSingleImage()
+      .then(() => {})
+      .catch(() => {});
   }, [id]);
 
   return (

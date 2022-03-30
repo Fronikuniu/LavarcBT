@@ -1,33 +1,35 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useEffect, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import { GiCheckMark } from 'react-icons/gi';
 import { BiHide, BiShow } from 'react-icons/bi';
 import { collection, deleteDoc, doc, onSnapshot, query, updateDoc } from 'firebase/firestore';
 import { db } from '../configuration/firebase';
+import { Opinion } from '../../types';
 
 function OpinionsAdmin() {
-  const [allOpinions, setAllOpinions] = useState([]);
+  const [allOpinions, setAllOpinions] = useState<Opinion[]>([]);
 
   useEffect(() => {
     const q = query(collection(db, 'opinions'));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const opinions = [];
+      const opinions: Opinion[] = [];
       querySnapshot.forEach((document) => {
-        opinions.push({ doc_id: document.id, ...document.data() });
+        opinions.push({ doc_id: document.id, ...(document.data() as Opinion) });
       });
       setAllOpinions(opinions);
     });
     return () => unsubscribe();
   }, []);
 
-  const acceptOpinion = async (id, value) => {
+  const acceptOpinion = async (id: string, value: boolean) => {
     const opinionRef = doc(db, 'opinions', id);
     await updateDoc(opinionRef, {
-      isAccepted: value,
+      isAccepted: Boolean(value),
     });
   };
 
-  const deleteOpinion = async (id) => {
+  const deleteOpinion = async (id: string) => {
     await deleteDoc(doc(db, 'opinions', id));
   };
 
@@ -50,6 +52,7 @@ function OpinionsAdmin() {
                   className="btn-opinion decline"
                   title="Delete opinion"
                   type="button"
+                  // @ts-ignore
                   onClick={() => deleteOpinion(opinion.doc_id)}
                 >
                   <IoClose />
@@ -64,6 +67,7 @@ function OpinionsAdmin() {
                     className="btn-opinion accept"
                     title="Accept opinion and display on homepage"
                     type="button"
+                    // @ts-ignore
                     onClick={() => acceptOpinion(opinion.doc_id, true)}
                   >
                     <GiCheckMark />
@@ -73,6 +77,7 @@ function OpinionsAdmin() {
                     className="btn-opinion decline"
                     title="Decline opinion and hide on homepage"
                     type="button"
+                    // @ts-ignore
                     onClick={() => acceptOpinion(opinion.doc_id, false)}
                   >
                     <IoClose />

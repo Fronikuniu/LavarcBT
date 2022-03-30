@@ -14,11 +14,21 @@ import { toast } from 'react-toastify';
 import { auth, db } from '../configuration/firebase';
 import LoginModal from './LoginModal';
 import loginErrors from '../helpers/loginErrors';
-import { LoginErrors } from '../../types';
+import {
+  EditProfileBasicProps,
+  EditProfilePasswordProps,
+  FormErrors,
+  LoggedUser,
+  LoginErrors,
+} from '../../types';
 
-function EditProfile({ loggedUser }) {
+interface EditProfileProps {
+  loggedUser: LoggedUser;
+}
+
+function EditProfile({ loggedUser }: EditProfileProps) {
   const [data, setData] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string>('');
   const [newPassword, setNewPassword] = useState('');
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
@@ -39,6 +49,7 @@ function EditProfile({ loggedUser }) {
     formState: { errors },
     reset,
   } = useForm();
+  const basicErrors: FormErrors = errors;
 
   const {
     register: registerPassword,
@@ -46,6 +57,7 @@ function EditProfile({ loggedUser }) {
     formState: { errors: errorsPassword },
     reset: resetPassword,
   } = useForm(validationOpt);
+  const passwordErrors: FormErrors = errorsPassword;
 
   useEffect(() => {
     if (clicked && !error) {
@@ -69,11 +81,13 @@ function EditProfile({ loggedUser }) {
     }
   }, [clicked, data, error, newPassword, resetPassword]);
 
-  const onSubmitBasic = async (basic) => {
+  const onSubmitBasic = async (basic: EditProfileBasicProps) => {
+    if (!auth.currentUser) return;
     if (basic.username) {
       await updateDoc(doc(db, 'users', auth.currentUser.uid), {
         name: basic.username,
       });
+      // @ts-ignore
       await updateProfile(loggedUser, {
         displayName: basic.username,
       });
@@ -92,7 +106,8 @@ function EditProfile({ loggedUser }) {
     toast.success('Successfully updated basic data.');
   };
 
-  const onSubmitPassword = (password) => {
+  const onSubmitPassword = (password: EditProfilePasswordProps) => {
+    if (!auth.currentUser) return;
     setNewPassword(password.password);
     updatePassword(auth.currentUser, password.password)
       .then(() => {
@@ -104,18 +119,19 @@ function EditProfile({ loggedUser }) {
   const reauntheticateChangePassword = (e: Event) => {
     setClicked(true);
     e.preventDefault();
-    setError(!data.email || !data.password ? 'All fields are required' : false);
+    setError(!data.email || !data.password ? 'All fields are required' : '');
   };
 
   return (
     <details>
       <summary>Edit Profile</summary>
-      <form onSubmit={handleSubmit(onSubmitBasic)} className="editProfile-form">
+      {/* @ts-ignore */}
+      <form onSubmit={() => handleSubmit(onSubmitBasic)} className="editProfile-form">
         <label htmlFor="username">
           username
           <input
             type="text"
-            className={errors.username ? 'input-error' : ''}
+            className={basicErrors.username ? 'input-error' : ''}
             autoComplete="username"
             placeholder="username"
             {...register('username', { maxLength: 30 })}
@@ -125,7 +141,7 @@ function EditProfile({ loggedUser }) {
           email
           <input
             type="text"
-            className={errors.email ? 'input-error' : ''}
+            className={basicErrors.email ? 'input-error' : ''}
             autoComplete="email"
             placeholder="email"
             {...register('email', { pattern: /^\S+@\S+$/i })}
@@ -136,7 +152,7 @@ function EditProfile({ loggedUser }) {
           <select
             {...register('status')}
             name="status"
-            className={errors.status ? 'input-error' : ''}
+            className={basicErrors.status ? 'input-error' : ''}
           >
             <option value="true">online</option>
             <option value="false">offline</option>
@@ -146,29 +162,30 @@ function EditProfile({ loggedUser }) {
         <input type="submit" />
       </form>
 
-      <form onSubmit={handleSubmitPassword(onSubmitPassword)} className="editProfile-form">
+      {/* @ts-ignore */}
+      <form onSubmit={() => handleSubmitPassword(onSubmitPassword)} className="editProfile-form">
         <input hidden type="text" autoComplete="username" />
         <label htmlFor="password">
           password
           <input
             type="password"
-            className={errorsPassword.password ? 'input-error' : ''}
+            className={passwordErrors.password ? 'input-error' : ''}
             autoComplete="new-password"
             placeholder="password"
             {...registerPassword('password')}
           />
-          <p className="p-error">{errorsPassword.password?.message}</p>
+          <p className="p-error">{passwordErrors.password?.message}</p>
         </label>
         <label htmlFor="repeatPassword">
           Repeat password
           <input
             type="password"
-            className={errorsPassword.repeatPassword ? 'input-error' : ''}
+            className={passwordErrors.repeatPassword ? 'input-error' : ''}
             autoComplete="new-password"
             placeholder="Repeat password"
             {...registerPassword('repeatPassword')}
           />
-          <p className="p-error">{errorsPassword.repeatPassword?.message}</p>
+          <p className="p-error">{passwordErrors.repeatPassword?.message}</p>
         </label>
 
         <input type="submit" />
@@ -177,7 +194,7 @@ function EditProfile({ loggedUser }) {
         data={data}
         error={error}
         isOpen={passwordModalOpen}
-        onSubmit={reauntheticateChangePassword}
+        onSubmit={() => reauntheticateChangePassword}
         onChange={setData}
         header="You need to login to change password"
       />

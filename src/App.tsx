@@ -38,26 +38,27 @@ import ScrollToTop from './components/helpers/ScrollToTop';
 import RecommendationForm from './components/Recommendations/RecommendationForm';
 import 'react-toastify/dist/ReactToastify.css';
 import loginErrors from './components/helpers/loginErrors';
-import { LoginData, LoginErrors, User } from './types';
+import { LoggedUser, LoginData, LoginErrors, User } from './types';
 
 function App() {
   const [registerError, setRegisterError] = useState('');
   const [loginError, setLoginError] = useState('');
 
-  const [loggedUser, setLoggedUser] = useState({});
-  const [loggedUserData, setLoggedUserData] = useState<User | null>(null);
-
-  console.log(loggedUser);
+  const [loggedUser, setLoggedUser] = useState<LoggedUser>({} as LoggedUser);
+  const [loggedUserData, setLoggedUserData] = useState<User>({} as User);
 
   useEffect(() => {
+    // @ts-ignore
     onAuthStateChanged(auth, (currentUser) => setLoggedUser(currentUser));
 
     if (auth.currentUser) {
       const { uid } = auth.currentUser;
 
-      getDoc(doc(db, 'users', uid)).then((docSnap) => {
-        if (docSnap.exists()) setLoggedUserData(docSnap.data() as User);
-      });
+      getDoc(doc(db, 'users', uid))
+        .then((docSnap) => {
+          if (docSnap.exists()) setLoggedUserData(docSnap.data() as User);
+        })
+        .catch(() => {});
     }
   }, [auth.currentUser]);
 
@@ -163,13 +164,13 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
-      <Nav loggedUser={loggedUser} logout={logout} />
+      <Nav loggedUser={loggedUser} logout={() => logout} />
 
       <Switch>
         <Route exact path="/">
           <Home />
           <About />
-          <GallerySlider images={Images.slice(-7)} />
+          <GallerySlider />
           <Recommendations />
         </Route>
 
@@ -203,10 +204,10 @@ function App() {
         </Route>
 
         <Route exact path="/gallery">
-          <Gallery images={Images} />
+          <Gallery />
         </Route>
         <Route path="/gallery/:id">
-          <GallerySingle images={Images} />
+          <GallerySingle />
         </Route>
 
         <Route path="/builder/:name">

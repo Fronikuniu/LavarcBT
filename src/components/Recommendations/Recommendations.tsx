@@ -3,10 +3,11 @@ import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { collection, getDocs, limit, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../configuration/firebase';
+import { Opinion } from '../../types';
 
 function Recommendations() {
   const [current, setCurrent] = useState(0);
-  const [allOpinions, setAllOpinions] = useState([]);
+  const [allOpinions, setAllOpinions] = useState<Opinion[]>([]);
   const length = allOpinions?.length;
   const prev = current === 0 ? length - 1 : current - 1;
   const next = current === length - 1 ? 0 : current + 1;
@@ -26,19 +27,21 @@ function Recommendations() {
       );
       const querySnapshot = await getDocs(q);
 
-      const opinions = [];
+      const opinions: Opinion[] = [];
       querySnapshot.forEach((doc) => {
-        opinions.push(doc.data());
+        opinions.push(doc.data() as Opinion);
       });
       setAllOpinions(opinions);
     };
-    recommendation();
+    recommendation()
+      .then(() => {})
+      .catch(() => {});
   }, []);
 
   const prevSlide = () => setCurrent(prev);
   const nextSlide = () => setCurrent(next);
 
-  const displayStars = (stars) => {
+  const displayStars = (stars: number) => {
     const starContainer = [];
 
     for (let i = 1; i <= stars; i++) {

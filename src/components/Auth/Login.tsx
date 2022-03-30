@@ -39,7 +39,8 @@ function Login({ logInWithFacebook, logInWithGoogle, loginError, loginUser }: Lo
 
             <div className="horizontal-or" />
 
-            <form onSubmit={handleSubmit(onSubmit)}>
+            {/* @ts-ignore */}
+            <form onSubmit={() => handleSubmit(onSubmit)}>
               <label htmlFor="login">
                 email
                 <input

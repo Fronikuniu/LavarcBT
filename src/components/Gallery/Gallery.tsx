@@ -20,7 +20,9 @@ function Gallery() {
       });
       setImages(gallery);
     };
-    getGallery();
+    getGallery()
+      .then(() => {})
+      .catch(() => {});
   }, []);
 
   const imageLoaded = () => {

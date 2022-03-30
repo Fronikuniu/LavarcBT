@@ -1,9 +1,9 @@
 import { addDoc, collection, Timestamp } from 'firebase/firestore';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { uid } from 'uid';
 import drummaks from '../../images/char.png';
+import { FormErrors, Opinion } from '../../types';
 import { db } from '../configuration/firebase';
 import useRouter from '../helpers/useRouter';
 
@@ -15,8 +15,9 @@ function RecommendationForm() {
     reset,
   } = useForm();
   const router = useRouter();
+  const opinionError: FormErrors = errors;
 
-  const addOpinion = async (data) => {
+  const addOpinion = async (data: Opinion) => {
     await addDoc(collection(db, 'opinions'), {
       community: data.community,
       from: data.username,
@@ -31,7 +32,7 @@ function RecommendationForm() {
     toast.success('Wysłano opinie, zaczekaj na potwierdzenie!');
   };
 
-  const onSubmit = (data) => addOpinion(data);
+  const onSubmit = (data: Opinion) => addOpinion(data);
 
   return (
     <div className="recommendation">
@@ -41,14 +42,17 @@ function RecommendationForm() {
 
         <div className="recommendation-content">
           <div className="recommendation__form">
-            <form onSubmit={handleSubmit(onSubmit)}>
+            {/* @ts-ignore */}
+            <form onSubmit={() => handleSubmit(onSubmit)}>
               <label htmlFor="username">
                 username
                 <input
                   type="text"
-                  className={errors.username?.type === 'required' ? 'input-error' : ''}
+                  className={opinionError.username?.type === 'required' ? 'input-error' : ''}
                   placeholder={
-                    errors.username?.type === 'required' ? 'username is required!' : 'username'
+                    opinionError.username?.type === 'required'
+                      ? 'username is required!'
+                      : 'username'
                   }
                   id="username"
                   {...register('username', { required: true, maxLength: 20 })}
@@ -58,9 +62,11 @@ function RecommendationForm() {
                 community
                 <input
                   type="text"
-                  className={errors.community?.type === 'required' ? 'input-error' : ''}
+                  className={opinionError.community?.type === 'required' ? 'input-error' : ''}
                   placeholder={
-                    errors.community?.type === 'required' ? 'community is required!' : 'community'
+                    opinionError.community?.type === 'required'
+                      ? 'community is required!'
+                      : 'community'
                   }
                   id="community"
                   {...register('community', { required: true, maxLength: 20 })}
@@ -69,10 +75,9 @@ function RecommendationForm() {
               <label htmlFor="opinion">
                 opinion
                 <textarea
-                  type="text"
-                  className={errors.opinion?.type === 'required' ? 'input-error' : ''}
+                  className={opinionError.opinion?.type === 'required' ? 'input-error' : ''}
                   placeholder={
-                    errors.opinion?.type === 'required' ? 'opinion is required!' : 'opinion'
+                    opinionError.opinion?.type === 'required' ? 'opinion is required!' : 'opinion'
                   }
                   id="opinion"
                   {...register('opinion', { required: true, maxLength: 300 })}
@@ -82,8 +87,10 @@ function RecommendationForm() {
                 rate
                 <input
                   type="number"
-                  className={errors.rate?.type === 'required' ? 'input-error' : ''}
-                  placeholder={errors.rate?.type === 'required' ? 'rate is required!' : 'rate'}
+                  className={opinionError.rate?.type === 'required' ? 'input-error' : ''}
+                  placeholder={
+                    opinionError.rate?.type === 'required' ? 'rate is required!' : 'rate'
+                  }
                   id="rate"
                   min="1"
                   max="5"

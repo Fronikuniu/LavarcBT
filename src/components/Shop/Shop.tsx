@@ -1,17 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import Bestsellers from './Bestsellers';
 import OrderForm from './OrderForm';
 import ShopSlider from './ShopSlider';
+import { Image } from '../../types';
 
-function Shop({ shopList, bestsellers }) {
+interface ShopProps {
+  shopList: Image[];
+  bestsellers: Image[];
+}
+
+function Shop({ shopList, bestsellers }: ShopProps) {
   return (
     <section className="shop">
       <div className="container">
         <h2 className="headerTextStroke">Shop</h2>
         <h3 className="headerwTextStroke">Shop</h3>
 
-        {/* <h3 className="headerwTextStroke">Latest</h3> */}
         <div className="shop-latest">
           <ShopSlider shopList={shopList} />
         </div>
@@ -33,10 +36,5 @@ function Shop({ shopList, bestsellers }) {
     </section>
   );
 }
-
-Shop.propTypes = {
-  shopList: PropTypes.array.isRequired,
-  bestsellers: PropTypes.array.isRequired,
-};
 
 export default Shop;

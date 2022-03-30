@@ -1,9 +1,9 @@
 import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { uid } from 'uid';
+import { GalleryFormImage } from '../../types';
 import Members from '../About/Members';
 import { db, storage } from '../configuration/firebase';
 
@@ -15,12 +15,19 @@ function GalleryForm() {
     reset,
   } = useForm();
 
-  const onSubmit = async ({ builder, title, desc, imgurAlbum, price, sale, image }) => {
-    let url;
+  const onSubmit = async ({
+    builder,
+    title,
+    desc,
+    imgurAlbum,
+    price,
+    sale,
+    image,
+  }: GalleryFormImage) => {
     const imageRef = ref(storage, `gallery/${new Date().getTime()} - ${image[0].name}`);
     const snapshot = await uploadBytes(imageRef, image[0]);
     const dlUrl = await getDownloadURL(ref(storage, snapshot.ref.fullPath));
-    url = dlUrl;
+    const url = dlUrl;
 
     await addDoc(collection(db, 'gallery'), {
       id: uid(15),
@@ -42,14 +49,15 @@ function GalleryForm() {
   return (
     <details>
       <summary>Add gallery image</summary>
-      <form onSubmit={handleSubmit(onSubmit)} className="addImage-form">
+      {/* @ts-ignore */}
+      <form onSubmit={() => handleSubmit(onSubmit)} className="addImage-form">
         <p>
           Before upload image use{' '}
           <span
             onClick={() => window.open('https://imagecompressor.com/')}
             role="link"
             onKeyDown={() => window.open('https://imagecompressor.com/')}
-            tabIndex="0"
+            tabIndex={0}
             className="pointer underline"
           >
             https://imagecompressor.com/
@@ -59,7 +67,6 @@ function GalleryForm() {
         <label htmlFor="builder">
           Builder*
           <select
-            type="text"
             id="builder"
             className={errors.builder ? 'input-error' : ''}
             placeholder={errors.builder ? 'Builder is required!' : 'Builder'}

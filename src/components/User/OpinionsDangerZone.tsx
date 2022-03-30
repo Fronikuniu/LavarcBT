@@ -35,6 +35,7 @@ function OpinionsDangerZone() {
   }, [clicked, data, error]);
 
   const deleteAccount = async () => {
+    if (!auth.currentUser) return;
     await deleteDoc(doc(db, 'users', auth.currentUser.uid));
     deleteUser(auth.currentUser)
       .then(() => toast.success('Account deleted'))
@@ -43,7 +44,7 @@ function OpinionsDangerZone() {
   const reauntheticateDeleteAccount = (e: Event) => {
     setClicked(true);
     e.preventDefault();
-    setError(!data.email || !data.password ? 'All fields are required' : false);
+    setError(!data.email || !data.password ? 'All fields are required' : '');
   };
 
   const deleteConfirm = () => {
@@ -53,10 +54,12 @@ function OpinionsDangerZone() {
       buttons: [
         {
           label: 'Yes',
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClick: () => deleteAccount(),
         },
         {
           label: 'No',
+          onClick: () => {},
         },
       ],
     });
@@ -77,7 +80,7 @@ function OpinionsDangerZone() {
         data={data}
         error={error}
         isOpen={deleteModalOpen}
-        onSubmit={reauntheticateDeleteAccount}
+        onSubmit={() => reauntheticateDeleteAccount}
         onChange={setData}
         header="You need to login to delete account"
       />

@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { Image } from '../../types';
 
-function ShopSlider({ shopList }) {
+interface ShopSliderProps {
+  shopList: Image[];
+}
+
+function ShopSlider({ shopList }: ShopSliderProps) {
   const [current, setCurrent] = useState(0);
   const { length } = shopList;
 
@@ -32,14 +36,14 @@ function ShopSlider({ shopList }) {
         return (
           <React.Fragment key={item.id}>
             <div className={prev === index ? 'item prev' : 'item'}>
-              {prev === index && <img src={item.image} alt="" />}
+              {prev === index && <img src={item.imageSrc} alt="" />}
             </div>
 
             <div className={current === index ? 'item current' : 'item'}>
               {current === index && (
                 <>
                   <Link to={`/shop/${titleUrl}`}>
-                    <img src={item.image} alt="" />
+                    <img src={item.imageSrc} alt="" />
                   </Link>
                   <p className="title">
                     <Link to={`/shop/${titleUrl}`}>{item.title}</Link>
@@ -53,7 +57,7 @@ function ShopSlider({ shopList }) {
             </div>
 
             <div className={next === index ? 'item next' : 'item'}>
-              {next === index && <img src={item.image} alt="" />}
+              {next === index && <img src={item.imageSrc} alt="" />}
             </div>
           </React.Fragment>
         );
@@ -61,7 +65,5 @@ function ShopSlider({ shopList }) {
     </div>
   );
 }
-
-ShopSlider.propTypes = { shopList: PropTypes.array.isRequired };
 
 export default ShopSlider;

@@ -1,27 +1,30 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { Image } from '../../types';
 
-const Bestsellers = ({ bestsellers }) => {
-  return bestsellers.map((bestseller) => {
-    return (
-      <div className="item" key={bestseller.title}>
-        <img src={bestseller.image} alt="" />
-        <p>{bestseller.title}</p>
-        <p className="cost">
-          {bestseller.sale ? (
-            <>
-              <span className="price">${bestseller.price}</span>
-              <span className="sale">${bestseller.sale}</span>
-            </>
-          ) : (
-            `$${bestseller.price}`
-          )}
-        </p>
-      </div>
-    );
-  });
-};
+interface BestsellersProps {
+  bestsellers: Image[];
+}
 
-Bestsellers.propTypes = { bestsellers: PropTypes.array.isRequired };
+function Bestsellers({ bestsellers }: BestsellersProps) {
+  return (
+    <>
+      {bestsellers.map((bestseller) => (
+        <div className="item" key={bestseller.title}>
+          <img src={bestseller.imageSrc} alt="" />
+          <p>{bestseller.title}</p>
+          <p className="cost">
+            {bestseller.sale ? (
+              <>
+                <span className="price">${bestseller.price}</span>
+                <span className="sale">${bestseller.sale}</span>
+              </>
+            ) : (
+              <span>${bestseller.price}</span>
+            )}
+          </p>
+        </div>
+      ))}
+    </>
+  );
+}
 
 export default Bestsellers;

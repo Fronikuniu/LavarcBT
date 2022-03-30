@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, FormEvent } from 'react';
 import emailjs from 'emailjs-com';
 import { toast } from 'react-toastify';
 import moment from 'moment-timezone';
@@ -25,9 +25,9 @@ function OrderForm() {
   const regexEmail =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  const form = useRef();
+  const form = useRef<HTMLFormElement>(null);
 
-  const validateForm = (e) => {
+  const validateForm = (e: FormEvent) => {
     e.preventDefault();
 
     if (email === '') setEmailError('Email is required!');
@@ -56,12 +56,15 @@ function OrderForm() {
         !budgetError &&
         !deadlineError
       ) {
-        emailjs.sendForm(
-          EmailJsConf.serviceId,
-          EmailJsConf.orderTemplate,
-          form.current,
-          EmailJsConf.userId
-        );
+        emailjs
+          .sendForm(
+            EmailJsConf.serviceId,
+            EmailJsConf.orderTemplate,
+            form.current as HTMLFormElement,
+            EmailJsConf.userId
+          )
+          .then(() => toast.success('Wysłano email.'))
+          .catch(() => toast.error('Błąd przy wysyłaniu.'));
 
         setEmail('');
         setDiscord('');
@@ -69,9 +72,7 @@ function OrderForm() {
         setMessage('');
         setBudget('');
         setDeadline('');
-
-        toast.success('Wysłano email.');
-      } else toast.error('Błąd przy wysyłaniu.');
+      }
     }
     return () => setClicked(false);
   }, [clicked, emailError, discordError, packagError, messageError, budgetError, deadlineError]);

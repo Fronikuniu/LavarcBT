@@ -27,7 +27,9 @@ function GallerySlider() {
       });
       setImages(gallery);
     };
-    getGallery();
+    getGallery()
+      .then(() => {})
+      .catch(() => {});
   }, []);
 
   const prevSlide = () => setCurrent(prev);

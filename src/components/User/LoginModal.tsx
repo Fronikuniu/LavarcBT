@@ -1,11 +1,20 @@
-import React from 'react';
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import Modal from 'react-modal';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import PropTypes from 'prop-types';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 Modal.setAppElement('#root');
 
-function LoginModal({ data, error, isOpen, onSubmit, onChange, header }) {
+interface LoginModalProps {
+  data: { email: string; password: string };
+  header: string;
+  error: string | boolean;
+  isOpen: boolean;
+  onSubmit: () => void;
+  onChange: (data: { email: string; password: string }) => void;
+}
+
+function LoginModal({ data, error, isOpen, onSubmit, onChange, header }: LoginModalProps) {
   return (
     <Modal isOpen={isOpen} contentLabel="Delete account modal" className="modal-form">
       <div className="content">
@@ -19,7 +28,7 @@ function LoginModal({ data, error, isOpen, onSubmit, onChange, header }) {
               placeholder="Email"
               id="email"
               className={error ? 'input-error' : ''}
-              onChange={(e) => onChange({ ...data, Email: e.target.value })}
+              onChange={(e) => onChange({ ...data, email: e.target.value })}
             />
           </label>
           <label htmlFor="password">
@@ -30,7 +39,7 @@ function LoginModal({ data, error, isOpen, onSubmit, onChange, header }) {
               name="password"
               id="password"
               className={error ? 'input-error' : ''}
-              onChange={(e) => onChange({ ...data, Password: e.target.value })}
+              onChange={(e) => onChange({ ...data, password: e.target.value })}
             />
             {error && <p className="p-error">{error}</p>}
           </label>
@@ -41,14 +50,5 @@ function LoginModal({ data, error, isOpen, onSubmit, onChange, header }) {
     </Modal>
   );
 }
-
-LoginModal.propTypes = {
-  data: PropTypes.object.isRequired,
-  header: PropTypes.string.isRequired,
-  error: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.bool.isRequired]),
-  isOpen: PropTypes.bool.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
 
 export default LoginModal;

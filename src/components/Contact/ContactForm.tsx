@@ -12,7 +12,7 @@ function ContactForm() {
   const [messageError, setMessageError] = useState(false);
   const [clicked, setClicked] = useState(false);
 
-  const form = useRef<HTMLFormElement>('');
+  const form = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     if (clicked) {
@@ -21,7 +21,7 @@ function ContactForm() {
           .sendForm(
             EmailJsConf.serviceId,
             EmailJsConf.contactTemplate,
-            form.current,
+            form.current as HTMLFormElement,
             EmailJsConf.userId
           )
           .then(() => {

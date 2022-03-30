@@ -1,16 +1,25 @@
 import { doc, onSnapshot } from '@firebase/firestore';
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import userPlaceholder from '../../images/placeholder-user.jpg';
+import { LastMessage, User } from '../../types';
 import { db } from '../configuration/firebase';
 
-function UserList({ sender, user, selectUser, usersChat }) {
-  const receiver = user?.uid;
-  const [data, setData] = useState('');
+interface UserListProps {
+  sender: string;
+  user: User;
+  selectUser: (data: User) => void;
+  usersChat: User;
+}
+
+function UserList({ sender, user, selectUser, usersChat }: UserListProps) {
+  const [receiver] = useState(user?.uid);
+  const [data, setData] = useState<LastMessage>({} as LastMessage);
 
   useEffect(() => {
     const id = sender > receiver ? `${sender + receiver}` : `${receiver + sender}`;
-    const unsub = onSnapshot(doc(db, 'lastMessage', id), (res) => setData(res.data()));
+    const unsub = onSnapshot(doc(db, 'lastMessage', id), (res) =>
+      setData(res.data() as LastMessage)
+    );
 
     return () => unsub();
   }, [receiver, sender]);
@@ -21,7 +30,7 @@ function UserList({ sender, user, selectUser, usersChat }) {
       onClick={() => selectUser(user)}
       onKeyDown={() => selectUser(user)}
       role="button"
-      tabIndex="0"
+      tabIndex={0}
     >
       <div className="users-list__user--img">
         <img src={user.avatar || userPlaceholder} alt="" />
@@ -45,12 +54,5 @@ function UserList({ sender, user, selectUser, usersChat }) {
     </div>
   );
 }
-
-UserList.propTypes = {
-  sender: PropTypes.string.isRequired,
-  user: PropTypes.object.isRequired,
-  selectUser: PropTypes.func.isRequired,
-  usersChat: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.object.isRequired]),
-};
 
 export default UserList;

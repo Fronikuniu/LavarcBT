@@ -11,19 +11,27 @@ import EditProfile from './EditProfile';
 import OpinionsDangerZone from './OpinionsDangerZone';
 import GalleryForm from './GalleryForm';
 import GalleryAdmin from './GalleryAdmin';
+import { LoggedUser, User } from '../../types';
 
-function Settings({ loggedUser, loggedUserData }) {
-  const [image, setImage] = useState('');
-  const [user, setUser] = useState('');
+interface SettingsProps {
+  loggedUser: LoggedUser;
+  loggedUserData: User;
+}
+
+function Settings({ loggedUser, loggedUserData }: SettingsProps) {
+  const [image, setImage] = useState<File | null>(null);
+  const [user, setUser] = useState<User>({} as User);
 
   useEffect(() => {
     // trzeba poprawic aktualizowanie się danych
     if (auth.currentUser) {
       const { uid } = auth.currentUser;
 
-      getDoc(doc(db, 'users', uid)).then((docSnap) => {
-        if (docSnap.exists) setUser(docSnap.data());
-      });
+      getDoc(doc(db, 'users', uid))
+        .then((docSnap) => {
+          if (docSnap.exists()) setUser(docSnap.data() as User);
+        })
+        .catch(() => {});
     }
 
     if (image) {
@@ -31,6 +39,7 @@ function Settings({ loggedUser, loggedUserData }) {
         const imgRef = ref(storage, `avatars/${new Date().getTime()} - ${image.name}`);
 
         try {
+          if (!auth.currentUser) return;
           if (user.avatarPath) await deleteObject(ref(storage, user.avatarPath));
 
           const snapshot = await uploadBytes(imgRef, image);
@@ -40,17 +49,19 @@ function Settings({ loggedUser, loggedUserData }) {
             avatar: url,
             avatarPath: snapshot.ref.fullPath,
           });
-
-          updateProfile(loggedUser, {
+          // @ts-ignore
+          await updateProfile(loggedUser, {
             photoURL: url,
           });
-          setImage('');
+          setImage(null);
           toast.success('Ustawiono nowy avatar!');
         } catch (err) {
           toast.error('Błąd przy wyborze avatara!');
         }
       };
-      uploadImage();
+      uploadImage()
+        .then(() => {})
+        .catch(() => {});
     }
   }, [image, loggedUser, user?.avatarPath]);
 
@@ -70,6 +81,7 @@ function Settings({ loggedUser, loggedUserData }) {
                   name="file"
                   id="file"
                   accept="image/*"
+                  // @ts-ignore
                   onChange={(e) => setImage(e.target.files[0])}
                 />
               </label>
@@ -93,7 +105,7 @@ function Settings({ loggedUser, loggedUserData }) {
           </>
         )}
 
-        <OpinionsDangerZone loggedUser={loggedUser} />
+        <OpinionsDangerZone />
       </div>
     </section>
   ) : null;

@@ -7,32 +7,34 @@ import {
   query,
   updateDoc,
 } from 'firebase/firestore';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { toast } from 'react-toastify';
 import { MdDelete } from 'react-icons/md';
 import { deleteObject, ref } from 'firebase/storage';
 import { db, storage } from '../configuration/firebase';
+import { Image } from '../../types';
 
 function GalleryAdmin() {
-  const [mainGallery, setMainGallery] = useState([]);
+  const [mainGallery, setMainGallery] = useState<Image[]>([]);
 
   useEffect(() => {
     const q = query(collection(db, 'gallery'), orderBy('createdAt'));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const gallery = [];
+      const gallery: Image[] = [];
       querySnapshot.forEach((document) => {
-        gallery.push({ doc_id: document.id, ...document.data() });
+        gallery.push({ doc_id: document.id, ...(document.data() as Image) });
       });
       setMainGallery(gallery);
     });
     return () => unsubscribe();
   }, []);
 
-  const updateGalleryImage = async (event, docId) => {
+  const updateGalleryImage = async (event: FormEvent, docId: string | undefined) => {
     event.preventDefault();
-    const price = Number(event.target[0].value);
-    const sale = Number(event.target[1].value);
-
+    const target = event.target as HTMLFormElement;
+    const price = Number((target[0] as HTMLInputElement).value);
+    const sale = Number((target[1] as HTMLInputElement).value);
+    if (!docId) return;
     if (!!price || !!sale) {
       await updateDoc(doc(db, 'gallery', docId), {
         sale,
@@ -42,7 +44,8 @@ function GalleryAdmin() {
     }
   };
 
-  const deletePost = async (post) => {
+  const deletePost = async (post: Image) => {
+    if (!post.doc_id) return;
     await deleteDoc(doc(db, 'gallery', post.doc_id));
     await deleteObject(ref(storage, post.imagePath));
     toast.success('Successfully deleted post');
@@ -65,7 +68,7 @@ function GalleryAdmin() {
                   onClick={() => window.open(post.imgurAlbum)}
                   role="link"
                   onKeyDown={() => window.open(post.imgurAlbum)}
-                  tabIndex="0"
+                  tabIndex={0}
                   className="pointer"
                 >
                   <u>{post.imgurAlbum}</u>
@@ -75,6 +78,7 @@ function GalleryAdmin() {
             </div>
           </div>
           <div className="post-bot">
+            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
             <form onSubmit={(e) => updateGalleryImage(e, post.doc_id)} className="form">
               <label htmlFor={`price${i}`}>
                 Price
@@ -87,6 +91,7 @@ function GalleryAdmin() {
               <label htmlFor="submit">
                 <input type="submit" value="Update" />
               </label>
+              {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
               <button type="button" className="delete" onClick={() => deletePost(post)}>
                 <MdDelete />
               </button>
