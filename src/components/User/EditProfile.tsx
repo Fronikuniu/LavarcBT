@@ -46,18 +46,16 @@ function EditProfile({ loggedUser }: EditProfileProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors: errorsBasic },
     reset,
-  } = useForm();
-  const basicErrors: FormErrors = errors;
+  } = useForm<EditProfileBasicProps>();
 
   const {
     register: registerPassword,
     handleSubmit: handleSubmitPassword,
     formState: { errors: errorsPassword },
     reset: resetPassword,
-  } = useForm(validationOpt);
-  const passwordErrors: FormErrors = errorsPassword;
+  } = useForm<EditProfilePasswordProps>(validationOpt);
 
   useEffect(() => {
     if (clicked && !error) {
@@ -125,13 +123,12 @@ function EditProfile({ loggedUser }: EditProfileProps) {
   return (
     <details>
       <summary>Edit Profile</summary>
-      {/* @ts-ignore */}
       <form onSubmit={() => handleSubmit(onSubmitBasic)} className="editProfile-form">
         <label htmlFor="username">
           username
           <input
             type="text"
-            className={basicErrors.username ? 'input-error' : ''}
+            className={errorsBasic.username ? 'input-error' : ''}
             autoComplete="username"
             placeholder="username"
             {...register('username', { maxLength: 30 })}
@@ -141,7 +138,7 @@ function EditProfile({ loggedUser }: EditProfileProps) {
           email
           <input
             type="text"
-            className={basicErrors.email ? 'input-error' : ''}
+            className={errorsBasic.email ? 'input-error' : ''}
             autoComplete="email"
             placeholder="email"
             {...register('email', { pattern: /^\S+@\S+$/i })}
@@ -152,7 +149,7 @@ function EditProfile({ loggedUser }: EditProfileProps) {
           <select
             {...register('status')}
             name="status"
-            className={basicErrors.status ? 'input-error' : ''}
+            className={errorsBasic.status ? 'input-error' : ''}
           >
             <option value="true">online</option>
             <option value="false">offline</option>
@@ -162,30 +159,29 @@ function EditProfile({ loggedUser }: EditProfileProps) {
         <input type="submit" />
       </form>
 
-      {/* @ts-ignore */}
       <form onSubmit={() => handleSubmitPassword(onSubmitPassword)} className="editProfile-form">
         <input hidden type="text" autoComplete="username" />
         <label htmlFor="password">
           password
           <input
             type="password"
-            className={passwordErrors.password ? 'input-error' : ''}
+            className={errorsPassword.password ? 'input-error' : ''}
             autoComplete="new-password"
             placeholder="password"
             {...registerPassword('password')}
           />
-          <p className="p-error">{passwordErrors.password?.message}</p>
+          <p className="p-error">{errorsPassword.password?.message}</p>
         </label>
         <label htmlFor="repeatPassword">
           Repeat password
           <input
             type="password"
-            className={passwordErrors.repeatPassword ? 'input-error' : ''}
+            className={errorsPassword.repeatPassword ? 'input-error' : ''}
             autoComplete="new-password"
             placeholder="Repeat password"
             {...registerPassword('repeatPassword')}
           />
-          <p className="p-error">{passwordErrors.repeatPassword?.message}</p>
+          <p className="p-error">{errorsPassword.repeatPassword?.message}</p>
         </label>
 
         <input type="submit" />

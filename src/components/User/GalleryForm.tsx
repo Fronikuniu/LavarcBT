@@ -13,7 +13,7 @@ function GalleryForm() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm();
+  } = useForm<GalleryFormImage>();
 
   const onSubmit = async ({
     builder,
@@ -49,7 +49,6 @@ function GalleryForm() {
   return (
     <details>
       <summary>Add gallery image</summary>
-      {/* @ts-ignore */}
       <form onSubmit={() => handleSubmit(onSubmit)} className="addImage-form">
         <p>
           Before upload image use{' '}

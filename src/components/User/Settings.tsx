@@ -81,8 +81,7 @@ function Settings({ loggedUser, loggedUserData }: SettingsProps) {
                   name="file"
                   id="file"
                   accept="image/*"
-                  // @ts-ignore
-                  onChange={(e) => setImage(e.target.files[0])}
+                  onChange={(e) => setImage((e.target.files as FileList)[0])}
                 />
               </label>
             </div>

@@ -52,8 +52,7 @@ function OpinionsAdmin() {
                   className="btn-opinion decline"
                   title="Delete opinion"
                   type="button"
-                  // @ts-ignore
-                  onClick={() => deleteOpinion(opinion.doc_id)}
+                  onClick={() => deleteOpinion(opinion.doc_id as string)}
                 >
                   <IoClose />
                 </button>
@@ -67,8 +66,7 @@ function OpinionsAdmin() {
                     className="btn-opinion accept"
                     title="Accept opinion and display on homepage"
                     type="button"
-                    // @ts-ignore
-                    onClick={() => acceptOpinion(opinion.doc_id, true)}
+                    onClick={() => acceptOpinion(opinion.doc_id as string, true)}
                   >
                     <GiCheckMark />
                   </button>
@@ -77,8 +75,7 @@ function OpinionsAdmin() {
                     className="btn-opinion decline"
                     title="Decline opinion and hide on homepage"
                     type="button"
-                    // @ts-ignore
-                    onClick={() => acceptOpinion(opinion.doc_id, false)}
+                    onClick={() => acceptOpinion(opinion.doc_id as string, false)}
                   >
                     <IoClose />
                   </button>

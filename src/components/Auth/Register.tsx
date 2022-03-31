@@ -13,8 +13,7 @@ function Register({ registerError, registerNewUser }: RegisterProps) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  const registerErrors: FormErrors = errors;
+  } = useForm<LoginData>();
 
   const onSubmit = (data: LoginData) => registerNewUser(data);
 
@@ -26,12 +25,10 @@ function Register({ registerError, registerNewUser }: RegisterProps) {
         <div className="auth__form">
           <div className="auth__form-register">
             <h1>Register with email</h1>
-
             <p>
               Create an account, it's free! Thanks to it you will be able to communicate with our
               community.
             </p>
-            {/* @ts-ignore */}
             <form onSubmit={() => handleSubmit(onSubmit)}>
               <label htmlFor="name">
                 Username
@@ -39,14 +36,11 @@ function Register({ registerError, registerNewUser }: RegisterProps) {
                   type="text"
                   id="name"
                   className={
-                    registerErrors.name?.type === 'required' ||
-                    registerErrors.name?.type === 'minLength'
+                    errors.name?.type === 'required' || errors.name?.type === 'minLength'
                       ? 'input-error'
                       : ''
                   }
-                  placeholder={
-                    registerErrors.name?.type === 'required' ? 'Name is required!' : 'Name'
-                  }
+                  placeholder={errors.name?.type === 'required' ? 'Name is required!' : 'Name'}
                   autoComplete="name"
                   value={register.name}
                   {...register('name', { required: true, minLength: 6 })}
@@ -59,14 +53,11 @@ function Register({ registerError, registerNewUser }: RegisterProps) {
                   type="email"
                   id="email"
                   className={
-                    registerErrors.email?.type === 'required' ||
-                    registerErrors.email?.type === 'pattern'
+                    errors.email?.type === 'required' || errors.email?.type === 'pattern'
                       ? 'input-error'
                       : ''
                   }
-                  placeholder={
-                    registerErrors.email?.type === 'required' ? 'Email is required!' : 'Email'
-                  }
+                  placeholder={errors.email?.type === 'required' ? 'Email is required!' : 'Email'}
                   autoComplete="email"
                   {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
                 />
@@ -78,15 +69,12 @@ function Register({ registerError, registerNewUser }: RegisterProps) {
                   type="password"
                   id="password"
                   className={
-                    registerErrors.password?.type === 'required' ||
-                    registerErrors.password?.type === 'minLength'
+                    errors.password?.type === 'required' || errors.password?.type === 'minLength'
                       ? 'input-error'
                       : ''
                   }
                   placeholder={
-                    registerErrors.password?.type === 'required'
-                      ? 'Password is required!'
-                      : 'Password'
+                    errors.password?.type === 'required' ? 'Password is required!' : 'Password'
                   }
                   autoComplete="new-password"
                   {...register('password', { required: true, minLength: 6 })}
@@ -103,7 +91,6 @@ function Register({ registerError, registerNewUser }: RegisterProps) {
 
               <input type="submit" value="Sign up!" />
             </form>
-
             <p>
               Already a member? <Link to="/auth/login">Log in.</Link>
             </p>

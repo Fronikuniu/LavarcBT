@@ -24,8 +24,7 @@ function MessageForm({
           name="img"
           id="img"
           accept="image/*"
-          // @ts-ignore
-          onChange={(e) => setMessageImage(e.target.files[0])}
+          onChange={(e) => setMessageImage((e.target.files as FileList)[0])}
         />
       </label>
 

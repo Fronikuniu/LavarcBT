@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { useEffect, useRef } from 'react';
 import Moment from 'react-moment';
 import { LoggedUser, MessageT } from '../../types';
@@ -26,7 +25,7 @@ function Message({ message, loggedUser }: MessageProps) {
         {message.messageText !== '' ? <p>{message.messageText}</p> : null}
         {message.media ? <img src={message.media} alt={message.messageText} /> : null}
         <small>
-          {/* @ts-ignore */}
+          {/* @ts-ignore */} {/* eslint-disable-next-line @typescript-eslint/no-unsafe-call */}
           <Moment fromNow>{message.createdAt.toDate()}</Moment>
         </small>
       </div>
