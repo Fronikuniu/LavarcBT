@@ -49,7 +49,7 @@ function GalleryForm() {
   return (
     <details>
       <summary>Add gallery image</summary>
-      <form onSubmit={() => handleSubmit(onSubmit)} className="addImage-form">
+      <form onSubmit={handleSubmit(onSubmit)} className="addImage-form">
         <p>
           Before upload image use{' '}
           <span
@@ -70,12 +70,15 @@ function GalleryForm() {
             className={errors.builder ? 'input-error' : ''}
             placeholder={errors.builder ? 'Builder is required!' : 'Builder'}
             {...register('builder', { required: true })}
+            defaultValue=""
           >
-            <option value="" selected disabled hidden>
+            <option value="" disabled hidden>
               Select builder
             </option>
             {Members.map((member) => (
-              <option value={member.name}>{member.name}</option>
+              <option value={member.name} key={member.name}>
+                {member.name}
+              </option>
             ))}
           </select>
         </label>

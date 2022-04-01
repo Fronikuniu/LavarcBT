@@ -74,7 +74,8 @@
                 "@typescript-eslint/no-empty-function": 0,
                 "@typescript-eslint/restrict-template-expressions": 0,
                 "@typescript-eslint/ban-ts-comment": 0,
-                "@typescript-eslint/unbound-method": 0
+                "@typescript-eslint/unbound-method": 0,
+                "@typescript-eslint/no-misused-promises": 0
             }
         }
     ],

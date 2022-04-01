@@ -29,7 +29,7 @@ function Register({ registerError, registerNewUser }: RegisterProps) {
               Create an account, it's free! Thanks to it you will be able to communicate with our
               community.
             </p>
-            <form onSubmit={() => handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <label htmlFor="name">
                 Username
                 <input

@@ -13,7 +13,7 @@ import { LoggedUser, User } from '../../types';
 
 interface NavProps {
   loggedUser: LoggedUser;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 function Nav({ loggedUser, logout }: NavProps) {
@@ -30,7 +30,8 @@ function Nav({ loggedUser, logout }: NavProps) {
     else navi.current?.classList.remove('active');
   };
 
-  const changeOpen = (event: MouseEvent & { target: Element }) => {
+  const changeOpen = (event: MouseEvent) => {
+    // @ts-ignore
     if (dropdown.current && !dropdown.current.contains(event.target)) setOpenUserProfile(false);
   };
 
@@ -46,11 +47,9 @@ function Nav({ loggedUser, logout }: NavProps) {
     }
 
     window.addEventListener('scroll', stickyNav);
-    // @ts-ignore
     window.addEventListener('mousedown', changeOpen);
     return () => {
       window.removeEventListener('scroll', stickyNav);
-      // @ts-ignore
       window.removeEventListener('mousedown', changeOpen);
     };
   }, [location]);
@@ -97,8 +96,8 @@ function Nav({ loggedUser, logout }: NavProps) {
             <button
               type="button"
               className="btn"
-              onClick={() => {
-                logout();
+              onClick={async () => {
+                await logout();
                 setOpenUserProfile(false);
               }}
             >
@@ -175,8 +174,8 @@ function Nav({ loggedUser, logout }: NavProps) {
                 <button
                   type="button"
                   className="btn"
-                  onClick={() => {
-                    logout();
+                  onClick={async () => {
+                    await logout();
                     setOpenMenu(false);
                   }}
                 >

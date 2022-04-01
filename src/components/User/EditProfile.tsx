@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
 import {
   updateProfile,
@@ -114,16 +114,16 @@ function EditProfile({ loggedUser }: EditProfileProps) {
       })
       .catch(() => setPasswordModalOpen(true));
   };
-  const reauntheticateChangePassword = (e: Event) => {
-    setClicked(true);
+  const reauntheticateChangePassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setClicked(true);
     setError(!data.email || !data.password ? 'All fields are required' : '');
   };
 
   return (
     <details>
       <summary>Edit Profile</summary>
-      <form onSubmit={() => handleSubmit(onSubmitBasic)} className="editProfile-form">
+      <form onSubmit={handleSubmit(onSubmitBasic)} className="editProfile-form">
         <label htmlFor="username">
           username
           <input
@@ -159,7 +159,7 @@ function EditProfile({ loggedUser }: EditProfileProps) {
         <input type="submit" />
       </form>
 
-      <form onSubmit={() => handleSubmitPassword(onSubmitPassword)} className="editProfile-form">
+      <form onSubmit={handleSubmitPassword(onSubmitPassword)} className="editProfile-form">
         <input hidden type="text" autoComplete="username" />
         <label htmlFor="password">
           password
@@ -190,7 +190,7 @@ function EditProfile({ loggedUser }: EditProfileProps) {
         data={data}
         error={error}
         isOpen={passwordModalOpen}
-        onSubmit={() => reauntheticateChangePassword}
+        onSubmit={reauntheticateChangePassword}
         onChange={setData}
         header="You need to login to change password"
       />

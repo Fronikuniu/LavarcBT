@@ -78,7 +78,6 @@ function GalleryAdmin() {
             </div>
           </div>
           <div className="post-bot">
-            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
             <form onSubmit={(e) => updateGalleryImage(e, post.doc_id)} className="form">
               <label htmlFor={`price${i}`}>
                 Price
@@ -91,7 +90,6 @@ function GalleryAdmin() {
               <label htmlFor="submit">
                 <input type="submit" value="Update" />
               </label>
-              {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
               <button type="button" className="delete" onClick={() => deletePost(post)}>
                 <MdDelete />
               </button>

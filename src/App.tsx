@@ -163,7 +163,7 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
-      <Nav loggedUser={loggedUser} logout={() => logout} />
+      <Nav loggedUser={loggedUser} logout={logout} />
 
       <Switch>
         <Route exact path="/">

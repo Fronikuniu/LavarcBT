@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import { useEffect, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import { GiCheckMark } from 'react-icons/gi';

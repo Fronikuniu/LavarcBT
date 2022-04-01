@@ -40,7 +40,8 @@ function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
 
   const userList = useRef<HTMLDivElement>(null);
 
-  const changeOpen = (event: MouseEvent & { target: Element }) => {
+  const changeOpen = (event: MouseEvent) => {
+    // @ts-ignore
     if (userList.current && !userList.current.contains(event.target)) setOpen(false);
   };
 
@@ -59,11 +60,9 @@ function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
       });
       setUsersList(users);
     });
-    // @ts-ignore
     window.addEventListener('mousedown', changeOpen);
     return () => {
       unsub();
-      // @ts-ignore
       window.removeEventListener('mousedown', changeOpen);
     };
   }, [sender]);
@@ -133,7 +132,7 @@ function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
               ? usersList.map((user) => (
                   <UserList
                     user={user}
-                    selectUser={() => selectUser}
+                    selectUser={selectUser}
                     key={user.uid}
                     sender={sender}
                     usersChat={usersChat}
@@ -142,7 +141,7 @@ function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
               : adminList.map((user) => (
                   <UserList
                     user={user}
-                    selectUser={() => selectUser}
+                    selectUser={selectUser}
                     key={user.uid}
                     sender={sender}
                     usersChat={usersChat}
@@ -177,7 +176,7 @@ function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
               <MessageForm
                 messageText={messageText}
                 setMessageText={setMessageText}
-                handleSubmit={() => handleSubmit}
+                handleSubmit={handleSubmit}
                 setMessageImage={setMessageImage}
               />
             </>

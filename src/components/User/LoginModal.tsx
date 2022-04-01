@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import Modal from 'react-modal';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import { FormEvent } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 Modal.setAppElement('#root');
 
 interface LoginModalProps {
@@ -10,7 +9,7 @@ interface LoginModalProps {
   header: string;
   error: string | boolean;
   isOpen: boolean;
-  onSubmit: () => void;
+  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
   onChange: (data: { email: string; password: string }) => void;
 }
 

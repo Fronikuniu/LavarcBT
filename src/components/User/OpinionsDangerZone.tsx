@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { deleteUser, signInWithEmailAndPassword } from 'firebase/auth';
 import { confirmAlert } from 'react-confirm-alert';
 import { toast } from 'react-toastify';
@@ -41,7 +41,7 @@ function OpinionsDangerZone() {
       .then(() => toast.success('Account deleted'))
       .catch(() => setDeleteModalOpen(true));
   };
-  const reauntheticateDeleteAccount = (e: Event) => {
+  const reauntheticateDeleteAccount = (e: FormEvent<HTMLFormElement>) => {
     setClicked(true);
     e.preventDefault();
     setError(!data.email || !data.password ? 'All fields are required' : '');
@@ -54,7 +54,6 @@ function OpinionsDangerZone() {
       buttons: [
         {
           label: 'Yes',
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClick: () => deleteAccount(),
         },
         {
@@ -80,7 +79,7 @@ function OpinionsDangerZone() {
         data={data}
         error={error}
         isOpen={deleteModalOpen}
-        onSubmit={() => reauntheticateDeleteAccount}
+        onSubmit={reauntheticateDeleteAccount}
         onChange={setData}
         header="You need to login to delete account"
       />

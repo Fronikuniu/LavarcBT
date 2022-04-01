@@ -38,9 +38,9 @@ function Login({ logInWithFacebook, logInWithGoogle, loginError, loginUser }: Lo
 
             <div className="horizontal-or" />
 
-            <form onSubmit={() => handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <label htmlFor="login">
-                email
+                Email
                 <input
                   type="email"
                   id="email"
@@ -56,7 +56,7 @@ function Login({ logInWithFacebook, logInWithGoogle, loginError, loginUser }: Lo
               </label>
 
               <label htmlFor="password">
-                password
+                Password
                 <input
                   type="password"
                   id="password"

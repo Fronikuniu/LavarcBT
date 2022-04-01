@@ -41,7 +41,7 @@ function RecommendationForm() {
 
         <div className="recommendation-content">
           <div className="recommendation__form">
-            <form onSubmit={() => handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <label htmlFor="username">
                 username
                 <input
