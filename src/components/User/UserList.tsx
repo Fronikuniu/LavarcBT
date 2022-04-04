@@ -1,14 +1,14 @@
 import { doc, onSnapshot } from '@firebase/firestore';
 import { useEffect, useState } from 'react';
 import userPlaceholder from '../../images/placeholder-user.jpg';
-import { LastMessage, User } from '../../types';
+import { LastMessage, UserData } from '../../types';
 import { db } from '../configuration/firebase';
 
 interface UserListProps {
   sender: string;
-  user: User;
-  selectUser: (data: User) => void;
-  usersChat: User;
+  user: UserData;
+  selectUser: (data: UserData) => void;
+  usersChat: UserData;
 }
 
 function UserList({ sender, user, selectUser, usersChat }: UserListProps) {

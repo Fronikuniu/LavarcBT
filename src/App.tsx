@@ -7,7 +7,6 @@ import {
 } from '@firebase/auth';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { FirebaseError } from '@firebase/util';
 import { doc, getDoc, setDoc, Timestamp, updateDoc } from '@firebase/firestore';
 import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth';
 import { ToastContainer } from 'react-toastify';
@@ -16,9 +15,7 @@ import About from './components/About/About';
 import AboutMembers from './components/About/AboutMembers';
 import Home from './components/Home/Home';
 import Nav from './components/Nav/Nav';
-import Members from './components/About/Members';
 import GallerySlider from './components/Gallery/GallerySlider';
-import Images from './components/Gallery/Images';
 import Gallery from './components/Gallery/Gallery';
 import GallerySingle from './components/Gallery/GallerySingle';
 import SingleMember from './components/About/SingleMember';
@@ -37,14 +34,14 @@ import ScrollToTop from './components/helpers/ScrollToTop';
 import RecommendationForm from './components/Recommendations/RecommendationForm';
 import 'react-toastify/dist/ReactToastify.css';
 import loginErrors from './components/helpers/loginErrors';
-import { LoggedUser, LoginData, LoginErrors, User } from './types';
+import { LoggedUser, LoginData, LoginErrors, UserData } from './types';
 
 function App() {
   const [registerError, setRegisterError] = useState('');
   const [loginError, setLoginError] = useState('');
 
   const [loggedUser, setLoggedUser] = useState<LoggedUser>({} as LoggedUser);
-  const [loggedUserData, setLoggedUserData] = useState<User>({} as User);
+  const [loggedUserData, setLoggedUserData] = useState<UserData>({} as UserData);
 
   useEffect(() => {
     // @ts-ignore
@@ -55,11 +52,11 @@ function App() {
 
       getDoc(doc(db, 'users', uid))
         .then((docSnap) => {
-          if (docSnap.exists()) setLoggedUserData(docSnap.data() as User);
+          if (docSnap.exists()) setLoggedUserData(docSnap.data() as UserData);
         })
         .catch(() => {});
     }
-  }, [auth.currentUser]);
+  }, []);
 
   // Register
   const registerNewUser = (data: LoginData) => {
@@ -109,8 +106,6 @@ function App() {
 
     signInWithPopup(auth, providerGoogle)
       .then(async (result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
         const { user } = result;
 
         await setDoc(doc(db, 'users', user.uid), {
@@ -121,11 +116,7 @@ function App() {
           isOnline: true,
         });
       })
-      .catch((error: FirebaseError) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-      });
+      .catch(() => {});
   };
 
   const logInWithFacebook = () => {
@@ -133,8 +124,6 @@ function App() {
 
     signInWithPopup(auth, providerFacebook)
       .then(async (result) => {
-        const credential = FacebookAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
         const { user } = result;
 
         await setDoc(doc(db, 'users', user.uid), {
@@ -145,11 +134,7 @@ function App() {
           isOnline: true,
         });
       })
-      .catch((error: FirebaseError) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const credential = FacebookAuthProvider.credentialFromError(error);
-      });
+      .catch(() => {});
   };
 
   // Logout
@@ -199,7 +184,7 @@ function App() {
 
         <Route path="/about">
           <About />
-          <AboutMembers members={Members} />
+          <AboutMembers />
         </Route>
 
         <Route exact path="/gallery">
@@ -210,7 +195,7 @@ function App() {
         </Route>
 
         <Route path="/builder/:name">
-          <SingleMember images={Images} members={Members} />
+          <SingleMember />
         </Route>
 
         <Route exact path="/shop">

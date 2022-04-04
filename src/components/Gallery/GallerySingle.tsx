@@ -34,13 +34,24 @@ function GallerySingle() {
           </div>
           <div className="gallery__single__content-text">
             <p className="title">
-              What's built: <span>{image?.title}</span>
+              <span>{image?.title}</span>
             </p>
-            <p className="desc">{image?.desc}</p>
             <p className="builder">
-              This beautiful building was built by:{' '}
-              <Link to={`/builder/${image?.builder}`}>{image?.builder}</Link>
+              By: <Link to={`/builder/${image?.builder}`}>{image?.builder}</Link>
             </p>
+            {image.desc ? <p className="desc">{image?.desc}</p> : null}
+            {image.price ? (
+              <p className="cost">
+                {image.sale ? (
+                  <>
+                    <span className="price">${image.price}</span>
+                    <span className="sale">${image.sale}</span>
+                  </>
+                ) : (
+                  <span>${image.price}</span>
+                )}
+              </p>
+            ) : null}
             <div
               role="link"
               onClick={() => window.open(image?.imgurAlbum)}

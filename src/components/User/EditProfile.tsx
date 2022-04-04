@@ -9,7 +9,6 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { auth, db } from '../configuration/firebase';
 import LoginModal from './LoginModal';
@@ -17,7 +16,6 @@ import loginErrors from '../helpers/loginErrors';
 import {
   EditProfileBasicProps,
   EditProfilePasswordProps,
-  FormErrors,
   LoggedUser,
   LoginErrors,
 } from '../../types';
@@ -197,9 +195,5 @@ function EditProfile({ loggedUser }: EditProfileProps) {
     </details>
   );
 }
-
-EditProfile.propTypes = {
-  loggedUser: PropTypes.object.isRequired,
-};
 
 export default EditProfile;

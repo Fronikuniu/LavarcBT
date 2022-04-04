@@ -1,19 +1,36 @@
-import { addDoc, collection, Timestamp } from 'firebase/firestore';
+import { addDoc, collection, getDocs, query, Timestamp } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { uid } from 'uid';
-import { GalleryFormImage } from '../../types';
-import Members from '../About/Members';
+import { GalleryFormImage, Member } from '../../types';
 import { db, storage } from '../configuration/firebase';
 
 function GalleryForm() {
+  const [members, setMembers] = useState<Member[]>([]);
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<GalleryFormImage>();
+
+  useEffect(() => {
+    const getMembers = async () => {
+      const q = query(collection(db, 'members'));
+      const querySnapshot = await getDocs(q);
+
+      const teamMembers: Member[] = [];
+      querySnapshot.forEach((doc) => {
+        teamMembers.push(doc.data() as Member);
+      });
+      setMembers(teamMembers);
+    };
+    getMembers()
+      .then(() => {})
+      .catch(() => {});
+  }, []);
 
   const onSubmit = async ({
     builder,
@@ -75,7 +92,7 @@ function GalleryForm() {
             <option value="" disabled hidden>
               Select builder
             </option>
-            {Members.map((member) => (
+            {members.map((member) => (
               <option value={member.name} key={member.name}>
                 {member.name}
               </option>

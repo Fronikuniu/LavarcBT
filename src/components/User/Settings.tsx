@@ -4,23 +4,22 @@ import { AiFillCamera } from 'react-icons/ai';
 import { getDoc, doc, updateDoc } from 'firebase/firestore';
 import { updateProfile } from '@firebase/auth';
 import { toast } from 'react-toastify';
-import PropTypes from 'prop-types';
 import { storage, db, auth } from '../configuration/firebase';
 import OpinionsAdmin from './OpinionsAdmin';
 import EditProfile from './EditProfile';
 import OpinionsDangerZone from './OpinionsDangerZone';
 import GalleryForm from './GalleryForm';
 import GalleryAdmin from './GalleryAdmin';
-import { LoggedUser, User } from '../../types';
+import { LoggedUser, UserData } from '../../types';
 
 interface SettingsProps {
   loggedUser: LoggedUser;
-  loggedUserData: User;
+  loggedUserData: UserData;
 }
 
 function Settings({ loggedUser, loggedUserData }: SettingsProps) {
   const [image, setImage] = useState<File | null>(null);
-  const [user, setUser] = useState<User>({} as User);
+  const [user, setUser] = useState<UserData>({} as UserData);
 
   useEffect(() => {
     // trzeba poprawic aktualizowanie się danych
@@ -29,7 +28,7 @@ function Settings({ loggedUser, loggedUserData }: SettingsProps) {
 
       getDoc(doc(db, 'users', uid))
         .then((docSnap) => {
-          if (docSnap.exists()) setUser(docSnap.data() as User);
+          if (docSnap.exists()) setUser(docSnap.data() as UserData);
         })
         .catch(() => {});
     }
@@ -109,10 +108,5 @@ function Settings({ loggedUser, loggedUserData }: SettingsProps) {
     </section>
   ) : null;
 }
-
-Settings.propTypes = {
-  loggedUser: PropTypes.object.isRequired,
-  loggedUserData: PropTypes.object.isRequired,
-};
 
 export default Settings;

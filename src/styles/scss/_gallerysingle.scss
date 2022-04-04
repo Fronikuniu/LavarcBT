@@ -50,7 +50,6 @@
         text-align: center;
         span,
         a {
-          display: block;
           color: colors.$tacha;
           font-family: 'Permanent Marker', cursive;
         }
@@ -65,38 +64,57 @@
         }
 
         &.title {
-          font-size: 1.5em;
-          margin-bottom: 2rem;
+          font-size: 1.8em;
+          margin-bottom: 1rem;
         }
 
         &.desc {
-          font-size: 1.2em;
-          margin-bottom: 1.5rem;
-        }
-
-        &.builder {
           font-size: 1em;
           margin-bottom: 1rem;
         }
 
+        &.cost {
+          color: colors.$fuelYellow;
+          font-size: 1.1em;
+          margin-bottom: 2em;
+
+          span {
+            font-family: 'Poppins', sans-serif;
+          }
+
+          .price {
+            margin-right: 10px;
+            text-decoration: line-through;
+            font-size: 1em;
+          }
+
+          .sale {
+            font-size: 1.3em;
+          }
+        }
+
+        &.builder {
+          font-size: 1.2em;
+          margin-bottom: 2rem;
+        }
+
         &.bouncing {
-          font-size: 1em;
-          animation: pulsing 1s ease 0s alternate infinite backwards running;
+          font-size: 0.9em;
           cursor: pointer;
         }
 
         @include mixins.breakpoint(laptop) {
           &.title {
-            font-size: 1.7em;
+            font-size: 2em;
           }
-
-          &.desc {
+          &.builder {
             font-size: 1.4em;
           }
-
-          &.builder,
-          &.bouncing {
+          &.desc {
             font-size: 1.2em;
+          }
+          &.bouncing {
+            font-size: 1.1em;
           }
         }
       }

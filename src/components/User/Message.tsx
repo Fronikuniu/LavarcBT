@@ -10,11 +10,9 @@ interface MessageProps {
 function Message({ message, loggedUser }: MessageProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  useEffect(
-    () =>
-      scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' }),
-    [message]
-  );
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+  }, [message]);
 
   return (
     <div

@@ -17,7 +17,7 @@ export type Member = {
   about: string;
   discord: string;
 };
-export type User = {
+export type UserData = {
   avatar: string;
   avatarPath: string;
   createdAt: Date;

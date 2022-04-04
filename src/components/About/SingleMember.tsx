@@ -1,23 +1,45 @@
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import discord from '../../images/discord.png';
 import { Image, Member } from '../../types';
+import { db } from '../configuration/firebase';
 
-interface SingleMemberProps {
-  images: Image[];
-  members: Member[];
-}
-
-function SingleMember({ images, members }: SingleMemberProps) {
+function SingleMember() {
   const [member, setMember] = useState<Member | undefined>(undefined);
   const [memberImages, setMemberImages] = useState<Image[]>([]);
   const { name }: { name: string } = useParams();
 
   useEffect(() => {
-    setMember(members.find((singleMember) => singleMember.name === name));
-    setMemberImages(images.filter((image) => image.builder === name));
-  }, [images, member, members, name]);
+    const getSingleMember = async () => {
+      const q = query(collection(db, 'members'), where('name', '==', name));
+      const querySnapshot = await getDocs(q);
+
+      const teamMember: Member[] = [];
+      querySnapshot.forEach((doc) => {
+        teamMember.push(doc.data() as Member);
+      });
+      setMember(teamMember[0]);
+    };
+    getSingleMember()
+      .then(() => {})
+      .catch(() => {});
+
+    const getMemberImages = async () => {
+      const q = query(collection(db, 'gallery'), where('builder', '==', name));
+      const querySnapshot = await getDocs(q);
+
+      const teamMemberImages: Image[] = [];
+      querySnapshot.forEach((doc) => {
+        teamMemberImages.push(doc.data() as Image);
+      });
+      setMemberImages(teamMemberImages);
+    };
+    getMemberImages()
+      .then(() => {})
+      .catch(() => {});
+  }, [name]);
 
   return (
     <section className="single__member">

@@ -9,7 +9,7 @@ import { db, auth } from '../configuration/firebase';
 import NavLogo from './NavLogo';
 import NavItem from './NavItem';
 import logo from '../../images/lavarcawatar.png';
-import { LoggedUser, User } from '../../types';
+import { LoggedUser, UserData } from '../../types';
 
 interface NavProps {
   loggedUser: LoggedUser;
@@ -18,21 +18,14 @@ interface NavProps {
 
 function Nav({ loggedUser, logout }: NavProps) {
   const location = useLocation();
-  const navi = useRef<HTMLElement>(null);
-  const [user, setUser] = useState<User | null>(null);
-
+  const [user, setUser] = useState<UserData | null>(null);
   const [openUserProfile, setOpenUserProfile] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
-  const dropdown = useRef<HTMLDivElement>(null);
+  const navi = useRef<HTMLElement>(null);
 
   const stickyNav = () => {
     if (window.scrollY >= 70) navi.current?.classList.add('active');
     else navi.current?.classList.remove('active');
-  };
-
-  const changeOpen = (event: MouseEvent) => {
-    // @ts-ignore
-    if (dropdown.current && !dropdown.current.contains(event.target)) setOpenUserProfile(false);
   };
 
   useEffect(() => {
@@ -41,17 +34,13 @@ function Nav({ loggedUser, logout }: NavProps) {
 
       getDoc(doc(db, 'users', uid))
         .then((docSnap) => {
-          if (docSnap.exists()) setUser(docSnap.data() as User);
+          if (docSnap.exists()) setUser(docSnap.data() as UserData);
         })
         .catch(() => {});
     }
 
     window.addEventListener('scroll', stickyNav);
-    window.addEventListener('mousedown', changeOpen);
-    return () => {
-      window.removeEventListener('scroll', stickyNav);
-      window.removeEventListener('mousedown', changeOpen);
-    };
+    return () => window.removeEventListener('scroll', stickyNav);
   }, [location]);
 
   return (
@@ -64,16 +53,14 @@ function Nav({ loggedUser, logout }: NavProps) {
           <NavItem>shop</NavItem>
           <NavItem>contact</NavItem>
         </div>
-        <div className={`user ${openUserProfile ? 'open' : ''}`} ref={dropdown}>
+        <div className={`user ${openUserProfile ? 'open' : ''}`}>
           {loggedUser ? (
             <div
-              tabIndex={0}
-              role="button"
               className="user__avatar"
-              onClick={() => {
-                setOpenUserProfile(!openUserProfile);
-              }}
+              role="button"
+              onClick={() => setOpenUserProfile(!openUserProfile)}
               onKeyDown={() => setOpenUserProfile(!openUserProfile)}
+              tabIndex={0}
             >
               <img src={user?.avatar ? user.avatar : loggedUser.photoURL} alt="" />
               <IoCaretDownCircleOutline className="user__avatar--arrow" />
@@ -86,7 +73,7 @@ function Nav({ loggedUser, logout }: NavProps) {
 
           <div className="user-dropdown">
             <p>
-              <Link to="/settings" onClick={() => setOpenUserProfile(!openUserProfile)}>
+              <Link to="/settings" onClick={() => setOpenUserProfile(false)}>
                 Profile
               </Link>
             </p>

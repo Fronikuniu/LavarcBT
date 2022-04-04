@@ -12,38 +12,30 @@ import {
   where,
 } from '@firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { ImUsers } from 'react-icons/im';
-import PropTypes from 'prop-types';
 import { auth, db, storage } from '../configuration/firebase';
 import Message from './Message';
 import MessageForm from './MessageForm';
 import UserList from './UserList';
-import { LoggedUser, MessageT, User } from '../../types';
+import { LoggedUser, MessageT, UserData } from '../../types';
 
 interface UsersListProps {
   loggedUser: LoggedUser;
-  loggedUserData: User;
+  loggedUserData: UserData;
 }
 
 function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
-  const [usersList, setUsersList] = useState<User[]>([]);
-  const [usersChat, setUsersChat] = useState<User>({} as User);
+  const [usersList, setUsersList] = useState<UserData[]>([]);
+  const [usersChat, setUsersChat] = useState<UserData>({} as UserData);
   const [messageText, setMessageText] = useState('');
   const [messageImage, setMessageImage] = useState<File | null>(null);
   const [allMessages, setAllMessages] = useState<MessageT[]>([]);
   const [sender, setSender] = useState('');
-
   const [open, setOpen] = useState(false);
 
   const adminList = usersList.filter((user) => user.isAdmin);
-
-  const userList = useRef<HTMLDivElement>(null);
-
-  const changeOpen = (event: MouseEvent) => {
-    // @ts-ignore
-    if (userList.current && !userList.current.contains(event.target)) setOpen(false);
-  };
+  const list = loggedUserData.isAdmin ? usersList : adminList;
 
   useEffect(() => {
     // need fix sender, when is first render we can see logged user in the users list
@@ -54,20 +46,16 @@ function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
     const q = query(usersRef, where('uid', 'not-in', [sender]));
 
     const unsub = onSnapshot(q, (querySnapshot) => {
-      const users: User[] = [];
+      const users: UserData[] = [];
       querySnapshot.forEach((res) => {
-        users.push(res.data() as User);
+        users.push(res.data() as UserData);
       });
       setUsersList(users);
     });
-    window.addEventListener('mousedown', changeOpen);
-    return () => {
-      unsub();
-      window.removeEventListener('mousedown', changeOpen);
-    };
+    return () => unsub();
   }, [sender]);
 
-  const selectUser = async (user: User) => {
+  const selectUser = async (user: UserData) => {
     setUsersChat(user);
 
     const receiver = user.uid;
@@ -91,9 +79,7 @@ function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const receiver = usersChat.uid;
-
     const id = sender > receiver ? `${sender + receiver}` : `${receiver + sender}`;
-
     let url;
 
     if (messageImage) {
@@ -127,29 +113,26 @@ function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
     <div className="container">
       <section className="chat">
         <div className={`users-container ${open ? 'open' : ''}`}>
-          <div className="users-list" ref={userList}>
-            {loggedUserData.isAdmin
-              ? usersList.map((user) => (
-                  <UserList
-                    user={user}
-                    selectUser={selectUser}
-                    key={user.uid}
-                    sender={sender}
-                    usersChat={usersChat}
-                  />
-                ))
-              : adminList.map((user) => (
-                  <UserList
-                    user={user}
-                    selectUser={selectUser}
-                    key={user.uid}
-                    sender={sender}
-                    usersChat={usersChat}
-                  />
-                ))}
+          <div className="users-list">
+            {list.map((user) => (
+              <UserList
+                user={user}
+                selectUser={selectUser}
+                key={user.uid}
+                sender={sender}
+                usersChat={usersChat}
+              />
+            ))}
           </div>
 
-          <ImUsers className="users-list-btn" onClick={() => setOpen(!open)} role="button" />
+          <ImUsers
+            className="users-list-btn"
+            role="button"
+            onClick={() => setOpen(!open)}
+            onKeyDown={() => setOpen(!open)}
+            onBlur={() => setOpen(false)}
+            tabIndex={0}
+          />
         </div>
 
         <div className="chat-container">
@@ -204,10 +187,5 @@ function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
     </div>
   );
 }
-
-UsersList.propTypes = {
-  loggedUser: PropTypes.object.isRequired,
-  loggedUserData: PropTypes.object.isRequired,
-};
 
 export default UsersList;

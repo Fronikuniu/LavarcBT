@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { FormErrors, LoginData } from '../../types';
+import { LoginData } from '../../types';
 import AuthImages from '../helpers/AuthImages';
 
 interface RegisterProps {

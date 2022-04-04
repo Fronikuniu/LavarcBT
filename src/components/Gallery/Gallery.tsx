@@ -7,8 +7,8 @@ import { Image } from '../../types';
 
 function Gallery() {
   const [loading, setLoading] = useState(true);
-  const counter = useRef(0);
   const [images, setImages] = useState<Image[]>([]);
+  const counter = useRef(0);
 
   useEffect(() => {
     const getGallery = async () => {
