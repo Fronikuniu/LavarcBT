@@ -8,7 +8,12 @@ import {
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { doc, getDoc, setDoc, Timestamp, updateDoc } from '@firebase/firestore';
-import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth';
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  User as FirebaseUser,
+} from 'firebase/auth';
 import { ToastContainer } from 'react-toastify';
 import { auth, db } from './components/configuration/firebase';
 import About from './components/About/About';
@@ -34,18 +39,19 @@ import ScrollToTop from './components/helpers/ScrollToTop';
 import RecommendationForm from './components/Recommendations/RecommendationForm';
 import 'react-toastify/dist/ReactToastify.css';
 import loginErrors from './components/helpers/loginErrors';
-import { LoggedUser, LoginData, LoginErrors, UserData } from './types';
+import { LoginData, LoginErrors, UserData } from './types';
 
 function App() {
   const [registerError, setRegisterError] = useState('');
   const [loginError, setLoginError] = useState('');
 
-  const [loggedUser, setLoggedUser] = useState<LoggedUser>({} as LoggedUser);
+  const [loggedUser, setLoggedUser] = useState<FirebaseUser>({} as FirebaseUser);
   const [loggedUserData, setLoggedUserData] = useState<UserData>({} as UserData);
 
   useEffect(() => {
-    // @ts-ignore
-    onAuthStateChanged(auth, (currentUser) => setLoggedUser(currentUser));
+    onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) setLoggedUser(currentUser);
+    });
 
     if (auth.currentUser) {
       const { uid } = auth.currentUser;

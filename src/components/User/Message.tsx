@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react';
+import { User as FirebaseUser } from '@firebase/auth';
 import Moment from 'react-moment';
-import { LoggedUser, MessageT } from '../../types';
+import { MessageT } from '../../types';
 
 interface MessageProps {
   message: MessageT;
-  loggedUser: LoggedUser;
+  loggedUser: FirebaseUser;
 }
 
 function Message({ message, loggedUser }: MessageProps) {

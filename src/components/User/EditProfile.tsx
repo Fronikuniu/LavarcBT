@@ -5,6 +5,7 @@ import {
   updateEmail,
   updatePassword,
   signInWithEmailAndPassword,
+  User as FirebaseUser,
 } from '@firebase/auth';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,15 +14,10 @@ import { toast } from 'react-toastify';
 import { auth, db } from '../configuration/firebase';
 import LoginModal from './LoginModal';
 import loginErrors from '../helpers/loginErrors';
-import {
-  EditProfileBasicProps,
-  EditProfilePasswordProps,
-  LoggedUser,
-  LoginErrors,
-} from '../../types';
+import { EditProfileBasicProps, EditProfilePasswordProps, LoginErrors } from '../../types';
 
 interface EditProfileProps {
-  loggedUser: LoggedUser;
+  loggedUser: FirebaseUser;
 }
 
 function EditProfile({ loggedUser }: EditProfileProps) {
@@ -83,7 +79,6 @@ function EditProfile({ loggedUser }: EditProfileProps) {
       await updateDoc(doc(db, 'users', auth.currentUser.uid), {
         name: basic.username,
       });
-      // @ts-ignore
       await updateProfile(loggedUser, {
         displayName: basic.username,
       });

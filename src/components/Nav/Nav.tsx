@@ -5,14 +5,15 @@ import { IoCaretDownCircleOutline } from 'react-icons/io5';
 import { MdOutlineClose } from 'react-icons/md';
 import { HiMenuAlt3 } from 'react-icons/hi';
 import { getDoc, doc } from 'firebase/firestore';
+import { User as FirebaseUser } from '@firebase/auth';
 import { db, auth } from '../configuration/firebase';
 import NavLogo from './NavLogo';
 import NavItem from './NavItem';
 import logo from '../../images/lavarcawatar.png';
-import { LoggedUser, UserData } from '../../types';
+import { UserData } from '../../types';
 
 interface NavProps {
-  loggedUser: LoggedUser;
+  loggedUser: FirebaseUser;
   logout: () => Promise<void>;
 }
 
@@ -62,7 +63,7 @@ function Nav({ loggedUser, logout }: NavProps) {
               onKeyDown={() => setOpenUserProfile(!openUserProfile)}
               tabIndex={0}
             >
-              <img src={user?.avatar ? user.avatar : loggedUser.photoURL} alt="" />
+              <img src={`${user?.avatar ? user.avatar : loggedUser.photoURL}`} alt="" />
               <IoCaretDownCircleOutline className="user__avatar--arrow" />
             </div>
           ) : (
@@ -153,7 +154,7 @@ function Nav({ loggedUser, logout }: NavProps) {
           <div className="rwd-auth">
             {loggedUser ? (
               <>
-                <img src={user?.avatar ? user.avatar : loggedUser.photoURL} alt="" />
+                <img src={`${user?.avatar ? user.avatar : loggedUser.photoURL}`} alt="" />
                 <Link to="/settings" onClick={() => setOpenMenu(false)}>
                   Profile
                 </Link>

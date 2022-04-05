@@ -12,16 +12,17 @@ import {
   where,
 } from '@firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
+import { User as FirebaseUser } from '@firebase/auth';
 import { FormEvent, useEffect, useState } from 'react';
 import { ImUsers } from 'react-icons/im';
 import { auth, db, storage } from '../configuration/firebase';
 import Message from './Message';
 import MessageForm from './MessageForm';
 import UserList from './UserList';
-import { LoggedUser, MessageT, UserData } from '../../types';
+import { MessageT, UserData } from '../../types';
 
 interface UsersListProps {
-  loggedUser: LoggedUser;
+  loggedUser: FirebaseUser;
   loggedUserData: UserData;
 }
 

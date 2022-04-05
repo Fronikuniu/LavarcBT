@@ -2,7 +2,7 @@ import { deleteObject, getDownloadURL, ref, uploadBytes } from '@firebase/storag
 import { useState, useEffect } from 'react';
 import { AiFillCamera } from 'react-icons/ai';
 import { getDoc, doc, updateDoc } from 'firebase/firestore';
-import { updateProfile } from '@firebase/auth';
+import { updateProfile, User as FirebaseUser } from '@firebase/auth';
 import { toast } from 'react-toastify';
 import { storage, db, auth } from '../configuration/firebase';
 import OpinionsAdmin from './OpinionsAdmin';
@@ -10,10 +10,10 @@ import EditProfile from './EditProfile';
 import OpinionsDangerZone from './OpinionsDangerZone';
 import GalleryForm from './GalleryForm';
 import GalleryAdmin from './GalleryAdmin';
-import { LoggedUser, UserData } from '../../types';
+import { UserData } from '../../types';
 
 interface SettingsProps {
-  loggedUser: LoggedUser;
+  loggedUser: FirebaseUser;
   loggedUserData: UserData;
 }
 
@@ -48,7 +48,6 @@ function Settings({ loggedUser, loggedUserData }: SettingsProps) {
             avatar: url,
             avatarPath: snapshot.ref.fullPath,
           });
-          // @ts-ignore
           await updateProfile(loggedUser, {
             photoURL: url,
           });
@@ -72,7 +71,7 @@ function Settings({ loggedUser, loggedUserData }: SettingsProps) {
         <div className="settings__informations">
           <div className="settings__informations__image">
             <div>
-              <img src={user?.avatar ? user.avatar : loggedUser.photoURL} alt="" />
+              <img src={`${user?.avatar ? user.avatar : loggedUser.photoURL}`} alt="" />
               <label htmlFor="file">
                 <AiFillCamera />
                 <input
