@@ -7,7 +7,7 @@ import {
 } from '@firebase/auth';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { doc, getDoc, setDoc, Timestamp, updateDoc } from '@firebase/firestore';
+import { doc, setDoc, Timestamp, updateDoc } from '@firebase/firestore';
 import {
   signInWithPopup,
   GoogleAuthProvider,
@@ -39,29 +39,18 @@ import ScrollToTop from './components/helpers/ScrollToTop';
 import RecommendationForm from './components/Recommendations/RecommendationForm';
 import 'react-toastify/dist/ReactToastify.css';
 import loginErrors from './components/helpers/loginErrors';
-import { LoginData, LoginErrors, UserData } from './types';
+import { LoginData, LoginErrors } from './types';
 
 function App() {
   const [registerError, setRegisterError] = useState('');
   const [loginError, setLoginError] = useState('');
 
-  const [loggedUser, setLoggedUser] = useState<FirebaseUser>({} as FirebaseUser);
-  const [loggedUserData, setLoggedUserData] = useState<UserData>({} as UserData);
+  const [loggedUser, setLoggedUser] = useState<FirebaseUser | null>(null);
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) setLoggedUser(currentUser);
     });
-
-    if (auth.currentUser) {
-      const { uid } = auth.currentUser;
-
-      getDoc(doc(db, 'users', uid))
-        .then((docSnap) => {
-          if (docSnap.exists()) setLoggedUserData(docSnap.data() as UserData);
-        })
-        .catch(() => {});
-    }
   }, []);
 
   // Register
@@ -145,10 +134,13 @@ function App() {
 
   // Logout
   const logout = async () => {
-    await updateDoc(doc(db, 'users', loggedUser.uid), {
-      isOnline: false,
-    });
-    await signOut(auth);
+    if (loggedUser) {
+      await updateDoc(doc(db, 'users', loggedUser.uid), {
+        isOnline: false,
+      });
+      await signOut(auth);
+      setLoggedUser(null);
+    }
   };
 
   return (
@@ -213,19 +205,11 @@ function App() {
           <Contact />
         </Route>
         <Route path="/contact/chat">
-          {loggedUser ? (
-            <Chat loggedUser={loggedUser} loggedUserData={loggedUserData} />
-          ) : (
-            <Redirect to="/auth" />
-          )}
+          {loggedUser ? <Chat loggedUser={loggedUser} /> : <Redirect to="/auth" />}
         </Route>
 
         <Route path="/settings">
-          {loggedUser ? (
-            <Settings loggedUser={loggedUser} loggedUserData={loggedUserData} />
-          ) : (
-            <Redirect to="/auth" />
-          )}
+          {loggedUser ? <Settings loggedUser={loggedUser} /> : <Redirect to="/auth" />}
         </Route>
 
         <Route exact path="/recommendation">

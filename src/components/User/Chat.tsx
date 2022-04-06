@@ -20,41 +20,35 @@ import Message from './Message';
 import MessageForm from './MessageForm';
 import UserList from './UserList';
 import { MessageT, UserData } from '../../types';
+import useDocsSnapshot from '../helpers/useDocsSnapshot';
+import useLoggedUserData from '../helpers/useLoggedUserData';
 
 interface UsersListProps {
   loggedUser: FirebaseUser;
-  loggedUserData: UserData;
 }
 
-function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
-  const [usersList, setUsersList] = useState<UserData[]>([]);
-  const [usersChat, setUsersChat] = useState<UserData>({} as UserData);
+function UsersList({ loggedUser }: UsersListProps) {
+  const [usersChat, setUsersChat] = useState<UserData | null>(null);
   const [messageText, setMessageText] = useState('');
   const [messageImage, setMessageImage] = useState<File | null>(null);
   const [allMessages, setAllMessages] = useState<MessageT[]>([]);
   const [sender, setSender] = useState('');
   const [open, setOpen] = useState(false);
+  const { data: userData } = useLoggedUserData<UserData>();
 
-  const adminList = usersList.filter((user) => user.isAdmin);
-  const list = loggedUserData.isAdmin ? usersList : adminList;
+  console.log(loggedUser);
+  console.log(userData);
 
   useEffect(() => {
-    // need fix sender, when is first render we can see logged user in the users list
-    if (auth.currentUser) setSender(auth.currentUser.uid);
+    setSender(loggedUser ? loggedUser.uid : '');
+  }, [loggedUser]);
 
-    const usersRef = collection(db, 'users');
+  const { data: usersList } = useDocsSnapshot<UserData>('users', {
+    whereArg: ['uid', 'not-in', [sender]],
+  });
 
-    const q = query(usersRef, where('uid', 'not-in', [sender]));
-
-    const unsub = onSnapshot(q, (querySnapshot) => {
-      const users: UserData[] = [];
-      querySnapshot.forEach((res) => {
-        users.push(res.data() as UserData);
-      });
-      setUsersList(users);
-    });
-    return () => unsub();
-  }, [sender]);
+  const adminList = usersList.filter((user) => user.isAdmin);
+  const list = userData?.isAdmin ? usersList : adminList;
 
   const selectUser = async (user: UserData) => {
     setUsersChat(user);
@@ -74,15 +68,18 @@ function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
 
     const docSnapshot = await getDoc(doc(db, 'lastMessage', id));
     if (docSnapshot.data() && docSnapshot.data()?.from !== sender)
+      // useUpdateDoc
       await updateDoc(doc(db, 'lastMessage', id), { unread: false });
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const receiver = usersChat.uid;
+    const receiver = usersChat?.uid;
+    if (!receiver) return;
     const id = sender > receiver ? `${sender + receiver}` : `${receiver + sender}`;
     let url;
 
+    // useAddFile
     if (messageImage) {
       const imageRef = ref(storage, `images/${new Date().getTime()} - ${messageImage.name}`);
       const snapshot = await uploadBytes(imageRef, messageImage);
@@ -90,6 +87,7 @@ function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
       url = dlUrl;
     }
 
+    // useAddDoc
     await addDoc(collection(db, 'messages', id, 'chat'), {
       messageText,
       from: sender,
@@ -98,6 +96,7 @@ function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
       media: url || '',
     });
 
+    // useSetDoc
     await setDoc(doc(db, 'lastMessage', id), {
       messageText,
       from: sender,

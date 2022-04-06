@@ -1,36 +1,20 @@
-import { addDoc, collection, getDocs, query, Timestamp } from 'firebase/firestore';
+import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { uid } from 'uid';
 import { GalleryFormImage, Member } from '../../types';
 import { db, storage } from '../configuration/firebase';
+import useDocs from '../helpers/useDocs';
 
 function GalleryForm() {
-  const [members, setMembers] = useState<Member[]>([]);
+  const { data: members } = useDocs<Member>('members', {});
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<GalleryFormImage>();
-
-  useEffect(() => {
-    const getMembers = async () => {
-      const q = query(collection(db, 'members'));
-      const querySnapshot = await getDocs(q);
-
-      const teamMembers: Member[] = [];
-      querySnapshot.forEach((doc) => {
-        teamMembers.push(doc.data() as Member);
-      });
-      setMembers(teamMembers);
-    };
-    getMembers()
-      .then(() => {})
-      .catch(() => {});
-  }, []);
 
   const onSubmit = async ({
     builder,

@@ -1,7 +1,7 @@
 import { deleteObject, getDownloadURL, ref, uploadBytes } from '@firebase/storage';
 import { useState, useEffect } from 'react';
 import { AiFillCamera } from 'react-icons/ai';
-import { getDoc, doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { updateProfile, User as FirebaseUser } from '@firebase/auth';
 import { toast } from 'react-toastify';
 import { storage, db, auth } from '../configuration/firebase';
@@ -11,35 +11,24 @@ import OpinionsDangerZone from './OpinionsDangerZone';
 import GalleryForm from './GalleryForm';
 import GalleryAdmin from './GalleryAdmin';
 import { UserData } from '../../types';
+import useLoggedUserData from '../helpers/useLoggedUserData';
 
 interface SettingsProps {
   loggedUser: FirebaseUser;
-  loggedUserData: UserData;
 }
 
-function Settings({ loggedUser, loggedUserData }: SettingsProps) {
+function Settings({ loggedUser }: SettingsProps) {
   const [image, setImage] = useState<File | null>(null);
-  const [user, setUser] = useState<UserData>({} as UserData);
+  const { data: user } = useLoggedUserData<UserData>();
 
   useEffect(() => {
-    // trzeba poprawic aktualizowanie się danych
-    if (auth.currentUser) {
-      const { uid } = auth.currentUser;
-
-      getDoc(doc(db, 'users', uid))
-        .then((docSnap) => {
-          if (docSnap.exists()) setUser(docSnap.data() as UserData);
-        })
-        .catch(() => {});
-    }
-
     if (image) {
       const uploadImage = async () => {
         const imgRef = ref(storage, `avatars/${new Date().getTime()} - ${image.name}`);
 
         try {
           if (!auth.currentUser) return;
-          if (user.avatarPath) await deleteObject(ref(storage, user.avatarPath));
+          if (user && user.avatarPath) await deleteObject(ref(storage, user.avatarPath));
 
           const snapshot = await uploadBytes(imgRef, image);
           const url = await getDownloadURL(ref(storage, snapshot.ref.fullPath));
@@ -61,7 +50,7 @@ function Settings({ loggedUser, loggedUserData }: SettingsProps) {
         .then(() => {})
         .catch(() => {});
     }
-  }, [image, loggedUser, user?.avatarPath]);
+  }, [image, loggedUser]);
 
   return loggedUser ? (
     <section className="settings">
@@ -94,7 +83,7 @@ function Settings({ loggedUser, loggedUserData }: SettingsProps) {
 
         <EditProfile loggedUser={loggedUser} />
 
-        {loggedUserData.isAdmin && (
+        {user && user.isAdmin && (
           <>
             <OpinionsAdmin />
             <GalleryForm />
