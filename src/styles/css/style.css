@@ -1651,6 +1651,13 @@
 .settings details .opinion__text .decline {
   color: tomato;
 }
+.settings .opinions-admin .link {
+  margin-bottom: 1.2rem;
+}
+.settings .opinions-admin .link a {
+  color: black;
+  text-decoration: underline;
+}
 .settings .editProfile-form,
 .settings .addImage-form {
   width: 275px;

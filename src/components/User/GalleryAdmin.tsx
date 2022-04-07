@@ -90,7 +90,12 @@ function GalleryAdmin() {
               <label htmlFor="submit">
                 <input type="submit" value="Update" />
               </label>
-              <button type="button" className="delete" onClick={() => deletePost(post)}>
+              <button
+                type="button"
+                className="delete"
+                title="Delete image"
+                onClick={() => deletePost(post)}
+              >
                 <MdDelete />
               </button>
             </form>

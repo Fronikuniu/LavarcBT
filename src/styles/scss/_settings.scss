@@ -157,6 +157,17 @@
     }
   }
 
+  .opinions-admin {
+    .link {
+      margin-bottom: 1.2rem;
+
+      a {
+        color: black;
+        text-decoration: underline;
+      }
+    }
+  }
+
   .editProfile-form,
   .addImage-form {
     width: 275px;

@@ -14,7 +14,10 @@ export default function useLoggedUserData<T>(): useLoggedUserDataReturnProps<T> 
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    const q = query(collection(db, 'users'), where('uid', '==', auth.currentUser?.uid));
+    const q = query(
+      collection(db, 'users'),
+      where('uid', '==', auth.currentUser?.uid || localStorage.getItem('uid'))
+    );
 
     const unsubscribe = onSnapshot(
       q,

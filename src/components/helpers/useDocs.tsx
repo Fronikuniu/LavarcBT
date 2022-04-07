@@ -59,10 +59,7 @@ export default function useDocs<T>(
         setData(docs);
         setLoading(false);
       })
-      .catch((error) => {
-        console.log(error);
-        setError(true);
-      });
+      .catch(() => setError(true));
   }, []);
 
   return { data, hasError, isLoading };

@@ -49,7 +49,10 @@ function App() {
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) setLoggedUser(currentUser);
+      if (currentUser) {
+        setLoggedUser(currentUser);
+        localStorage.setItem('uid', currentUser.uid);
+      }
     });
   }, []);
 
@@ -140,6 +143,7 @@ function App() {
       });
       await signOut(auth);
       setLoggedUser(null);
+      localStorage.removeItem('uid');
     }
   };
 

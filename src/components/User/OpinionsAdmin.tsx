@@ -3,6 +3,7 @@ import { IoClose } from 'react-icons/io5';
 import { GiCheckMark } from 'react-icons/gi';
 import { BiHide, BiShow } from 'react-icons/bi';
 import { collection, deleteDoc, doc, onSnapshot, query, updateDoc } from 'firebase/firestore';
+import { Link } from 'react-router-dom';
 import { db } from '../configuration/firebase';
 import { Opinion } from '../../types';
 
@@ -36,6 +37,9 @@ function OpinionsAdmin() {
     <div className="opinions-admin">
       <details>
         <summary>Manage opinions</summary>
+        <p className="link">
+          Form to add opinions: <Link to="/recommendation">Recommendations form</Link>
+        </p>
         {allOpinions.map((opinion) => (
           <div className="opinion" key={opinion.doc_id}>
             <div className="opinion__text">
