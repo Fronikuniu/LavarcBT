@@ -1,26 +1,16 @@
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  onSnapshot,
-  orderBy,
-  query,
-  setDoc,
-  Timestamp,
-  updateDoc,
-} from '@firebase/firestore';
-import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
+import { collection, onSnapshot, orderBy, query, Timestamp } from '@firebase/firestore';
 import { User as FirebaseUser } from '@firebase/auth';
 import { FormEvent, useEffect, useState } from 'react';
 import { ImUsers } from 'react-icons/im';
-import { db, storage } from '../configuration/firebase';
+import { db } from '../configuration/firebase';
 import Message from './Message';
 import MessageForm from './MessageForm';
 import UserList from './UserList';
 import { MessageT, UserData } from '../../types';
 import useDocsSnapshot from '../helpers/useDocsSnapshot';
 import useLoggedUserData from '../helpers/useLoggedUserData';
+import { UseAddDoc, UseDoc, UseSetDoc, UseUpdateDoc } from '../helpers/useManageDoc';
+import { UseAddImage } from '../helpers/useManageFiles';
 
 interface UsersListProps {
   loggedUser: FirebaseUser;
@@ -39,7 +29,7 @@ function UsersList({ loggedUser }: UsersListProps) {
     setSender(loggedUser ? loggedUser.uid : '');
   }, [loggedUser]);
 
-  const { data: usersList } = useDocsSnapshot<UserData>('users', {
+  const { data: usersList } = useDocsSnapshot<UserData>('users', [], {
     whereArg: ['uid', 'not-in', [sender]],
   });
 
@@ -62,10 +52,9 @@ function UsersList({ loggedUser }: UsersListProps) {
       setAllMessages(messages);
     });
 
-    const docSnapshot = await getDoc(doc(db, 'lastMessage', id));
+    const docSnapshot = await UseDoc('lastMessage', [id]);
     if (docSnapshot.data() && docSnapshot.data()?.from !== sender)
-      // useUpdateDoc
-      await updateDoc(doc(db, 'lastMessage', id), { unread: false });
+      await UseUpdateDoc('lastMessage', [id], { unread: false });
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -73,32 +62,27 @@ function UsersList({ loggedUser }: UsersListProps) {
     const receiver = usersChat?.uid;
     if (!receiver) return;
     const id = sender > receiver ? `${sender + receiver}` : `${receiver + sender}`;
-    let url;
+    let dlUrl;
 
-    // useAddFile
     if (messageImage) {
-      const imageRef = ref(storage, `images/${new Date().getTime()} - ${messageImage.name}`);
-      const snapshot = await uploadBytes(imageRef, messageImage);
-      const dlUrl = await getDownloadURL(ref(storage, snapshot.ref.fullPath));
-      url = dlUrl;
+      const { url } = await UseAddImage('images', messageImage);
+      dlUrl = url;
     }
 
-    // useAddDoc
-    await addDoc(collection(db, 'messages', id, 'chat'), {
+    await UseAddDoc('messages', [id, 'chat'], {
       messageText,
       from: sender,
       to: receiver,
       createdAt: Timestamp.fromDate(new Date()),
-      media: url || '',
+      media: dlUrl || '',
     });
 
-    // useSetDoc
-    await setDoc(doc(db, 'lastMessage', id), {
+    await UseSetDoc('lastMessage', [id], {
       messageText,
       from: sender,
       to: receiver,
       createdAt: Timestamp.fromDate(new Date()),
-      media: url || '',
+      media: dlUrl || '',
       unread: true,
     });
 

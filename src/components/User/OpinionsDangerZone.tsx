@@ -2,11 +2,11 @@ import { useState, useEffect, FormEvent } from 'react';
 import { deleteUser, signInWithEmailAndPassword } from 'firebase/auth';
 import { confirmAlert } from 'react-confirm-alert';
 import { toast } from 'react-toastify';
-import { deleteDoc, doc } from 'firebase/firestore';
-import { auth, db } from '../configuration/firebase';
+import { auth } from '../configuration/firebase';
 import LoginModal from './LoginModal';
 import loginErrors from '../helpers/loginErrors';
 import { LoginErrors } from '../../types';
+import { UseDeleteDoc } from '../helpers/useManageDoc';
 
 function OpinionsDangerZone() {
   const [data, setData] = useState({ email: '', password: '' });
@@ -36,7 +36,7 @@ function OpinionsDangerZone() {
 
   const deleteAccount = async () => {
     if (!auth.currentUser) return;
-    await deleteDoc(doc(db, 'users', auth.currentUser.uid));
+    await UseDeleteDoc('users', [auth.currentUser.uid]);
     deleteUser(auth.currentUser)
       .then(() => toast.success('Account deleted'))
       .catch(() => setDeleteModalOpen(true));

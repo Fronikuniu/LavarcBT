@@ -1,5 +1,4 @@
 import { useState, useEffect, FormEvent } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
 import {
   updateProfile,
   updateEmail,
@@ -11,10 +10,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
-import { auth, db } from '../configuration/firebase';
+import { auth } from '../configuration/firebase';
 import LoginModal from './LoginModal';
 import loginErrors from '../helpers/loginErrors';
 import { EditProfileBasicProps, EditProfilePasswordProps, LoginErrors } from '../../types';
+import { UseUpdateDoc } from '../helpers/useManageDoc';
 
 interface EditProfileProps {
   loggedUser: FirebaseUser;
@@ -76,7 +76,7 @@ function EditProfile({ loggedUser }: EditProfileProps) {
   const onSubmitBasic = async (basic: EditProfileBasicProps) => {
     if (!auth.currentUser) return;
     if (basic.username) {
-      await updateDoc(doc(db, 'users', auth.currentUser.uid), {
+      await UseUpdateDoc('users', [auth.currentUser.uid], {
         name: basic.username,
       });
       await updateProfile(loggedUser, {
@@ -84,13 +84,13 @@ function EditProfile({ loggedUser }: EditProfileProps) {
       });
     }
     if (basic.email) {
-      await updateDoc(doc(db, 'users', auth.currentUser.uid), {
+      await UseUpdateDoc('users', [auth.currentUser.uid], {
         email: basic.email,
       });
       await updateEmail(auth.currentUser, basic.email);
     }
     if (basic.status)
-      await updateDoc(doc(db, 'users', auth.currentUser.uid), {
+      await UseUpdateDoc('users', [auth.currentUser.uid], {
         isOnline: basic.status,
       });
     reset();

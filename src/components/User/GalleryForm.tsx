@@ -1,11 +1,11 @@
-import { addDoc, collection, Timestamp } from 'firebase/firestore';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { Timestamp } from 'firebase/firestore';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { uid } from 'uid';
 import { GalleryFormImage, Member } from '../../types';
-import { db, storage } from '../configuration/firebase';
 import useDocs from '../helpers/useDocs';
+import { UseAddDoc } from '../helpers/useManageDoc';
+import { UseAddImage } from '../helpers/useManageFiles';
 
 function GalleryForm() {
   const { data: members } = useDocs<Member>('members', {});
@@ -25,15 +25,12 @@ function GalleryForm() {
     sale,
     image,
   }: GalleryFormImage) => {
-    const imageRef = ref(storage, `gallery/${new Date().getTime()} - ${image[0].name}`);
-    const snapshot = await uploadBytes(imageRef, image[0]);
-    const dlUrl = await getDownloadURL(ref(storage, snapshot.ref.fullPath));
-    const url = dlUrl;
+    const { url, path } = await UseAddImage('gallery', image[0]);
 
-    await addDoc(collection(db, 'gallery'), {
+    await UseAddDoc('gallery', [], {
       id: uid(15),
       imageSrc: url,
-      imagePath: snapshot.ref.fullPath,
+      imagePath: path,
       builder,
       title,
       desc,

@@ -1,10 +1,8 @@
-import { deleteObject, getDownloadURL, ref, uploadBytes } from '@firebase/storage';
 import { useState, useEffect } from 'react';
 import { AiFillCamera } from 'react-icons/ai';
-import { doc, updateDoc } from 'firebase/firestore';
 import { updateProfile, User as FirebaseUser } from '@firebase/auth';
 import { toast } from 'react-toastify';
-import { storage, db, auth } from '../configuration/firebase';
+import { auth } from '../configuration/firebase';
 import OpinionsAdmin from './OpinionsAdmin';
 import EditProfile from './EditProfile';
 import OpinionsDangerZone from './OpinionsDangerZone';
@@ -12,6 +10,8 @@ import GalleryForm from './GalleryForm';
 import GalleryAdmin from './GalleryAdmin';
 import { UserData } from '../../types';
 import useLoggedUserData from '../helpers/useLoggedUserData';
+import { UseAddImage, UseRemoveImage } from '../helpers/useManageFiles';
+import { UseUpdateDoc } from '../helpers/useManageDoc';
 
 interface SettingsProps {
   loggedUser: FirebaseUser;
@@ -24,31 +24,23 @@ function Settings({ loggedUser }: SettingsProps) {
   useEffect(() => {
     if (image) {
       const uploadImage = async () => {
-        const imgRef = ref(storage, `avatars/${new Date().getTime()} - ${image.name}`);
+        if (!auth.currentUser) return;
+        if (user && user.avatarPath) await UseRemoveImage(user.avatarPath);
 
-        try {
-          if (!auth.currentUser) return;
-          if (user && user.avatarPath) await deleteObject(ref(storage, user.avatarPath));
+        const { url, path } = await UseAddImage('avatars', image);
 
-          const snapshot = await uploadBytes(imgRef, image);
-          const url = await getDownloadURL(ref(storage, snapshot.ref.fullPath));
-
-          await updateDoc(doc(db, 'users', auth.currentUser.uid), {
-            avatar: url,
-            avatarPath: snapshot.ref.fullPath,
-          });
-          await updateProfile(loggedUser, {
-            photoURL: url,
-          });
-          setImage(null);
-          toast.success('Ustawiono nowy avatar!');
-        } catch (err) {
-          toast.error('Błąd przy wyborze avatara!');
-        }
+        await UseUpdateDoc('users', [auth.currentUser.uid], {
+          avatar: url,
+          avatarPath: path,
+        });
+        await updateProfile(loggedUser, {
+          photoURL: url,
+        });
+        setImage(null);
       };
       uploadImage()
-        .then(() => {})
-        .catch(() => {});
+        .then(() => toast.success('Ustawiono nowy avatar!'))
+        .catch(() => toast.error('Błąd przy wyborze avatara!'));
     }
   }, [image, loggedUser]);
 

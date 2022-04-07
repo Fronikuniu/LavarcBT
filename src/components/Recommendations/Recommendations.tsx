@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
-import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { Opinion } from '../../types';
+import displayStars from '../helpers/Stars';
 import useDocs from '../helpers/useDocs';
 
 function Recommendations() {
@@ -22,24 +22,6 @@ function Recommendations() {
 
   const prevSlide = () => setCurrent(prev);
   const nextSlide = () => setCurrent(next);
-
-  const displayStars = (stars: number) => {
-    const starContainer = [];
-
-    for (let i = 1; i <= stars; i++) {
-      starContainer.push(<AiFillStar key={i} />);
-    }
-
-    if (starContainer.length < 5) {
-      const countOutlineStars = 5 - starContainer.length;
-
-      for (let i = 1; i <= countOutlineStars; i++) {
-        starContainer.push(<AiOutlineStar key={i * 6} />);
-      }
-    }
-
-    return starContainer;
-  };
 
   return !length ? null : (
     <section className="recommendations">

@@ -8,6 +8,7 @@ const ShopList: Image[] = [
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
     sale: 0.5,
+    imagePath: '',
   },
   {
     id: 2,
@@ -15,6 +16,7 @@ const ShopList: Image[] = [
     title: 'Minecraft Apartment Buildings',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    imagePath: '',
   },
   {
     id: 3,
@@ -22,6 +24,7 @@ const ShopList: Image[] = [
     title: 'Minecraft Great Mosque of Djenne',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    imagePath: '',
   },
   {
     id: 4,
@@ -29,6 +32,7 @@ const ShopList: Image[] = [
     title: 'Minecraft Villa',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    imagePath: '',
   },
   {
     id: 5,
@@ -36,6 +40,7 @@ const ShopList: Image[] = [
     title: 'Minecraft Church',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    imagePath: '',
   },
   {
     id: 6,
@@ -44,6 +49,7 @@ const ShopList: Image[] = [
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
     sale: 0.5,
+    imagePath: '',
   },
   {
     id: 7,
@@ -51,6 +57,7 @@ const ShopList: Image[] = [
     title: 'Minecraft Jardin Majorelle',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    imagePath: '',
   },
   {
     id: 8,
@@ -58,6 +65,7 @@ const ShopList: Image[] = [
     title: 'Minecraft SF Painted Ladies',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    imagePath: '',
   },
   {
     id: 9,
@@ -65,6 +73,7 @@ const ShopList: Image[] = [
     title: 'Minecraft SF Rincon Hill',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    imagePath: '',
   },
   {
     id: 10,
@@ -73,6 +82,7 @@ const ShopList: Image[] = [
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
     sale: 0.5,
+    imagePath: '',
   },
   {
     id: 11,
@@ -80,6 +90,7 @@ const ShopList: Image[] = [
     title: 'Minecraft Volcano Isle',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    imagePath: '',
   },
   {
     id: 12,
@@ -87,6 +98,7 @@ const ShopList: Image[] = [
     title: 'Minecraft Japanese Island',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    imagePath: '',
   },
   {
     id: 13,
@@ -94,6 +106,7 @@ const ShopList: Image[] = [
     title: 'Minecraft Dino Skull Cave',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    imagePath: '',
   },
   {
     id: 14,
@@ -102,6 +115,7 @@ const ShopList: Image[] = [
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
     sale: 0.5,
+    imagePath: '',
   },
   {
     id: 15,
@@ -109,6 +123,7 @@ const ShopList: Image[] = [
     title: 'Minecraft Pirate Cliff',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    imagePath: '',
   },
   {
     id: 16,
@@ -116,6 +131,7 @@ const ShopList: Image[] = [
     title: 'Minecraft Nordic Village',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    imagePath: '',
   },
   {
     id: 17,
@@ -124,6 +140,7 @@ const ShopList: Image[] = [
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
     sale: 0.5,
+    imagePath: '',
   },
   {
     id: 18,
@@ -131,6 +148,7 @@ const ShopList: Image[] = [
     title: 'Minecraft Japanese Modern Villas',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    imagePath: '',
   },
   {
     id: 19,
@@ -138,6 +156,7 @@ const ShopList: Image[] = [
     title: 'Minecraft Medieval Castle',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    imagePath: '',
   },
   {
     id: 20,
@@ -146,6 +165,7 @@ const ShopList: Image[] = [
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
     sale: 0.5,
+    imagePath: '',
   },
   {
     id: 21,
@@ -153,6 +173,7 @@ const ShopList: Image[] = [
     title: 'Minecraft Nobel Manor Hause',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    imagePath: '',
   },
   {
     id: 22,
@@ -160,6 +181,7 @@ const ShopList: Image[] = [
     title: 'Minecraft Aqua Palace',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    imagePath: '',
   },
   {
     id: 23,
@@ -168,6 +190,7 @@ const ShopList: Image[] = [
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
     sale: 0.5,
+    imagePath: '',
   },
 
   {
@@ -176,6 +199,7 @@ const ShopList: Image[] = [
     title: 'Minecraft Red Dragon',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    imagePath: '',
   },
   {
     id: 27,
@@ -183,6 +207,7 @@ const ShopList: Image[] = [
     title: 'Minecraft Small Japanese House',
     desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos illo, pariatur architecto nihil recusandae similique quod velit consequuntur ullam in.',
     price: 1,
+    imagePath: '',
   },
 ];
 

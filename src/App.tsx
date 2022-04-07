@@ -7,7 +7,7 @@ import {
 } from '@firebase/auth';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { doc, setDoc, Timestamp, updateDoc } from '@firebase/firestore';
+import { Timestamp } from '@firebase/firestore';
 import {
   signInWithPopup,
   GoogleAuthProvider,
@@ -15,7 +15,7 @@ import {
   User as FirebaseUser,
 } from 'firebase/auth';
 import { ToastContainer } from 'react-toastify';
-import { auth, db } from './components/configuration/firebase';
+import { auth } from './components/configuration/firebase';
 import About from './components/About/About';
 import AboutMembers from './components/About/AboutMembers';
 import Home from './components/Home/Home';
@@ -40,6 +40,7 @@ import RecommendationForm from './components/Recommendations/RecommendationForm'
 import 'react-toastify/dist/ReactToastify.css';
 import loginErrors from './components/helpers/loginErrors';
 import { LoginData, LoginErrors } from './types';
+import { UseSetDoc, UseUpdateDoc } from './components/helpers/useManageDoc';
 
 function App() {
   const [registerError, setRegisterError] = useState('');
@@ -67,7 +68,7 @@ function App() {
           photoURL: 'https://remaxgem.com/wp-content/themes/tolips/images/placehoder-user.jpg',
         });
 
-        await setDoc(doc(db, 'users', user.uid), {
+        await UseSetDoc('users', [user.uid], {
           uid: user.uid,
           name: data.name,
           email: user.email,
@@ -91,7 +92,7 @@ function App() {
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then(async (userCredential) => {
         const { user } = userCredential;
-        await updateDoc(doc(db, 'users', user.uid), { isOnline: true });
+        await UseUpdateDoc('users', [user.uid], { isOnline: true });
       })
       .catch(({ code }: { code: keyof LoginErrors }) => {
         const errorCode = code;
@@ -106,7 +107,7 @@ function App() {
       .then(async (result) => {
         const { user } = result;
 
-        await setDoc(doc(db, 'users', user.uid), {
+        await UseSetDoc('users', [user.uid], {
           uid: user.uid,
           name: user.displayName,
           email: user.email,
@@ -124,7 +125,7 @@ function App() {
       .then(async (result) => {
         const { user } = result;
 
-        await setDoc(doc(db, 'users', user.uid), {
+        await UseSetDoc('users', [user.uid], {
           uid: user.uid,
           name: user.displayName,
           email: user.email,
@@ -138,7 +139,7 @@ function App() {
   // Logout
   const logout = async () => {
     if (loggedUser) {
-      await updateDoc(doc(db, 'users', loggedUser.uid), {
+      await UseUpdateDoc('users', [loggedUser.uid], {
         isOnline: false,
       });
       await signOut(auth);

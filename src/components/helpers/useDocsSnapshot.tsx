@@ -19,6 +19,7 @@ interface useManyDocsSnapshotReturnProps<T> {
 
 export default function useDocsSnapshot<T>(
   coll: string,
+  collOptions: string[],
   { whereArg, orderByArg, limitArg }: OptionsProps
 ): useManyDocsSnapshotReturnProps<T> {
   const [data, setData] = useState<T[] | []>([]);
@@ -40,7 +41,7 @@ export default function useDocsSnapshot<T>(
       const limitParams = limit(limitArg);
       queryArgs.push(limitParams);
     }
-    const q = query(collection(db, coll), ...queryArgs);
+    const q = query(collection(db, coll, ...collOptions), ...queryArgs);
 
     const unsubscribe = onSnapshot(
       q,
