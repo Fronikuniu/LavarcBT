@@ -52,7 +52,7 @@ function UsersList({ loggedUser }: UsersListProps) {
       setAllMessages(messages);
     });
 
-    const docSnapshot = await UseDoc('lastMessage', [id]);
+    const { data: docSnapshot } = await UseDoc('lastMessage', [id]);
     if (docSnapshot.data() && docSnapshot.data()?.from !== sender)
       await UseUpdateDoc('lastMessage', [id], { unread: false });
   };

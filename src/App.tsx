@@ -40,7 +40,7 @@ import RecommendationForm from './components/Recommendations/RecommendationForm'
 import 'react-toastify/dist/ReactToastify.css';
 import loginErrors from './components/helpers/loginErrors';
 import { LoginData, LoginErrors } from './types';
-import { UseSetDoc, UseUpdateDoc } from './components/helpers/useManageDoc';
+import { UseDoc, UseSetDoc, UseUpdateDoc } from './components/helpers/useManageDoc';
 
 function App() {
   const [registerError, setRegisterError] = useState('');
@@ -107,13 +107,16 @@ function App() {
       .then(async (result) => {
         const { user } = result;
 
-        await UseSetDoc('users', [user.uid], {
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email,
-          createdAt: Timestamp.fromDate(new Date()),
-          isOnline: true,
-        });
+        const { error } = await UseDoc('users', [user.uid]);
+
+        if (error)
+          await UseSetDoc('users', [user.uid], {
+            uid: user.uid,
+            name: user.displayName,
+            email: user.email,
+            createdAt: Timestamp.fromDate(new Date()),
+            isOnline: true,
+          });
       })
       .catch(() => {});
   };
@@ -125,13 +128,16 @@ function App() {
       .then(async (result) => {
         const { user } = result;
 
-        await UseSetDoc('users', [user.uid], {
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email,
-          createdAt: Timestamp.fromDate(new Date()),
-          isOnline: true,
-        });
+        const { error } = await UseDoc('users', [user.uid]);
+
+        if (error)
+          await UseSetDoc('users', [user.uid], {
+            uid: user.uid,
+            name: user.displayName,
+            email: user.email,
+            createdAt: Timestamp.fromDate(new Date()),
+            isOnline: true,
+          });
       })
       .catch(() => {});
   };
@@ -165,7 +171,6 @@ function App() {
           <Auth logInWithGoogle={logInWithGoogle} logInWithFacebook={logInWithFacebook} />
         </Route>
         <Route path="/auth/login">
-          {/* Need to fix overwrite data when pushing google user to firestore */}
           {loggedUser ? (
             <Redirect to="/" />
           ) : (

@@ -15,8 +15,14 @@ type DataTypes = {
 };
 
 export async function UseDoc(coll: string, options: string[]) {
+  let error: boolean;
   const data = await getDoc(doc(db, coll, ...options));
-  return data;
+  if (data.exists()) {
+    error = false;
+  } else {
+    error = true;
+  }
+  return { data, error };
 }
 
 export async function UseAddDoc(coll: string, options: string[], data: DataTypes) {
