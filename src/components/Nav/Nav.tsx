@@ -4,25 +4,24 @@ import { Link } from 'react-router-dom';
 import { IoCaretDownCircleOutline } from 'react-icons/io5';
 import { MdOutlineClose } from 'react-icons/md';
 import { HiMenuAlt3 } from 'react-icons/hi';
-import { getDoc, doc } from 'firebase/firestore';
 import { User as FirebaseUser } from '@firebase/auth';
-import { db, auth } from '../configuration/firebase';
 import NavLogo from './NavLogo';
 import NavItem from './NavItem';
 import logo from '../../images/lavarcawatar.png';
 import { UserData } from '../../types';
+import useLoggedUserData from '../helpers/useLoggedUserData';
 
 interface NavProps {
-  loggedUser: FirebaseUser;
+  loggedUser: FirebaseUser | null;
   logout: () => Promise<void>;
 }
 
 function Nav({ loggedUser, logout }: NavProps) {
   const location = useLocation();
-  const [user, setUser] = useState<UserData | null>(null);
   const [openUserProfile, setOpenUserProfile] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const navi = useRef<HTMLElement>(null);
+  const { data: user } = useLoggedUserData<UserData>();
 
   const stickyNav = () => {
     if (window.scrollY >= 70) navi.current?.classList.add('active');
@@ -30,16 +29,6 @@ function Nav({ loggedUser, logout }: NavProps) {
   };
 
   useEffect(() => {
-    if (auth.currentUser) {
-      const { uid } = auth.currentUser;
-
-      getDoc(doc(db, 'users', uid))
-        .then((docSnap) => {
-          if (docSnap.exists()) setUser(docSnap.data() as UserData);
-        })
-        .catch(() => {});
-    }
-
     window.addEventListener('scroll', stickyNav);
     return () => window.removeEventListener('scroll', stickyNav);
   }, [location]);
@@ -63,7 +52,7 @@ function Nav({ loggedUser, logout }: NavProps) {
               onKeyDown={() => setOpenUserProfile(!openUserProfile)}
               tabIndex={0}
             >
-              <img src={`${user?.avatar ? user.avatar : loggedUser.photoURL}`} alt="" />
+              <img src={`${user?.avatar ? user.avatar : loggedUser?.photoURL}`} alt="" />
               <IoCaretDownCircleOutline className="user__avatar--arrow" />
             </div>
           ) : (

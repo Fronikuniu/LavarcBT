@@ -42,7 +42,6 @@ function Register({ registerError, registerNewUser }: RegisterProps) {
                   }
                   placeholder={errors.name?.type === 'required' ? 'Name is required!' : 'Name'}
                   autoComplete="name"
-                  value={register.name}
                   {...register('name', { required: true, minLength: 6 })}
                 />
               </label>

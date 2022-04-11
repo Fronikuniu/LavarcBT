@@ -1,33 +1,15 @@
-import {
-  collection,
-  deleteDoc,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-  updateDoc,
-} from 'firebase/firestore';
-import { useState, useEffect, FormEvent } from 'react';
+import { FormEvent } from 'react';
 import { toast } from 'react-toastify';
 import { MdDelete } from 'react-icons/md';
-import { deleteObject, ref } from 'firebase/storage';
-import { db, storage } from '../configuration/firebase';
 import { Image } from '../../types';
+import { UseDeleteDoc, UseUpdateDoc } from '../helpers/useManageDoc';
+import { UseRemoveImage } from '../helpers/useManageFiles';
+import useDocsSnapshot from '../helpers/useDocsSnapshot';
 
 function GalleryAdmin() {
-  const [mainGallery, setMainGallery] = useState<Image[]>([]);
-
-  useEffect(() => {
-    const q = query(collection(db, 'gallery'), orderBy('createdAt'));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const gallery: Image[] = [];
-      querySnapshot.forEach((document) => {
-        gallery.push({ doc_id: document.id, ...(document.data() as Image) });
-      });
-      setMainGallery(gallery);
-    });
-    return () => unsubscribe();
-  }, []);
+  const { data: mainGallery } = useDocsSnapshot<Image>(`gallery`, [], {
+    orderByArg: ['createdAt', 'desc'],
+  });
 
   const updateGalleryImage = async (event: FormEvent, docId: string | undefined) => {
     event.preventDefault();
@@ -36,7 +18,7 @@ function GalleryAdmin() {
     const sale = Number((target[1] as HTMLInputElement).value);
     if (!docId) return;
     if (!!price || !!sale) {
-      await updateDoc(doc(db, 'gallery', docId), {
+      await UseUpdateDoc('gallery', [docId], {
         sale,
         price,
       });
@@ -46,8 +28,8 @@ function GalleryAdmin() {
 
   const deletePost = async (post: Image) => {
     if (!post.doc_id) return;
-    await deleteDoc(doc(db, 'gallery', post.doc_id));
-    await deleteObject(ref(storage, post.imagePath));
+    await UseDeleteDoc('gallery', [post.doc_id]);
+    await UseRemoveImage(post.imagePath);
     toast.success('Successfully deleted post');
   };
 
@@ -90,7 +72,12 @@ function GalleryAdmin() {
               <label htmlFor="submit">
                 <input type="submit" value="Update" />
               </label>
-              <button type="button" className="delete" onClick={() => deletePost(post)}>
+              <button
+                type="button"
+                className="delete"
+                title="Delete image"
+                onClick={() => deletePost(post)}
+              >
                 <MdDelete />
               </button>
             </form>

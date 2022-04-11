@@ -1,43 +1,33 @@
-import { useEffect, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import { GiCheckMark } from 'react-icons/gi';
 import { BiHide, BiShow } from 'react-icons/bi';
-import { collection, deleteDoc, doc, onSnapshot, query, updateDoc } from 'firebase/firestore';
-import { db } from '../configuration/firebase';
+import { Link } from 'react-router-dom';
 import { Opinion } from '../../types';
+import { UseDeleteDoc, UseUpdateDoc } from '../helpers/useManageDoc';
+import useDocsSnapshot from '../helpers/useDocsSnapshot';
 
 function OpinionsAdmin() {
-  const [allOpinions, setAllOpinions] = useState<Opinion[]>([]);
-
-  useEffect(() => {
-    const q = query(collection(db, 'opinions'));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const opinions: Opinion[] = [];
-      querySnapshot.forEach((document) => {
-        opinions.push({ doc_id: document.id, ...(document.data() as Opinion) });
-      });
-      setAllOpinions(opinions);
-    });
-    return () => unsubscribe();
-  }, []);
+  const { data: allOpinions } = useDocsSnapshot<Opinion>('opinions', [], {});
 
   const acceptOpinion = async (id: string, value: boolean) => {
-    const opinionRef = doc(db, 'opinions', id);
-    await updateDoc(opinionRef, {
+    await UseUpdateDoc('opinions', [id], {
       isAccepted: Boolean(value),
     });
   };
 
   const deleteOpinion = async (id: string) => {
-    await deleteDoc(doc(db, 'opinions', id));
+    await UseDeleteDoc('opinions', [id]);
   };
 
   return (
     <div className="opinions-admin">
       <details>
         <summary>Manage opinions</summary>
+        <p className="link">
+          Form to add opinions: <Link to="/recommendation">Recommendations form</Link>
+        </p>
         {allOpinions.map((opinion) => (
-          <div className="opinion" key={opinion.doc_id}>
+          <div className="opinion" key={opinion.id}>
             <div className="opinion__text">
               <p className="opinion__text-header">
                 <span>

@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { Link } from 'react-router-dom';
-import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
-import { db } from '../configuration/firebase';
 import { Image } from '../../types';
+import useDocs from '../helpers/useDocs';
 
 function GallerySlider() {
   const [current, setCurrent] = useState(0);
-  const [images, setImages] = useState<Image[]>([]);
+  const { data: images } = useDocs<Image>('gallery', {
+    orderByArg: ['createdAt', 'asc'],
+    limitArg: 7,
+  });
   const { length } = images;
+
   const prev = current === 0 ? length - 1 : current - 1;
   const next = current === length - 1 ? 0 : current + 1;
 
@@ -16,21 +19,6 @@ function GallerySlider() {
     const galleryTimeout = setTimeout(() => setCurrent(next), 10000);
     return () => clearTimeout(galleryTimeout);
   });
-
-  useEffect(() => {
-    const getGallery = async () => {
-      const q = query(collection(db, 'gallery'), orderBy('createdAt'), limit(7));
-      const querySnapshot = await getDocs(q);
-      const gallery: Image[] = [];
-      querySnapshot.forEach((doc) => {
-        gallery.push(doc.data() as Image);
-      });
-      setImages(gallery);
-    };
-    getGallery()
-      .then(() => {})
-      .catch(() => {});
-  }, []);
 
   const prevSlide = () => setCurrent(prev);
   const nextSlide = () => setCurrent(next);

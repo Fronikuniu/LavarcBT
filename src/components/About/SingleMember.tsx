@@ -1,45 +1,17 @@
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import discord from '../../images/discord.png';
 import { Image, Member } from '../../types';
-import { db } from '../configuration/firebase';
+import useDocs from '../helpers/useDocs';
+import Loader from '../Loader/Loader';
 
 function SingleMember() {
-  const [member, setMember] = useState<Member | undefined>(undefined);
-  const [memberImages, setMemberImages] = useState<Image[]>([]);
   const { name }: { name: string } = useParams();
-
-  useEffect(() => {
-    const getSingleMember = async () => {
-      const q = query(collection(db, 'members'), where('name', '==', name));
-      const querySnapshot = await getDocs(q);
-
-      const teamMember: Member[] = [];
-      querySnapshot.forEach((doc) => {
-        teamMember.push(doc.data() as Member);
-      });
-      setMember(teamMember[0]);
-    };
-    getSingleMember()
-      .then(() => {})
-      .catch(() => {});
-
-    const getMemberImages = async () => {
-      const q = query(collection(db, 'gallery'), where('builder', '==', name));
-      const querySnapshot = await getDocs(q);
-
-      const teamMemberImages: Image[] = [];
-      querySnapshot.forEach((doc) => {
-        teamMemberImages.push(doc.data() as Image);
-      });
-      setMemberImages(teamMemberImages);
-    };
-    getMemberImages()
-      .then(() => {})
-      .catch(() => {});
-  }, [name]);
+  const { data: getMember } = useDocs<Member>('members', { whereArg: ['name', '==', name] });
+  const member = getMember[0];
+  const { data: memberImages, isLoading: memberImagesLoading } = useDocs<Image>('gallery', {
+    whereArg: ['builder', '==', name],
+  });
 
   return (
     <section className="single__member">
@@ -67,13 +39,17 @@ function SingleMember() {
           <h3 className="headerwTextStroke">Projects</h3>
 
           <div className="single__member__projects-images">
-            {memberImages.map((img) => {
-              return (
-                <Link to={`/gallery/${img.id}`} key={img.id}>
-                  <img src={img.imageSrc} alt="" />
-                </Link>
-              );
-            })}
+            {memberImagesLoading ? (
+              <Loader />
+            ) : (
+              memberImages.map((img) => {
+                return (
+                  <Link to={`/gallery/${img.id}`} key={img.id}>
+                    <img src={img.imageSrc} alt="" />
+                  </Link>
+                );
+              })
+            )}
           </div>
         </div>
       </div>

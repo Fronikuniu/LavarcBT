@@ -1,30 +1,13 @@
-import { collection, getDocs, query } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import { Member } from '../../types';
-import { db } from '../configuration/firebase';
+import useDocs from '../helpers/useDocs';
 
 function AboutMembers() {
   const [current, setCurrent] = useState(0);
-  const [members, setMembers] = useState<Member[]>([]);
+  const { data: members } = useDocs<Member>('members', {});
   const { length } = members;
-
-  useEffect(() => {
-    const getMembers = async () => {
-      const q = query(collection(db, 'members'));
-      const querySnapshot = await getDocs(q);
-
-      const teamMembers: Member[] = [];
-      querySnapshot.forEach((doc) => {
-        teamMembers.push(doc.data() as Member);
-      });
-      setMembers(teamMembers);
-    };
-    getMembers()
-      .then(() => {})
-      .catch(() => {});
-  }, []);
 
   const prev = current === 0 ? length - 1 : current - 1;
   const next = current === length - 1 ? 0 : current + 1;

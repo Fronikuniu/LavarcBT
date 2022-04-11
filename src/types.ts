@@ -5,7 +5,7 @@ export type Image = {
   desc?: string;
   id: number;
   imageSrc: string;
-  imagePath?: string;
+  imagePath: string;
   imgurAlbum?: string;
   price?: number;
   sale?: number;

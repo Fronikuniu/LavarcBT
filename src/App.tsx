@@ -7,7 +7,7 @@ import {
 } from '@firebase/auth';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { doc, getDoc, setDoc, Timestamp, updateDoc } from '@firebase/firestore';
+import { Timestamp } from '@firebase/firestore';
 import {
   signInWithPopup,
   GoogleAuthProvider,
@@ -15,7 +15,7 @@ import {
   User as FirebaseUser,
 } from 'firebase/auth';
 import { ToastContainer } from 'react-toastify';
-import { auth, db } from './components/configuration/firebase';
+import { auth } from './components/configuration/firebase';
 import About from './components/About/About';
 import AboutMembers from './components/About/AboutMembers';
 import Home from './components/Home/Home';
@@ -39,29 +39,22 @@ import ScrollToTop from './components/helpers/ScrollToTop';
 import RecommendationForm from './components/Recommendations/RecommendationForm';
 import 'react-toastify/dist/ReactToastify.css';
 import loginErrors from './components/helpers/loginErrors';
-import { LoginData, LoginErrors, UserData } from './types';
+import { LoginData, LoginErrors } from './types';
+import { UseDoc, UseSetDoc, UseUpdateDoc } from './components/helpers/useManageDoc';
 
 function App() {
   const [registerError, setRegisterError] = useState('');
   const [loginError, setLoginError] = useState('');
 
-  const [loggedUser, setLoggedUser] = useState<FirebaseUser>({} as FirebaseUser);
-  const [loggedUserData, setLoggedUserData] = useState<UserData>({} as UserData);
+  const [loggedUser, setLoggedUser] = useState<FirebaseUser | null>(null);
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) setLoggedUser(currentUser);
+      if (currentUser) {
+        setLoggedUser(currentUser);
+        localStorage.setItem('uid', currentUser.uid);
+      }
     });
-
-    if (auth.currentUser) {
-      const { uid } = auth.currentUser;
-
-      getDoc(doc(db, 'users', uid))
-        .then((docSnap) => {
-          if (docSnap.exists()) setLoggedUserData(docSnap.data() as UserData);
-        })
-        .catch(() => {});
-    }
   }, []);
 
   // Register
@@ -75,7 +68,7 @@ function App() {
           photoURL: 'https://remaxgem.com/wp-content/themes/tolips/images/placehoder-user.jpg',
         });
 
-        await setDoc(doc(db, 'users', user.uid), {
+        await UseSetDoc('users', [user.uid], {
           uid: user.uid,
           name: data.name,
           email: user.email,
@@ -99,7 +92,7 @@ function App() {
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then(async (userCredential) => {
         const { user } = userCredential;
-        await updateDoc(doc(db, 'users', user.uid), { isOnline: true });
+        await UseUpdateDoc('users', [user.uid], { isOnline: true });
       })
       .catch(({ code }: { code: keyof LoginErrors }) => {
         const errorCode = code;
@@ -114,13 +107,16 @@ function App() {
       .then(async (result) => {
         const { user } = result;
 
-        await setDoc(doc(db, 'users', user.uid), {
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email,
-          createdAt: Timestamp.fromDate(new Date()),
-          isOnline: true,
-        });
+        const { error } = await UseDoc('users', [user.uid]);
+
+        if (error)
+          await UseSetDoc('users', [user.uid], {
+            uid: user.uid,
+            name: user.displayName,
+            email: user.email,
+            createdAt: Timestamp.fromDate(new Date()),
+            isOnline: true,
+          });
       })
       .catch(() => {});
   };
@@ -132,23 +128,30 @@ function App() {
       .then(async (result) => {
         const { user } = result;
 
-        await setDoc(doc(db, 'users', user.uid), {
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email,
-          createdAt: Timestamp.fromDate(new Date()),
-          isOnline: true,
-        });
+        const { error } = await UseDoc('users', [user.uid]);
+
+        if (error)
+          await UseSetDoc('users', [user.uid], {
+            uid: user.uid,
+            name: user.displayName,
+            email: user.email,
+            createdAt: Timestamp.fromDate(new Date()),
+            isOnline: true,
+          });
       })
       .catch(() => {});
   };
 
   // Logout
   const logout = async () => {
-    await updateDoc(doc(db, 'users', loggedUser.uid), {
-      isOnline: false,
-    });
-    await signOut(auth);
+    if (loggedUser) {
+      await UseUpdateDoc('users', [loggedUser.uid], {
+        isOnline: false,
+      });
+      await signOut(auth);
+      setLoggedUser(null);
+      localStorage.removeItem('uid');
+    }
   };
 
   return (
@@ -168,7 +171,6 @@ function App() {
           <Auth logInWithGoogle={logInWithGoogle} logInWithFacebook={logInWithFacebook} />
         </Route>
         <Route path="/auth/login">
-          {/* Need to fix overwrite data when pushing google user to firestore */}
           {loggedUser ? (
             <Redirect to="/" />
           ) : (
@@ -213,19 +215,11 @@ function App() {
           <Contact />
         </Route>
         <Route path="/contact/chat">
-          {loggedUser ? (
-            <Chat loggedUser={loggedUser} loggedUserData={loggedUserData} />
-          ) : (
-            <Redirect to="/auth" />
-          )}
+          {loggedUser ? <Chat loggedUser={loggedUser} /> : <Redirect to="/auth" />}
         </Route>
 
         <Route path="/settings">
-          {loggedUser ? (
-            <Settings loggedUser={loggedUser} loggedUserData={loggedUserData} />
-          ) : (
-            <Redirect to="/auth" />
-          )}
+          {loggedUser ? <Settings loggedUser={loggedUser} /> : <Redirect to="/auth" />}
         </Route>
 
         <Route exact path="/recommendation">

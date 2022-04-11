@@ -1,60 +1,40 @@
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  onSnapshot,
-  orderBy,
-  query,
-  setDoc,
-  Timestamp,
-  updateDoc,
-  where,
-} from '@firebase/firestore';
-import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
+import { collection, onSnapshot, orderBy, query, Timestamp } from '@firebase/firestore';
 import { User as FirebaseUser } from '@firebase/auth';
 import { FormEvent, useEffect, useState } from 'react';
 import { ImUsers } from 'react-icons/im';
-import { auth, db, storage } from '../configuration/firebase';
+import { db } from '../configuration/firebase';
 import Message from './Message';
 import MessageForm from './MessageForm';
 import UserList from './UserList';
 import { MessageT, UserData } from '../../types';
+import useDocsSnapshot from '../helpers/useDocsSnapshot';
+import useLoggedUserData from '../helpers/useLoggedUserData';
+import { UseAddDoc, UseDoc, UseSetDoc, UseUpdateDoc } from '../helpers/useManageDoc';
+import { UseAddImage } from '../helpers/useManageFiles';
 
 interface UsersListProps {
   loggedUser: FirebaseUser;
-  loggedUserData: UserData;
 }
 
-function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
-  const [usersList, setUsersList] = useState<UserData[]>([]);
-  const [usersChat, setUsersChat] = useState<UserData>({} as UserData);
+function UsersList({ loggedUser }: UsersListProps) {
+  const [usersChat, setUsersChat] = useState<UserData | null>(null);
   const [messageText, setMessageText] = useState('');
   const [messageImage, setMessageImage] = useState<File | null>(null);
   const [allMessages, setAllMessages] = useState<MessageT[]>([]);
   const [sender, setSender] = useState('');
   const [open, setOpen] = useState(false);
-
-  const adminList = usersList.filter((user) => user.isAdmin);
-  const list = loggedUserData.isAdmin ? usersList : adminList;
+  const { data: userData } = useLoggedUserData<UserData>();
 
   useEffect(() => {
-    // need fix sender, when is first render we can see logged user in the users list
-    if (auth.currentUser) setSender(auth.currentUser.uid);
+    setSender(loggedUser ? loggedUser.uid : '');
+  }, [loggedUser]);
 
-    const usersRef = collection(db, 'users');
+  const { data: usersList } = useDocsSnapshot<UserData>('users', [], {
+    whereArg: ['uid', 'not-in', [sender]],
+  });
 
-    const q = query(usersRef, where('uid', 'not-in', [sender]));
-
-    const unsub = onSnapshot(q, (querySnapshot) => {
-      const users: UserData[] = [];
-      querySnapshot.forEach((res) => {
-        users.push(res.data() as UserData);
-      });
-      setUsersList(users);
-    });
-    return () => unsub();
-  }, [sender]);
+  const adminList = usersList.filter((user) => user.isAdmin);
+  const list = userData?.isAdmin ? usersList : adminList;
 
   const selectUser = async (user: UserData) => {
     setUsersChat(user);
@@ -72,38 +52,37 @@ function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
       setAllMessages(messages);
     });
 
-    const docSnapshot = await getDoc(doc(db, 'lastMessage', id));
+    const { data: docSnapshot } = await UseDoc('lastMessage', [id]);
     if (docSnapshot.data() && docSnapshot.data()?.from !== sender)
-      await updateDoc(doc(db, 'lastMessage', id), { unread: false });
+      await UseUpdateDoc('lastMessage', [id], { unread: false });
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const receiver = usersChat.uid;
+    const receiver = usersChat?.uid;
+    if (!receiver) return;
     const id = sender > receiver ? `${sender + receiver}` : `${receiver + sender}`;
-    let url;
+    let dlUrl;
 
     if (messageImage) {
-      const imageRef = ref(storage, `images/${new Date().getTime()} - ${messageImage.name}`);
-      const snapshot = await uploadBytes(imageRef, messageImage);
-      const dlUrl = await getDownloadURL(ref(storage, snapshot.ref.fullPath));
-      url = dlUrl;
+      const { url } = await UseAddImage('images', messageImage);
+      dlUrl = url;
     }
 
-    await addDoc(collection(db, 'messages', id, 'chat'), {
+    await UseAddDoc('messages', [id, 'chat'], {
       messageText,
       from: sender,
       to: receiver,
       createdAt: Timestamp.fromDate(new Date()),
-      media: url || '',
+      media: dlUrl || '',
     });
 
-    await setDoc(doc(db, 'lastMessage', id), {
+    await UseSetDoc('lastMessage', [id], {
       messageText,
       from: sender,
       to: receiver,
       createdAt: Timestamp.fromDate(new Date()),
-      media: url || '',
+      media: dlUrl || '',
       unread: true,
     });
 
