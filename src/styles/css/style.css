@@ -1035,7 +1035,7 @@
 .gallery__single__content-img img {
   width: 100%;
   max-height: 450px;
-  object-fit: cover;
+  object-fit: contain;
 }
 @media (min-width: 1024px) {
   .gallery__single__content-img {
@@ -1058,7 +1058,6 @@
 }
 .gallery__single__content-text p span,
 .gallery__single__content-text p a {
-  display: block;
   color: #d7bd68;
   font-family: "Permanent Marker", cursive;
 }
@@ -1069,29 +1068,50 @@
   transform: scale(1.05);
   color: #fada5e;
 }
-.gallery__single__content-text p:first-of-type {
-  font-size: 1.5em;
-  margin: 2rem;
+.gallery__single__content-text p.title {
+  font-size: 1.8em;
+  margin-bottom: 1rem;
 }
-.gallery__single__content-text p:nth-of-type(2) {
+.gallery__single__content-text p.desc {
+  font-size: 1em;
+  margin-bottom: 1rem;
+}
+.gallery__single__content-text p.cost {
+  color: #e8b12d;
+  font-size: 1.1em;
+  margin-bottom: 2em;
+}
+.gallery__single__content-text p.cost span {
+  font-family: "Poppins", sans-serif;
+}
+.gallery__single__content-text p.cost .price {
+  margin-right: 10px;
+  text-decoration: line-through;
+  font-size: 1em;
+}
+.gallery__single__content-text p.cost .sale {
   font-size: 1.3em;
+}
+.gallery__single__content-text p.builder {
+  font-size: 1.2em;
   margin-bottom: 2rem;
 }
-.gallery__single__content-text p:last-of-type {
-  font-size: 1.1em;
-  animation: pulsing 1s ease 0s alternate infinite backwards running;
+.gallery__single__content-text p.bouncing {
+  font-size: 0.9em;
   cursor: pointer;
 }
 @media (min-width: 1024px) {
-  .gallery__single__content-text p:first-of-type {
+  .gallery__single__content-text p.title {
     font-size: 2em;
   }
-  .gallery__single__content-text p:nth-of-type(2) {
-    font-size: 1.6em;
-    margin-bottom: 4rem;
+  .gallery__single__content-text p.builder {
+    font-size: 1.4em;
   }
-  .gallery__single__content-text p:last-of-type {
-    font-size: 1.3em;
+  .gallery__single__content-text p.desc {
+    font-size: 1.2em;
+  }
+  .gallery__single__content-text p.bouncing {
+    font-size: 1.1em;
   }
 }
 
@@ -1630,6 +1650,13 @@
 }
 .settings details .opinion__text .decline {
   color: tomato;
+}
+.settings .opinions-admin .link {
+  margin-bottom: 1.2rem;
+}
+.settings .opinions-admin .link a {
+  color: black;
+  text-decoration: underline;
 }
 .settings .editProfile-form,
 .settings .addImage-form {

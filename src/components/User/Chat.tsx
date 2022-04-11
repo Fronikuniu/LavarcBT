@@ -1,73 +1,42 @@
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  onSnapshot,
-  orderBy,
-  query,
-  setDoc,
-  Timestamp,
-  updateDoc,
-  where,
-} from '@firebase/firestore';
-import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { collection, onSnapshot, orderBy, query, Timestamp } from '@firebase/firestore';
+import { User as FirebaseUser } from '@firebase/auth';
+import { FormEvent, useEffect, useState } from 'react';
 import { ImUsers } from 'react-icons/im';
-import PropTypes from 'prop-types';
-import { auth, db, storage } from '../configuration/firebase';
+import { db } from '../configuration/firebase';
 import Message from './Message';
 import MessageForm from './MessageForm';
 import UserList from './UserList';
-import { LoggedUser, MessageT, User } from '../../types';
+import { MessageT, UserData } from '../../types';
+import useDocsSnapshot from '../helpers/useDocsSnapshot';
+import useLoggedUserData from '../helpers/useLoggedUserData';
+import { UseAddDoc, UseDoc, UseSetDoc, UseUpdateDoc } from '../helpers/useManageDoc';
+import { UseAddImage } from '../helpers/useManageFiles';
 
 interface UsersListProps {
-  loggedUser: LoggedUser;
-  loggedUserData: User;
+  loggedUser: FirebaseUser;
 }
 
-function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
-  const [usersList, setUsersList] = useState<User[]>([]);
-  const [usersChat, setUsersChat] = useState<User>({} as User);
+function UsersList({ loggedUser }: UsersListProps) {
+  const [usersChat, setUsersChat] = useState<UserData | null>(null);
   const [messageText, setMessageText] = useState('');
   const [messageImage, setMessageImage] = useState<File | null>(null);
   const [allMessages, setAllMessages] = useState<MessageT[]>([]);
   const [sender, setSender] = useState('');
-
   const [open, setOpen] = useState(false);
-
-  const adminList = usersList.filter((user) => user.isAdmin);
-
-  const userList = useRef<HTMLDivElement>(null);
-
-  const changeOpen = (event: MouseEvent) => {
-    // @ts-ignore
-    if (userList.current && !userList.current.contains(event.target)) setOpen(false);
-  };
+  const { data: userData } = useLoggedUserData<UserData>();
 
   useEffect(() => {
-    // need fix sender, when is first render we can see logged user in the users list
-    if (auth.currentUser) setSender(auth.currentUser.uid);
+    setSender(loggedUser ? loggedUser.uid : '');
+  }, [loggedUser]);
 
-    const usersRef = collection(db, 'users');
+  const { data: usersList } = useDocsSnapshot<UserData>('users', [], {
+    whereArg: ['uid', 'not-in', [sender]],
+  });
 
-    const q = query(usersRef, where('uid', 'not-in', [sender]));
+  const adminList = usersList.filter((user) => user.isAdmin);
+  const list = userData?.isAdmin ? usersList : adminList;
 
-    const unsub = onSnapshot(q, (querySnapshot) => {
-      const users: User[] = [];
-      querySnapshot.forEach((res) => {
-        users.push(res.data() as User);
-      });
-      setUsersList(users);
-    });
-    window.addEventListener('mousedown', changeOpen);
-    return () => {
-      unsub();
-      window.removeEventListener('mousedown', changeOpen);
-    };
-  }, [sender]);
-
-  const selectUser = async (user: User) => {
+  const selectUser = async (user: UserData) => {
     setUsersChat(user);
 
     const receiver = user.uid;
@@ -83,40 +52,37 @@ function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
       setAllMessages(messages);
     });
 
-    const docSnapshot = await getDoc(doc(db, 'lastMessage', id));
+    const { data: docSnapshot } = await UseDoc('lastMessage', [id]);
     if (docSnapshot.data() && docSnapshot.data()?.from !== sender)
-      await updateDoc(doc(db, 'lastMessage', id), { unread: false });
+      await UseUpdateDoc('lastMessage', [id], { unread: false });
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const receiver = usersChat.uid;
-
+    const receiver = usersChat?.uid;
+    if (!receiver) return;
     const id = sender > receiver ? `${sender + receiver}` : `${receiver + sender}`;
-
-    let url;
+    let dlUrl;
 
     if (messageImage) {
-      const imageRef = ref(storage, `images/${new Date().getTime()} - ${messageImage.name}`);
-      const snapshot = await uploadBytes(imageRef, messageImage);
-      const dlUrl = await getDownloadURL(ref(storage, snapshot.ref.fullPath));
-      url = dlUrl;
+      const { url } = await UseAddImage('images', messageImage);
+      dlUrl = url;
     }
 
-    await addDoc(collection(db, 'messages', id, 'chat'), {
+    await UseAddDoc('messages', [id, 'chat'], {
       messageText,
       from: sender,
       to: receiver,
       createdAt: Timestamp.fromDate(new Date()),
-      media: url || '',
+      media: dlUrl || '',
     });
 
-    await setDoc(doc(db, 'lastMessage', id), {
+    await UseSetDoc('lastMessage', [id], {
       messageText,
       from: sender,
       to: receiver,
       createdAt: Timestamp.fromDate(new Date()),
-      media: url || '',
+      media: dlUrl || '',
       unread: true,
     });
 
@@ -127,29 +93,26 @@ function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
     <div className="container">
       <section className="chat">
         <div className={`users-container ${open ? 'open' : ''}`}>
-          <div className="users-list" ref={userList}>
-            {loggedUserData.isAdmin
-              ? usersList.map((user) => (
-                  <UserList
-                    user={user}
-                    selectUser={selectUser}
-                    key={user.uid}
-                    sender={sender}
-                    usersChat={usersChat}
-                  />
-                ))
-              : adminList.map((user) => (
-                  <UserList
-                    user={user}
-                    selectUser={selectUser}
-                    key={user.uid}
-                    sender={sender}
-                    usersChat={usersChat}
-                  />
-                ))}
+          <div className="users-list">
+            {list.map((user) => (
+              <UserList
+                user={user}
+                selectUser={selectUser}
+                key={user.uid}
+                sender={sender}
+                usersChat={usersChat}
+              />
+            ))}
           </div>
 
-          <ImUsers className="users-list-btn" onClick={() => setOpen(!open)} role="button" />
+          <ImUsers
+            className="users-list-btn"
+            role="button"
+            onClick={() => setOpen(!open)}
+            onKeyDown={() => setOpen(!open)}
+            onBlur={() => setOpen(false)}
+            tabIndex={0}
+          />
         </div>
 
         <div className="chat-container">
@@ -204,10 +167,5 @@ function UsersList({ loggedUser, loggedUserData }: UsersListProps) {
     </div>
   );
 }
-
-UsersList.propTypes = {
-  loggedUser: PropTypes.object.isRequired,
-  loggedUserData: PropTypes.object.isRequired,
-};
 
 export default UsersList;

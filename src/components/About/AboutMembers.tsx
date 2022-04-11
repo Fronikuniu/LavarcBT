@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import { Member } from '../../types';
+import useDocs from '../helpers/useDocs';
 
-interface AboutMembersProps {
-  members: Member[];
-}
-
-function AboutMembers({ members }: AboutMembersProps) {
+function AboutMembers() {
   const [current, setCurrent] = useState(0);
+  const { data: members } = useDocs<Member>('members', {});
   const { length } = members;
 
   const prev = current === 0 ? length - 1 : current - 1;

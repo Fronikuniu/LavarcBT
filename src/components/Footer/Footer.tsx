@@ -1,4 +1,3 @@
-import React from 'react';
 import { FaRegCopyright } from 'react-icons/fa';
 import { SiDiscord } from 'react-icons/si';
 import { AiFillInstagram, AiFillYoutube } from 'react-icons/ai';

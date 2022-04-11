@@ -47,32 +47,31 @@ function OrderForm() {
   };
 
   useEffect(() => {
-    if (clicked) {
-      if (
-        !emailError &&
-        !discordError &&
-        !packagError &&
-        !messageError &&
-        !budgetError &&
-        !deadlineError
-      ) {
-        emailjs
-          .sendForm(
-            EmailJsConf.serviceId,
-            EmailJsConf.orderTemplate,
-            form.current as HTMLFormElement,
-            EmailJsConf.userId
-          )
-          .then(() => toast.success('Wysłano email.'))
-          .catch(() => toast.error('Błąd przy wysyłaniu.'));
+    if (
+      clicked &&
+      !emailError &&
+      !discordError &&
+      !packagError &&
+      !messageError &&
+      !budgetError &&
+      !deadlineError
+    ) {
+      emailjs
+        .sendForm(
+          EmailJsConf.serviceId,
+          EmailJsConf.orderTemplate,
+          form.current as HTMLFormElement,
+          EmailJsConf.userId
+        )
+        .then(() => toast.success('Wysłano email.'))
+        .catch(() => toast.error('Błąd przy wysyłaniu.'));
 
-        setEmail('');
-        setDiscord('');
-        setPackage('');
-        setMessage('');
-        setBudget('');
-        setDeadline('');
-      }
+      setEmail('');
+      setDiscord('');
+      setPackage('');
+      setMessage('');
+      setBudget('');
+      setDeadline('');
     }
     return () => setClicked(false);
   }, [clicked, emailError, discordError, packagError, messageError, budgetError, deadlineError]);

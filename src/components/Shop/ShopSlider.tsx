@@ -11,9 +11,6 @@ function ShopSlider({ shopList }: ShopSliderProps) {
   const [current, setCurrent] = useState(0);
   const { length } = shopList;
 
-  const regex = / /gm;
-  const subst = '_';
-
   const prev = current === 0 ? length - 1 : current - 1;
   const next = current === length - 1 ? 0 : current + 1;
 
@@ -30,38 +27,34 @@ function ShopSlider({ shopList }: ShopSliderProps) {
       <IoIosArrowDropleft onClick={prevSlide} className="arrow arrowPrev" role="button" />
       <IoIosArrowDropright onClick={nextSlide} className="arrow arrowNext" role="button" />
 
-      {shopList.map((item, index) => {
-        const titleUrl = item.title.replace(regex, subst);
+      {shopList.map((item, index) => (
+        <React.Fragment key={item.id}>
+          <div className={prev === index ? 'item prev' : 'item'}>
+            {prev === index && <img src={item.imageSrc} alt="" />}
+          </div>
 
-        return (
-          <React.Fragment key={item.id}>
-            <div className={prev === index ? 'item prev' : 'item'}>
-              {prev === index && <img src={item.imageSrc} alt="" />}
-            </div>
+          <div className={current === index ? 'item current' : 'item'}>
+            {current === index && (
+              <>
+                <Link to={`/shop/${item.id}`}>
+                  <img src={item.imageSrc} alt="" />
+                </Link>
+                <p className="title">
+                  <Link to={`/shop/${item.id}`}>{item.title}</Link>
+                </p>
+                <p className="price">${item.price}</p>
+                <Link to={`/shop/${item.id}`} className="details">
+                  Details
+                </Link>
+              </>
+            )}
+          </div>
 
-            <div className={current === index ? 'item current' : 'item'}>
-              {current === index && (
-                <>
-                  <Link to={`/shop/${titleUrl}`}>
-                    <img src={item.imageSrc} alt="" />
-                  </Link>
-                  <p className="title">
-                    <Link to={`/shop/${titleUrl}`}>{item.title}</Link>
-                  </p>
-                  <p className="price">${item.price}</p>
-                  <Link to={`/shop/${titleUrl}`} className="details">
-                    Details
-                  </Link>
-                </>
-              )}
-            </div>
-
-            <div className={next === index ? 'item next' : 'item'}>
-              {next === index && <img src={item.imageSrc} alt="" />}
-            </div>
-          </React.Fragment>
-        );
-      })}
+          <div className={next === index ? 'item next' : 'item'}>
+            {next === index && <img src={item.imageSrc} alt="" />}
+          </div>
+        </React.Fragment>
+      ))}
     </div>
   );
 }

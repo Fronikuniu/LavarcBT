@@ -1,23 +1,17 @@
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import discord from '../../images/discord.png';
 import { Image, Member } from '../../types';
+import useDocs from '../helpers/useDocs';
+import Loader from '../Loader/Loader';
 
-interface SingleMemberProps {
-  images: Image[];
-  members: Member[];
-}
-
-function SingleMember({ images, members }: SingleMemberProps) {
-  const [member, setMember] = useState<Member | undefined>(undefined);
-  const [memberImages, setMemberImages] = useState<Image[]>([]);
+function SingleMember() {
   const { name }: { name: string } = useParams();
-
-  useEffect(() => {
-    setMember(members.find((singleMember) => singleMember.name === name));
-    setMemberImages(images.filter((image) => image.builder === name));
-  }, [images, member, members, name]);
+  const { data: getMember } = useDocs<Member>('members', { whereArg: ['name', '==', name] });
+  const member = getMember[0];
+  const { data: memberImages, isLoading: memberImagesLoading } = useDocs<Image>('gallery', {
+    whereArg: ['builder', '==', name],
+  });
 
   return (
     <section className="single__member">
@@ -45,13 +39,17 @@ function SingleMember({ images, members }: SingleMemberProps) {
           <h3 className="headerwTextStroke">Projects</h3>
 
           <div className="single__member__projects-images">
-            {memberImages.map((img) => {
-              return (
-                <Link to={`/gallery/${img.id}`} key={img.id}>
-                  <img src={img.imageSrc} alt="" />
-                </Link>
-              );
-            })}
+            {memberImagesLoading ? (
+              <Loader />
+            ) : (
+              memberImages.map((img) => {
+                return (
+                  <Link to={`/gallery/${img.id}`} key={img.id}>
+                    <img src={img.imageSrc} alt="" />
+                  </Link>
+                );
+              })
+            )}
           </div>
         </div>
       </div>

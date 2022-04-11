@@ -8,7 +8,7 @@ import { LoginData } from '../../types';
 interface LoginProps {
   logInWithFacebook: () => void;
   logInWithGoogle: () => void;
-  loginError?: string;
+  loginError: string;
   loginUser: (user: LoginData) => void;
 }
 

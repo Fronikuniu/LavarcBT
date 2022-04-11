@@ -1,10 +1,10 @@
-import { addDoc, collection, Timestamp } from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { uid } from 'uid';
 import drummaks from '../../images/char.png';
 import { Opinion } from '../../types';
-import { db } from '../configuration/firebase';
+import { UseAddDoc } from '../helpers/useManageDoc';
 import useRouter from '../helpers/useRouter';
 
 function RecommendationForm() {
@@ -17,7 +17,7 @@ function RecommendationForm() {
   const router = useRouter();
 
   const addOpinion = async (data: Opinion) => {
-    await addDoc(collection(db, 'opinions'), {
+    await UseAddDoc('opinions', [], {
       community: data.community,
       from: data.username,
       id: uid(),

@@ -1,7 +1,7 @@
 import { IoSend } from 'react-icons/io5';
 import { BiImageAdd } from 'react-icons/bi';
 import { FormEvent } from 'react';
-// (e: FormEvent) => Promise<void>
+
 interface MessageFormProps {
   handleSubmit: (e: FormEvent) => Promise<void>;
   messageText: string;

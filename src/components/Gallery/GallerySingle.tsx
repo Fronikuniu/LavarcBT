@@ -1,29 +1,14 @@
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from '../configuration/firebase';
 import { Image } from '../../types';
+import useDocs from '../helpers/useDocs';
 
 function GallerySingle() {
-  const [image, setImage] = useState<Image>({} as Image);
   const { id }: { id: string } = useParams();
-
-  useEffect(() => {
-    const getSingleImage = async () => {
-      const q = query(collection(db, 'gallery'), where('id', '==', id));
-      const querySnapshot = await getDocs(q);
-
-      const images: Image[] = [];
-      querySnapshot.forEach((doc) => {
-        images.push(doc.data() as Image);
-      });
-      setImage(images[0]);
-    };
-    getSingleImage()
-      .then(() => {})
-      .catch(() => {});
-  }, [id]);
+  const { data: getImage } = useDocs<Image>('gallery', {
+    whereArg: ['id', '==', id],
+  });
+  const image = getImage[0];
 
   return (
     <section className="gallery__single">
@@ -34,13 +19,24 @@ function GallerySingle() {
           </div>
           <div className="gallery__single__content-text">
             <p className="title">
-              What's built: <span>{image?.title}</span>
+              <span>{image?.title}</span>
             </p>
-            <p className="desc">{image?.desc}</p>
             <p className="builder">
-              This beautiful building was built by:{' '}
-              <Link to={`/builder/${image?.builder}`}>{image?.builder}</Link>
+              By: <Link to={`/builder/${image?.builder}`}>{image?.builder}</Link>
             </p>
+            {image?.desc ? <p className="desc">{image?.desc}</p> : null}
+            {image?.price ? (
+              <p className="cost">
+                {image?.sale ? (
+                  <>
+                    <span className="price">${image?.price}</span>
+                    <span className="sale">${image?.sale}</span>
+                  </>
+                ) : (
+                  <span>${image?.price}</span>
+                )}
+              </p>
+            ) : null}
             <div
               role="link"
               onClick={() => window.open(image?.imgurAlbum)}

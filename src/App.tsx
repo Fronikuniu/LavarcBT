@@ -7,18 +7,20 @@ import {
 } from '@firebase/auth';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { FirebaseError } from '@firebase/util';
-import { doc, getDoc, setDoc, Timestamp, updateDoc } from '@firebase/firestore';
-import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth';
+import { Timestamp } from '@firebase/firestore';
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  User as FirebaseUser,
+} from 'firebase/auth';
 import { ToastContainer } from 'react-toastify';
-import { auth, db } from './components/configuration/firebase';
+import { auth } from './components/configuration/firebase';
 import About from './components/About/About';
 import AboutMembers from './components/About/AboutMembers';
 import Home from './components/Home/Home';
 import Nav from './components/Nav/Nav';
-import Members from './components/About/Members';
 import GallerySlider from './components/Gallery/GallerySlider';
-import Images from './components/Gallery/Images';
 import Gallery from './components/Gallery/Gallery';
 import GallerySingle from './components/Gallery/GallerySingle';
 import SingleMember from './components/About/SingleMember';
@@ -37,29 +39,23 @@ import ScrollToTop from './components/helpers/ScrollToTop';
 import RecommendationForm from './components/Recommendations/RecommendationForm';
 import 'react-toastify/dist/ReactToastify.css';
 import loginErrors from './components/helpers/loginErrors';
-import { LoggedUser, LoginData, LoginErrors, User } from './types';
+import { LoginData, LoginErrors } from './types';
+import { UseDoc, UseSetDoc, UseUpdateDoc } from './components/helpers/useManageDoc';
 
 function App() {
   const [registerError, setRegisterError] = useState('');
   const [loginError, setLoginError] = useState('');
 
-  const [loggedUser, setLoggedUser] = useState<LoggedUser>({} as LoggedUser);
-  const [loggedUserData, setLoggedUserData] = useState<User>({} as User);
+  const [loggedUser, setLoggedUser] = useState<FirebaseUser | null>(null);
 
   useEffect(() => {
-    // @ts-ignore
-    onAuthStateChanged(auth, (currentUser) => setLoggedUser(currentUser));
-
-    if (auth.currentUser) {
-      const { uid } = auth.currentUser;
-
-      getDoc(doc(db, 'users', uid))
-        .then((docSnap) => {
-          if (docSnap.exists()) setLoggedUserData(docSnap.data() as User);
-        })
-        .catch(() => {});
-    }
-  }, [auth.currentUser]);
+    onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setLoggedUser(currentUser);
+        localStorage.setItem('uid', currentUser.uid);
+      }
+    });
+  }, []);
 
   // Register
   const registerNewUser = (data: LoginData) => {
@@ -72,7 +68,7 @@ function App() {
           photoURL: 'https://remaxgem.com/wp-content/themes/tolips/images/placehoder-user.jpg',
         });
 
-        await setDoc(doc(db, 'users', user.uid), {
+        await UseSetDoc('users', [user.uid], {
           uid: user.uid,
           name: data.name,
           email: user.email,
@@ -96,7 +92,7 @@ function App() {
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then(async (userCredential) => {
         const { user } = userCredential;
-        await updateDoc(doc(db, 'users', user.uid), { isOnline: true });
+        await UseUpdateDoc('users', [user.uid], { isOnline: true });
       })
       .catch(({ code }: { code: keyof LoginErrors }) => {
         const errorCode = code;
@@ -109,23 +105,20 @@ function App() {
 
     signInWithPopup(auth, providerGoogle)
       .then(async (result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
         const { user } = result;
 
-        await setDoc(doc(db, 'users', user.uid), {
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email,
-          createdAt: Timestamp.fromDate(new Date()),
-          isOnline: true,
-        });
+        const { error } = await UseDoc('users', [user.uid]);
+
+        if (error)
+          await UseSetDoc('users', [user.uid], {
+            uid: user.uid,
+            name: user.displayName,
+            email: user.email,
+            createdAt: Timestamp.fromDate(new Date()),
+            isOnline: true,
+          });
       })
-      .catch((error: FirebaseError) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-      });
+      .catch(() => {});
   };
 
   const logInWithFacebook = () => {
@@ -133,31 +126,32 @@ function App() {
 
     signInWithPopup(auth, providerFacebook)
       .then(async (result) => {
-        const credential = FacebookAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
         const { user } = result;
 
-        await setDoc(doc(db, 'users', user.uid), {
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email,
-          createdAt: Timestamp.fromDate(new Date()),
-          isOnline: true,
-        });
+        const { error } = await UseDoc('users', [user.uid]);
+
+        if (error)
+          await UseSetDoc('users', [user.uid], {
+            uid: user.uid,
+            name: user.displayName,
+            email: user.email,
+            createdAt: Timestamp.fromDate(new Date()),
+            isOnline: true,
+          });
       })
-      .catch((error: FirebaseError) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const credential = FacebookAuthProvider.credentialFromError(error);
-      });
+      .catch(() => {});
   };
 
   // Logout
   const logout = async () => {
-    await updateDoc(doc(db, 'users', loggedUser.uid), {
-      isOnline: false,
-    });
-    await signOut(auth);
+    if (loggedUser) {
+      await UseUpdateDoc('users', [loggedUser.uid], {
+        isOnline: false,
+      });
+      await signOut(auth);
+      setLoggedUser(null);
+      localStorage.removeItem('uid');
+    }
   };
 
   return (
@@ -177,7 +171,6 @@ function App() {
           <Auth logInWithGoogle={logInWithGoogle} logInWithFacebook={logInWithFacebook} />
         </Route>
         <Route path="/auth/login">
-          {/* Need to fix overwrite data when pushing google user to firestore */}
           {loggedUser ? (
             <Redirect to="/" />
           ) : (
@@ -199,7 +192,7 @@ function App() {
 
         <Route path="/about">
           <About />
-          <AboutMembers members={Members} />
+          <AboutMembers />
         </Route>
 
         <Route exact path="/gallery">
@@ -210,7 +203,7 @@ function App() {
         </Route>
 
         <Route path="/builder/:name">
-          <SingleMember images={Images} members={Members} />
+          <SingleMember />
         </Route>
 
         <Route exact path="/shop">
@@ -222,19 +215,11 @@ function App() {
           <Contact />
         </Route>
         <Route path="/contact/chat">
-          {loggedUser ? (
-            <Chat loggedUser={loggedUser} loggedUserData={loggedUserData} />
-          ) : (
-            <Redirect to="/auth" />
-          )}
+          {loggedUser ? <Chat loggedUser={loggedUser} /> : <Redirect to="/auth" />}
         </Route>
 
         <Route path="/settings">
-          {loggedUser ? (
-            <Settings loggedUser={loggedUser} loggedUserData={loggedUserData} />
-          ) : (
-            <Redirect to="/auth" />
-          )}
+          {loggedUser ? <Settings loggedUser={loggedUser} /> : <Redirect to="/auth" />}
         </Route>
 
         <Route exact path="/recommendation">

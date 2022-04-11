@@ -15,26 +15,24 @@ function ContactForm() {
   const form = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
-    if (clicked) {
-      if (!nameError && !emailError && !messageError) {
-        emailjs
-          .sendForm(
-            EmailJsConf.serviceId,
-            EmailJsConf.contactTemplate,
-            form.current as HTMLFormElement,
-            EmailJsConf.userId
-          )
-          .then(() => {
-            toast.success('Message was sent!');
-          })
-          .catch(() => {
-            toast.error('Message was not sent!');
-          });
+    if (clicked && !nameError && !emailError && !messageError) {
+      emailjs
+        .sendForm(
+          EmailJsConf.serviceId,
+          EmailJsConf.contactTemplate,
+          form.current as HTMLFormElement,
+          EmailJsConf.userId
+        )
+        .then(() => {
+          toast.success('Message was sent!');
+        })
+        .catch(() => {
+          toast.error('Message was not sent!');
+        });
 
-        setName('');
-        setEmail('');
-        setMessage('');
-      }
+      setName('');
+      setEmail('');
+      setMessage('');
     }
     return () => setClicked(false);
   }, [clicked, email, emailError, message, messageError, name, nameError]);

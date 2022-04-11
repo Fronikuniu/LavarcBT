@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { FormErrors, LoginData } from '../../types';
+import { LoginData } from '../../types';
 import AuthImages from '../helpers/AuthImages';
 
 interface RegisterProps {
@@ -42,7 +42,6 @@ function Register({ registerError, registerNewUser }: RegisterProps) {
                   }
                   placeholder={errors.name?.type === 'required' ? 'Name is required!' : 'Name'}
                   autoComplete="name"
-                  value={register.name}
                   {...register('name', { required: true, minLength: 6 })}
                 />
               </label>

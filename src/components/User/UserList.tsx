@@ -1,19 +1,19 @@
 import { doc, onSnapshot } from '@firebase/firestore';
 import { useEffect, useState } from 'react';
 import userPlaceholder from '../../images/placeholder-user.jpg';
-import { LastMessage, User } from '../../types';
+import { LastMessage, UserData } from '../../types';
 import { db } from '../configuration/firebase';
 
 interface UserListProps {
   sender: string;
-  user: User;
-  selectUser: (data: User) => void;
-  usersChat: User;
+  user: UserData;
+  selectUser: (data: UserData) => void;
+  usersChat: UserData | null;
 }
 
 function UserList({ sender, user, selectUser, usersChat }: UserListProps) {
   const [receiver] = useState(user?.uid);
-  const [data, setData] = useState<LastMessage>({} as LastMessage);
+  const [data, setData] = useState<LastMessage | null>(null);
 
   useEffect(() => {
     const id = sender > receiver ? `${sender + receiver}` : `${receiver + sender}`;
@@ -26,7 +26,7 @@ function UserList({ sender, user, selectUser, usersChat }: UserListProps) {
 
   return (
     <div
-      className={`users-list__user ${usersChat.name === user.name ? 'selected' : ''}`}
+      className={`users-list__user ${usersChat && usersChat.name === user.name ? 'selected' : ''}`}
       onClick={() => selectUser(user)}
       onKeyDown={() => selectUser(user)}
       role="button"
