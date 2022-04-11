@@ -15,13 +15,8 @@ type DataTypes = {
 };
 
 export async function UseDoc(coll: string, options: string[]) {
-  let error: boolean;
   const data = await getDoc(doc(db, coll, ...options));
-  if (data.exists()) {
-    error = false;
-  } else {
-    error = true;
-  }
+  const error = !data.exists();
   return { data, error };
 }
 
