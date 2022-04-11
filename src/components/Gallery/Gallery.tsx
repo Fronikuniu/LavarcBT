@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import Loader from '../Loader/Loader';
 import { Image } from '../../types';
 import useDocs from '../helpers/useDocs';
