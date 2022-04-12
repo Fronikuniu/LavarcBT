@@ -13,7 +13,9 @@ import { db } from '../configuration/firebase';
 
 export interface OptionsProps {
   whereArg?: [string, WhereFilterOp, string | number | boolean | string[]];
+  secWhereArg?: [string, WhereFilterOp, string | number | boolean | string[]];
   orderByArg?: [string | FieldPath, 'asc' | 'desc'];
+  secOrderByArg?: [string | FieldPath, 'asc' | 'desc'];
   limitArg?: number;
 }
 
@@ -34,6 +36,10 @@ export const manageQueryOpinions = (
   }
   if (queryOptions.orderByArg) {
     const orderByParams = orderBy(queryOptions.orderByArg[0], queryOptions.orderByArg[1]);
+    queryArgs.push(orderByParams);
+  }
+  if (queryOptions.secOrderByArg) {
+    const orderByParams = orderBy(queryOptions.secOrderByArg[0], queryOptions.secOrderByArg[1]);
     queryArgs.push(orderByParams);
   }
   if (queryOptions.limitArg) {

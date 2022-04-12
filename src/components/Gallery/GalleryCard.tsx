@@ -3,7 +3,7 @@ import { Image } from '../../types';
 
 function GalleryCard({ id, imageSrc, title, builder }: Image) {
   return (
-    <div className="gallery__content-images__about" key={id}>
+    <div className="gallery__content-images__about">
       <Link to={`/gallery/${id}`}>
         <img src={imageSrc} alt="" />
       </Link>

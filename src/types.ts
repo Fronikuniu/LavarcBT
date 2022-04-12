@@ -1,15 +1,16 @@
 export type Image = {
-  doc_id?: string;
-  builder?: string;
-  createdAt?: Date;
-  desc?: string;
+  doc_id: string;
+  builder: string;
+  createdAt: Date;
+  desc: string;
   id: number;
   imageSrc: string;
   imagePath: string;
-  imgurAlbum?: string;
-  price?: number;
-  sale?: number;
+  imgurAlbum: string;
+  price: number;
+  sale: number;
   title: string;
+  bestseller: number;
 };
 export type Member = {
   name: string;
