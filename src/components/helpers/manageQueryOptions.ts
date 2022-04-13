@@ -9,11 +9,11 @@ import {
   collection,
   Query,
 } from 'firebase/firestore';
-import { Image, Member, Opinion, UserData } from '../../types';
+import { DiscountCode, Image, Member, Opinion, UserData } from '../../types';
 import { db } from '../configuration/firebase';
 
 type whereType = [
-  keyof Opinion | keyof Member | keyof Image | keyof UserData,
+  keyof Opinion | keyof Member | keyof Image | keyof UserData | keyof DiscountCode,
   WhereFilterOp,
   string | number | boolean | string[]
 ];

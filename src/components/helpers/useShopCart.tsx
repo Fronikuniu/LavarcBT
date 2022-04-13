@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Image } from '../../types';
+import { DiscountCode, Image } from '../../types';
+import useDocsSnapshot from './useDocsSnapshot';
 import { UseUpdateDoc } from './useManageDoc';
 
 const useShopCart = () => {
@@ -8,10 +9,7 @@ const useShopCart = () => {
   const [total, setTotal] = useState<number>(0);
   const [discountNumber, setDiscountNumber] = useState<number>(0);
   const [codeUsed, setCodeUsed] = useState<boolean>(false);
-
-  const codes: { [key: string]: number } = {
-    SUMMERDISCOUNT: 0.1,
-  };
+  const { data: codesData } = useDocsSnapshot<DiscountCode>('discountCodes', [], {});
 
   useEffect(() => {
     const newCart = localStorage.getItem('shopCart');
@@ -31,10 +29,9 @@ const useShopCart = () => {
     localStorage.setItem('shopCartTotal', JSON.stringify(total));
     if (!cart.length) setTotal(0);
     // @ts-ignore
-    const cartSum = cart.reduce(
-      (acc: number, curr: Image) => acc + (curr.sale ? curr.sale : curr.price),
-      0
-    ) as number;
+    const cartSum = cart.reduce((acc: number, curr: Image) => {
+      return acc + (curr.sale ? curr.sale : curr.price);
+    }, 0) as number;
     if (codeUsed) {
       setTotal(Math.round(cartSum * (1 - discountNumber) * 100) / 100);
     } else {
@@ -60,9 +57,11 @@ const useShopCart = () => {
     toast.success('Item removed from cart!');
   };
 
-  const UseDiscountCode = (code: keyof Record<string, number>) => {
+  const UseDiscountCode = (code: string) => {
     if (codeUsed) return;
-    const discount = codes[code];
+    const findDiscount = codesData.find((codeData) => codeData.code === code);
+    if (!findDiscount) return;
+    const discount = findDiscount.discount / 100;
     setDiscountNumber(discount);
     setCodeUsed(true);
   };

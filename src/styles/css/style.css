@@ -1728,6 +1728,26 @@
 .settings .gallery-post-manage .form label {
   width: 275px;
 }
+.settings .discount-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+.settings .codes-table {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+.settings .codes-table .item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.settings .codes-table .close {
+  color: tomato;
+  font-size: 1.2em;
+}
 
 .react-confirm-alert-body h1 {
   margin-bottom: 15px;

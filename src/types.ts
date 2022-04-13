@@ -54,6 +54,11 @@ export type LastMessage = {
   to: string;
   unread: boolean;
 };
+export type DiscountCode = {
+  doc_id: string;
+  code: string;
+  discount: number;
+};
 export type LoginData = {
   name: string;
   email: string;
