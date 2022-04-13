@@ -41,13 +41,15 @@ import loginErrors from './components/helpers/loginErrors';
 import { LoginData, LoginErrors } from './types';
 import { UseDoc, UseSetDoc, UseUpdateDoc } from './components/helpers/useManageDoc';
 import useShopCart from './components/helpers/useShopCart';
+import ShopIcon from './components/Shop/ShopIcon';
+import ShopCart from './components/Shop/ShopCart';
 
 function App() {
   const [registerError, setRegisterError] = useState('');
   const [loginError, setLoginError] = useState('');
   const [loggedUser, setLoggedUser] = useState<FirebaseUser | null>(null);
-  const { cart, total, length, addToCart, removeFromCart } = useShopCart();
-  console.log(cart);
+  const { cart, total, length, addToCart, removeFromCart, clearCart, UseDiscountCode } =
+    useShopCart();
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -200,7 +202,7 @@ function App() {
           <Gallery />
         </Route>
         <Route path="/gallery/:id">
-          <GallerySingle />
+          <GallerySingle addToCart={addToCart} />
         </Route>
 
         <Route path="/builder/:name">
@@ -225,6 +227,17 @@ function App() {
         <Route exact path="/recommendation">
           <RecommendationForm />
         </Route>
+
+        <Route path="/shopCart">
+          <ShopCart
+            cart={cart}
+            total={total}
+            length={length}
+            removeFromCart={removeFromCart}
+            clearCart={clearCart}
+            UseDiscountCode={UseDiscountCode}
+          />
+        </Route>
       </Switch>
 
       <ShopHome />
@@ -240,6 +253,7 @@ function App() {
         draggable
         pauseOnHover
       />
+      <ShopIcon length={length} />
     </Router>
   );
 }

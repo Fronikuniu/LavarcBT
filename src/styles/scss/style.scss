@@ -20,12 +20,9 @@
 @use 'contact';
 @use 'recommendations';
 @use 'shop';
+@use 'shopCart';
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
-
-iframe {
-  pointer-events: none;
-}
 
 body {
   margin: 0;
@@ -132,7 +129,7 @@ p {
   }
 
   &.primary {
-    color: white;
+    color: colors.$vulcan;
     background-color: colors.$dandelion;
 
     &:hover {
@@ -153,6 +150,53 @@ p {
   &.disabled {
     pointer-events: none;
   }
+}
+
+.shopIcon {
+  position: fixed;
+  top: 100px;
+  right: 70px;
+  z-index: 9999;
+  color: black;
+
+  .content {
+    position: relative;
+
+    .icon {
+      font-size: 3em;
+      color: black;
+      animation: rotate 1.2s linear 0s alternate infinite forwards running;
+    }
+
+    .count {
+      width: 25px;
+      aspect-ratio: 1/1;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      bottom: -1px;
+      right: -10px;
+      background-color: tomato;
+      border-radius: 50%;
+      line-height: 0%;
+      color: white;
+      border: 1px solid colors.$vulcan;
+    }
+  }
+}
+
+.addToListIcon {
+  font-size: 1.5em;
+}
+
+.btn-addToList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  margin: 0 auto;
+  margin-top: 1.5rem;
 }
 
 input {

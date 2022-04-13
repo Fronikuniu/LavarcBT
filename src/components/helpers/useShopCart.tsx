@@ -6,6 +6,12 @@ import { UseUpdateDoc } from './useManageDoc';
 const useShopCart = () => {
   const [cart, setCart] = useState<Image[] | []>([]);
   const [total, setTotal] = useState<number>(0);
+  const [discountNumber, setDiscountNumber] = useState<number>(0);
+  const [codeUsed, setCodeUsed] = useState<boolean>(false);
+
+  const codes: { [key: string]: number } = {
+    SUMMERDISCOUNT: 0.1,
+  };
 
   useEffect(() => {
     const newCart = localStorage.getItem('shopCart');
@@ -13,11 +19,28 @@ const useShopCart = () => {
       const parsedCart = JSON.parse(newCart) as Image[];
       setCart(parsedCart);
     }
+    const newTotal = localStorage.getItem('shopCartTotal');
+    if (newTotal) {
+      const parsedTotal = Number(newTotal);
+      setTotal(Math.round(parsedTotal * 100) / 100);
+    }
   }, []);
 
   useEffect(() => {
     localStorage.setItem('shopCart', JSON.stringify(cart));
-  }, [cart]);
+    localStorage.setItem('shopCartTotal', JSON.stringify(total));
+    if (!cart.length) setTotal(0);
+    // @ts-ignore
+    const cartSum = cart.reduce(
+      (acc: number, curr: Image) => acc + (curr.sale ? curr.sale : curr.price),
+      0
+    ) as number;
+    if (codeUsed) {
+      setTotal(Math.round(cartSum * (1 - discountNumber) * 100) / 100);
+    } else {
+      setTotal(Math.round(cartSum * 100) / 100);
+    }
+  }, [cart, total, codeUsed, discountNumber]);
 
   const addToCart = async (item: Image) => {
     const isInCart = cart.find((cartItem) => cartItem.id === item.id);
@@ -25,19 +48,41 @@ const useShopCart = () => {
     else {
       const newCart = [...cart, item];
       setCart(newCart);
-      setTotal(total + item.sale ? item.sale : item.price);
       await UseUpdateDoc('gallery', [item.doc_id], { bestseller: item.bestseller + 1 });
       toast.success('Item added to cart!');
     }
   };
 
-  const removeFromCart = (item: Image) => {
+  const removeFromCart = async (item: Image) => {
     const newCart = cart.filter((cartItem) => cartItem.id !== item.id);
     setCart(newCart);
-    setTotal(total - item.sale ? item.sale : item.price);
+    await UseUpdateDoc('gallery', [item.doc_id], { bestseller: item.bestseller });
+    toast.success('Item removed from cart!');
   };
 
-  return { cart, total, length: cart.length, addToCart, removeFromCart };
+  const UseDiscountCode = (code: keyof Record<string, number>) => {
+    if (codeUsed) return;
+    const discount = codes[code];
+    setDiscountNumber(discount);
+    setCodeUsed(true);
+  };
+
+  const clearCart = () => {
+    setCart([]);
+    setTotal(0);
+    setCodeUsed(false);
+    setDiscountNumber(0);
+  };
+
+  return {
+    cart,
+    total,
+    length: cart.length,
+    addToCart,
+    removeFromCart,
+    clearCart,
+    UseDiscountCode,
+  };
 };
 
 export default useShopCart;

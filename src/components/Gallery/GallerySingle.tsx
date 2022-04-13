@@ -1,9 +1,14 @@
+import { MdOutlineAddShoppingCart } from 'react-icons/md';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Image } from '../../types';
 import useDocs from '../helpers/useDocs';
 
-function GallerySingle() {
+interface GallerySingleProps {
+  addToCart: (item: Image) => void;
+}
+
+function GallerySingle({ addToCart }: GallerySingleProps) {
   const { id }: { id: string } = useParams();
   const { data: getImage } = useDocs<Image>('gallery', {
     whereArg: ['id', '==', id],
@@ -45,6 +50,16 @@ function GallerySingle() {
             >
               <p className="bouncing">Want to see more of this building? Click!</p>
             </div>
+            {image?.price ? (
+              <button
+                type="button"
+                className="btn primary btn-addToList"
+                onClick={() => addToCart(image)}
+              >
+                <MdOutlineAddShoppingCart title="Add to cart" className="addToListIcon" /> Add to
+                cart
+              </button>
+            ) : null}
           </div>
         </div>
       </div>
