@@ -9,13 +9,22 @@ import {
   collection,
   Query,
 } from 'firebase/firestore';
+import { Image, Member, Opinion, UserData } from '../../types';
 import { db } from '../configuration/firebase';
 
+type whereType = [
+  keyof Opinion | keyof Member | keyof Image | keyof UserData,
+  WhereFilterOp,
+  string | number | boolean | string[]
+];
+
+type OrderType = [string | FieldPath, 'asc' | 'desc'];
+
 export interface OptionsProps {
-  whereArg?: [string, WhereFilterOp, string | number | boolean | string[]];
-  secWhereArg?: [string, WhereFilterOp, string | number | boolean | string[]];
-  orderByArg?: [string | FieldPath, 'asc' | 'desc'];
-  secOrderByArg?: [string | FieldPath, 'asc' | 'desc'];
+  whereArg?: whereType;
+  secWhereArg?: whereType;
+  orderByArg?: OrderType;
+  secOrderByArg?: OrderType;
   limitArg?: number;
 }
 
