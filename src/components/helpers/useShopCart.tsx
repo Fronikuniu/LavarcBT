@@ -5,7 +5,7 @@ import useDocsSnapshot from './useDocsSnapshot';
 import { UseUpdateDoc } from './useManageDoc';
 
 const useShopCart = () => {
-  const [cart, setCart] = useState<Image[] | []>([]);
+  const [cart, setCart] = useState<Image[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [discountNumber, setDiscountNumber] = useState<number>(0);
   const [codeUsed, setCodeUsed] = useState<boolean>(false);
@@ -28,10 +28,9 @@ const useShopCart = () => {
     localStorage.setItem('shopCart', JSON.stringify(cart));
     localStorage.setItem('shopCartTotal', JSON.stringify(total));
     if (!cart.length) setTotal(0);
-    // @ts-ignore
     const cartSum = cart.reduce((acc: number, curr: Image) => {
       return acc + (curr.sale ? curr.sale : curr.price);
-    }, 0) as number;
+    }, 0);
     if (codeUsed) {
       setTotal(Math.round(cartSum * (1 - discountNumber) * 100) / 100);
     } else {
