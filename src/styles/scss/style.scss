@@ -155,9 +155,12 @@ p {
 .shopIcon {
   position: fixed;
   top: 100px;
-  right: 70px;
+  right: 25px;
   z-index: 9999;
   color: black;
+  @include mixins.breakpoint(tablet) {
+    right: 100px;
+  }
 
   .content {
     position: relative;

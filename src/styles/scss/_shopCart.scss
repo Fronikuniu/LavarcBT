@@ -1,3 +1,5 @@
+@use 'mixins';
+
 .shopCart {
   margin-top: 150px;
   &__list {
@@ -9,16 +11,24 @@
     align-items: center;
     font-size: 1.1em;
     font-weight: 600;
-    padding: 0 5px 0 50px;
+    padding: 0 35px 0 50px;
+    @include mixins.customBreakpoint(550px) {
+      padding-right: 5px;
+    }
   }
   .item {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     margin-bottom: 30px;
+    gap: 20px;
+    @include mixins.customBreakpoint(550px) {
+      justify-content: space-between;
+      flex-direction: row;
+    }
   }
   .left-side {
     display: flex;
-    gap: 20px;
+    gap: 10px;
   }
   .remove {
     width: 25px;
@@ -51,6 +61,7 @@
     align-items: center;
     text-align: center;
     font-weight: 500;
+    width: max-content;
   }
   .sale-price {
     font-size: 1.1em;
@@ -66,11 +77,27 @@
     font-size: 1.1em;
     padding-left: 50px;
   }
-  &__total {
+  .bottom-side {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
+    padding: 0 35px;
+    @include mixins.customBreakpoint(550px) {
+      width: calc(100% - 305px);
+      padding: 0;
+    }
+  }
+  &__total {
+    display: flex;
+    align-items: center;
     margin: 30px 0 100px 0;
+    gap: 30px;
+    flex-direction: column;
+    @include mixins.customBreakpoint(550px) {
+      justify-content: space-between;
+      flex-direction: row;
+    }
   }
   &__form {
     display: flex;
