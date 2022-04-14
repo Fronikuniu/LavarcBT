@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { uid } from 'uid';
 import drummaks from '../../images/char.png';
 import { Opinion } from '../../types';
-import { UseAddDoc } from '../helpers/useManageDoc';
+import { UseSetDoc } from '../helpers/useManageDoc';
 import useRouter from '../helpers/useRouter';
 
 function RecommendationForm() {
@@ -17,7 +17,9 @@ function RecommendationForm() {
   const router = useRouter();
 
   const addOpinion = async (data: Opinion) => {
-    await UseAddDoc('opinions', [], {
+    const docId = uid(20);
+    await UseSetDoc('opinions', [docId], {
+      doc_id: docId,
       community: data.community,
       from: data.username,
       id: uid(),

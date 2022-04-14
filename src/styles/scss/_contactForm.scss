@@ -12,6 +12,10 @@
   > div {
     display: flex;
     gap: 10px;
+
+    label {
+      width: 50%;
+    }
   }
 
   textarea {

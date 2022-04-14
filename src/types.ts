@@ -1,15 +1,16 @@
 export type Image = {
-  doc_id?: string;
-  builder?: string;
-  createdAt?: Date;
-  desc?: string;
+  doc_id: string;
+  builder: string;
+  createdAt: Date;
+  desc: string;
   id: number;
   imageSrc: string;
   imagePath: string;
-  imgurAlbum?: string;
-  price?: number;
-  sale?: number;
+  imgurAlbum: string;
+  price: number;
+  sale: number;
   title: string;
+  bestseller: number;
 };
 export type Member = {
   name: string;
@@ -52,6 +53,11 @@ export type LastMessage = {
   messageText?: string;
   to: string;
   unread: boolean;
+};
+export type DiscountCode = {
+  doc_id: string;
+  code: string;
+  discount: number;
 };
 export type LoginData = {
   name: string;

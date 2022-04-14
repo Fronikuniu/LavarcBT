@@ -23,7 +23,7 @@ function Gallery() {
           </div>
 
           <div className="gallery__content-images" style={{ display: isLoading ? 'none' : 'grid' }}>
-            {isLoading ? <Loader /> : images.map((img) => <GalleryCard {...img} />)}
+            {isLoading ? <Loader /> : images.map((img) => <GalleryCard {...img} key={img.id} />)}
           </div>
         </div>
       </div>

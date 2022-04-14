@@ -17,13 +17,11 @@ function GalleryAdmin() {
     const price = Number((target[0] as HTMLInputElement).value);
     const sale = Number((target[1] as HTMLInputElement).value);
     if (!docId) return;
-    if (!!price || !!sale) {
-      await UseUpdateDoc('gallery', [docId], {
-        sale,
-        price,
-      });
-      toast.success('Successfully updated pricing');
-    }
+    await UseUpdateDoc('gallery', [docId], {
+      sale,
+      price,
+    });
+    toast.success('Successfully updated pricing');
   };
 
   const deletePost = async (post: Image) => {

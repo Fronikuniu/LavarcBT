@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
-import { Link } from 'react-router-dom';
 import { Image } from '../../types';
+import useDocsSnapshot from '../helpers/useDocsSnapshot';
+import ShopSliderImages from './ShopSliderImages';
 
 interface ShopSliderProps {
-  shopList: Image[];
+  addToCart: (item: Image) => void;
 }
 
-function ShopSlider({ shopList }: ShopSliderProps) {
+function ShopSlider({ addToCart }: ShopSliderProps) {
   const [current, setCurrent] = useState(0);
-  const { length } = shopList;
+  const { data: latestProducts } = useDocsSnapshot<Image>(`gallery`, [], {
+    whereArg: ['price', '>', 0],
+    orderByArg: ['price', 'desc'],
+    secOrderByArg: ['createdAt', 'desc'],
+    limitArg: 3,
+  });
+  const { length } = latestProducts;
 
   const prev = current === 0 ? length - 1 : current - 1;
   const next = current === length - 1 ? 0 : current + 1;
@@ -27,34 +34,13 @@ function ShopSlider({ shopList }: ShopSliderProps) {
       <IoIosArrowDropleft onClick={prevSlide} className="arrow arrowPrev" role="button" />
       <IoIosArrowDropright onClick={nextSlide} className="arrow arrowNext" role="button" />
 
-      {shopList.map((item, index) => (
-        <React.Fragment key={item.id}>
-          <div className={prev === index ? 'item prev' : 'item'}>
-            {prev === index && <img src={item.imageSrc} alt="" />}
-          </div>
-
-          <div className={current === index ? 'item current' : 'item'}>
-            {current === index && (
-              <>
-                <Link to={`/shop/${item.id}`}>
-                  <img src={item.imageSrc} alt="" />
-                </Link>
-                <p className="title">
-                  <Link to={`/shop/${item.id}`}>{item.title}</Link>
-                </p>
-                <p className="price">${item.price}</p>
-                <Link to={`/shop/${item.id}`} className="details">
-                  Details
-                </Link>
-              </>
-            )}
-          </div>
-
-          <div className={next === index ? 'item next' : 'item'}>
-            {next === index && <img src={item.imageSrc} alt="" />}
-          </div>
-        </React.Fragment>
-      ))}
+      <ShopSliderImages
+        prev={prev}
+        current={current}
+        next={next}
+        addToCart={addToCart}
+        latestProducts={latestProducts}
+      />
     </div>
   );
 }

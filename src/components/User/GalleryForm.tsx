@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { uid } from 'uid';
 import { GalleryFormImage, Member } from '../../types';
 import useDocs from '../helpers/useDocs';
-import { UseAddDoc } from '../helpers/useManageDoc';
+import { UseSetDoc } from '../helpers/useManageDoc';
 import { UseAddImage } from '../helpers/useManageFiles';
 
 function GalleryForm() {
@@ -27,8 +27,10 @@ function GalleryForm() {
   }: GalleryFormImage) => {
     const { url, path } = await UseAddImage('gallery', image[0]);
 
-    await UseAddDoc('gallery', [], {
+    const docId = uid(20);
+    await UseSetDoc('gallery', [docId], {
       id: uid(15),
+      doc_id: docId,
       imageSrc: url,
       imagePath: path,
       builder,
@@ -38,6 +40,7 @@ function GalleryForm() {
       price: Number(price),
       sale: Number(sale),
       createdAt: Timestamp.fromDate(new Date()),
+      bestseller: 0,
     });
 
     reset();

@@ -26,9 +26,17 @@
 
       .prev,
       .next {
-        width: 400px;
+        width: 300px;
         height: 230px;
         box-shadow: 0px 45px 44px -43px rgba(54, 56, 60, 1);
+        display: none;
+
+        @include mixins.breakpoint(tablet) {
+          display: block;
+        }
+        @include mixins.breakpoint(laptop) {
+          width: 400px;
+        }
       }
 
       .prev {
@@ -39,8 +47,13 @@
       .current {
         order: 2;
         box-shadow: 0px 52px 44px -43px rgba(54, 56, 60, 1);
-        width: 600px;
+        width: 100%;
         height: 312px;
+        position: relative;
+
+        @include mixins.breakpoint(laptop) {
+          width: 600px;
+        }
 
         img {
           opacity: 1;
@@ -57,35 +70,6 @@
           a {
             color: colors.$vulcan;
             font-weight: 500;
-          }
-
-          &:hover {
-            ~ .details {
-              clip-path: inset(100% 0 0 0);
-            }
-          }
-        }
-
-        .details {
-          clip-path: inset(100% 0 0 0);
-          position: absolute;
-          bottom: 0;
-          width: 600px;
-          height: 40px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: clip-path 0.4s;
-          background-color: rgba(255, 255, 255, 0.6);
-          color: colors.$vulcan;
-          font-size: 1.2em;
-          font-weight: 500;
-          cursor: pointer;
-        }
-
-        &:hover {
-          .details {
-            clip-path: inset(0 0 0 0);
           }
         }
 
@@ -104,14 +88,27 @@
 
   .bestsellers {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 100%;
     grid-template-rows: auto;
     gap: 25px;
     margin-top: 50px;
 
+    @include mixins.breakpoint(mobileL) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @include mixins.breakpoint(tablet) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @include mixins.breakpoint(laptop) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
     .item {
+      position: relative;
+
       img {
         width: 100%;
+        height: 120px;
         object-fit: cover;
         filter: contrast(130%);
       }
@@ -120,21 +117,6 @@
         text-align: center;
         color: colors.$vulcan;
         font-size: 1.1em;
-      }
-
-      .cost {
-        color: colors.$fuelYellow;
-        font-size: 1.1em;
-
-        .price {
-          margin-right: 10px;
-          text-decoration: line-through;
-          font-size: 1em;
-        }
-
-        .sale {
-          font-size: 1.05em;
-        }
       }
     }
   }
@@ -173,6 +155,39 @@
           width: 100%;
         }
       }
+    }
+  }
+
+  .addToList {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background-color: white;
+    font-size: 2em;
+    z-index: 10;
+    padding: 5px;
+    border-radius: 50%;
+    border: 2px solid colors.$dandelion;
+    cursor: pointer;
+  }
+  .shop-latest {
+    .addToList {
+      font-size: 2.5em;
+    }
+  }
+
+  .cost {
+    color: colors.$fuelYellow;
+    font-size: 1.1em;
+
+    .price {
+      margin-right: 10px;
+      text-decoration: line-through;
+      font-size: 1em;
+    }
+
+    .sale {
+      font-size: 1.05em;
     }
   }
 }

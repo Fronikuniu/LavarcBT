@@ -12,6 +12,7 @@ import { UserData } from '../../types';
 import useLoggedUserData from '../helpers/useLoggedUserData';
 import { UseAddImage, UseRemoveImage } from '../helpers/useManageFiles';
 import { UseUpdateDoc } from '../helpers/useManageDoc';
+import DiscountCodes from './DiscountCodes';
 
 interface SettingsProps {
   loggedUser: FirebaseUser;
@@ -77,6 +78,7 @@ function Settings({ loggedUser }: SettingsProps) {
 
         {user && user.isAdmin && (
           <>
+            <DiscountCodes />
             <OpinionsAdmin />
             <GalleryForm />
             <GalleryAdmin />

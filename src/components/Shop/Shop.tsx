@@ -1,14 +1,13 @@
+import { Image } from '../../types';
 import Bestsellers from './Bestsellers';
 import OrderForm from './OrderForm';
 import ShopSlider from './ShopSlider';
-import { Image } from '../../types';
 
 interface ShopProps {
-  shopList: Image[];
-  bestsellers: Image[];
+  addToCart: (item: Image) => void;
 }
 
-function Shop({ shopList, bestsellers }: ShopProps) {
+function Shop({ addToCart }: ShopProps) {
   return (
     <section className="shop">
       <div className="container">
@@ -16,12 +15,12 @@ function Shop({ shopList, bestsellers }: ShopProps) {
         <h3 className="headerwTextStroke">Shop</h3>
 
         <div className="shop-latest">
-          <ShopSlider shopList={shopList} />
+          <ShopSlider addToCart={addToCart} />
         </div>
 
         <h3 className="headerwTextStroke">Bestsellers</h3>
         <div className="bestsellers">
-          <Bestsellers bestsellers={bestsellers} />
+          <Bestsellers addToCart={addToCart} />
         </div>
 
         <div className="personal-order">

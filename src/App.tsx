@@ -34,19 +34,22 @@ import Contact from './components/Contact/Contact';
 import Recommendations from './components/Recommendations/Recommendations';
 import ShopHome from './components/Shop/ShopHome';
 import Shop from './components/Shop/Shop';
-import ShopList from './components/Shop/ShopList';
 import ScrollToTop from './components/helpers/ScrollToTop';
 import RecommendationForm from './components/Recommendations/RecommendationForm';
 import 'react-toastify/dist/ReactToastify.css';
 import loginErrors from './components/helpers/loginErrors';
 import { LoginData, LoginErrors } from './types';
 import { UseDoc, UseSetDoc, UseUpdateDoc } from './components/helpers/useManageDoc';
+import useShopCart from './components/helpers/useShopCart';
+import ShopIcon from './components/Shop/ShopIcon';
+import ShopCart from './components/Shop/ShopCart';
 
 function App() {
   const [registerError, setRegisterError] = useState('');
   const [loginError, setLoginError] = useState('');
-
   const [loggedUser, setLoggedUser] = useState<FirebaseUser | null>(null);
+  const { cart, total, length, addToCart, removeFromCart, clearCart, UseDiscountCode } =
+    useShopCart();
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -199,7 +202,7 @@ function App() {
           <Gallery />
         </Route>
         <Route path="/gallery/:id">
-          <GallerySingle />
+          <GallerySingle addToCart={addToCart} />
         </Route>
 
         <Route path="/builder/:name">
@@ -207,9 +210,8 @@ function App() {
         </Route>
 
         <Route exact path="/shop">
-          <Shop shopList={ShopList} bestsellers={ShopList.slice(0, 8)} />
+          <Shop addToCart={addToCart} />
         </Route>
-        <Route path="/shop/:title" />
 
         <Route exact path="/contact">
           <Contact />
@@ -224,6 +226,17 @@ function App() {
 
         <Route exact path="/recommendation">
           <RecommendationForm />
+        </Route>
+
+        <Route path="/shopCart">
+          <ShopCart
+            cart={cart}
+            total={total}
+            length={length}
+            removeFromCart={removeFromCart}
+            clearCart={clearCart}
+            UseDiscountCode={UseDiscountCode}
+          />
         </Route>
       </Switch>
 
@@ -240,6 +253,7 @@ function App() {
         draggable
         pauseOnHover
       />
+      <ShopIcon length={length} />
     </Router>
   );
 }

@@ -241,6 +241,29 @@
       }
     }
   }
+
+  .discount-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 25px;
+    width: 275px;
+  }
+  .codes-table {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 25px;
+    .item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .close {
+      color: tomato;
+      font-size: 1.2em;
+    }
+  }
 }
 
 .react-confirm-alert-body {

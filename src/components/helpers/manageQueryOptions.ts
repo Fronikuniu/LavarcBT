@@ -9,11 +9,22 @@ import {
   collection,
   Query,
 } from 'firebase/firestore';
+import { DiscountCode, Image, Member, Opinion, UserData } from '../../types';
 import { db } from '../configuration/firebase';
 
+type whereType = [
+  keyof Opinion | keyof Member | keyof Image | keyof UserData | keyof DiscountCode,
+  WhereFilterOp,
+  string | number | boolean | string[]
+];
+
+type OrderType = [string | FieldPath, 'asc' | 'desc'];
+
 export interface OptionsProps {
-  whereArg?: [string, WhereFilterOp, string | number | boolean | string[]];
-  orderByArg?: [string | FieldPath, 'asc' | 'desc'];
+  whereArg?: whereType;
+  secWhereArg?: whereType;
+  orderByArg?: OrderType;
+  secOrderByArg?: OrderType;
   limitArg?: number;
 }
 
@@ -34,6 +45,10 @@ export const manageQueryOpinions = (
   }
   if (queryOptions.orderByArg) {
     const orderByParams = orderBy(queryOptions.orderByArg[0], queryOptions.orderByArg[1]);
+    queryArgs.push(orderByParams);
+  }
+  if (queryOptions.secOrderByArg) {
+    const orderByParams = orderBy(queryOptions.secOrderByArg[0], queryOptions.secOrderByArg[1]);
     queryArgs.push(orderByParams);
   }
   if (queryOptions.limitArg) {
