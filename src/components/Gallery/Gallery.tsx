@@ -2,6 +2,7 @@ import Loader from '../Loader/Loader';
 import { Image } from '../../types';
 import useDocs from '../helpers/useDocs';
 import GalleryCard from './GalleryCard';
+import Pagination from '../helpers/Pagination';
 
 function Gallery() {
   const { data: images, isLoading } = useDocs<Image>('gallery', {
@@ -25,6 +26,8 @@ function Gallery() {
           <div className="gallery__content-images" style={{ display: isLoading ? 'none' : 'grid' }}>
             {isLoading ? <Loader /> : images.map((img) => <GalleryCard {...img} key={img.id} />)}
           </div>
+
+          <Pagination totalItems={100} />
         </div>
       </div>
     </section>

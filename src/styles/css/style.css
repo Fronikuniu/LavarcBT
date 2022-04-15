@@ -2626,6 +2626,50 @@
   width: 250px;
 }
 
+.pagination {
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  font-size: 2em;
+  color: #36383c;
+  user-select: none;
+}
+.pagination__numbers {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.pagination-btn {
+  cursor: pointer;
+  line-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: none;
+  background: none;
+}
+.pagination-btn:hover, .pagination-btn:focus {
+  background-color: #e4e4e4;
+}
+.pagination .dots {
+  font-size: 0.8em;
+}
+.pagination .number {
+  font-size: 0.65em;
+  font-weight: 500;
+  width: 35px;
+  height: 35px;
+}
+.pagination .active {
+  background-color: #36383c;
+  color: whitesmoke;
+}
+.pagination .disabled {
+  pointer-events: none;
+  color: #8b8b8b;
+}
+
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;

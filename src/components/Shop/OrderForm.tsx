@@ -9,7 +9,7 @@ function OrderForm() {
   const [discord, setDiscord] = useState('');
   const [packag, setPackage] = useState('');
   const [message, setMessage] = useState('');
-  const [budget, setBudget] = useState('');
+  const [budget, setBudget] = useState<number | string>('');
   const [deadline, setDeadline] = useState('');
 
   const [emailError, setEmailError] = useState('');
@@ -40,7 +40,7 @@ function OrderForm() {
 
     setPackageError(!packag ? 'Select package!' : '');
     setMessageError(!message ? 'Order description is required!' : '');
-    setBudgetError(!budget ? 'Budget is required!' : '');
+    setBudgetError(!budget || budget < 0 ? "Budget is required and can't be negative!" : '');
     setDeadlineError(!deadline ? 'Select deadline date!' : '');
 
     setClicked(true);
@@ -156,6 +156,7 @@ function OrderForm() {
           placeholder={budgetError || 'Budget'}
           value={budget}
           onChange={(e) => setBudget(e.target.value)}
+          min={0}
         />
       </label>
 

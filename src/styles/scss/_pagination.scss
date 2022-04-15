@@ -1,0 +1,46 @@
+@use 'colors';
+
+.pagination {
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  font-size: 2em;
+  color: colors.$vulcan;
+  user-select: none;
+  &__numbers {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  &-btn {
+    cursor: pointer;
+    line-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: none;
+    background: none;
+    &:hover,
+    &:focus {
+      background-color: #e4e4e4;
+    }
+  }
+  .dots {
+    font-size: 0.8em;
+  }
+  .number {
+    font-size: 0.65em;
+    font-weight: 500;
+    width: 35px;
+    height: 35px;
+  }
+  .active {
+    background-color: colors.$vulcan;
+    color: whitesmoke;
+  }
+  .disabled {
+    pointer-events: none;
+    color: #8b8b8b;
+  }
+}
