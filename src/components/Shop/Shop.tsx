@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Image } from '../../types';
 import Bestsellers from './Bestsellers';
 import OrderForm from './OrderForm';
@@ -21,6 +22,13 @@ function Shop({ addToCart }: ShopProps) {
         <h3 className="headerwTextStroke">Bestsellers</h3>
         <div className="bestsellers">
           <Bestsellers addToCart={addToCart} />
+        </div>
+        <div className="fullShop">
+          <Link to="shop/items">
+            <button type="button" className="btn primary">
+              Show more
+            </button>
+          </Link>
         </div>
 
         <div className="personal-order">

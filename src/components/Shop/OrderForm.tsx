@@ -147,7 +147,7 @@ function OrderForm() {
       </label>
 
       <label htmlFor="budget">
-        Budget
+        Budget (in $)
         <input
           type="number"
           className={budgetError ? 'input-error' : ''}
@@ -160,7 +160,7 @@ function OrderForm() {
         />
       </label>
 
-      <div>
+      {/* <div>
         <label htmlFor="deadline">
           Deadline
           <input
@@ -173,7 +173,7 @@ function OrderForm() {
           />
         </label>
         {deadlineError && <p className="p-error">{deadlineError}</p>}
-      </div>
+      </div> */}
 
       <input type="submit" value="Send" />
     </form>

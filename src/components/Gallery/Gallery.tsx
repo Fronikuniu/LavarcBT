@@ -3,11 +3,13 @@ import { Image } from '../../types';
 import useDocs from '../helpers/useDocs';
 import GalleryCard from './GalleryCard';
 import Pagination from '../helpers/Pagination';
+import usePaginateData from '../helpers/usePaginateData';
 
 function Gallery() {
   const { data: images, isLoading } = useDocs<Image>('gallery', {
     orderByArg: ['createdAt', 'asc'],
   });
+  const paginatedData = usePaginateData<Image>(images);
 
   return (
     <section className="gallery">
@@ -24,10 +26,14 @@ function Gallery() {
           </div>
 
           <div className="gallery__content-images" style={{ display: isLoading ? 'none' : 'grid' }}>
-            {isLoading ? <Loader /> : images.map((img) => <GalleryCard {...img} key={img.id} />)}
+            {isLoading ? (
+              <Loader />
+            ) : (
+              paginatedData.map((img) => <GalleryCard {...img} key={img.id} />)
+            )}
           </div>
 
-          <Pagination totalItems={100} />
+          <Pagination totalItems={images.length} />
         </div>
       </div>
     </section>
