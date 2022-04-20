@@ -42,10 +42,6 @@ function OrderForm() {
 
   const form = useRef<HTMLFormElement>(null);
 
-  const hasErrors = Object.values(orderErrors).every((error) => error === false);
-  console.log(hasErrors);
-  console.log('clicked:', clicked);
-
   const setValue = (field: keyof OrderData, e: FormEvent) => {
     const { value } = e.target as HTMLInputElement;
     setOrderData({
@@ -57,15 +53,15 @@ function OrderForm() {
   const checkIsRequired = () => {
     Object.keys(orderData).forEach((key: string) => {
       if (orderData[key as keyof OrderData] === '') {
-        setOrderErrors({
-          ...orderErrors,
+        setOrderErrors((initialState) => ({
+          ...initialState,
           [key]: 'This field is required',
-        });
+        }));
       } else {
-        setOrderErrors({
-          ...orderErrors,
+        setOrderErrors((initialState) => ({
+          ...initialState,
           [key]: false,
-        });
+        }));
       }
     });
   };
@@ -76,31 +72,31 @@ function OrderForm() {
     checkIsRequired();
 
     if (regexEmail.exec(orderData.email) === null)
-      setOrderErrors({
-        ...orderErrors,
+      setOrderErrors((initialState) => ({
+        ...initialState,
         email: 'Enter correct address email!',
-      });
+      }));
     if (regexDiscord.exec(orderData.discord) === null)
-      setOrderErrors({
-        ...orderErrors,
+      setOrderErrors((initialState) => ({
+        ...initialState,
         discord: 'Enter correct discord tag!',
-      });
+      }));
 
     setClicked(true);
   };
 
   useEffect(() => {
-    if (clicked && !hasErrors) {
-      // emailjs
-      //   .sendForm(
-      //     EmailJsConf.serviceId,
-      //     EmailJsConf.orderTemplate,
-      //     form.current as HTMLFormElement,
-      //     EmailJsConf.userId
-      //   )
-      //   .then(() => toast.success('Wysłano email.'))
-      //   .catch(() => toast.error('Błąd przy wysyłaniu.'));
-      console.log('wysłane');
+    const hasErrors = Object.values(orderErrors).every((error) => error === false);
+    if (clicked && hasErrors) {
+      emailjs
+        .sendForm(
+          EmailJsConf.serviceId,
+          EmailJsConf.orderTemplate,
+          form.current as HTMLFormElement,
+          EmailJsConf.userId
+        )
+        .then(() => toast.success('Wysłano email.'))
+        .catch(() => toast.error('Błąd przy wysyłaniu.'));
 
       setOrderData({
         email: '',
@@ -111,7 +107,7 @@ function OrderForm() {
       });
     }
     return () => setClicked(false);
-  }, [clicked, hasErrors]);
+  }, [clicked, orderErrors]);
 
   return (
     <form ref={form} onSubmit={validateForm} className="personal-order__form">
@@ -123,7 +119,7 @@ function OrderForm() {
             className={orderErrors.email ? 'input-error' : ''}
             name="email"
             id="email"
-            placeholder={orderErrors.email ? `${orderErrors.email}` : 'Email'}
+            placeholder={orderErrors.email ? 'This field is required' : 'Email'}
             value={orderData.email}
             onChange={(e) => setValue('email', e)}
           />
@@ -141,7 +137,7 @@ function OrderForm() {
             className={orderErrors.discord ? 'input-error' : ''}
             name="discord"
             id="discord"
-            placeholder={orderErrors.discord ? `${orderErrors.discord}` : 'Discord'}
+            placeholder={orderErrors.discord ? 'This field is required' : 'Discord'}
             value={orderData.discord}
             onChange={(e) => setValue('discord', e)}
           />
