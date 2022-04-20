@@ -15,7 +15,7 @@ function Gallery() {
     <section className="gallery">
       <div className="container">
         <h2 className="headerTextStroke">Our all</h2>
-        <h3 className="headerwTextStroke">Projects</h3>
+        <p className="headerwTextStroke">Projects</p>
 
         <div className="gallery__content">
           <div

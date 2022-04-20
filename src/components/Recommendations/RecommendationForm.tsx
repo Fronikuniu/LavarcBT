@@ -39,7 +39,7 @@ function RecommendationForm() {
     <div className="recommendation">
       <div className="container">
         <h2 className="headerTextStroke">Leave</h2>
-        <h3 className="headerwTextStroke">Feedback</h3>
+        <p className="headerwTextStroke">Feedback</p>
 
         <div className="recommendation-content">
           <div className="recommendation__form">

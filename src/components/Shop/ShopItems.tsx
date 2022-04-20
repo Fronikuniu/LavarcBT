@@ -22,7 +22,7 @@ function ShopItems({ addToCart }: ShopItemsProps) {
     <div className="container">
       <div className="shop-full">
         <h2 className="headerTextStroke">Shop</h2>
-        <h3 className="headerwTextStroke">Shop</h3>
+        <p className="headerwTextStroke">Shop</p>
 
         <div className="shop-items">
           {paginatedData.map((item) => (

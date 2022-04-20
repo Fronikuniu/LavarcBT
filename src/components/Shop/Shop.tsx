@@ -13,13 +13,13 @@ function Shop({ addToCart }: ShopProps) {
     <section className="shop">
       <div className="container">
         <h2 className="headerTextStroke">Shop</h2>
-        <h3 className="headerwTextStroke">Shop</h3>
+        <p className="headerwTextStroke">Shop</p>
 
         <div className="shop-latest">
           <ShopSlider addToCart={addToCart} />
         </div>
 
-        <h3 className="headerwTextStroke">Bestsellers</h3>
+        <p className="headerwTextStroke">Bestsellers</p>
         <div className="bestsellers">
           <Bestsellers addToCart={addToCart} />
         </div>
