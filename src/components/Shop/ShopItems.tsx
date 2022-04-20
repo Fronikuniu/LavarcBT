@@ -4,6 +4,7 @@ import { Image } from '../../types';
 import Pagination from '../helpers/Pagination';
 import useDocsSnapshot from '../helpers/useDocsSnapshot';
 import usePaginateData from '../helpers/usePaginateData';
+import ShopCost from './ShopCost';
 
 interface ShopItemsProps {
   addToCart: (item: Image) => void;
@@ -38,16 +39,7 @@ function ShopItems({ addToCart }: ShopItemsProps) {
               <Link to={`/gallery/${item.id}`}>
                 <p>{item.title}</p>
               </Link>
-              <p className="cost">
-                {item.sale ? (
-                  <>
-                    <span className="price">${item.price}</span>
-                    <span className="sale">${item.sale}</span>
-                  </>
-                ) : (
-                  <span>${item.price}</span>
-                )}
-              </p>
+              <ShopCost price={item.price} sale={item.sale} />
             </div>
           ))}
         </div>

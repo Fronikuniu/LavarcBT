@@ -17,7 +17,7 @@ function Pagination({ totalItems }: PaginationProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(12);
-  const [futureCurrentPage, setFutureCurrentPage] = useState<number | null>(null);
+  const [futurePage, setFuturePage] = useState<number | null>(null);
   const { pathname, push } = useRouter();
 
   useEffect(() => {
@@ -35,7 +35,11 @@ function Pagination({ totalItems }: PaginationProps) {
 
   const goToPage = (e: FormEvent) => {
     e.preventDefault();
-    if (futureCurrentPage) setCurrentPage(futureCurrentPage);
+    if (futurePage) setCurrentPage(futurePage);
+  };
+
+  const paginationButtonsClasses = (page: number) => {
+    return `pagination-btn ${currentPage === page ? 'disabled' : null}`;
   };
 
   const singlePageNumber = (page: number) => {
@@ -108,31 +112,22 @@ function Pagination({ totalItems }: PaginationProps) {
   return (
     <div className="pagination">
       <div className="pagination-top">
-        <HiChevronDoubleLeft
-          className={`pagination-btn ${currentPage === 1 ? 'disabled' : null}`}
-          onClick={goToFirstPage}
-        />
-        <HiChevronLeft
-          className={`pagination-btn ${currentPage === 1 ? 'disabled' : null}`}
-          onClick={goToPrevPage}
-        />
+        <HiChevronDoubleLeft className={paginationButtonsClasses(1)} onClick={goToFirstPage} />
+        <HiChevronLeft className={paginationButtonsClasses(1)} onClick={goToPrevPage} />
 
         <div className="pagination__numbers">{pages()}</div>
 
-        <HiChevronRight
-          className={`pagination-btn ${currentPage === totalPages ? 'disabled' : null}`}
-          onClick={goToNextPage}
-        />
+        <HiChevronRight className={paginationButtonsClasses(totalPages)} onClick={goToNextPage} />
         <HiChevronDoubleRight
-          className={`pagination-btn ${currentPage === totalPages ? 'disabled' : null}`}
+          className={paginationButtonsClasses(totalPages)}
           onClick={goToLastPage}
         />
       </div>
       <div className="pagination-bottom">
         <div className="pagination-inputs">
           <select
-            name=""
-            id=""
+            name="itemsPerPage"
+            id="itemsPerPage"
             className="pagination-input"
             onChange={(e) => {
               setCurrentPage(1);
@@ -155,7 +150,7 @@ function Pagination({ totalItems }: PaginationProps) {
                 min={0}
                 max={totalPages}
                 className="pagination-input GTP-input"
-                onChange={(e) => setFutureCurrentPage(Number(e.target.value))}
+                onChange={(e) => setFuturePage(Number(e.target.value))}
               />
               <button type="submit" className="GTP-btn">
                 <MdKeyboardArrowRight />

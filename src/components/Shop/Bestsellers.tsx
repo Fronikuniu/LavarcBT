@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { MdOutlineAddShoppingCart } from 'react-icons/md';
 import { Image } from '../../types';
 import useDocsSnapshot from '../helpers/useDocsSnapshot';
+import ShopCost from './ShopCost';
 
 interface BestsellersProps {
   addToCart: (item: Image) => void;
@@ -29,16 +30,7 @@ function Bestsellers({ addToCart }: BestsellersProps) {
           <Link to={`/gallery/${bestseller.id}`}>
             <p>{bestseller.title}</p>
           </Link>
-          <p className="cost">
-            {bestseller.sale ? (
-              <>
-                <span className="price">${bestseller.price}</span>
-                <span className="sale">${bestseller.sale}</span>
-              </>
-            ) : (
-              <span>${bestseller.price}</span>
-            )}
-          </p>
+          <ShopCost price={bestseller.price} sale={bestseller.sale} />
         </div>
       ))}
     </>

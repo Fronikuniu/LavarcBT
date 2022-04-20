@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Image } from '../../types';
 import useDocs from '../helpers/useDocs';
+import ShopCost from '../Shop/ShopCost';
 
 interface GallerySingleProps {
   addToCart: (item: Image) => void;
@@ -30,18 +31,7 @@ function GallerySingle({ addToCart }: GallerySingleProps) {
               By: <Link to={`/builder/${image?.builder}`}>{image?.builder}</Link>
             </p>
             {image?.desc ? <p className="desc">{image?.desc}</p> : null}
-            {image?.price ? (
-              <p className="cost">
-                {image?.sale ? (
-                  <>
-                    <span className="price">${image?.price}</span>
-                    <span className="sale">${image?.sale}</span>
-                  </>
-                ) : (
-                  <span>${image?.price}</span>
-                )}
-              </p>
-            ) : null}
+            {image?.price ? <ShopCost price={image.price} sale={image.sale} /> : null}
             <div
               role="link"
               onClick={() => window.open(image?.imgurAlbum)}
