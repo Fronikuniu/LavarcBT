@@ -633,6 +633,12 @@
   background-repeat: no-repeat;
   padding-top: 20px;
 }
+.about__members .container h2 {
+  line-height: 80%;
+}
+.about__members .container h3 {
+  line-height: 0%;
+}
 .about__members .slider .member {
   transform: scale(0.6);
   transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);

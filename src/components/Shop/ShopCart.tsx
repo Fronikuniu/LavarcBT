@@ -55,7 +55,13 @@ function ShopCart({
               <p>Total price:</p>
               <p>{total}$</p>
             </div>
-            <button type="button" className="btn primary order-btn" onClick={clearCart}>
+            <button
+              disabled
+              title="Payment is not done yet"
+              type="button"
+              className="btn primary order-btn"
+              onClick={clearCart}
+            >
               Order and Pay
             </button>
           </div>
