@@ -30,7 +30,7 @@ function ShopCart({
     <div className="shopCart">
       <div className="container">
         <h2 className="headerTextStroke">Your</h2>
-        <h3 className="headerwTextStroke">Cart</h3>
+        <p className="headerwTextStroke">Cart</p>
 
         <ShopCartList cart={cart} removeFromCart={removeFromCart} lenght={length} />
         <hr />

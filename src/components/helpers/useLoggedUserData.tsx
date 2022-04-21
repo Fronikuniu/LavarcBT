@@ -9,7 +9,7 @@ interface useLoggedUserDataReturnProps<T> {
 }
 
 export default function useLoggedUserData<T>(): useLoggedUserDataReturnProps<T> {
-  const [data, setData] = useState<T[] | []>([]);
+  const [data, setData] = useState<T[]>([]);
   const [hasError, setError] = useState(false);
   const [isLoading, setLoading] = useState(true);
 

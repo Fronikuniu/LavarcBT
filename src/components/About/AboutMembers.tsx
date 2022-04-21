@@ -24,7 +24,7 @@ function AboutMembers() {
     <section className="about__members">
       <div className="container">
         <h2 className="headerTextStroke">Our</h2>
-        <h3 className="headerwTextStroke">Team</h3>
+        <p className="headerwTextStroke">Team</p>
       </div>
       <div className="slider">
         <IoIosArrowDropleft onClick={prevMember} className="arrow arrowPrev" role="button" />

@@ -27,7 +27,7 @@ function GallerySlider() {
     <section className="gallery-latest">
       <div className="container">
         <h2 className="headerTextStroke">Latest</h2>
-        <h3 className="headerwTextStroke">Projects</h3>
+        <p className="headerwTextStroke">Projects</p>
       </div>
       <div className="slider">
         <IoIosArrowDropleft onClick={prevSlide} className="arrow arrowPrev" role="button" />

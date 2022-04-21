@@ -27,7 +27,7 @@ function Recommendations() {
     <section className="recommendations">
       <div className="container">
         <h2 className="headerTextStroke">Opinions</h2>
-        <h3 className="headerwTextStroke">About us</h3>
+        <p className="headerwTextStroke">About us</p>
 
         <div className="slider">
           {length >= 2 && (

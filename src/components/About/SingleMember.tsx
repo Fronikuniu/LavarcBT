@@ -23,7 +23,7 @@ function SingleMember() {
 
           <div className="single__member__info-text">
             <h2 className="headerTextStroke">{member?.name}</h2>
-            <h3 className="headerwTextStroke">{member?.name}</h3>
+            <p className="headerwTextStroke">{member?.name}</p>
 
             <p>{member?.about}</p>
 
@@ -36,7 +36,7 @@ function SingleMember() {
 
         <div className="single__member__projects">
           <h2 className="headerTextStroke">His</h2>
-          <h3 className="headerwTextStroke">Projects</h3>
+          <p className="headerwTextStroke">Projects</p>
 
           <div className="single__member__projects-images">
             {memberImagesLoading ? (

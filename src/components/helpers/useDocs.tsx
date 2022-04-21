@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { manageQueryOpinions, OptionsProps } from './manageQueryOptions';
 
 interface useDocsReturnProps<T> {
-  data: T[] | [];
+  data: T[];
   hasError: boolean;
   isLoading: boolean;
 }
@@ -12,7 +12,7 @@ export default function useDocs<T>(
   coll: string,
   queryArguments: OptionsProps
 ): useDocsReturnProps<T> {
-  const [data, setData] = useState<T[] | []>([]);
+  const [data, setData] = useState<T[]>([]);
   const [hasError, setError] = useState(false);
   const [isLoading, setLoading] = useState(true);
 

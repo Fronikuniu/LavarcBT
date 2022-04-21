@@ -2,6 +2,7 @@ import React from 'react';
 import { MdOutlineAddShoppingCart } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { Image } from '../../types';
+import ShopCost from './ShopCost';
 
 interface ShopSliderImagesProps {
   latestProducts: Image[];
@@ -40,16 +41,7 @@ function ShopSliderImages({
                 <p className="title">
                   <Link to={`/gallery/${item.id}`}>{item.title}</Link>
                 </p>
-                <p className="cost">
-                  {item.sale ? (
-                    <>
-                      <span className="price">${item.price}</span>
-                      <span className="sale">${item.sale}</span>
-                    </>
-                  ) : (
-                    <span>${item.price}</span>
-                  )}
-                </p>
+                <ShopCost price={item.price} sale={item.sale} />
               </>
             )}
           </div>

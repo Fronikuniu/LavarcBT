@@ -43,6 +43,7 @@ import { UseDoc, UseSetDoc, UseUpdateDoc } from './components/helpers/useManageD
 import useShopCart from './components/helpers/useShopCart';
 import ShopIcon from './components/Shop/ShopIcon';
 import ShopCart from './components/Shop/ShopCart';
+import ShopItems from './components/Shop/ShopItems';
 
 function App() {
   const [registerError, setRegisterError] = useState('');
@@ -211,6 +212,9 @@ function App() {
 
         <Route exact path="/shop">
           <Shop addToCart={addToCart} />
+        </Route>
+        <Route path="/shop/items">
+          <ShopItems addToCart={addToCart} />
         </Route>
 
         <Route exact path="/contact">

@@ -5,7 +5,7 @@ function About() {
     <section className="about">
       <div className="container">
         <h2 className="headerTextStroke">About</h2>
-        <h3 className="headerwTextStroke">Lavarc</h3>
+        <p className="headerwTextStroke">Lavarc</p>
 
         <div className="about__info">
           <div className="about__info-text">

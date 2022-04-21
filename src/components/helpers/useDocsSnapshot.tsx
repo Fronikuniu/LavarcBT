@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { manageQueryOpinions, OptionsProps } from './manageQueryOptions';
 
 interface useManyDocsSnapshotReturnProps<T> {
-  data: T[] | [];
+  data: T[];
   hasError: boolean;
   isLoading: boolean;
 }
@@ -13,7 +13,7 @@ export default function useDocsSnapshot<T>(
   collOptions: string[],
   queryOptions: OptionsProps
 ): useManyDocsSnapshotReturnProps<T> {
-  const [data, setData] = useState<T[] | []>([]);
+  const [data, setData] = useState<T[]>([]);
   const [hasError, setError] = useState(false);
   const [isLoading, setLoading] = useState(true);
 
