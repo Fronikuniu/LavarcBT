@@ -2,8 +2,10 @@ import { MdOutlineAddShoppingCart } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { Image } from '../../types';
 import Pagination from '../helpers/Pagination';
+import SearchBar from '../helpers/SearchBar';
 import useDocsSnapshot from '../helpers/useDocsSnapshot';
 import usePaginateData from '../helpers/usePaginateData';
+import useSearch from '../helpers/useSearch';
 import ShopCost from './ShopCost';
 
 interface ShopItemsProps {
@@ -16,14 +18,16 @@ function ShopItems({ addToCart }: ShopItemsProps) {
     orderByArg: ['price', 'desc'],
     secOrderByArg: ['createdAt', 'desc'],
   });
-
-  const paginatedData = usePaginateData<Image>(shopItems);
+  const searchData = useSearch<Image>(shopItems, ['title', 'desc', 'builder']);
+  const paginatedData = usePaginateData<Image>(searchData);
 
   return (
     <div className="container">
       <div className="shop-full">
         <h2 className="headerTextStroke">Shop</h2>
         <p className="headerwTextStroke">Shop</p>
+
+        <SearchBar />
 
         <div className="shop-items">
           {paginatedData.map((item) => (

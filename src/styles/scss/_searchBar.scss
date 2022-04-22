@@ -1,0 +1,34 @@
+@use 'colors';
+@use 'mixins';
+
+.search-bar {
+  width: 100%;
+  margin: 50px auto 10px auto;
+  position: relative;
+  @include mixins.breakpoint(mobileL) {
+    width: 70%;
+  }
+  @include mixins.breakpoint(tablet) {
+    width: 50%;
+  }
+  .search,
+  .reset {
+    position: absolute;
+    font-size: 2em;
+    color: colors.$dandelion;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .search {
+    left: 15px;
+  }
+  .reset {
+    right: 10px;
+    font-size: 1.7em;
+    cursor: pointer;
+  }
+  .search-input {
+    width: 100%;
+    padding: 12px 45px 10px 60px;
+  }
+}
