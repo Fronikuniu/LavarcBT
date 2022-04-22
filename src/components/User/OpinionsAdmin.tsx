@@ -3,8 +3,8 @@ import { GiCheckMark } from 'react-icons/gi';
 import { BiHide, BiShow } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import { Opinion } from '../../types';
-import { UseDeleteDoc, UseUpdateDoc } from '../helpers/useManageDoc';
-import useDocsSnapshot from '../helpers/useDocsSnapshot';
+import { UseDeleteDoc, UseUpdateDoc } from '../hooks/useManageDoc';
+import useDocsSnapshot from '../hooks/useDocsSnapshot';
 
 function OpinionsAdmin() {
   const { data: allOpinions } = useDocsSnapshot<Opinion>('opinions', [], {});

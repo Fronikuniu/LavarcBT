@@ -7,7 +7,7 @@ import {
   HiDotsHorizontal,
 } from 'react-icons/hi';
 import { MdKeyboardArrowRight } from 'react-icons/md';
-import useRouter from './useRouter';
+import useRouter from '../hooks/useRouter';
 
 interface PaginationProps {
   totalItems: number;

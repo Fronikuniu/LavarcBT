@@ -3,8 +3,8 @@ import { IoClose } from 'react-icons/io5';
 import { toast } from 'react-toastify';
 import { uid } from 'uid';
 import { DiscountCode } from '../../types';
-import useDocsSnapshot from '../helpers/useDocsSnapshot';
-import { UseDeleteDoc, UseSetDoc } from '../helpers/useManageDoc';
+import useDocsSnapshot from '../hooks/useDocsSnapshot';
+import { UseDeleteDoc, UseSetDoc } from '../hooks/useManageDoc';
 
 function DiscountCodes() {
   const { data: allCodes } = useDocsSnapshot<DiscountCode>('discountCodes', [], {});

@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { Image } from '../../types';
 import Pagination from '../helpers/Pagination';
 import SearchBar from '../helpers/SearchBar';
-import useDocsSnapshot from '../helpers/useDocsSnapshot';
-import usePaginateData from '../helpers/usePaginateData';
-import useSearch from '../helpers/useSearch';
+import useDocsSnapshot from '../hooks/useDocsSnapshot';
+import usePaginateData from '../hooks/usePaginateData';
+import useSearch from '../hooks/useSearch';
 import ShopCost from './ShopCost';
 
 interface ShopItemsProps {

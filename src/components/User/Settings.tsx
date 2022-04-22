@@ -9,9 +9,9 @@ import OpinionsDangerZone from './OpinionsDangerZone';
 import GalleryForm from './GalleryForm';
 import GalleryAdmin from './GalleryAdmin';
 import { UserData } from '../../types';
-import useLoggedUserData from '../helpers/useLoggedUserData';
-import { UseAddImage, UseRemoveImage } from '../helpers/useManageFiles';
-import { UseUpdateDoc } from '../helpers/useManageDoc';
+import useLoggedUserData from '../hooks/useLoggedUserData';
+import { UseAddImage, UseRemoveImage } from '../hooks/useManageFiles';
+import { UseUpdateDoc } from '../hooks/useManageDoc';
 import DiscountCodes from './DiscountCodes';
 
 interface SettingsProps {

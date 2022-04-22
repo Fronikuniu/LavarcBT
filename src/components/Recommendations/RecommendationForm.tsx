@@ -4,8 +4,8 @@ import { toast } from 'react-toastify';
 import { uid } from 'uid';
 import drummaks from '../../images/char.png';
 import { Opinion } from '../../types';
-import { UseSetDoc } from '../helpers/useManageDoc';
-import useRouter from '../helpers/useRouter';
+import { UseSetDoc } from '../hooks/useManageDoc';
+import useRouter from '../hooks/useRouter';
 
 function RecommendationForm() {
   const {

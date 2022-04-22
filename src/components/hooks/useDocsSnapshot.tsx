@@ -1,6 +1,6 @@
 import { onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { manageQueryOpinions, OptionsProps } from './manageQueryOptions';
+import { manageQueryOpinions, OptionsProps } from '../helpers/manageQueryOptions';
 
 interface useManyDocsSnapshotReturnProps<T> {
   data: T[];

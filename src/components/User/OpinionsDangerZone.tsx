@@ -6,7 +6,7 @@ import { auth } from '../configuration/firebase';
 import LoginModal from './LoginModal';
 import loginErrors from '../helpers/loginErrors';
 import { LoginErrors } from '../../types';
-import { UseDeleteDoc } from '../helpers/useManageDoc';
+import { UseDeleteDoc } from '../hooks/useManageDoc';
 
 function OpinionsDangerZone() {
   const [data, setData] = useState({ email: '', password: '' });

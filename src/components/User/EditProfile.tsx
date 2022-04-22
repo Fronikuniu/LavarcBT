@@ -14,7 +14,7 @@ import { auth } from '../configuration/firebase';
 import LoginModal from './LoginModal';
 import loginErrors from '../helpers/loginErrors';
 import { EditProfileBasicProps, EditProfilePasswordProps, LoginErrors } from '../../types';
-import { UseUpdateDoc } from '../helpers/useManageDoc';
+import { UseUpdateDoc } from '../hooks/useManageDoc';
 
 interface EditProfileProps {
   loggedUser: FirebaseUser;

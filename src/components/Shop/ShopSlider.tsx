@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { Image } from '../../types';
-import useDocsSnapshot from '../helpers/useDocsSnapshot';
+import useDocsSnapshot from '../hooks/useDocsSnapshot';
 import ShopSliderImages from './ShopSliderImages';
 
 interface ShopSliderProps {

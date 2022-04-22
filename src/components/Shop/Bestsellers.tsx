@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { MdOutlineAddShoppingCart } from 'react-icons/md';
 import { Image } from '../../types';
-import useDocsSnapshot from '../helpers/useDocsSnapshot';
+import useDocsSnapshot from '../hooks/useDocsSnapshot';
 import ShopCost from './ShopCost';
 
 interface BestsellersProps {

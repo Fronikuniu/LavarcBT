@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import { Image } from '../../types';
-import useDocs from '../helpers/useDocs';
+import useDocs from '../hooks/useDocs';
 
 function GallerySlider() {
   const [current, setCurrent] = useState(0);

@@ -2,7 +2,7 @@ import { MdOutlineAddShoppingCart } from 'react-icons/md';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Image } from '../../types';
-import useDocs from '../helpers/useDocs';
+import useDocs from '../hooks/useDocs';
 import ShopCost from '../Shop/ShopCost';
 
 interface GallerySingleProps {

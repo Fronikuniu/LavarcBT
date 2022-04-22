@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { BiSearchAlt } from 'react-icons/bi';
 import { IoMdClose } from 'react-icons/io';
-import useRouter from './useRouter';
+import useRouter from '../hooks/useRouter';
 
 interface SearchBarProps {
   params?: string[];

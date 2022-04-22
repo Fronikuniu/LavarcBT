@@ -1,11 +1,11 @@
 import Loader from '../Loader/Loader';
 import { Image } from '../../types';
-import useDocs from '../helpers/useDocs';
+import useDocs from '../hooks/useDocs';
 import GalleryCard from './GalleryCard';
 import Pagination from '../helpers/Pagination';
-import usePaginateData from '../helpers/usePaginateData';
+import usePaginateData from '../hooks/usePaginateData';
 import SearchBar from '../helpers/SearchBar';
-import useSearch from '../helpers/useSearch';
+import useSearch from '../hooks/useSearch';
 
 function Gallery() {
   const { data: images, isLoading } = useDocs<Image>('gallery', {
