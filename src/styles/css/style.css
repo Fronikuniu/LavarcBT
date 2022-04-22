@@ -2765,22 +2765,27 @@
   padding: 0;
 }
 
-.search-bar {
-  width: 100%;
+.search {
+  display: flex;
   margin: 50px auto 10px auto;
+  justify-content: center;
+  gap: 20px;
+}
+.search .search-bar {
+  width: 100%;
   position: relative;
 }
 @media (min-width: 425px) {
-  .search-bar {
+  .search .search-bar {
     width: 70%;
   }
 }
 @media (min-width: 768px) {
-  .search-bar {
+  .search .search-bar {
     width: 50%;
   }
 }
-.search-bar .label {
+.search .label {
   position: absolute;
   top: -13px;
   left: 60px;
@@ -2789,25 +2794,46 @@
   color: #fed85d;
   font-weight: 600;
 }
-.search-bar .search,
-.search-bar .reset {
+.search .search-icon,
+.search .reset-icon {
   position: absolute;
   font-size: 2em;
   color: #fed85d;
   top: 50%;
   transform: translateY(-50%);
 }
-.search-bar .search {
+.search .search-icon {
   left: 15px;
 }
-.search-bar .reset {
+.search .reset-icon {
   right: 10px;
   font-size: 1.7em;
   cursor: pointer;
 }
-.search-bar .search-input {
+.search .search-input {
   width: 100%;
   padding: 12px 45px 10px 60px;
+}
+.search .price {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.search .price label {
+  width: 100px;
+  position: relative;
+}
+.search .price .label {
+  position: absolute;
+  top: -13px;
+  left: 10px;
+  padding: 0 5px;
+  background-color: white;
+  color: #fed85d;
+  font-weight: 600;
+}
+.search .price-input {
+  padding: 10px;
 }
 
 body {

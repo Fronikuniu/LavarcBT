@@ -4,14 +4,14 @@ import useRouter from './useRouter';
 function useSearch<T>(arr: T[], searchFields: (keyof T)[]) {
   const [dataToReturn, setDataToReturn] = useState<T[]>([]);
   const { query } = useRouter();
-  const { search = '' } = query as { search: string };
+  const { search = '', minMax = '' } = query as { search: string; minMax: string };
 
   useEffect(() => {
     setDataToReturn(arr);
   }, [arr]);
 
   useEffect(() => {
-    const newData = arr.filter((item) => {
+    const searchName = arr.filter((item) => {
       const dataToSearch = searchFields
         .map((field) => item[field])
         .join(' ')
@@ -20,8 +20,17 @@ function useSearch<T>(arr: T[], searchFields: (keyof T)[]) {
       const searchToString = search.toLowerCase();
       return dataToSearch.includes(searchToString);
     });
-    setDataToReturn(newData);
-  }, [arr, search]);
+
+    const searchPrice = searchName.filter((item) => {
+      const [min, max] = minMax.split('-');
+      if (!min && !max) return item;
+      // @ts-ignore
+      const price = Number(item.price ? item.sale : item.price);
+      return price >= Number(min) && price <= Number(max);
+    });
+
+    setDataToReturn(searchPrice);
+  }, [arr, minMax, search]);
 
   return dataToReturn;
 }

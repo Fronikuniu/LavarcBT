@@ -1,15 +1,20 @@
 @use 'colors';
 @use 'mixins';
 
-.search-bar {
-  width: 100%;
+.search {
+  display: flex;
   margin: 50px auto 10px auto;
-  position: relative;
-  @include mixins.breakpoint(mobileL) {
-    width: 70%;
-  }
-  @include mixins.breakpoint(tablet) {
-    width: 50%;
+  justify-content: center;
+  gap: 20px;
+  .search-bar {
+    width: 100%;
+    position: relative;
+    @include mixins.breakpoint(mobileL) {
+      width: 70%;
+    }
+    @include mixins.breakpoint(tablet) {
+      width: 50%;
+    }
   }
   .label {
     position: absolute;
@@ -20,18 +25,18 @@
     color: colors.$dandelion;
     font-weight: 600;
   }
-  .search,
-  .reset {
+  .search-icon,
+  .reset-icon {
     position: absolute;
     font-size: 2em;
     color: colors.$dandelion;
     top: 50%;
     transform: translateY(-50%);
   }
-  .search {
+  .search-icon {
     left: 15px;
   }
-  .reset {
+  .reset-icon {
     right: 10px;
     font-size: 1.7em;
     cursor: pointer;
@@ -39,5 +44,26 @@
   .search-input {
     width: 100%;
     padding: 12px 45px 10px 60px;
+  }
+  .price {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    label {
+      width: 100px;
+      position: relative;
+    }
+    .label {
+      position: absolute;
+      top: -13px;
+      left: 10px;
+      padding: 0 5px;
+      background-color: white;
+      color: colors.$dandelion;
+      font-weight: 600;
+    }
+  }
+  .price-input {
+    padding: 10px;
   }
 }

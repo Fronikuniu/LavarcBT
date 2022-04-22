@@ -27,7 +27,7 @@ function ShopItems({ addToCart }: ShopItemsProps) {
         <h2 className="headerTextStroke">Shop</h2>
         <p className="headerwTextStroke">Shop</p>
 
-        <SearchBar params={['title', 'desc', 'builder']} />
+        <SearchBar params={['title', 'desc', 'builder']} price />
 
         <div className="shop-items">
           {paginatedData.map((item) => (
