@@ -20,7 +20,7 @@ function Gallery() {
         <h2 className="headerTextStroke">Our all</h2>
         <p className="headerwTextStroke">Projects</p>
 
-        <SearchBar />
+        <SearchBar params={['title', 'desc', 'builder']} />
 
         <div className="gallery__content">
           <div

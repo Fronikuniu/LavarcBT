@@ -3,7 +3,7 @@ import { BiSearchAlt } from 'react-icons/bi';
 import { IoMdClose } from 'react-icons/io';
 import useRouter from './useRouter';
 
-function SearchBar() {
+function SearchBar({ params }: { params: string[] }) {
   const [search, setSearch] = useState('');
   const { push, location, pathname } = useRouter();
 
@@ -21,15 +21,18 @@ function SearchBar() {
   return (
     <div className="search-bar">
       <BiSearchAlt className="search" />
-      <input
-        type="text"
-        name="searchBar"
-        id="searchBar"
-        placeholder="Search..."
-        onChange={handleChange}
-        value={search}
-        className="search-input"
-      />
+      <label htmlFor="searchBar">
+        <p className="label">Search data</p>
+        <input
+          type="text"
+          name="searchBar"
+          id="searchBar"
+          placeholder={`Search by ${params.join(', ')}...`}
+          onChange={handleChange}
+          value={search}
+          className="search-input"
+        />
+      </label>
       <IoMdClose className="reset" onClick={() => setSearch('')} />
     </div>
   );

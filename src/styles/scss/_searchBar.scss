@@ -11,6 +11,15 @@
   @include mixins.breakpoint(tablet) {
     width: 50%;
   }
+  .label {
+    position: absolute;
+    top: -13px;
+    left: 60px;
+    padding: 0 5px;
+    background-color: white;
+    color: colors.$dandelion;
+    font-weight: 600;
+  }
   .search,
   .reset {
     position: absolute;
