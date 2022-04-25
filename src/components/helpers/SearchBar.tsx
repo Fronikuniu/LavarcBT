@@ -4,22 +4,32 @@ import { IoMdClose } from 'react-icons/io';
 import useRouter from '../hooks/useRouter';
 
 interface SearchBarProps {
+  searchParams: Record<string, string>;
+  setSearchParams: (item: Record<string, string>) => void;
   params?: string[];
   price?: boolean;
 }
 
-function SearchBar({ params, price = false }: SearchBarProps) {
-  const [search, setSearch] = useState('');
-  const [min, setMin] = useState('');
-  const [max, setMax] = useState('');
-  const { push, location, pathname } = useRouter();
+function SearchBar({ searchParams, setSearchParams, params, price = false }: SearchBarProps) {
+  const { query } = useRouter();
+  const [search, setSearch] = useState(query.search ? query.search : '');
+  const [min, setMin] = useState(query.minMax ? query.minMax.split('-')[0] : '');
+  const [max, setMax] = useState(query.minMax ? query.minMax.split('-')[1] : '');
 
   useEffect(() => {
-    const regex = /&minMax=.*/gm;
-    const path = `${pathname}${location.search}`.replace(regex, '');
-    const preparedSearch = search.trim().replace(/\s+/g, ' ');
-    push(`${path}&minMax=${min}-${max}&search=${preparedSearch}`);
-  }, [max, min, pathname, push, search]);
+    setSearchParams(
+      price
+        ? {
+            ...searchParams,
+            search,
+            minMax: `${min}-${max}`,
+          }
+        : {
+            ...searchParams,
+            search,
+          }
+    );
+  }, [max, min, search]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -36,7 +46,7 @@ function SearchBar({ params, price = false }: SearchBarProps) {
             name="searchBar"
             id="searchBar"
             placeholder={params ? `Search by ${params.join(', ')}...` : 'Search...'}
-            onChange={handleChange}
+            onChange={(e) => setSearch(e.target.value)}
             value={search}
             className="search-input"
           />

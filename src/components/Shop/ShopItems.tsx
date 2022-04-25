@@ -6,6 +6,7 @@ import SearchBar from '../helpers/SearchBar';
 import useDocsSnapshot from '../hooks/useDocsSnapshot';
 import usePaginateData from '../hooks/usePaginateData';
 import useSearch from '../hooks/useSearch';
+import useSetQueryParams from '../hooks/useSetQueryParams';
 import ShopCost from './ShopCost';
 
 interface ShopItemsProps {
@@ -18,7 +19,13 @@ function ShopItems({ addToCart }: ShopItemsProps) {
     orderByArg: ['price', 'desc'],
     secOrderByArg: ['createdAt', 'desc'],
   });
-  const searchData = useSearch<Image>(shopItems, ['title', 'desc', 'builder']);
+  const [searchParams, setSearchParams] = useSetQueryParams({
+    page: '1',
+    itemsPerPage: '12',
+    search: '',
+    minMax: '-',
+  });
+  const searchData = useSearch<Image>(shopItems, ['title', 'desc', 'builder'], ['sale', 'price']);
   const paginatedData = usePaginateData<Image>(searchData);
 
   return (
@@ -27,7 +34,12 @@ function ShopItems({ addToCart }: ShopItemsProps) {
         <h2 className="headerTextStroke">Shop</h2>
         <p className="headerwTextStroke">Shop</p>
 
-        <SearchBar params={['title', 'desc', 'builder']} price />
+        <SearchBar
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
+          params={['title', 'desc', 'builder']}
+          price
+        />
 
         <div className="shop-items">
           {paginatedData.map((item) => (
@@ -47,7 +59,11 @@ function ShopItems({ addToCart }: ShopItemsProps) {
             </div>
           ))}
         </div>
-        <Pagination totalItems={shopItems.length} />
+        <Pagination
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
+          totalItems={searchData.length}
+        />
       </div>
     </div>
   );

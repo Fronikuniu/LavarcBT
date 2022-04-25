@@ -2787,12 +2787,13 @@
 }
 .search .label {
   position: absolute;
-  top: -13px;
+  top: 0px;
   left: 60px;
   padding: 0 5px;
   background-color: white;
   color: #fed85d;
   font-weight: 600;
+  line-height: 2px;
 }
 .search .search-icon,
 .search .reset-icon {
@@ -2825,12 +2826,13 @@
 }
 .search .price .label {
   position: absolute;
-  top: -13px;
+  top: 0px;
   left: 10px;
   padding: 0 5px;
   background-color: white;
   color: #fed85d;
   font-weight: 600;
+  line-height: 2px;
 }
 .search .price-input {
   padding: 10px;

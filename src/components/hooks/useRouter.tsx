@@ -16,7 +16,7 @@ const useRouter = () => {
       query: {
         ...queryString.parse(location.search),
         ...params,
-      },
+      } as Record<string, string>,
       match,
       location,
       history,

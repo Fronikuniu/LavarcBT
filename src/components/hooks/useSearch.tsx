@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import useRouter from './useRouter';
 
-function useSearch<T>(arr: T[], searchFields: (keyof T)[]) {
+function useSearch<T>(arr: T[], textFields: (keyof T)[], priceFields: (keyof T)[]) {
   const [dataToReturn, setDataToReturn] = useState<T[]>([]);
   const { query } = useRouter();
-  const { search = '', minMax = '' } = query as { search: string; minMax: string };
+  const { search = '', minMax = '' } = query;
 
   useEffect(() => {
     setDataToReturn(arr);
-  }, [arr]);
+  }, []);
 
   useEffect(() => {
     const searchName = arr.filter((item) => {
-      const dataToSearch = searchFields
+      const dataToSearch = textFields
         .map((field) => item[field])
         .join(' ')
         .toLowerCase();
@@ -24,8 +24,7 @@ function useSearch<T>(arr: T[], searchFields: (keyof T)[]) {
     const searchPrice = searchName.filter((item) => {
       const [min, max] = minMax.split('-');
       if (!min && !max) return item;
-      // @ts-ignore
-      const price = Number(item.price ? item.sale : item.price);
+      const price = Number(item[priceFields[0]] ? item[priceFields[0]] : item[priceFields[1]]);
       return price >= Number(min) && price <= Number(max);
     });
 

@@ -10,21 +10,29 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 import useRouter from '../hooks/useRouter';
 
 interface PaginationProps {
+  searchParams: Record<string, string>;
+  setSearchParams: (item: Record<string, string>) => void;
   totalItems: number;
 }
 
-function Pagination({ totalItems }: PaginationProps) {
-  const [currentPage, setCurrentPage] = useState(1);
+function Pagination({ searchParams, setSearchParams, totalItems }: PaginationProps) {
+  const { query } = useRouter();
+  const [currentPage, setCurrentPage] = useState(Number(query.page ? query.page : 1));
   const [totalPages, setTotalPages] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(12);
+  const [itemsPerPage, setItemsPerPage] = useState(
+    Number(query.itemsPerPage ? query.itemsPerPage : 12)
+  );
   const [futurePage, setFuturePage] = useState<number | null>(null);
-  const { pathname, push } = useRouter();
 
   useEffect(() => {
     const pages = Math.ceil(totalItems / itemsPerPage);
     setTotalPages(pages);
-    push(`${pathname}?page=${currentPage}&itemsPerPage=${itemsPerPage}`);
-  }, [currentPage, totalPages, itemsPerPage, totalItems, push, pathname]);
+    setSearchParams({
+      ...searchParams,
+      page: String(currentPage),
+      itemsPerPage: String(itemsPerPage),
+    });
+  }, [currentPage, totalPages, itemsPerPage, totalItems, setSearchParams]);
 
   const goToFirstPage = () => setCurrentPage(1);
   const goToPrevPage = () => setCurrentPage(currentPage - 1);
@@ -38,8 +46,8 @@ function Pagination({ totalItems }: PaginationProps) {
     if (futurePage) setCurrentPage(futurePage);
   };
 
-  const paginationButtonsClasses = (page: number) => {
-    return `pagination-btn ${currentPage === page ? 'disabled' : null}`;
+  const paginationButtonsClasses = (page: number, total?: number) => {
+    return `pagination-btn ${currentPage === page || !total ? 'disabled' : null}`;
   };
 
   const singlePageNumber = (page: number) => {
@@ -103,7 +111,7 @@ function Pagination({ totalItems }: PaginationProps) {
   const results = () => {
     return (
       <>
-        {(currentPage - 1) * itemsPerPage + 1} -{' '}
+        {totalItems ? (currentPage - 1) * itemsPerPage + 1 : 0} -{' '}
         {currentPage * itemsPerPage >= totalItems ? totalItems : currentPage * itemsPerPage}
       </>
     );
@@ -112,14 +120,20 @@ function Pagination({ totalItems }: PaginationProps) {
   return (
     <div className="pagination">
       <div className="pagination-top">
-        <HiChevronDoubleLeft className={paginationButtonsClasses(1)} onClick={goToFirstPage} />
-        <HiChevronLeft className={paginationButtonsClasses(1)} onClick={goToPrevPage} />
+        <HiChevronDoubleLeft
+          className={paginationButtonsClasses(1, totalItems)}
+          onClick={goToFirstPage}
+        />
+        <HiChevronLeft className={paginationButtonsClasses(1, totalItems)} onClick={goToPrevPage} />
 
         <div className="pagination__numbers">{pages()}</div>
 
-        <HiChevronRight className={paginationButtonsClasses(totalPages)} onClick={goToNextPage} />
+        <HiChevronRight
+          className={paginationButtonsClasses(totalPages, totalItems)}
+          onClick={goToNextPage}
+        />
         <HiChevronDoubleRight
-          className={paginationButtonsClasses(totalPages)}
+          className={paginationButtonsClasses(totalPages, totalItems)}
           onClick={goToLastPage}
         />
       </div>
