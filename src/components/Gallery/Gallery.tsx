@@ -7,19 +7,12 @@ import usePaginateData from '../hooks/usePaginateData';
 import SearchBar from '../helpers/SearchBar';
 import useSearch from '../hooks/useSearch';
 import useSetQueryParams from '../hooks/useSetQueryParams';
-// import useRouter from '../hooks/useRouter';
 
 function Gallery() {
   const { data: images, isLoading } = useDocs<Image>('gallery', {
     orderByArg: ['createdAt', 'asc'],
   });
-  // const { query } = useRouter();
-  const [searchParams, setSearchParams] = useSetQueryParams({
-    page: '1',
-    itemsPerPage: '12',
-    search: '',
-    // search: query.search ? query.search : '',
-  });
+  const [searchParams, setSearchParams] = useSetQueryParams();
   const searchData = useSearch<Image>(images, ['title', 'desc', 'builder'], []);
   const paginatedData = usePaginateData<Image>(searchData);
 
@@ -36,21 +29,17 @@ function Gallery() {
         />
 
         <div className="gallery__content">
-          <div
-            className="gallery__content-loader"
-            style={{ display: isLoading ? 'block' : 'none' }}
-          >
+          {isLoading ? (
             <Loader />
-          </div>
-
-          <div className="gallery__content-images" style={{ display: isLoading ? 'none' : 'grid' }}>
-            {isLoading && <Loader />}
-            {paginatedData.length ? (
-              paginatedData.map((img) => <GalleryCard {...img} key={img.id} />)
-            ) : (
-              <p>No data available to this search.</p>
-            )}
-          </div>
+          ) : (
+            <div className="gallery__content-images">
+              {paginatedData.length ? (
+                paginatedData.map((img) => <GalleryCard {...img} key={img.id} />)
+              ) : (
+                <p>No data available to this search.</p>
+              )}
+            </div>
+          )}
 
           <Pagination
             searchParams={searchParams}

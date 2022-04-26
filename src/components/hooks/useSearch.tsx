@@ -25,6 +25,9 @@ function useSearch<T>(arr: T[], textFields: (keyof T)[], priceFields: (keyof T)[
       const [min, max] = minMax.split('-');
       if (!min && !max) return item;
       const price = Number(item[priceFields[0]] ? item[priceFields[0]] : item[priceFields[1]]);
+
+      if (min && !max) return price >= Number(min);
+      if (!min && max) return price <= Number(max);
       return price >= Number(min) && price <= Number(max);
     });
 

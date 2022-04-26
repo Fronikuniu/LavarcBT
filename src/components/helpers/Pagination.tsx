@@ -25,14 +25,16 @@ function Pagination({ searchParams, setSearchParams, totalItems }: PaginationPro
   const [futurePage, setFuturePage] = useState<number | null>(null);
 
   useEffect(() => {
-    const pages = Math.ceil(totalItems / itemsPerPage);
-    setTotalPages(pages);
+    setTotalPages(Math.ceil(totalItems / itemsPerPage));
+  }, [itemsPerPage, totalItems]);
+
+  useEffect(() => {
     setSearchParams({
       ...searchParams,
       page: String(currentPage),
       itemsPerPage: String(itemsPerPage),
     });
-  }, [currentPage, totalPages, itemsPerPage, totalItems, setSearchParams]);
+  }, [currentPage, itemsPerPage]);
 
   const goToFirstPage = () => setCurrentPage(1);
   const goToPrevPage = () => setCurrentPage(currentPage - 1);

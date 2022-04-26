@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BiSearchAlt } from 'react-icons/bi';
 import { IoMdClose } from 'react-icons/io';
 import useRouter from '../hooks/useRouter';
@@ -12,9 +12,15 @@ interface SearchBarProps {
 
 function SearchBar({ searchParams, setSearchParams, params, price = false }: SearchBarProps) {
   const { query } = useRouter();
-  const [search, setSearch] = useState(query.search ? query.search : '');
-  const [min, setMin] = useState(query.minMax ? query.minMax.split('-')[0] : '');
-  const [max, setMax] = useState(query.minMax ? query.minMax.split('-')[1] : '');
+  const [search, setSearch] = useState('');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
+
+  useEffect(() => {
+    setSearch(query.search ? query.search : '');
+    setMinPrice(query.minMax ? query.minMax.split('-')[0] : '');
+    setMaxPrice(query.minMax ? query.minMax.split('-')[1] : '');
+  }, []);
 
   useEffect(() => {
     setSearchParams(
@@ -22,18 +28,14 @@ function SearchBar({ searchParams, setSearchParams, params, price = false }: Sea
         ? {
             ...searchParams,
             search,
-            minMax: `${min}-${max}`,
+            minMax: `${minPrice}-${maxPrice}`,
           }
         : {
             ...searchParams,
             search,
           }
     );
-  }, [max, min, search]);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  };
+  }, [maxPrice, minPrice, search]);
 
   return (
     <div className="search">
@@ -63,10 +65,8 @@ function SearchBar({ searchParams, setSearchParams, params, price = false }: Sea
               name="searchPriceFrom"
               id="searchPriceFrom"
               placeholder="From"
-              onChange={(e) => {
-                setMin(e.target.value);
-              }}
-              value={min}
+              onChange={(e) => setMinPrice(e.target.value)}
+              value={minPrice}
               className="price-input"
             />
           </label>
@@ -78,10 +78,8 @@ function SearchBar({ searchParams, setSearchParams, params, price = false }: Sea
               name="searchPriceTo"
               id="searchPriceTo"
               placeholder="To"
-              onChange={(e) => {
-                setMax(e.target.value);
-              }}
-              value={max}
+              onChange={(e) => setMaxPrice(e.target.value)}
+              value={maxPrice}
               className="price-input"
             />
           </label>

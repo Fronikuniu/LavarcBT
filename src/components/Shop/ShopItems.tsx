@@ -19,12 +19,7 @@ function ShopItems({ addToCart }: ShopItemsProps) {
     orderByArg: ['price', 'desc'],
     secOrderByArg: ['createdAt', 'desc'],
   });
-  const [searchParams, setSearchParams] = useSetQueryParams({
-    page: '1',
-    itemsPerPage: '12',
-    search: '',
-    minMax: '-',
-  });
+  const [searchParams, setSearchParams] = useSetQueryParams();
   const searchData = useSearch<Image>(shopItems, ['title', 'desc', 'builder'], ['sale', 'price']);
   const paginatedData = usePaginateData<Image>(searchData);
 
