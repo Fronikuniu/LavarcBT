@@ -39,8 +39,8 @@ import RecommendationForm from './components/Recommendations/RecommendationForm'
 import 'react-toastify/dist/ReactToastify.css';
 import loginErrors from './components/helpers/loginErrors';
 import { LoginData, LoginErrors } from './types';
-import { UseDoc, UseSetDoc, UseUpdateDoc } from './components/helpers/useManageDoc';
-import useShopCart from './components/helpers/useShopCart';
+import { UseDoc, UseSetDoc, UseUpdateDoc } from './components/hooks/useManageDoc';
+import useShopCart from './components/hooks/useShopCart';
 import ShopIcon from './components/Shop/ShopIcon';
 import ShopCart from './components/Shop/ShopCart';
 import ShopItems from './components/Shop/ShopItems';

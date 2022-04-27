@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { uid } from 'uid';
 import { GalleryFormImage, Member } from '../../types';
-import useDocs from '../helpers/useDocs';
-import { UseSetDoc } from '../helpers/useManageDoc';
-import { UseAddImage } from '../helpers/useManageFiles';
+import useDocs from '../hooks/useDocs';
+import { UseSetDoc } from '../hooks/useManageDoc';
+import { UseAddImage } from '../hooks/useManageFiles';
 
 function GalleryForm() {
   const { data: members } = useDocs<Member>('members', {});

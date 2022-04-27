@@ -7,10 +7,10 @@ import Message from './Message';
 import MessageForm from './MessageForm';
 import UserList from './UserList';
 import { MessageT, UserData } from '../../types';
-import useDocsSnapshot from '../helpers/useDocsSnapshot';
-import useLoggedUserData from '../helpers/useLoggedUserData';
-import { UseAddDoc, UseDoc, UseSetDoc, UseUpdateDoc } from '../helpers/useManageDoc';
-import { UseAddImage } from '../helpers/useManageFiles';
+import useDocsSnapshot from '../hooks/useDocsSnapshot';
+import useLoggedUserData from '../hooks/useLoggedUserData';
+import { UseAddDoc, UseDoc, UseSetDoc, UseUpdateDoc } from '../hooks/useManageDoc';
+import { UseAddImage } from '../hooks/useManageFiles';
 
 interface UsersListProps {
   loggedUser: FirebaseUser;

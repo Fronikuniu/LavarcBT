@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import { Member } from '../../types';
-import useDocs from '../helpers/useDocs';
+import useDocs from '../hooks/useDocs';
 
 function AboutMembers() {
   const [current, setCurrent] = useState(0);

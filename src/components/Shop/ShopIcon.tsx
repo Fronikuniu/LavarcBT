@@ -1,6 +1,6 @@
 import { FaShoppingBasket } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import useRouter from '../helpers/useRouter';
+import useRouter from '../hooks/useRouter';
 
 interface ShopIconProps {
   length: number;

@@ -4,7 +4,7 @@ import useRouter from './useRouter';
 function usePaginateData<T>(data: T[]) {
   const [dataToReturn, setDataToreturn] = useState<T[]>([]);
   const { query } = useRouter();
-  const { page = 1, itemsPerPage = 12 } = query as { page: number; itemsPerPage: number };
+  const { page = 1, itemsPerPage = 12 } = query;
   const start = (Number(page) - 1) * Number(itemsPerPage);
   const end = Number(start) + Number(itemsPerPage);
 

@@ -2,8 +2,11 @@ import { MdOutlineAddShoppingCart } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { Image } from '../../types';
 import Pagination from '../helpers/Pagination';
-import useDocsSnapshot from '../helpers/useDocsSnapshot';
-import usePaginateData from '../helpers/usePaginateData';
+import SearchBar from '../helpers/SearchBar';
+import useDocsSnapshot from '../hooks/useDocsSnapshot';
+import usePaginateData from '../hooks/usePaginateData';
+import useSearch from '../hooks/useSearch';
+import useSetQueryParams from '../hooks/useSetQueryParams';
 import ShopCost from './ShopCost';
 
 interface ShopItemsProps {
@@ -16,14 +19,22 @@ function ShopItems({ addToCart }: ShopItemsProps) {
     orderByArg: ['price', 'desc'],
     secOrderByArg: ['createdAt', 'desc'],
   });
-
-  const paginatedData = usePaginateData<Image>(shopItems);
+  const [searchParams, setSearchParams] = useSetQueryParams();
+  const searchData = useSearch<Image>(shopItems, ['title', 'desc', 'builder'], ['sale', 'price']);
+  const paginatedData = usePaginateData<Image>(searchData);
 
   return (
     <div className="container">
       <div className="shop-full">
         <h2 className="headerTextStroke">Shop</h2>
         <p className="headerwTextStroke">Shop</p>
+
+        <SearchBar
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
+          params={['title', 'desc', 'builder']}
+          price
+        />
 
         <div className="shop-items">
           {paginatedData.map((item) => (
@@ -43,7 +54,11 @@ function ShopItems({ addToCart }: ShopItemsProps) {
             </div>
           ))}
         </div>
-        <Pagination totalItems={shopItems.length} />
+        <Pagination
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
+          totalItems={searchData.length}
+        />
       </div>
     </div>
   );

@@ -2,9 +2,9 @@ import { FormEvent } from 'react';
 import { toast } from 'react-toastify';
 import { MdDelete } from 'react-icons/md';
 import { Image } from '../../types';
-import { UseDeleteDoc, UseUpdateDoc } from '../helpers/useManageDoc';
-import { UseRemoveImage } from '../helpers/useManageFiles';
-import useDocsSnapshot from '../helpers/useDocsSnapshot';
+import { UseDeleteDoc, UseUpdateDoc } from '../hooks/useManageDoc';
+import { UseRemoveImage } from '../hooks/useManageFiles';
+import useDocsSnapshot from '../hooks/useDocsSnapshot';
 
 function GalleryAdmin() {
   const { data: mainGallery } = useDocsSnapshot<Image>(`gallery`, [], {

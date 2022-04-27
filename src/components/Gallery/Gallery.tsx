@@ -1,15 +1,20 @@
 import Loader from '../Loader/Loader';
 import { Image } from '../../types';
-import useDocs from '../helpers/useDocs';
+import useDocs from '../hooks/useDocs';
 import GalleryCard from './GalleryCard';
 import Pagination from '../helpers/Pagination';
-import usePaginateData from '../helpers/usePaginateData';
+import usePaginateData from '../hooks/usePaginateData';
+import SearchBar from '../helpers/SearchBar';
+import useSearch from '../hooks/useSearch';
+import useSetQueryParams from '../hooks/useSetQueryParams';
 
 function Gallery() {
   const { data: images, isLoading } = useDocs<Image>('gallery', {
     orderByArg: ['createdAt', 'asc'],
   });
-  const paginatedData = usePaginateData<Image>(images);
+  const [searchParams, setSearchParams] = useSetQueryParams();
+  const searchData = useSearch<Image>(images, ['title', 'desc', 'builder'], []);
+  const paginatedData = usePaginateData<Image>(searchData);
 
   return (
     <section className="gallery">
@@ -17,23 +22,30 @@ function Gallery() {
         <h2 className="headerTextStroke">Our all</h2>
         <p className="headerwTextStroke">Projects</p>
 
+        <SearchBar
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
+          params={['title', 'desc', 'builder']}
+        />
+
         <div className="gallery__content">
-          <div
-            className="gallery__content-loader"
-            style={{ display: isLoading ? 'block' : 'none' }}
-          >
+          {isLoading ? (
             <Loader />
-          </div>
+          ) : (
+            <div className="gallery__content-images">
+              {paginatedData.length ? (
+                paginatedData.map((img) => <GalleryCard {...img} key={img.id} />)
+              ) : (
+                <p>No data available to this search.</p>
+              )}
+            </div>
+          )}
 
-          <div className="gallery__content-images" style={{ display: isLoading ? 'none' : 'grid' }}>
-            {isLoading ? (
-              <Loader />
-            ) : (
-              paginatedData.map((img) => <GalleryCard {...img} key={img.id} />)
-            )}
-          </div>
-
-          <Pagination totalItems={images.length} />
+          <Pagination
+            searchParams={searchParams}
+            setSearchParams={setSearchParams}
+            totalItems={searchData.length}
+          />
         </div>
       </div>
     </section>

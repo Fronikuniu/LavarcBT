@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { Opinion } from '../../types';
 import displayStars from '../helpers/Stars';
-import useDocs from '../helpers/useDocs';
+import useDocs from '../hooks/useDocs';
 
 function Recommendations() {
   const [current, setCurrent] = useState(0);

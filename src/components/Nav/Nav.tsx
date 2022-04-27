@@ -9,7 +9,7 @@ import NavLogo from './NavLogo';
 import NavItem from './NavItem';
 import logo from '../../images/lavarcawatar.png';
 import { UserData } from '../../types';
-import useLoggedUserData from '../helpers/useLoggedUserData';
+import useLoggedUserData from '../hooks/useLoggedUserData';
 
 interface NavProps {
   loggedUser: FirebaseUser | null;
