@@ -38,7 +38,7 @@ function SearchBar({ searchParams, setSearchParams, params, price = false }: Sea
   }, [maxPrice, minPrice, search]);
 
   return (
-    <div className="search">
+    <form className="search">
       <div className="search-bar">
         <BiSearchAlt className="search-icon" />
         <label htmlFor="searchBar">
@@ -85,7 +85,7 @@ function SearchBar({ searchParams, setSearchParams, params, price = false }: Sea
           </label>
         </div>
       )}
-    </div>
+    </form>
   );
 }
 
