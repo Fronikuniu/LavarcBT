@@ -50,6 +50,7 @@
 
       .dragon {
         width: 50%;
+        height: auto;
         transform: rotate(10deg);
 
         @include mixins.breakpoint(laptop) {

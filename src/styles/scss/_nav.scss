@@ -108,6 +108,7 @@
 
     img {
       width: 120px;
+      height: auto;
       margin-top: 71px;
     }
   }
@@ -170,20 +171,6 @@
       hr {
         margin: 10px 0 17px;
       }
-
-      // &::before {
-      //   content: '';
-      //   position: absolute;
-      //   width: 0;
-      //   height: 0;
-      //   display: inline-block;
-      //   border-style: solid;
-      //   border-width: 0px 10px 12px 10px;
-      //   border-color: transparent transparent #27292c transparent;
-      //   z-index: 100;
-      //   top: 3%;
-      //   left: 85%;
-      // }
     }
 
     &.open {
@@ -281,6 +268,7 @@
 
         img {
           width: 120px;
+          height: auto;
           margin-top: 71px;
         }
       }

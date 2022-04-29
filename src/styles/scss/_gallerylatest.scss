@@ -40,6 +40,10 @@
       transition: transform 0.4s;
       position: relative;
 
+      &.hidden {
+        display: none;
+      }
+
       p {
         width: 99%;
         font-family: 'Permanent Marker', cursive;

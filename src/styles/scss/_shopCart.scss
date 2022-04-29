@@ -1,9 +1,9 @@
 @use 'mixins';
 
 .shopCart {
-  margin-top: 150px;
+  padding-top: 150px;
   &__list {
-    margin-top: 50px;
+    padding-top: 50px;
   }
   .legend {
     display: flex;

@@ -2,10 +2,10 @@
 @use 'mixins';
 
 .shop {
-  margin-top: 150px;
+  padding-top: 150px;
 
   .shop-latest {
-    margin-bottom: 150px;
+    padding-bottom: 150px;
 
     .slider {
       display: flex;

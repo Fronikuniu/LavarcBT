@@ -1,3 +1,5 @@
+import { useEffect, useState, Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -5,8 +7,6 @@ import {
   signOut,
   updateProfile,
 } from '@firebase/auth';
-import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { Timestamp } from '@firebase/firestore';
 import {
   signInWithPopup,
@@ -16,34 +16,36 @@ import {
 } from 'firebase/auth';
 import { ToastContainer } from 'react-toastify';
 import { auth } from './components/configuration/firebase';
-import About from './components/About/About';
-import AboutMembers from './components/About/AboutMembers';
-import Home from './components/Home/Home';
 import Nav from './components/Nav/Nav';
-import GallerySlider from './components/Gallery/GallerySlider';
-import Gallery from './components/Gallery/Gallery';
-import GallerySingle from './components/Gallery/GallerySingle';
-import SingleMember from './components/About/SingleMember';
 import Footer from './components/Footer/Footer';
-import Auth from './components/Auth/Auth';
-import Login from './components/Auth/Login';
-import Register from './components/Auth/Register';
-import Chat from './components/User/Chat';
-import Settings from './components/User/Settings';
-import Contact from './components/Contact/Contact';
-import Recommendations from './components/Recommendations/Recommendations';
-import ShopHome from './components/Shop/ShopHome';
-import Shop from './components/Shop/Shop';
 import ScrollToTop from './components/helpers/ScrollToTop';
-import RecommendationForm from './components/Recommendations/RecommendationForm';
-import 'react-toastify/dist/ReactToastify.css';
 import loginErrors from './components/helpers/loginErrors';
+import ShopHome from './components/Shop/ShopHome';
+import ShopIcon from './components/Shop/ShopIcon';
+import LoaderFullScreen from './components/Loader/LoaderFullScreen';
 import { LoginData, LoginErrors } from './types';
 import { UseDoc, UseSetDoc, UseUpdateDoc } from './components/hooks/useManageDoc';
 import useShopCart from './components/hooks/useShopCart';
-import ShopIcon from './components/Shop/ShopIcon';
-import ShopCart from './components/Shop/ShopCart';
-import ShopItems from './components/Shop/ShopItems';
+import 'react-toastify/dist/ReactToastify.css';
+
+const Home = lazy(() => import('./components/Home/Home'));
+const Auth = lazy(() => import('./components/Auth/Auth'));
+const About = lazy(() => import('./components/About/About'));
+const AboutMembers = lazy(() => import('./components/About/AboutMembers'));
+const GallerySlider = lazy(() => import('./components/Gallery/GallerySlider'));
+const Gallery = lazy(() => import('./components/Gallery/Gallery'));
+const GallerySingle = lazy(() => import('./components/Gallery/GallerySingle'));
+const SingleMember = lazy(() => import('./components/About/SingleMember'));
+const Login = lazy(() => import('./components/Auth/Login'));
+const Register = lazy(() => import('./components/Auth/Register'));
+const Chat = lazy(() => import('./components/User/Chat'));
+const Settings = lazy(() => import('./components/User/Settings'));
+const Contact = lazy(() => import('./components/Contact/Contact'));
+const Recommendations = lazy(() => import('./components/Recommendations/Recommendations'));
+const Shop = lazy(() => import('./components/Shop/Shop'));
+const RecommendationForm = lazy(() => import('./components/Recommendations/RecommendationForm'));
+const ShopCart = lazy(() => import('./components/Shop/ShopCart'));
+const ShopItems = lazy(() => import('./components/Shop/ShopItems'));
 
 function App() {
   const [registerError, setRegisterError] = useState('');
@@ -163,86 +165,88 @@ function App() {
       <ScrollToTop />
       <Nav loggedUser={loggedUser} logout={logout} />
 
-      <Switch>
-        <Route exact path="/">
-          <Home />
-          <About />
-          <GallerySlider />
-          <Recommendations />
-        </Route>
+      <Suspense fallback={<LoaderFullScreen />}>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+            <About />
+            <GallerySlider />
+            <Recommendations />
+          </Route>
 
-        <Route exact path="/auth">
-          <Auth logInWithGoogle={logInWithGoogle} logInWithFacebook={logInWithFacebook} />
-        </Route>
-        <Route path="/auth/login">
-          {loggedUser ? (
-            <Redirect to="/" />
-          ) : (
-            <Login
-              loginUser={loginUser}
-              logInWithGoogle={logInWithGoogle}
-              logInWithFacebook={logInWithFacebook}
-              loginError={loginError}
+          <Route exact path="/auth">
+            <Auth logInWithGoogle={logInWithGoogle} logInWithFacebook={logInWithFacebook} />
+          </Route>
+          <Route path="/auth/login">
+            {loggedUser ? (
+              <Redirect to="/" />
+            ) : (
+              <Login
+                loginUser={loginUser}
+                logInWithGoogle={logInWithGoogle}
+                logInWithFacebook={logInWithFacebook}
+                loginError={loginError}
+              />
+            )}
+          </Route>
+          <Route path="/auth/register">
+            {loggedUser ? (
+              <Redirect to="/" />
+            ) : (
+              <Register registerNewUser={registerNewUser} registerError={registerError} />
+            )}
+          </Route>
+
+          <Route path="/about">
+            <About />
+            <AboutMembers />
+          </Route>
+
+          <Route exact path="/gallery">
+            <Gallery />
+          </Route>
+          <Route path="/gallery/:id">
+            <GallerySingle addToCart={addToCart} />
+          </Route>
+
+          <Route path="/builder/:name">
+            <SingleMember />
+          </Route>
+
+          <Route exact path="/shop">
+            <Shop addToCart={addToCart} />
+          </Route>
+          <Route path="/shop/items">
+            <ShopItems addToCart={addToCart} />
+          </Route>
+
+          <Route exact path="/contact">
+            <Contact />
+          </Route>
+          <Route path="/contact/chat">
+            {loggedUser ? <Chat loggedUser={loggedUser} /> : <Redirect to="/auth" />}
+          </Route>
+
+          <Route path="/settings">
+            {loggedUser ? <Settings loggedUser={loggedUser} /> : <Redirect to="/auth" />}
+          </Route>
+
+          <Route exact path="/recommendation">
+            <RecommendationForm />
+          </Route>
+
+          <Route path="/shopCart">
+            <ShopCart
+              cart={cart}
+              total={total}
+              length={length}
+              removeFromCart={removeFromCart}
+              clearCart={clearCart}
+              UseDiscountCode={UseDiscountCode}
             />
-          )}
-        </Route>
-        <Route path="/auth/register">
-          {loggedUser ? (
-            <Redirect to="/" />
-          ) : (
-            <Register registerNewUser={registerNewUser} registerError={registerError} />
-          )}
-        </Route>
-
-        <Route path="/about">
-          <About />
-          <AboutMembers />
-        </Route>
-
-        <Route exact path="/gallery">
-          <Gallery />
-        </Route>
-        <Route path="/gallery/:id">
-          <GallerySingle addToCart={addToCart} />
-        </Route>
-
-        <Route path="/builder/:name">
-          <SingleMember />
-        </Route>
-
-        <Route exact path="/shop">
-          <Shop addToCart={addToCart} />
-        </Route>
-        <Route path="/shop/items">
-          <ShopItems addToCart={addToCart} />
-        </Route>
-
-        <Route exact path="/contact">
-          <Contact />
-        </Route>
-        <Route path="/contact/chat">
-          {loggedUser ? <Chat loggedUser={loggedUser} /> : <Redirect to="/auth" />}
-        </Route>
-
-        <Route path="/settings">
-          {loggedUser ? <Settings loggedUser={loggedUser} /> : <Redirect to="/auth" />}
-        </Route>
-
-        <Route exact path="/recommendation">
-          <RecommendationForm />
-        </Route>
-
-        <Route path="/shopCart">
-          <ShopCart
-            cart={cart}
-            total={total}
-            length={length}
-            removeFromCart={removeFromCart}
-            clearCart={clearCart}
-            UseDiscountCode={UseDiscountCode}
-          />
-        </Route>
-      </Switch>
+          </Route>
+        </Switch>
+      </Suspense>
 
       <ShopHome />
       <Footer />

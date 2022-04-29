@@ -2,7 +2,7 @@
 @use 'mixins';
 
 .recommendations {
-  margin-top: 150px;
+  padding-top: 150px;
 
   .slider {
     margin-top: 80px;
@@ -65,7 +65,7 @@
 // Recommendation form
 
 .recommendation {
-  margin-top: 150px;
+  padding-top: 150px;
   align-items: center;
 
   &-content {
