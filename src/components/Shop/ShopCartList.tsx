@@ -4,18 +4,18 @@ import { Image } from '../../types';
 interface ShopCartListProps {
   cart: Image[];
   removeFromCart: (item: Image) => void;
-  lenght: number;
+  length: number;
 }
 
-function ShopCartList({ cart, removeFromCart, lenght }: ShopCartListProps) {
+function ShopCartList({ cart, removeFromCart, length }: ShopCartListProps) {
   return (
     <div className="shopCart__list">
       <div className="legend">
-        <p>Products {`(${lenght || 0})`}</p>
+        <p>Products {`(${length || 0})`}</p>
         <p>Price</p>
       </div>
       <hr />
-      {lenght ? (
+      {length ? (
         cart.map((item) => (
           <div className="item" key={item.id}>
             <div className="left-side">
