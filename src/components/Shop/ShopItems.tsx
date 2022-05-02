@@ -26,7 +26,7 @@ function ShopItems({ addToCart }: ShopItemsProps) {
   return (
     <div className="container">
       <div className="shop-full">
-        <h2 className="headerTextStroke">Shop</h2>
+        <h1 className="headerTextStroke">Shop</h1>
         <p className="headerwTextStroke">Shop</p>
 
         <SearchBar
@@ -44,7 +44,7 @@ function ShopItems({ addToCart }: ShopItemsProps) {
                 title="Add to cart"
                 onClick={() => addToCart(item)}
               />
-              <Link to={`/gallery/${item.id}`}>
+              <Link to={`/gallery/${item.id}`} aria-label={`Go to ${item.title} page`}>
                 <img src={item.imageSrc} alt="" />
               </Link>
               <Link to={`/gallery/${item.id}`}>

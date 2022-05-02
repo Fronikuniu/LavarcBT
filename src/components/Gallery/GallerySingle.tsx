@@ -24,9 +24,9 @@ function GallerySingle({ addToCart }: GallerySingleProps) {
             <img src={image?.imageSrc} alt="" />
           </div>
           <div className="gallery__single__content-text">
-            <p className="title">
+            <h1 className="title">
               <span>{image?.title}</span>
-            </p>
+            </h1>
             <p className="builder">
               By: <Link to={`/builder/${image?.builder}`}>{image?.builder}</Link>
             </p>

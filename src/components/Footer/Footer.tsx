@@ -9,36 +9,36 @@ function Footer() {
     <section className="footer">
       <div className="footer__links">
         <div className="footer__contact">
-          <h3>Contact</h3>
+          <p className="footer__links-header">Contact</p>
 
           <ContactForm />
         </div>
 
         <div className="footer__menu">
-          <h3>Menu</h3>
+          <p className="footer__links-header">Menu</p>
 
-          <p>
+          <p className="links">
             <Link to="/">Home</Link>
           </p>
-          <p>
+          <p className="links">
             <Link to="/about">About</Link>
           </p>
-          <p>
+          <p className="links">
             <Link to="/gallery">Gallery</Link>
           </p>
-          <p>
+          <p className="links">
             <Link to="/shop">Shop</Link>
           </p>
-          <p>
+          <p className="links">
             <Link to="/contact">Contact</Link>
           </p>
-          <p>
+          <p className="links">
             <Link to="/auth">Auth</Link>
           </p>
         </div>
 
         <div className="footer__socials">
-          <h3>Socials</h3>
+          <p className="footer__links-header">Socials</p>
 
           <AiFillInstagram
             onClick={() => window.open('https://www.instagram.com/')}

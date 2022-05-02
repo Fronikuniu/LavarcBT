@@ -119,7 +119,7 @@ function UsersList({ loggedUser }: UsersListProps) {
           {usersChat ? (
             <>
               <div className="chat-selected">
-                <p>{usersChat.name}</p>
+                <h1>{usersChat.name}</h1>
               </div>
 
               <div className="messages">
@@ -145,7 +145,7 @@ function UsersList({ loggedUser }: UsersListProps) {
             </>
           ) : (
             <div className="chat-first">
-              <p>Select user to start conversation</p>
+              <h1>Select user to start conversation</h1>
 
               <div className="chat-first-legend">
                 <p>Welcome in our chat app</p>

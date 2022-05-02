@@ -30,7 +30,7 @@ function RecommendationForm() {
     });
     reset();
     router.push('/');
-    toast.success('Wysłano opinie, zaczekaj na potwierdzenie!');
+    toast.success('Opinion sent, wait for accept!');
   };
 
   const onSubmit = (data: Opinion) => addOpinion(data);
@@ -38,7 +38,7 @@ function RecommendationForm() {
   return (
     <div className="recommendation">
       <div className="container">
-        <h2 className="headerTextStroke">Leave</h2>
+        <h1 className="headerTextStroke">Leave</h1>
         <p className="headerwTextStroke">Feedback</p>
 
         <div className="recommendation-content">

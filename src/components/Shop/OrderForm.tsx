@@ -95,8 +95,8 @@ function OrderForm() {
           form.current as HTMLFormElement,
           EmailJsConf.userId
         )
-        .then(() => toast.success('Wysłano email.'))
-        .catch(() => toast.error('Błąd przy wysyłaniu.'));
+        .then(() => toast.success('Email sent.'))
+        .catch(() => toast.error('Error sending email.'));
 
       setOrderData({
         email: '',
@@ -167,12 +167,12 @@ function OrderForm() {
         </select>
       </label>
 
-      <label htmlFor="message">
-        Message
+      <label htmlFor="order-desc">
+        Order description
         <textarea
           className={orderErrors.message ? 'input-error' : ''}
-          name="message"
-          id="message"
+          name="order-desc"
+          id="order-desc"
           placeholder={orderErrors.message ? `${orderErrors.message}` : 'Order description'}
           value={orderData.message}
           onChange={(e) => setValue('message', e)}

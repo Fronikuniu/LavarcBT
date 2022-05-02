@@ -20,12 +20,12 @@ function Nav({ loggedUser, logout }: NavProps) {
   const location = useLocation();
   const [openUserProfile, setOpenUserProfile] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
-  const navi = useRef<HTMLElement>(null);
+  const nav = useRef<HTMLElement>(null);
   const { data: user } = useLoggedUserData<UserData>();
 
   const stickyNav = () => {
-    if (window.scrollY >= 70) navi.current?.classList.add('active');
-    else navi.current?.classList.remove('active');
+    if (window.scrollY >= 70) nav.current?.classList.add('active');
+    else nav.current?.classList.remove('active');
   };
 
   useEffect(() => {
@@ -34,7 +34,7 @@ function Nav({ loggedUser, logout }: NavProps) {
   }, [location]);
 
   return (
-    <nav className={location.pathname !== '/' ? 'nav sticky' : 'nav'} ref={navi}>
+    <nav className={location.pathname !== '/' ? 'nav sticky' : 'nav'} ref={nav}>
       <div className="container">
         <div className="nav__links">
           <NavItem>about</NavItem>
@@ -51,6 +51,7 @@ function Nav({ loggedUser, logout }: NavProps) {
               onClick={() => setOpenUserProfile(!openUserProfile)}
               onKeyDown={() => setOpenUserProfile(!openUserProfile)}
               tabIndex={0}
+              aria-label="User profile"
             >
               <img src={`${user?.avatar ? user.avatar : loggedUser?.photoURL}`} alt="" />
               <IoCaretDownCircleOutline className="user__avatar--arrow" />

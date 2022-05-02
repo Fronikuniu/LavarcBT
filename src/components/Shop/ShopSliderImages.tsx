@@ -35,7 +35,7 @@ function ShopSliderImages({
                   title="Add to cart"
                   onClick={() => addToCart(item)}
                 />
-                <Link to={`/gallery/${item.id}`}>
+                <Link to={`/gallery/${item.id}`} aria-label={`Go to ${item.title} page`}>
                   <img src={item.imageSrc} alt="" />
                 </Link>
                 <p className="title">
