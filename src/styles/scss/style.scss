@@ -96,21 +96,6 @@ p {
   }
 }
 
-.film-frame {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  height: 60px;
-
-  div {
-    width: 70px;
-    height: 40px;
-    border-radius: 5px;
-    background-color: #c0c0c0;
-  }
-}
-
 .underline {
   text-decoration: underline;
 }
@@ -206,10 +191,10 @@ p {
 
 input {
   padding: 10px 20px;
-  border: 2px solid colors.$dandelion;
+  border: 2px solid #a9934c;
   background-color: transparent;
   font-size: 1.1em;
-  color: colors.$darkKhaki;
+  color: #a9934c;
   transition: color 0.3s, background-color 0.3s;
   border-radius: 10px;
 
@@ -218,11 +203,12 @@ input {
   }
 
   &:target {
-    border-color: colors.$tacha;
+    border-color: #7e6e39;
   }
 
   &[type='submit'] {
     color: colors.$vulcan;
+    border-color: colors.$dandelion;
     background-color: colors.$dandelion;
     cursor: pointer;
     font-weight: 600;
@@ -242,15 +228,15 @@ input {
   }
 
   &:focus-visible {
-    border-color: colors.$fuelYellow;
+    border-color: #7e6e39;
     outline: none;
   }
 }
 
 textarea {
-  border: 2px solid colors.$dandelion;
+  border: 2px solid #a9934c;
   background-color: transparent;
-  color: colors.$darkKhaki;
+  color: #a9934c;
   font-size: 1.1em;
   border-radius: 10px;
   resize: none;
@@ -270,7 +256,7 @@ textarea {
   }
 
   &:focus-visible {
-    border-color: colors.$fuelYellow;
+    border-color: #7e6e39;
     outline: none;
   }
 }
@@ -292,15 +278,15 @@ label {
 }
 
 select {
-  border: 2px solid colors.$dandelion;
+  border: 2px solid #a9934c;
   background-color: transparent;
-  color: colors.$darkKhaki;
+  color: #a9934c;
   font-size: 1.05em;
   border-radius: 10px;
   padding: 10px 20px;
 
   &:focus-visible {
-    border-color: colors.$fuelYellow;
+    border-color: #7e6e39;
     outline: none;
   }
 

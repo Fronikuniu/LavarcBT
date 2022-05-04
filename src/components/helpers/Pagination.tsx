@@ -149,7 +149,7 @@ function Pagination({ searchParams, setSearchParams, totalItems }: PaginationPro
               setCurrentPage(1);
               setItemsPerPage(Number(e.target.value));
             }}
-            aria-label="Items per page"
+            aria-label="Select items per page"
           >
             <option value={12}>12</option>
             <option value={24}>24</option>

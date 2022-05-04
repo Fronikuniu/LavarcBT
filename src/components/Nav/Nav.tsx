@@ -90,6 +90,7 @@ function Nav({ loggedUser, logout }: NavProps) {
           onClick={() => setOpenMenu(true)}
           role="button"
           onKeyDown={() => setOpenMenu(true)}
+          aria-label="Button to open mobile menu"
         >
           <HiMenuAlt3 />
         </div>
