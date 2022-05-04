@@ -1,7 +1,6 @@
-import React from 'react';
-import authImage from '../../images/AuthImage.png';
-import authImage2 from '../../images/AuthImage2.png';
-import authImage3 from '../../images/AuthImage3.png';
+import authImage from '../../images/AuthImage.webp';
+import authImage2 from '../../images/AuthImage2.webp';
+import authImage3 from '../../images/AuthImage3.webp';
 
 function AuthImages() {
   return (

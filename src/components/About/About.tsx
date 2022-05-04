@@ -1,4 +1,4 @@
-import dragon from '../../images/dragon.png';
+import dragon from '../../images/dragon.webp';
 
 function About() {
   return (

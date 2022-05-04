@@ -54,13 +54,13 @@ function GalleryForm() {
         <p>
           Before upload image use{' '}
           <span
-            onClick={() => window.open('https://imagecompressor.com/')}
+            onClick={() => window.open('https://www.freeconvert.com/webp-converter')}
             role="link"
-            onKeyDown={() => window.open('https://imagecompressor.com/')}
+            onKeyDown={() => window.open('https://www.freeconvert.com/webp-converter')}
             tabIndex={0}
             className="pointer underline"
           >
-            https://imagecompressor.com/
+            https://www.freeconvert.com/webp-converter
           </span>{' '}
           to compress the file.
         </p>

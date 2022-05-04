@@ -25,6 +25,7 @@
 
       img {
         width: 250px;
+        height: auto;
 
         @include mixins.breakpoint(laptop) {
           width: 300px;

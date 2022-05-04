@@ -1,6 +1,6 @@
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import discord from '../../images/discord.png';
+import discord from '../../images/discord.webp';
 import { Image, Member } from '../../types';
 import useDocs from '../hooks/useDocs';
 import Loader from '../Loader/Loader';

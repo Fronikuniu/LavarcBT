@@ -469,7 +469,7 @@
   height: 100vh;
   width: 100vw;
   background: rgba(20, 20, 20, 0.4);
-  background: linear-gradient(90deg, rgba(20, 20, 20, 0.4) 0%, rgba(20, 20, 20, 0.4) 100%), url("../../images/landingPageBG.png");
+  background: linear-gradient(90deg, rgba(20, 20, 20, 0.4) 0%, rgba(20, 20, 20, 0.4) 100%), url("../../images/landingPageBG.webp");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -653,6 +653,7 @@
 }
 .about__members .slider .member img {
   width: 250px;
+  height: auto;
 }
 @media (min-width: 1024px) {
   .about__members .slider .member img {
@@ -1172,7 +1173,7 @@
 }
 
 .footer {
-  background-image: url("../../images/lavarcfooter.png"), linear-gradient(270deg, #27292c, #36383c);
+  background-image: url("../../images/lavarcfooter.webp"), linear-gradient(270deg, #27292c, #36383c);
   background-repeat: no-repeat;
   background-position: 85% 200%;
   min-height: 300px;
@@ -2126,7 +2127,7 @@
 }
 
 .contact {
-  background-image: url("../../images/circle-bg.png");
+  background-image: url("../../images/circle-bg.webp");
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -2384,7 +2385,6 @@
   font-weight: 500;
 }
 .shop .shop-latest .slider .current .price {
-  color: #e8b12d;
   font-size: 1.2em;
 }
 .shop .shop-latest .slider .next {
@@ -2493,7 +2493,7 @@
 }
 
 .cost {
-  color: #e8b12d;
+  color: #a9934c;
   font-size: 1.1em;
 }
 .cost .price {
@@ -2510,7 +2510,7 @@
   align-items: center;
   justify-content: space-around;
   flex-direction: column;
-  background: linear-gradient(to bottom, #36383cb9, #36383cb9), url("../../images/shopbg.png");
+  background: linear-gradient(to bottom, #36383cb9, #36383cb9), url("../../images/shopbg.webp");
   background-repeat: no-repeat;
   background-size: cover;
   min-height: 300px;

@@ -2,7 +2,7 @@ import { Timestamp } from 'firebase/firestore';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { uid } from 'uid';
-import drummaks from '../../images/char.png';
+import drummaks from '../../images/char.webp';
 import { Opinion } from '../../types';
 import { UseSetDoc } from '../hooks/useManageDoc';
 import useRouter from '../hooks/useRouter';

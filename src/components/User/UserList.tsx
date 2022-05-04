@@ -1,6 +1,6 @@
 import { doc, onSnapshot } from '@firebase/firestore';
 import { useEffect, useState } from 'react';
-import userPlaceholder from '../../images/placeholder-user.jpg';
+import userPlaceholder from '../../images/placeholder-user.webp';
 import { LastMessage, UserData } from '../../types';
 import { db } from '../configuration/firebase';
 

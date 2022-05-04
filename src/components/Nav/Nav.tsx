@@ -7,7 +7,7 @@ import { HiMenuAlt3 } from 'react-icons/hi';
 import { User as FirebaseUser } from '@firebase/auth';
 import NavLogo from './NavLogo';
 import NavItem from './NavItem';
-import logo from '../../images/lavarcawatar.png';
+import logo from '../../images/lavarcawatar.webp';
 import { UserData } from '../../types';
 import useLoggedUserData from '../hooks/useLoggedUserData';
 
