@@ -5,22 +5,22 @@ import { AuthContext } from '../../context/auth';
 interface PrivateRouteProps {
   component: FC<any>;
   exact?: boolean;
-  redirectHome?: string;
+  redirect?: string;
   path: string;
 }
 
 export default function PrivateRoute({
   component: Component,
   exact = false,
-  redirectHome = '',
+  redirect = '',
   ...rest
 }: PrivateRouteProps) {
   const { user } = useContext(AuthContext);
-  return redirectHome ? (
+  return redirect ? (
     <Route
       {...rest}
       exact={!!exact}
-      render={(props) => (user ? <Redirect to={redirectHome} /> : <Component {...props} />)}
+      render={(props) => (user ? <Redirect to={redirect} /> : <Component {...props} />)}
     />
   ) : (
     <Route

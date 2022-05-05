@@ -50,9 +50,9 @@ function App() {
               <Recommendations />
             </Route>
 
-            <PrivateRoute exact redirectHome="/settings" component={Auth} path="/auth" />
-            <PrivateRoute redirectHome="/settings" component={Login} path="/auth/login" />
-            <PrivateRoute redirectHome="/settings" component={Register} path="/auth/register" />
+            <PrivateRoute exact redirect="/settings" component={Auth} path="/auth" />
+            <PrivateRoute redirect="/settings" component={Login} path="/auth/login" />
+            <PrivateRoute redirect="/settings" component={Register} path="/auth/register" />
 
             <Route path="/about">
               <About />
