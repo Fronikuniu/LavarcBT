@@ -1,32 +1,16 @@
-import { useEffect, useState, Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-  updateProfile,
-} from '@firebase/auth';
-import { Timestamp } from '@firebase/firestore';
-import {
-  signInWithPopup,
-  GoogleAuthProvider,
-  FacebookAuthProvider,
-  User as FirebaseUser,
-} from 'firebase/auth';
+import { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { auth } from './components/configuration/firebase';
 import Nav from './components/Nav/Nav';
 import Footer from './components/Footer/Footer';
 import ScrollToTop from './components/helpers/ScrollToTop';
-import loginErrors from './components/helpers/loginErrors';
 import ShopHome from './components/Shop/ShopHome';
 import ShopIcon from './components/Shop/ShopIcon';
 import LoaderFullScreen from './components/Loader/LoaderFullScreen';
-import { LoginData, LoginErrors } from './types';
-import { UseDoc, UseSetDoc, UseUpdateDoc } from './components/hooks/useManageDoc';
 import useShopCart from './components/hooks/useShopCart';
+import AuthProvider from './context/auth';
 import 'react-toastify/dist/ReactToastify.css';
+import PrivateRoute from './components/helpers/PrivateRoute';
 
 const Home = lazy(() => import('./components/Home/Home'));
 const Auth = lazy(() => import('./components/Auth/Auth'));
@@ -48,221 +32,91 @@ const ShopCart = lazy(() => import('./components/Shop/ShopCart'));
 const ShopItems = lazy(() => import('./components/Shop/ShopItems'));
 
 function App() {
-  const [registerError, setRegisterError] = useState('');
-  const [loginError, setLoginError] = useState('');
-  const [loggedUser, setLoggedUser] = useState<FirebaseUser | null>(null);
   const { cart, total, length, addToCart, removeFromCart, clearCart, UseDiscountCode } =
     useShopCart();
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setLoggedUser(currentUser);
-        localStorage.setItem('uid', currentUser.uid);
-      }
-    });
-  }, []);
-
-  // Register
-  const registerNewUser = (data: LoginData) => {
-    createUserWithEmailAndPassword(auth, data.email, data.password)
-      .then(async (userCredential) => {
-        const { user } = userCredential;
-
-        await updateProfile(user, {
-          displayName: data.name,
-          photoURL: 'https://remaxgem.com/wp-content/themes/tolips/images/placehoder-user.jpg',
-        });
-
-        await UseSetDoc('users', [user.uid], {
-          uid: user.uid,
-          name: data.name,
-          email: user.email,
-          createdAt: Timestamp.fromDate(new Date()),
-          isOnline: true,
-        });
-      })
-      .catch(({ code }: { code: string }) => {
-        const errorCode = code;
-
-        setRegisterError(
-          errorCode === 'auth/email-already-in-use'
-            ? 'There is already an account for the given email.'
-            : ''
-        );
-      });
-  };
-
-  // Login
-  const loginUser = (data: LoginData) => {
-    signInWithEmailAndPassword(auth, data.email, data.password)
-      .then(async (userCredential) => {
-        const { user } = userCredential;
-        await UseUpdateDoc('users', [user.uid], { isOnline: true });
-      })
-      .catch(({ code }: { code: keyof LoginErrors }) => {
-        const errorCode = code;
-        setLoginError(loginErrors[errorCode]);
-      });
-  };
-
-  const logInWithGoogle = () => {
-    const providerGoogle = new GoogleAuthProvider();
-
-    signInWithPopup(auth, providerGoogle)
-      .then(async (result) => {
-        const { user } = result;
-
-        const { error } = await UseDoc('users', [user.uid]);
-
-        if (error)
-          await UseSetDoc('users', [user.uid], {
-            uid: user.uid,
-            name: user.displayName,
-            email: user.email,
-            createdAt: Timestamp.fromDate(new Date()),
-            isOnline: true,
-          });
-      })
-      .catch(() => {});
-  };
-
-  const logInWithFacebook = () => {
-    const providerFacebook = new FacebookAuthProvider();
-
-    signInWithPopup(auth, providerFacebook)
-      .then(async (result) => {
-        const { user } = result;
-
-        const { error } = await UseDoc('users', [user.uid]);
-
-        if (error)
-          await UseSetDoc('users', [user.uid], {
-            uid: user.uid,
-            name: user.displayName,
-            email: user.email,
-            createdAt: Timestamp.fromDate(new Date()),
-            isOnline: true,
-          });
-      })
-      .catch(() => {});
-  };
-
-  // Logout
-  const logout = async () => {
-    if (loggedUser) {
-      await UseUpdateDoc('users', [loggedUser.uid], {
-        isOnline: false,
-      });
-      await signOut(auth);
-      setLoggedUser(null);
-      localStorage.removeItem('uid');
-    }
-  };
-
   return (
-    <Router>
-      <ScrollToTop />
-      <Nav loggedUser={loggedUser} logout={logout} />
+    <AuthProvider>
+      <Router>
+        <ScrollToTop />
+        <Nav />
 
-      <Suspense fallback={<LoaderFullScreen />}>
-        <Switch>
-          <Route exact path="/">
-            <Home />
-            <About />
-            <GallerySlider />
-            <Recommendations />
-          </Route>
+        <Suspense fallback={<LoaderFullScreen />}>
+          <Switch>
+            <Route exact path="/">
+              <Home />
+              <About />
+              <GallerySlider />
+              <Recommendations />
+            </Route>
 
-          <Route exact path="/auth">
-            <Auth logInWithGoogle={logInWithGoogle} logInWithFacebook={logInWithFacebook} />
-          </Route>
-          <Route path="/auth/login">
-            {loggedUser ? (
-              <Redirect to="/" />
-            ) : (
-              <Login
-                loginUser={loginUser}
-                logInWithGoogle={logInWithGoogle}
-                logInWithFacebook={logInWithFacebook}
-                loginError={loginError}
+            <PrivateRoute exact redirectHome="/settings" component={Auth} path="/auth" />
+            <PrivateRoute redirectHome="/settings" component={Login} path="/auth/login" />
+            <PrivateRoute redirectHome="/settings" component={Register} path="/auth/register" />
+
+            <Route path="/about">
+              <About />
+              <AboutMembers />
+            </Route>
+
+            <Route exact path="/gallery">
+              <Gallery />
+            </Route>
+            <Route path="/gallery/:id">
+              <GallerySingle addToCart={addToCart} />
+            </Route>
+
+            <Route path="/builder/:name">
+              <SingleMember />
+            </Route>
+
+            <Route exact path="/shop">
+              <Shop addToCart={addToCart} />
+            </Route>
+            <Route path="/shop/items">
+              <ShopItems addToCart={addToCart} />
+            </Route>
+
+            <Route exact path="/contact">
+              <Contact />
+            </Route>
+            <PrivateRoute component={Chat} path="/contact/chat" />
+
+            <PrivateRoute component={Settings} path="/settings" />
+
+            <Route exact path="/recommendation">
+              <RecommendationForm />
+            </Route>
+
+            <Route path="/shopCart">
+              <ShopCart
+                cart={cart}
+                total={total}
+                length={length}
+                removeFromCart={removeFromCart}
+                clearCart={clearCart}
+                UseDiscountCode={UseDiscountCode}
               />
-            )}
-          </Route>
-          <Route path="/auth/register">
-            {loggedUser ? (
-              <Redirect to="/" />
-            ) : (
-              <Register registerNewUser={registerNewUser} registerError={registerError} />
-            )}
-          </Route>
+            </Route>
+          </Switch>
+        </Suspense>
 
-          <Route path="/about">
-            <About />
-            <AboutMembers />
-          </Route>
-
-          <Route exact path="/gallery">
-            <Gallery />
-          </Route>
-          <Route path="/gallery/:id">
-            <GallerySingle addToCart={addToCart} />
-          </Route>
-
-          <Route path="/builder/:name">
-            <SingleMember />
-          </Route>
-
-          <Route exact path="/shop">
-            <Shop addToCart={addToCart} />
-          </Route>
-          <Route path="/shop/items">
-            <ShopItems addToCart={addToCart} />
-          </Route>
-
-          <Route exact path="/contact">
-            <Contact />
-          </Route>
-          <Route path="/contact/chat">
-            {loggedUser ? <Chat loggedUser={loggedUser} /> : <Redirect to="/auth" />}
-          </Route>
-
-          <Route path="/settings">
-            {loggedUser ? <Settings loggedUser={loggedUser} /> : <Redirect to="/auth" />}
-          </Route>
-
-          <Route exact path="/recommendation">
-            <RecommendationForm />
-          </Route>
-
-          <Route path="/shopCart">
-            <ShopCart
-              cart={cart}
-              total={total}
-              length={length}
-              removeFromCart={removeFromCart}
-              clearCart={clearCart}
-              UseDiscountCode={UseDiscountCode}
-            />
-          </Route>
-        </Switch>
-      </Suspense>
-
-      <ShopHome />
-      <Footer />
-      <ToastContainer
-        position="bottom-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <ShopIcon length={length} />
-    </Router>
+        <ShopHome />
+        <Footer />
+        <ToastContainer
+          position="bottom-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        <ShopIcon length={length} />
+      </Router>
+    </AuthProvider>
   );
 }
 

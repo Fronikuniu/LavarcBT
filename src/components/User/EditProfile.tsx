@@ -1,10 +1,9 @@
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect, FormEvent, useContext } from 'react';
 import {
   updateProfile,
   updateEmail,
   updatePassword,
   signInWithEmailAndPassword,
-  User as FirebaseUser,
 } from '@firebase/auth';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -15,12 +14,10 @@ import LoginModal from './LoginModal';
 import loginErrors from '../helpers/loginErrors';
 import { EditProfileBasicProps, EditProfilePasswordProps, LoginErrors } from '../../types';
 import { UseUpdateDoc } from '../hooks/useManageDoc';
+import { AuthContext } from '../../context/auth';
 
-interface EditProfileProps {
-  loggedUser: FirebaseUser;
-}
-
-function EditProfile({ loggedUser }: EditProfileProps) {
+function EditProfile() {
+  const { user } = useContext(AuthContext);
   const [data, setData] = useState({ email: '', password: '' });
   const [error, setError] = useState<string>('');
   const [newPassword, setNewPassword] = useState('');
@@ -57,9 +54,9 @@ function EditProfile({ loggedUser }: EditProfileProps) {
         setClicked(false);
         signInWithEmailAndPassword(auth, data.email, data.password)
           .then(async (userCredential) => {
-            const { user } = userCredential;
+            const newUser = userCredential.user;
             resetPassword();
-            await updatePassword(user, newPassword);
+            await updatePassword(newUser, newPassword);
             setPasswordModalOpen(false);
             setData({ email: '', password: '' });
             toast.success('password updated');
@@ -74,23 +71,23 @@ function EditProfile({ loggedUser }: EditProfileProps) {
   }, [clicked, data, error, newPassword, resetPassword]);
 
   const onSubmitBasic = async (basic: EditProfileBasicProps) => {
-    if (!auth.currentUser) return;
+    if (!user) return;
     if (basic.username) {
-      await UseUpdateDoc('users', [auth.currentUser.uid], {
+      await UseUpdateDoc('users', [user.uid], {
         name: basic.username,
       });
-      await updateProfile(loggedUser, {
+      await updateProfile(user, {
         displayName: basic.username,
       });
     }
     if (basic.email) {
-      await UseUpdateDoc('users', [auth.currentUser.uid], {
+      await UseUpdateDoc('users', [user.uid], {
         email: basic.email,
       });
-      await updateEmail(auth.currentUser, basic.email);
+      await updateEmail(user, basic.email);
     }
     if (basic.status)
-      await UseUpdateDoc('users', [auth.currentUser.uid], {
+      await UseUpdateDoc('users', [user.uid], {
         isOnline: basic.status,
       });
     reset();
@@ -98,9 +95,9 @@ function EditProfile({ loggedUser }: EditProfileProps) {
   };
 
   const onSubmitPassword = (password: EditProfilePasswordProps) => {
-    if (!auth.currentUser) return;
+    if (!user) return;
     setNewPassword(password.password);
-    updatePassword(auth.currentUser, password.password)
+    updatePassword(user, password.password)
       .then(() => {
         resetPassword();
         toast.success('password updated');

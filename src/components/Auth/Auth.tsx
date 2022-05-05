@@ -1,12 +1,8 @@
 import { Link } from 'react-router-dom';
 import AuthImages from '../helpers/AuthImages';
+import { logInWithFacebook, logInWithGoogle } from './loginProviders';
 
-interface AuthProps {
-  logInWithGoogle: () => void;
-  logInWithFacebook: () => void;
-}
-
-function Auth({ logInWithGoogle, logInWithFacebook }: AuthProps) {
+function Auth() {
   return (
     <div className="auth">
       <div className="container">

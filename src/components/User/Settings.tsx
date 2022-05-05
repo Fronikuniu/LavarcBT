@@ -1,40 +1,35 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { AiFillCamera } from 'react-icons/ai';
-import { updateProfile, User as FirebaseUser } from '@firebase/auth';
+import { updateProfile } from '@firebase/auth';
 import { toast } from 'react-toastify';
-import { auth } from '../configuration/firebase';
 import OpinionsAdmin from './OpinionsAdmin';
 import EditProfile from './EditProfile';
 import OpinionsDangerZone from './OpinionsDangerZone';
 import GalleryForm from './GalleryForm';
 import GalleryAdmin from './GalleryAdmin';
-import { UserData } from '../../types';
-import useLoggedUserData from '../hooks/useLoggedUserData';
 import { UseAddImage, UseRemoveImage } from '../hooks/useManageFiles';
 import { UseUpdateDoc } from '../hooks/useManageDoc';
 import DiscountCodes from './DiscountCodes';
+import { AuthContext } from '../../context/auth';
 
-interface SettingsProps {
-  loggedUser: FirebaseUser;
-}
-
-function Settings({ loggedUser }: SettingsProps) {
+function Settings() {
+  const { user, userData } = useContext(AuthContext);
   const [image, setImage] = useState<File | null>(null);
-  const { data: user } = useLoggedUserData<UserData>();
+  console.log(user, userData);
 
   useEffect(() => {
     if (image) {
       const uploadImage = async () => {
-        if (!auth.currentUser) return;
-        if (user && user.avatarPath) await UseRemoveImage(user.avatarPath);
+        if (!user) return;
+        if (userData && userData.avatarPath) await UseRemoveImage(userData.avatarPath);
 
         const { url, path } = await UseAddImage('avatars', image);
 
-        await UseUpdateDoc('users', [auth.currentUser.uid], {
+        await UseUpdateDoc('users', [user.uid], {
           avatar: url,
           avatarPath: path,
         });
-        await updateProfile(loggedUser, {
+        await updateProfile(user, {
           photoURL: url,
         });
         setImage(null);
@@ -43,9 +38,9 @@ function Settings({ loggedUser }: SettingsProps) {
         .then(() => toast.success('Ustawiono nowy avatar!'))
         .catch(() => toast.error('Błąd przy wyborze avatara!'));
     }
-  }, [image, loggedUser]);
+  }, [image, user]);
 
-  return loggedUser ? (
+  return user ? (
     <section className="settings">
       <div className="container">
         <h1>General account settings</h1>
@@ -53,7 +48,7 @@ function Settings({ loggedUser }: SettingsProps) {
         <div className="settings__informations">
           <div className="settings__informations__image">
             <div>
-              <img src={`${user?.avatar ? user.avatar : loggedUser.photoURL}`} alt="" />
+              <img src={`${userData?.avatar ? userData.avatar : user.photoURL}`} alt="" />
               <label htmlFor="file">
                 <AiFillCamera />
                 <input
@@ -68,15 +63,15 @@ function Settings({ loggedUser }: SettingsProps) {
           </div>
 
           <div className="settings__informations__info">
-            <p>Name: {user?.name}</p>
-            <p>Email: {user?.email}</p>
-            <p>Status: {user?.isOnline ? 'online' : 'offline'}</p>
+            <p>Name: {userData?.name}</p>
+            <p>Email: {userData?.email}</p>
+            <p>Status: {userData?.isOnline ? 'online' : 'offline'}</p>
           </div>
         </div>
 
-        <EditProfile loggedUser={loggedUser} />
+        <EditProfile />
 
-        {user && user.isAdmin && (
+        {userData && userData.isAdmin && (
           <>
             <DiscountCodes />
             <OpinionsAdmin />
