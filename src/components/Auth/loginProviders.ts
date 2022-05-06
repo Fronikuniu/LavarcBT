@@ -8,15 +8,17 @@ export const logInWithGoogle = () => {
 
   signInWithPopup(auth, providerGoogle)
     .then(async (result) => {
-      const { user } = result;
+      const {
+        user: { uid, displayName, email },
+      } = result;
 
-      const { error } = await UseDoc('users', [user.uid]);
+      const { error } = await UseDoc('users', [uid]);
 
       if (error)
-        await UseSetDoc('users', [user.uid], {
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email,
+        await UseSetDoc('users', [uid], {
+          uid,
+          name: displayName,
+          email,
           createdAt: Timestamp.fromDate(new Date()),
           isOnline: true,
         });
@@ -29,15 +31,17 @@ export const logInWithFacebook = () => {
 
   signInWithPopup(auth, providerFacebook)
     .then(async (result) => {
-      const { user } = result;
+      const {
+        user: { uid, displayName, email },
+      } = result;
 
-      const { error } = await UseDoc('users', [user.uid]);
+      const { error } = await UseDoc('users', [uid]);
 
       if (error)
-        await UseSetDoc('users', [user.uid], {
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email,
+        await UseSetDoc('users', [uid], {
+          uid,
+          name: displayName,
+          email,
           createdAt: Timestamp.fromDate(new Date()),
           isOnline: true,
         });

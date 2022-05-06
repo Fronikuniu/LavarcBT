@@ -18,7 +18,7 @@ import { AuthContext } from '../../context/auth';
 
 function EditProfile() {
   const { user } = useContext(AuthContext);
-  const [data, setData] = useState({ email: '', password: '' });
+  const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [error, setError] = useState<string>('');
   const [newPassword, setNewPassword] = useState('');
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
@@ -52,13 +52,13 @@ function EditProfile() {
     if (clicked && !error) {
       const prepareToChangePassword = () => {
         setClicked(false);
-        signInWithEmailAndPassword(auth, data.email, data.password)
+        signInWithEmailAndPassword(auth, loginData.email, loginData.password)
           .then(async (userCredential) => {
             const newUser = userCredential.user;
             resetPassword();
             await updatePassword(newUser, newPassword);
             setPasswordModalOpen(false);
-            setData({ email: '', password: '' });
+            setLoginData({ email: '', password: '' });
             toast.success('password updated');
           })
           .catch(({ code }: { code: keyof LoginErrors }) => {
@@ -68,7 +68,7 @@ function EditProfile() {
       };
       prepareToChangePassword();
     }
-  }, [clicked, data, error, newPassword, resetPassword]);
+  }, [clicked, loginData, error, newPassword, resetPassword]);
 
   const onSubmitBasic = async (basic: EditProfileBasicProps) => {
     if (!user) return;
@@ -104,10 +104,10 @@ function EditProfile() {
       })
       .catch(() => setPasswordModalOpen(true));
   };
-  const reauntheticateChangePassword = (e: FormEvent<HTMLFormElement>) => {
+  const reauthenticateChangePassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setClicked(true);
-    setError(!data.email || !data.password ? 'All fields are required' : '');
+    setError(!loginData.email || !loginData.password ? 'All fields are required' : '');
   };
 
   return (
@@ -177,11 +177,11 @@ function EditProfile() {
         <input type="submit" />
       </form>
       <LoginModal
-        data={data}
+        loginData={loginData}
         error={error}
         isOpen={passwordModalOpen}
-        onSubmit={reauntheticateChangePassword}
-        onChange={setData}
+        onSubmit={reauthenticateChangePassword}
+        onChange={setLoginData}
         header="You need to login to change password"
       />
     </details>

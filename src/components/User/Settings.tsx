@@ -15,7 +15,6 @@ import { AuthContext } from '../../context/auth';
 function Settings() {
   const { user, userData } = useContext(AuthContext);
   const [image, setImage] = useState<File | null>(null);
-  console.log(user, userData);
 
   useEffect(() => {
     if (image) {
@@ -35,8 +34,8 @@ function Settings() {
         setImage(null);
       };
       uploadImage()
-        .then(() => toast.success('Ustawiono nowy avatar!'))
-        .catch(() => toast.error('Błąd przy wyborze avatara!'));
+        .then(() => toast.success('New avatar has been set!'))
+        .catch(() => toast.error('Error with setting new avatar!'));
     }
   }, [image, user]);
 

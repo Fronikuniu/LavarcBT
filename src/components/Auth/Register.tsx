@@ -16,20 +16,21 @@ function Register() {
     formState: { errors },
   } = useForm<LoginData>();
 
-  const onSubmit = (data: LoginData) =>
-    createUserWithEmailAndPassword(auth, data.email, data.password)
+  const onSubmit = (registerData: LoginData) =>
+    createUserWithEmailAndPassword(auth, registerData.email, registerData.password)
       .then(async (userCredential) => {
         const { user } = userCredential;
+        const { uid, email } = user;
 
         await updateProfile(user, {
-          displayName: data.name,
+          displayName: registerData.name,
           photoURL: 'https://remaxgem.com/wp-content/themes/tolips/images/placehoder-user.jpg',
         });
 
-        await UseSetDoc('users', [user.uid], {
-          uid: user.uid,
-          name: data.name,
-          email: user.email,
+        await UseSetDoc('users', [uid], {
+          uid,
+          name: registerData.name,
+          email,
           createdAt: Timestamp.fromDate(new Date()),
           isOnline: true,
         });

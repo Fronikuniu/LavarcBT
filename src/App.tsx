@@ -1,22 +1,21 @@
 import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 import Nav from './components/Nav/Nav';
 import Footer from './components/Footer/Footer';
 import ScrollToTop from './components/helpers/ScrollToTop';
 import ShopHome from './components/Shop/ShopHome';
 import ShopIcon from './components/Shop/ShopIcon';
 import LoaderFullScreen from './components/Loader/LoaderFullScreen';
+import ToastConfiguration from './components/helpers/ToastConfiguration';
 import useShopCart from './components/hooks/useShopCart';
 import AuthProvider from './context/auth';
 import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoute from './components/helpers/PrivateRoute';
+import { routes } from './routes';
 
 const Home = lazy(() => import('./components/Home/Home'));
 const Auth = lazy(() => import('./components/Auth/Auth'));
 const About = lazy(() => import('./components/About/About'));
-const AboutMembers = lazy(() => import('./components/About/AboutMembers'));
-const GallerySlider = lazy(() => import('./components/Gallery/GallerySlider'));
 const Gallery = lazy(() => import('./components/Gallery/Gallery'));
 const GallerySingle = lazy(() => import('./components/Gallery/GallerySingle'));
 const SingleMember = lazy(() => import('./components/About/SingleMember'));
@@ -25,7 +24,6 @@ const Register = lazy(() => import('./components/Auth/Register'));
 const Chat = lazy(() => import('./components/User/Chat'));
 const Settings = lazy(() => import('./components/User/Settings'));
 const Contact = lazy(() => import('./components/Contact/Contact'));
-const Recommendations = lazy(() => import('./components/Recommendations/Recommendations'));
 const Shop = lazy(() => import('./components/Shop/Shop'));
 const RecommendationForm = lazy(() => import('./components/Recommendations/RecommendationForm'));
 const ShopCart = lazy(() => import('./components/Shop/ShopCart'));
@@ -43,52 +41,48 @@ function App() {
 
         <Suspense fallback={<LoaderFullScreen />}>
           <Switch>
-            <Route exact path="/">
+            <Route exact path={routes.home}>
               <Home />
-              <About />
-              <GallerySlider />
-              <Recommendations />
             </Route>
 
-            <PrivateRoute exact redirect="/settings" component={Auth} path="/auth" />
-            <PrivateRoute redirect="/settings" component={Login} path="/auth/login" />
-            <PrivateRoute redirect="/settings" component={Register} path="/auth/register" />
+            <PrivateRoute exact redirect={routes.settings} component={Auth} path={routes.auth} />
+            <PrivateRoute redirect={routes.settings} component={Login} path={routes.login} />
+            <PrivateRoute redirect={routes.settings} component={Register} path={routes.register} />
 
-            <Route path="/about">
+            <Route path={routes.about}>
               <About />
-              <AboutMembers />
             </Route>
 
-            <Route exact path="/gallery">
+            <Route exact path={routes.gallery}>
               <Gallery />
             </Route>
-            <Route path="/gallery/:id">
+            <Route path={routes.gallerySingle}>
               <GallerySingle addToCart={addToCart} />
             </Route>
 
-            <Route path="/builder/:name">
+            <Route path={routes.builder}>
               <SingleMember />
             </Route>
 
-            <Route exact path="/shop">
+            <Route exact path={routes.shop}>
               <Shop addToCart={addToCart} />
             </Route>
-            <Route path="/shop/items">
+            <Route path={routes.shopItems}>
               <ShopItems addToCart={addToCart} />
             </Route>
 
-            <Route exact path="/contact">
+            <Route exact path={routes.contact}>
               <Contact />
             </Route>
-            <PrivateRoute component={Chat} path="/contact/chat" />
+            <PrivateRoute component={Chat} path={routes.chat} />
 
-            <PrivateRoute component={Settings} path="/settings" />
+            <PrivateRoute component={Settings} path={routes.settings} />
 
-            <Route exact path="/recommendation">
+            <Route exact path={routes.recommendation}>
               <RecommendationForm />
             </Route>
 
-            <Route path="/shopCart">
+            <Route path={routes.shopCart}>
               <ShopCart
                 cart={cart}
                 total={total}
@@ -103,17 +97,7 @@ function App() {
 
         <ShopHome />
         <Footer />
-        <ToastContainer
-          position="bottom-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
+        <ToastConfiguration />
         <ShopIcon length={length} />
       </Router>
     </AuthProvider>

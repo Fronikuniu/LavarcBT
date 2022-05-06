@@ -5,15 +5,15 @@ import { FormEvent } from 'react';
 Modal.setAppElement('#root');
 
 interface LoginModalProps {
-  data: { email: string; password: string };
+  loginData: { email: string; password: string };
   header: string;
   error: string | boolean;
   isOpen: boolean;
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
-  onChange: (data: { email: string; password: string }) => void;
+  onChange: (loginData: { email: string; password: string }) => void;
 }
 
-function LoginModal({ data, error, isOpen, onSubmit, onChange, header }: LoginModalProps) {
+function LoginModal({ loginData, error, isOpen, onSubmit, onChange, header }: LoginModalProps) {
   return (
     <Modal isOpen={isOpen} contentLabel="Delete account modal" className="modal-form">
       <div className="content">
@@ -27,7 +27,7 @@ function LoginModal({ data, error, isOpen, onSubmit, onChange, header }: LoginMo
               placeholder="Email"
               id="email"
               className={error ? 'input-error' : ''}
-              onChange={(e) => onChange({ ...data, email: e.target.value })}
+              onChange={(e) => onChange({ ...loginData, email: e.target.value })}
             />
           </label>
           <label htmlFor="password">
@@ -38,7 +38,7 @@ function LoginModal({ data, error, isOpen, onSubmit, onChange, header }: LoginMo
               name="password"
               id="password"
               className={error ? 'input-error' : ''}
-              onChange={(e) => onChange({ ...data, password: e.target.value })}
+              onChange={(e) => onChange({ ...loginData, password: e.target.value })}
             />
             {error && <p className="p-error">{error}</p>}
           </label>

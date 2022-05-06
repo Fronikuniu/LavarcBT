@@ -19,8 +19,8 @@ function Login() {
     formState: { errors },
   } = useForm<LoginData>();
 
-  const onSubmit = (data: LoginData) =>
-    signInWithEmailAndPassword(auth, data.email, data.password)
+  const onSubmit = (loginData: LoginData) =>
+    signInWithEmailAndPassword(auth, loginData.email, loginData.password)
       .then(async (userCredential) => {
         const { user } = userCredential;
         await UseUpdateDoc('users', [user.uid], { isOnline: true });

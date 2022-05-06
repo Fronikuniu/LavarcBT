@@ -1,18 +1,16 @@
+import About from '../About/AboutHome';
+import GallerySlider from '../Gallery/GallerySlider';
+import Recommendations from '../Recommendations/Recommendations';
+import LandingPage from './LandingPage';
+
 function Home() {
   return (
-    <section className="landingPage">
-      <div className="container">
-        <div className="landingPage__text">
-          <h1>Lavarc</h1>
-          <p>PROFESSIONAL MINECRAFT BUILD TEAM</p>
-
-          <div className="landingPage__scroll-down">
-            <span />
-            <div />
-          </div>
-        </div>
-      </div>
-    </section>
+    <>
+      <LandingPage />
+      <About />
+      <GallerySlider />
+      <Recommendations />
+    </>
   );
 }
 

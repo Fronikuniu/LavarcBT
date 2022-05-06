@@ -16,16 +16,16 @@ function RecommendationForm() {
   } = useForm<Opinion>();
   const router = useRouter();
 
-  const addOpinion = async (data: Opinion) => {
+  const addOpinion = async (opinionData: Opinion) => {
     const docId = uid(20);
     await UseSetDoc('opinions', [docId], {
       doc_id: docId,
-      community: data.community,
-      from: data.username,
+      community: opinionData.community,
+      from: opinionData.username,
       id: uid(),
       isAccepted: false,
-      opinion: data.opinion,
-      rate: Number(data.rate),
+      opinion: opinionData.opinion,
+      rate: Number(opinionData.rate),
       created: Timestamp.fromDate(new Date()),
     });
     reset();
@@ -33,7 +33,7 @@ function RecommendationForm() {
     toast.success('Opinion sent, wait for accept!');
   };
 
-  const onSubmit = (data: Opinion) => addOpinion(data);
+  const onSubmit = (opinionData: Opinion) => addOpinion(opinionData);
 
   return (
     <div className="recommendation">
