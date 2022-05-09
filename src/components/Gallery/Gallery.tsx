@@ -19,7 +19,7 @@ function Gallery() {
   return (
     <section className="gallery">
       <div className="container">
-        <h2 className="headerTextStroke">Our all</h2>
+        <h1 className="headerTextStroke">Gallery</h1>
         <p className="headerwTextStroke">Projects</p>
 
         <SearchBar

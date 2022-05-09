@@ -4,7 +4,7 @@ import { Image } from '../../types';
 function GalleryCard({ id, imageSrc, title, builder }: Image) {
   return (
     <div className="gallery__content-images__about">
-      <Link to={`/gallery/${id}`}>
+      <Link to={`/gallery/${id}`} aria-label={`Go to ${title} page`}>
         <img src={imageSrc} alt="" />
       </Link>
       <div className="gallery__content-images__about-desc">

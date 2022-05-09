@@ -9,7 +9,7 @@ import { LoginErrors } from '../../types';
 import { UseDeleteDoc } from '../hooks/useManageDoc';
 
 function OpinionsDangerZone() {
-  const [data, setData] = useState({ email: '', password: '' });
+  const [loginData, setData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
@@ -18,7 +18,7 @@ function OpinionsDangerZone() {
     if (clicked && !error) {
       const prepareToDelete = () => {
         setClicked(false);
-        signInWithEmailAndPassword(auth, data.email, data.password)
+        signInWithEmailAndPassword(auth, loginData.email, loginData.password)
           .then(async (userCredential) => {
             const { user } = userCredential;
             await deleteUser(user);
@@ -32,7 +32,7 @@ function OpinionsDangerZone() {
       };
       prepareToDelete();
     }
-  }, [clicked, data, error]);
+  }, [clicked, loginData, error]);
 
   const deleteAccount = async () => {
     if (!auth.currentUser) return;
@@ -44,7 +44,7 @@ function OpinionsDangerZone() {
   const reauntheticateDeleteAccount = (e: FormEvent<HTMLFormElement>) => {
     setClicked(true);
     e.preventDefault();
-    setError(!data.email || !data.password ? 'All fields are required' : '');
+    setError(!loginData.email || !loginData.password ? 'All fields are required' : '');
   };
 
   const deleteConfirm = () => {
@@ -76,7 +76,7 @@ function OpinionsDangerZone() {
         </p>
       </div>
       <LoginModal
-        data={data}
+        loginData={loginData}
         error={error}
         isOpen={deleteModalOpen}
         onSubmit={reauntheticateDeleteAccount}

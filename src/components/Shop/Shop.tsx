@@ -12,7 +12,7 @@ function Shop({ addToCart }: ShopProps) {
   return (
     <section className="shop">
       <div className="container">
-        <h2 className="headerTextStroke">Shop</h2>
+        <h1 className="headerTextStroke">Shop</h1>
         <p className="headerwTextStroke">Shop</p>
 
         <div className="shop-latest">

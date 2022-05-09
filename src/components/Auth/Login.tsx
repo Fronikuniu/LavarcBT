@@ -2,24 +2,33 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { BsFacebook } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useState } from 'react';
 import AuthImages from '../helpers/AuthImages';
-import { LoginData } from '../../types';
+import { LoginData, LoginErrors } from '../../types';
+import { logInWithFacebook, logInWithGoogle } from './loginProviders';
+import { auth } from '../configuration/firebase';
+import { UseUpdateDoc } from '../hooks/useManageDoc';
+import loginErrors from '../helpers/loginErrors';
 
-interface LoginProps {
-  logInWithFacebook: () => void;
-  logInWithGoogle: () => void;
-  loginError: string;
-  loginUser: (user: LoginData) => void;
-}
-
-function Login({ logInWithFacebook, logInWithGoogle, loginError, loginUser }: LoginProps) {
+function Login() {
+  const [loginError, setLoginError] = useState('');
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginData>();
 
-  const onSubmit = (data: LoginData) => loginUser(data);
+  const onSubmit = (loginData: LoginData) =>
+    signInWithEmailAndPassword(auth, loginData.email, loginData.password)
+      .then(async (userCredential) => {
+        const { user } = userCredential;
+        await UseUpdateDoc('users', [user.uid], { isOnline: true });
+      })
+      .catch(({ code }: { code: keyof LoginErrors }) => {
+        const errorCode = code;
+        setLoginError(loginErrors[errorCode]);
+      });
 
   return (
     <div className="container">

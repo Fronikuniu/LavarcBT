@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '../../images/lavarcawatar.png';
+import logo from '../../images/lavarcawatar.webp';
 
 function NavLogo() {
   return (

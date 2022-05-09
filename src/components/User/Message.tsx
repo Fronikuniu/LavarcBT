@@ -1,14 +1,14 @@
-import { useEffect, useRef } from 'react';
-import { User as FirebaseUser } from '@firebase/auth';
+import { useContext, useEffect, useRef } from 'react';
 import Moment from 'react-moment';
+import { AuthContext } from '../../context/auth';
 import { MessageT } from '../../types';
 
 interface MessageProps {
   message: MessageT;
-  loggedUser: FirebaseUser;
 }
 
-function Message({ message, loggedUser }: MessageProps) {
+function Message({ message }: MessageProps) {
+  const { user } = useContext(AuthContext);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ function Message({ message, loggedUser }: MessageProps) {
 
   return (
     <div
-      className={`message ${message.from === loggedUser.uid ? 'sender' : 'receiver'}`}
+      className={`message ${message.from === user?.uid ? 'sender' : 'receiver'}`}
       ref={scrollRef}
     >
       <div>

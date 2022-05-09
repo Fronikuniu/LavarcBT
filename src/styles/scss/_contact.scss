@@ -1,7 +1,7 @@
 @use 'mixins';
 
 .contact {
-  background-image: url('../../images/circle-bg.png');
+  background-image: url('../../images/circle-bg.webp');
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -17,6 +17,7 @@
       flex-direction: row;
     }
 
+    h1,
     h2 {
       font-family: 'Permanent Marker', cursive;
       font-size: 1.7em;

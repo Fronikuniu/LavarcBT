@@ -1,21 +1,49 @@
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { Timestamp } from 'firebase/firestore';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { LoginData } from '../../types';
+import { auth } from '../configuration/firebase';
 import AuthImages from '../helpers/AuthImages';
+import { UseSetDoc } from '../hooks/useManageDoc';
 
-interface RegisterProps {
-  registerError: string;
-  registerNewUser: (data: LoginData) => void;
-}
-
-function Register({ registerError, registerNewUser }: RegisterProps) {
+function Register() {
+  const [registerError, setRegisterError] = useState('');
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginData>();
 
-  const onSubmit = (data: LoginData) => registerNewUser(data);
+  const onSubmit = (registerData: LoginData) =>
+    createUserWithEmailAndPassword(auth, registerData.email, registerData.password)
+      .then(async (userCredential) => {
+        const { user } = userCredential;
+        const { uid, email } = user;
+
+        await updateProfile(user, {
+          displayName: registerData.name,
+          photoURL: 'https://remaxgem.com/wp-content/themes/tolips/images/placehoder-user.jpg',
+        });
+
+        await UseSetDoc('users', [uid], {
+          uid,
+          name: registerData.name,
+          email,
+          createdAt: Timestamp.fromDate(new Date()),
+          isOnline: true,
+        });
+      })
+      .catch(({ code }: { code: string }) => {
+        const errorCode = code;
+
+        setRegisterError(
+          errorCode === 'auth/email-already-in-use'
+            ? 'There is already an account for the given email.'
+            : ''
+        );
+      });
 
   return (
     <div className="container">

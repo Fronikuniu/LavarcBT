@@ -2,7 +2,7 @@ import { Timestamp } from 'firebase/firestore';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { uid } from 'uid';
-import drummaks from '../../images/char.png';
+import drummaks from '../../images/char.webp';
 import { Opinion } from '../../types';
 import { UseSetDoc } from '../hooks/useManageDoc';
 import useRouter from '../hooks/useRouter';
@@ -16,29 +16,29 @@ function RecommendationForm() {
   } = useForm<Opinion>();
   const router = useRouter();
 
-  const addOpinion = async (data: Opinion) => {
+  const addOpinion = async (opinionData: Opinion) => {
     const docId = uid(20);
     await UseSetDoc('opinions', [docId], {
       doc_id: docId,
-      community: data.community,
-      from: data.username,
+      community: opinionData.community,
+      from: opinionData.username,
       id: uid(),
       isAccepted: false,
-      opinion: data.opinion,
-      rate: Number(data.rate),
+      opinion: opinionData.opinion,
+      rate: Number(opinionData.rate),
       created: Timestamp.fromDate(new Date()),
     });
     reset();
     router.push('/');
-    toast.success('Wysłano opinie, zaczekaj na potwierdzenie!');
+    toast.success('Opinion sent, wait for accept!');
   };
 
-  const onSubmit = (data: Opinion) => addOpinion(data);
+  const onSubmit = (opinionData: Opinion) => addOpinion(opinionData);
 
   return (
     <div className="recommendation">
       <div className="container">
-        <h2 className="headerTextStroke">Leave</h2>
+        <h1 className="headerTextStroke">Leave</h1>
         <p className="headerwTextStroke">Feedback</p>
 
         <div className="recommendation-content">

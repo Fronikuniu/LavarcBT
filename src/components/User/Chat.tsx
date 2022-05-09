@@ -1,6 +1,5 @@
 import { collection, onSnapshot, orderBy, query, Timestamp } from '@firebase/firestore';
-import { User as FirebaseUser } from '@firebase/auth';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import { ImUsers } from 'react-icons/im';
 import { db } from '../configuration/firebase';
 import Message from './Message';
@@ -8,38 +7,34 @@ import MessageForm from './MessageForm';
 import UserList from './UserList';
 import { MessageT, UserData } from '../../types';
 import useDocsSnapshot from '../hooks/useDocsSnapshot';
-import useLoggedUserData from '../hooks/useLoggedUserData';
 import { UseAddDoc, UseDoc, UseSetDoc, UseUpdateDoc } from '../hooks/useManageDoc';
 import { UseAddImage } from '../hooks/useManageFiles';
+import { AuthContext } from '../../context/auth';
 
-interface UsersListProps {
-  loggedUser: FirebaseUser;
-}
-
-function UsersList({ loggedUser }: UsersListProps) {
+function UsersList() {
+  const { user, userData } = useContext(AuthContext);
   const [usersChat, setUsersChat] = useState<UserData | null>(null);
   const [messageText, setMessageText] = useState('');
   const [messageImage, setMessageImage] = useState<File | null>(null);
   const [allMessages, setAllMessages] = useState<MessageT[]>([]);
   const [sender, setSender] = useState('');
   const [open, setOpen] = useState(false);
-  const { data: userData } = useLoggedUserData<UserData>();
 
   useEffect(() => {
-    setSender(loggedUser ? loggedUser.uid : '');
-  }, [loggedUser]);
+    setSender(user ? user.uid : '');
+  }, [user]);
 
   const { data: usersList } = useDocsSnapshot<UserData>('users', [], {
     whereArg: ['uid', 'not-in', [sender]],
   });
 
-  const adminList = usersList.filter((user) => user.isAdmin);
+  const adminList = usersList.filter((listUser) => listUser.isAdmin);
   const list = userData?.isAdmin ? usersList : adminList;
 
-  const selectUser = async (user: UserData) => {
-    setUsersChat(user);
+  const selectUser = async (selectedUser: UserData) => {
+    setUsersChat(selectedUser);
 
-    const receiver = user.uid;
+    const receiver = selectedUser.uid;
     const id = sender > receiver ? `${sender + receiver}` : `${receiver + sender}`;
 
     const messagesRef = collection(db, 'messages', id, 'chat');
@@ -94,11 +89,11 @@ function UsersList({ loggedUser }: UsersListProps) {
       <section className="chat">
         <div className={`users-container ${open ? 'open' : ''}`}>
           <div className="users-list">
-            {list.map((user) => (
+            {list.map((listUser) => (
               <UserList
-                user={user}
+                user={listUser}
                 selectUser={selectUser}
-                key={user.uid}
+                key={listUser.uid}
                 sender={sender}
                 usersChat={usersChat}
               />
@@ -119,7 +114,7 @@ function UsersList({ loggedUser }: UsersListProps) {
           {usersChat ? (
             <>
               <div className="chat-selected">
-                <p>{usersChat.name}</p>
+                <h1>{usersChat.name}</h1>
               </div>
 
               <div className="messages">
@@ -129,7 +124,6 @@ function UsersList({ loggedUser }: UsersListProps) {
                         <Message
                           key={`${message.createdAt}${message.messageText}`}
                           message={message}
-                          loggedUser={loggedUser}
                         />
                       );
                     })
@@ -145,7 +139,7 @@ function UsersList({ loggedUser }: UsersListProps) {
             </>
           ) : (
             <div className="chat-first">
-              <p>Select user to start conversation</p>
+              <h1>Select user to start conversation</h1>
 
               <div className="chat-first-legend">
                 <p>Welcome in our chat app</p>

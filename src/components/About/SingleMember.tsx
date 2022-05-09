@@ -1,6 +1,6 @@
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import discord from '../../images/discord.png';
+import discord from '../../images/discord.webp';
 import { Image, Member } from '../../types';
 import useDocs from '../hooks/useDocs';
 import Loader from '../Loader/Loader';
@@ -22,7 +22,7 @@ function SingleMember() {
           </div>
 
           <div className="single__member__info-text">
-            <h2 className="headerTextStroke">{member?.name}</h2>
+            <h1 className="headerTextStroke">{member?.name}</h1>
             <p className="headerwTextStroke">{member?.name}</p>
 
             <p>{member?.about}</p>
@@ -44,7 +44,11 @@ function SingleMember() {
             ) : (
               memberImages.map((img) => {
                 return (
-                  <Link to={`/gallery/${img.id}`} key={img.id}>
+                  <Link
+                    to={`/gallery/${img.id}`}
+                    key={img.id}
+                    aria-label={`Go to ${img.title} page`}
+                  >
                     <img src={img.imageSrc} alt="" />
                   </Link>
                 );

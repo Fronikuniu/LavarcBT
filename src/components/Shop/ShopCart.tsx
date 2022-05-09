@@ -29,10 +29,10 @@ function ShopCart({
   return (
     <div className="shopCart">
       <div className="container">
-        <h2 className="headerTextStroke">Your</h2>
+        <h1 className="headerTextStroke">Your</h1>
         <p className="headerwTextStroke">Cart</p>
 
-        <ShopCartList cart={cart} removeFromCart={removeFromCart} lenght={length} />
+        <ShopCartList cart={cart} removeFromCart={removeFromCart} length={length} />
         <hr />
 
         <div className="shopCart__total">

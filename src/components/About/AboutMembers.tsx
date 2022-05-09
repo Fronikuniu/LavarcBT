@@ -33,19 +33,20 @@ function AboutMembers() {
         {members.map((member, index) => {
           return (
             <React.Fragment key={member.name}>
-              <div
-                className={prev === index ? 'member prev' : 'member'}
-                onClick={() => setCurrent(index)}
-                onKeyDown={() => setCurrent(index)}
-                tabIndex={0}
-                role="button"
-              >
+              <div className={prev === index ? 'member prev' : 'member'}>
                 {prev === index && (
                   <>
                     <p className="member__name">
                       <Link to={`/builder/${member.name}`}>{member.name}</Link>
                     </p>
-                    <img src={member.memberSrc} alt="" />
+                    <div
+                      onClick={() => setCurrent(index)}
+                      onKeyDown={() => setCurrent(index)}
+                      tabIndex={0}
+                      role="button"
+                    >
+                      <img src={member.memberSrc} alt="Previous member" />
+                    </div>
                   </>
                 )}
               </div>
@@ -62,19 +63,20 @@ function AboutMembers() {
                 )}
               </div>
 
-              <div
-                className={next === index ? 'member next' : 'member'}
-                onClick={() => setCurrent(index)}
-                onKeyDown={() => setCurrent(index)}
-                role="button"
-                tabIndex={0}
-              >
+              <div className={next === index ? 'member next' : 'member'}>
                 {next === index && (
                   <>
                     <p className="member__name">
                       <Link to={`/builder/${member.name}`}>{member.name}</Link>
                     </p>
-                    <img src={member.memberSrc} alt="" />
+                    <div
+                      onClick={() => setCurrent(index)}
+                      onKeyDown={() => setCurrent(index)}
+                      tabIndex={0}
+                      role="button"
+                    >
+                      <img src={member.memberSrc} alt="Next member" />
+                    </div>
                   </>
                 )}
               </div>

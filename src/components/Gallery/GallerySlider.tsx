@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import { Image } from '../../types';
@@ -35,23 +35,33 @@ function GallerySlider() {
 
         {images.map((img, index) => {
           return (
-            <div key={img.id} className={current === index ? 'slide active' : 'slide'}>
-              {current === index && (
-                <>
-                  <p>
-                    <Link to={`gallery/${img.id}`}>{img.title}</Link>
-                  </p>
-                  <img
-                    src={img.imageSrc}
-                    alt={`Slider ${img.id} item`}
-                    className={current === index ? 'current' : ''}
-                  />
-                  <p>
-                    <Link to={`builder/${img.builder}`}>{img.builder}</Link>
-                  </p>
-                </>
-              )}
-            </div>
+            <React.Fragment key={img.id}>
+              <div className="slide hidden">
+                {prev === index && <img src={img.imageSrc} alt="" />}
+              </div>
+
+              <div key={img.id} className={current === index ? 'slide active' : 'slide hidden'}>
+                {current === index && (
+                  <>
+                    <p>
+                      <Link to={`gallery/${img.id}`}>{img.title}</Link>
+                    </p>
+                    <img
+                      src={img.imageSrc}
+                      alt={`Slider ${img.id} item`}
+                      className={current === index ? 'current' : ''}
+                    />
+                    <p>
+                      <Link to={`builder/${img.builder}`}>{img.builder}</Link>
+                    </p>
+                  </>
+                )}
+              </div>
+
+              <div className="slide hidden">
+                {next === index && <img src={img.imageSrc} alt="" />}
+              </div>
+            </React.Fragment>
           );
         })}
       </div>

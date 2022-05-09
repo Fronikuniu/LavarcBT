@@ -1,31 +1,27 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import { IoCaretDownCircleOutline } from 'react-icons/io5';
 import { MdOutlineClose } from 'react-icons/md';
 import { HiMenuAlt3 } from 'react-icons/hi';
-import { User as FirebaseUser } from '@firebase/auth';
+import { signOut } from 'firebase/auth';
 import NavLogo from './NavLogo';
 import NavItem from './NavItem';
-import logo from '../../images/lavarcawatar.png';
-import { UserData } from '../../types';
-import useLoggedUserData from '../hooks/useLoggedUserData';
+import logo from '../../images/lavarcawatar.webp';
+import { AuthContext } from '../../context/auth';
+import { UseUpdateDoc } from '../hooks/useManageDoc';
+import { auth } from '../configuration/firebase';
 
-interface NavProps {
-  loggedUser: FirebaseUser | null;
-  logout: () => Promise<void>;
-}
-
-function Nav({ loggedUser, logout }: NavProps) {
+function Nav() {
+  const { user, userData } = useContext(AuthContext);
   const location = useLocation();
   const [openUserProfile, setOpenUserProfile] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
-  const navi = useRef<HTMLElement>(null);
-  const { data: user } = useLoggedUserData<UserData>();
+  const nav = useRef<HTMLElement>(null);
 
   const stickyNav = () => {
-    if (window.scrollY >= 70) navi.current?.classList.add('active');
-    else navi.current?.classList.remove('active');
+    if (window.scrollY >= 70) nav.current?.classList.add('active');
+    else nav.current?.classList.remove('active');
   };
 
   useEffect(() => {
@@ -33,8 +29,16 @@ function Nav({ loggedUser, logout }: NavProps) {
     return () => window.removeEventListener('scroll', stickyNav);
   }, [location]);
 
+  const logout = async () => {
+    if (!user) return;
+    await UseUpdateDoc('users', [user.uid], {
+      isOnline: false,
+    });
+    await signOut(auth);
+  };
+
   return (
-    <nav className={location.pathname !== '/' ? 'nav sticky' : 'nav'} ref={navi}>
+    <nav className={location.pathname !== '/' ? 'nav sticky' : 'nav'} ref={nav}>
       <div className="container">
         <div className="nav__links">
           <NavItem>about</NavItem>
@@ -44,15 +48,16 @@ function Nav({ loggedUser, logout }: NavProps) {
           <NavItem>contact</NavItem>
         </div>
         <div className={`user ${openUserProfile ? 'open' : ''}`}>
-          {loggedUser ? (
+          {user ? (
             <div
               className="user__avatar"
               role="button"
               onClick={() => setOpenUserProfile(!openUserProfile)}
               onKeyDown={() => setOpenUserProfile(!openUserProfile)}
               tabIndex={0}
+              aria-label="User profile"
             >
-              <img src={`${user?.avatar ? user.avatar : loggedUser?.photoURL}`} alt="" />
+              <img src={`${userData?.avatar ? userData.avatar : user?.photoURL}`} alt="" />
               <IoCaretDownCircleOutline className="user__avatar--arrow" />
             </div>
           ) : (
@@ -89,6 +94,7 @@ function Nav({ loggedUser, logout }: NavProps) {
           onClick={() => setOpenMenu(true)}
           role="button"
           onKeyDown={() => setOpenMenu(true)}
+          aria-label="Button to open mobile menu"
         >
           <HiMenuAlt3 />
         </div>
@@ -141,9 +147,9 @@ function Nav({ loggedUser, logout }: NavProps) {
           </div>
 
           <div className="rwd-auth">
-            {loggedUser ? (
+            {user ? (
               <>
-                <img src={`${user?.avatar ? user.avatar : loggedUser.photoURL}`} alt="" />
+                <img src={`${userData?.avatar ? userData.avatar : user.photoURL}`} alt="" />
                 <Link to="/settings" onClick={() => setOpenMenu(false)}>
                   Profile
                 </Link>

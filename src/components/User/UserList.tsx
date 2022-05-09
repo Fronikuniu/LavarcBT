@@ -1,6 +1,6 @@
 import { doc, onSnapshot } from '@firebase/firestore';
 import { useEffect, useState } from 'react';
-import userPlaceholder from '../../images/placeholder-user.jpg';
+import userPlaceholder from '../../images/placeholder-user.webp';
 import { LastMessage, UserData } from '../../types';
 import { db } from '../configuration/firebase';
 
@@ -13,12 +13,12 @@ interface UserListProps {
 
 function UserList({ sender, user, selectUser, usersChat }: UserListProps) {
   const [receiver] = useState(user?.uid);
-  const [data, setData] = useState<LastMessage | null>(null);
+  const [lastMessage, setLastMessage] = useState<LastMessage | null>(null);
 
   useEffect(() => {
     const id = sender > receiver ? `${sender + receiver}` : `${receiver + sender}`;
     const unsub = onSnapshot(doc(db, 'lastMessage', id), (res) =>
-      setData(res.data() as LastMessage)
+      setLastMessage(res.data() as LastMessage)
     );
 
     return () => unsub();
@@ -39,15 +39,23 @@ function UserList({ sender, user, selectUser, usersChat }: UserListProps) {
       <div className="users-list__user--info">
         <p className="truncate name">{user.name}</p>
 
-        {data && data?.media ? (
-          <p className={`truncate ${data?.from !== sender && data?.unread && 'new-message'}`}>
-            <strong>{data.from === sender ? 'You: ' : ''}</strong>
+        {lastMessage && lastMessage?.media ? (
+          <p
+            className={`truncate ${
+              lastMessage?.from !== sender && lastMessage?.unread && 'new-message'
+            }`}
+          >
+            <strong>{lastMessage.from === sender ? 'You: ' : ''}</strong>
             Sent the picture
           </p>
         ) : (
-          <p className={`truncate ${data?.from !== sender && data?.unread && 'new-message'}`}>
-            <strong>{data?.from === sender ? 'You: ' : ''}</strong>
-            {data?.messageText}
+          <p
+            className={`truncate ${
+              lastMessage?.from !== sender && lastMessage?.unread && 'new-message'
+            }`}
+          >
+            <strong>{lastMessage?.from === sender ? 'You: ' : ''}</strong>
+            {lastMessage?.messageText}
           </p>
         )}
       </div>
