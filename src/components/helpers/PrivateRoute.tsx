@@ -1,5 +1,5 @@
 import { FC, useContext } from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
 import { AuthContext } from '../../context/auth';
 
 interface PrivateRouteProps {
@@ -16,17 +16,16 @@ export default function PrivateRoute({
   ...rest
 }: PrivateRouteProps) {
   const { user } = useContext(AuthContext);
-  return redirect ? (
-    <Route
-      {...rest}
-      exact={!!exact}
-      render={(props) => (user ? <Redirect to={redirect} /> : <Component {...props} />)}
-    />
-  ) : (
-    <Route
-      {...rest}
-      exact={!!exact}
-      render={(props) => (user ? <Component {...props} /> : <Redirect to="/auth" />)}
-    />
-  );
+
+  const renderComponent = (props: RouteComponentProps) => {
+    if ((redirect && !user) || (!redirect && user)) {
+      return <Component {...props} />;
+    }
+    if (redirect && user) {
+      return <Redirect to={redirect} />;
+    }
+    return <Redirect to="/auth" />;
+  };
+
+  return <Route {...rest} exact={!!exact} render={(props) => renderComponent(props)} />;
 }
